@@ -1,0 +1,52 @@
+X-Spam-Checker-Version: SpamAssassin 3.2.3 (2007-08-08) on
+	DED943.maximumasp.local
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.2 required=6.3 tests=BAYES_00,DCC_CHECK,
+	MIME_QP_LONG_LINE,RCVD_IN_DNSWL_MED,RDNS_NONE shortcircuit=no autolearn=no
+	version=3.2.3
+Received: from mx-out.facebook.com ([69.63.184.102])
+	by mail.hmailserver.com
+	; Sun, 17 May 2009 12:50:41 +0200
+Return-Path: <password+mq2knkqn@facebookmail.com>
+DKIM-Signature: v=1; a=rsa-sha1; d=facebookmail.com; s=q1-2009b; c=relaxed/relaxed;
+	q=dns/txt; i=@facebookmail.com; t=1242557441;
+	h=From:Subject:Date:To:MIME-Version:Content-Type;
+	bh=aHRJZAfjCQVjAQYa4QFUqScdavk=;
+	b=SMgStbNjZ3EdfRpAHtpAy5hvilsdHvEfbBCbplPJh0zkAUfqH9mGNRxWHNPCQooz
+	8H3kaitSgYJ/HhBGd62Zyg==;
+Received: from [10.18.255.178] ([10.18.255.178:42772] helo=www.facebook.com)
+	by mta004.ash1.facebook.com (envelope-from <password+mq2knkqn@facebookmail.com>)
+	(ecelerity 2.2.2.37 r(28805/28844)) with ESMTP
+	id 77/DD-21284-10CEF0A4; Sun, 17 May 2009 03:50:41 -0700
+X-Facebook: from zuckmail ([ODUuMjI0Ljk2LjEwOA==]) 
+	by www.facebook.com with HTTP (ZuckMail);
+Date: Sun, 17 May 2009 03:50:40 -0700
+To: Martin Knafve <martin@hmailserver.com>
+From: Facebook <password+mq2knkqn@facebookmail.com>
+Reply-to: Facebook <password+mq2knkqn@facebookmail.com>
+Subject: Facebook Password Reset Confirmation
+Message-ID: <0edcb229736d46dc09d89e924ec2945b@www.facebook.com>
+X-Priority: 3
+X-Mailer: ZuckMail [version 1.00]
+X-Facebook-Notify: password_reset; mailid=
+Errors-To: password+mq2knkqn@facebookmail.com
+X-FACEBOOK-PRIORITY: 1
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+
+Hey Martin,
+
+You recently requested a new password.  To reset your password, follow the link below:
+https://login.facebook.com/reset.php?email=3Dmartin%40hmailserver.com&cc=3De3c61f0b2ce218&tt=3D1242557440=20
+(If clicking on the link doesn't work, try copying and pasting it into your browser.) Please do not close your browser until the password page completely loads, which may take several minutes.
+
+Please note that this email has been sent to all contact emails associated with your account.
+
+If you did not reset your password, please disregard this message.
+Check out http://www.facebook.com/help.php?page=3D174 if you have any questions.
+
+Thanks,
+The Facebook Team
+
+

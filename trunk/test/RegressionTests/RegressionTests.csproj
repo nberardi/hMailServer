@@ -1,0 +1,184 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8F691179-0851-4A25-AC78-3548DD0514FA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RegressionTests</RootNamespace>
+    <AssemblyName>RegressionTests</AssemblyName>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>http://localhost/UnitTest/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountProperties.cs" />
+    <Compile Include="AccountServices.cs" />
+    <Compile Include="AntiSpam.Combinations.cs" />
+    <Compile Include="AntiSpam.cs" />
+    <Compile Include="AntiSpam.SpamAssassin.cs" />
+    <Compile Include="API.cs" />
+    <Compile Include="ClientSocket.cs" />
+    <Compile Include="Delivery.cs" />
+    <Compile Include="DomainServices.cs" />
+    <Compile Include="IMAP.cs" />
+    <Compile Include="IMAPSimulator.cs" />
+    <Compile Include="IPRanges.cs" />
+    <Compile Include="MainOperations.cs" />
+    <Compile Include="Persistence.cs" />
+    <Compile Include="POP3.cs" />
+    <Compile Include="POP3Simulator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules.cs" />
+    <Compile Include="SingletonProvider.cs" />
+    <Compile Include="SMTP.cs" />
+    <Compile Include="SMTPSimulator.cs" />
+    <Compile Include="SSL.cs" />
+    <Compile Include="TCPIP.cs" />
+    <Compile Include="Timeouts.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="UtilityServices.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="hMailServer">
+      <Guid>{DB241B59-A1B1-4C59-98FC-8D101A2995F2}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API.Unicode.cs" />
+    <Compile Include="BackupRestore.cs" />
+    <Compile Include="ServerSocket.cs" />
+    <Compile Include="SMTPClient.cs" />
+    <Compile Include="SMTPServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API.Message.cs" />
+    <Compile Include="IMAP.ACL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IMAP.CommandSequences.cs" />
+    <Compile Include="IMAP.Folders.cs" />
+    <Compile Include="IMAP.Search.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AntiSpam.DKIM.Signing.cs" />
+    <Compile Include="AntiSpam.DKIM.Verification.cs" />
+    <Compile Include="AntiVirus.cs" />
+    <Compile Include="API.Events.cs" />
+    <Compile Include="API.Links.cs" />
+    <Compile Include="ContentStressTest.cs" />
+    <Compile Include="IMAP.Sort.cs" />
+    <Compile Include="POP3.ExternalAccounts.cs" />
+    <Compile Include="POP3Server.cs" />
+    <Compile Include="Security.AutoBan.cs" />
+    <Compile Include="Security.SMTPAuthentication.cs" />
+    <Compile Include="Signatures.cs" />
+    <Compile Include="Persistence.Limitations.cs" />
+    <Compile Include="SSL.CertificateTypes.cs" />
+    <Compile Include="StabilitySanityTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IMAP.HierarchyDelimiter.cs" />
+    <Compile Include="Security.PasswordMasking.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AntiSpam.GreyListing.cs" />
+    <Compile Include="AntiSpam.Whitelisting.cs" />
+    <Compile Include="IMAP.MessageIndexing.cs" />
+    <Compile Include="IMAP.MessageUids.cs" />
+    <Compile Include="MIME.Parameters.cs" />
+    <Compile Include="Security.Basics.cs" />
+    <Compile Include="TestFixtureBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Messages\MessageContainingGreekAndJapanese.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Messages\MessageContainingGreekSubject.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API.Security.cs" />
+    <Compile Include="API.Utilities.cs" />
+    <Compile Include="API.Permissions.cs" />
+    <Compile Include="IMAP.Examine.cs" />
+    <Compile Include="IMAP.Fetch.cs" />
+    <Compile Include="Persistence.Maintenance.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets...
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
