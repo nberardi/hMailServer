@@ -320,6 +320,56 @@ STDMETHODIMP InterfaceDatabase::UtilGetFileNameByMessageID(hyper lMessageID, BST
    return S_OK;
 }
 
+STDMETHODIMP InterfaceDatabase::CreateInternalDatabase()
+{
+	if (!GetIsServerAdmin())
+      return GetAccessDenied();
+
+   // Make sure we have the latest settings.
+   m_pIniFileSettings->LoadSettings();
+
+   HM::String sDirectory = m_pIniFileSettings->GetDatabaseDirectory();
+   HM::String sDatabaseName = "hMailServer";
+   HM::String sPassword = HM::PasswordGenerator::Generate();
+
+   HM::String sErrorMessage;
+   if (!HM::SQLCEConnection::CreateDatabase(sDirectory, sDatabaseName, sPassword, sErrorMessage))
+      return COMError::GenerateError(sErrorMessage);
+
+   HM::String sEmpty;
+
+   // Create a settings object which we use to connect to the server.
+   shared_ptr<HM::DatabaseSettings> pSettings = shared_ptr<HM::DatabaseSettings>(
+      new HM::DatabaseSettings(sEmpty, sDatabaseName, sEmpty, sPassword, sDirectory, sEmpty, HM::DatabaseSettings::TypeMSSQLCompactEdition, 0));
+
+   // Connect to the new database
+   shared_ptr<HM::DALConnection> pConn = HM::DALConnectionFactory::CreateConnection(pSettings);
+
+   if (pConn->Connect(sErrorMessage) != HM::DALConnection::Connected)
+   {
+      return COMError::GenerateError(sErrorMessage);
+   }
+
+   // Create the tables
+   HM::SQLScriptRunner scriptRunner;
+   if (!scriptRunner.ExecuteScript(pConn, pSettings->GetDefaultScript(), sErrorMessage))
+   {
+      return COMError::GenerateError(sErrorMessage);
+   }
+
+   m_pIniFileSettings->SetDatabaseDirectory(sDirectory);
+   m_pIniFileSettings->SetDatabaseType(HM::DatabaseSettings::TypeMSSQLCompactEdition);
+   m_pIniFileSettings->SetUsername("");
+   m_pIniFileSettings->SetPassword(sPassword);
+   m_pIniFileSettings->SetDatabasePort(0);
+   m_pIniFileSettings->SetDatabaseServer("");
+   m_pIniFileSettings->SetDatabaseName(sDatabaseName);
+   m_pIniFileSettings->SetIsInternalDatabase(true);
+
+   return S_OK;   
+}
+
+
 STDMETHODIMP InterfaceDatabase::CreateExternalDatabase(eDBtype ServerType, BSTR ServerName, long lPort, BSTR DatabaseName, BSTR Username, BSTR Password)
 {
    if (!GetIsServerAdmin())

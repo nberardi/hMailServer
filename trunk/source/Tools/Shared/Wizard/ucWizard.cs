@@ -33,7 +33,7 @@ namespace hMailServer.Shared
 
          // Check if we should run the wizard in silent mode...
          if (CommandLineParser.ContainsArgument("/silent"))
-            _state = CommandLineParser.GetParsedArguments();
+            _state = CommandLineParser.GetArguments();
       }
 
       public void AddPage(UserControl page)

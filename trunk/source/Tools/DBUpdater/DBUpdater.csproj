@@ -103,7 +103,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="arrow_up_blue.ico" />
     <Content Include="database_refresh.ico" />
   </ItemGroup>
   <ItemGroup>

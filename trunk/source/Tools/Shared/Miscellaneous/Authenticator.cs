@@ -10,23 +10,27 @@ namespace hMailServer.Shared
 {
    public class Authenticator
    {
-      public static bool AuthenticateUser(hMailServer.Application application)
+      public static bool AuthenticateUser(hMailServer.Application application, string password)
       {
-         // First try to authenticate using an empty password.
-         hMailServer.Account account = null;
-         
-         account = application.Authenticate("Administrator", "");
+         hMailServer.Account account = application.Authenticate("Administrator", password);
 
          if (account != null)
             return true;
 
+         return false;
+      }
+
+      public static bool AuthenticateUser(hMailServer.Application application)
+      {
+         // First try to authenticate using an empty password.
+         if (AuthenticateUser(application, ""))
+            return true;
+         
          // Try to authenticate using password on command line...
          string [] args = Environment.GetCommandLineArgs();
          foreach (string password in args)
          {
-            account = application.Authenticate("Administrator", password);
-
-            if (account != null)
+            if (AuthenticateUser(application, password))
                return true;
          }
 
@@ -39,9 +43,7 @@ namespace hMailServer.Shared
 
             string password = passwordDlg.Password;
 
-            account = application.Authenticate("Administrator", password);
-
-            if (account != null)
+            if (AuthenticateUser(application, password))
                return true;
 
             MessageBox.Show("Invalid user name or password.", "hMailServer");

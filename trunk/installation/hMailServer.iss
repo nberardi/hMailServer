@@ -1,11 +1,11 @@
 [Setup]
 AppName=hMailServer
-AppVerName=hMailServer 5.3-B363
+AppVerName=hMailServer 5.4-B363
 AppCopyright=Copyright (C) 2008
 DefaultDirName={pf}\hMailServer
 DefaultGroupName=hMailServer
 PrivilegesRequired=admin
-OutputBaseFilename=hMailServer-5.3-B363
+OutputBaseFilename=hMailServer-5.4-B363
 SolidCompression=yes
 WizardImageFile=setup.bmp
 LicenseFile=license.rtf
@@ -72,6 +72,7 @@ Source: "License.rtf"; DestDir: "{app}\Bin"; Flags: ignoreversion; Components: s
 ; 3'rd party dependencies
 Source: "System files\dnsapi.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist; Components: admintools; OnlyBelowVersion: 0,6;
 Source: "System files\ATL\atl70.dll"; DestDir: "{sys}";  Components: server;
+Source: "SQLCE\SSCERuntime-ENU.msi"; Flags: deleteafterinstall ; Excludes: ".svn"; DestDir: "{tmp}"; Components: server;
 
 ; Main server
 Source: "..\source\server\hMailServer\Release\hMailServer.exe"; DestDir: "{app}\Bin"; Flags: ignoreversion; Components: server admintools;
@@ -107,6 +108,7 @@ BeveledLabel=hMailServer
 
 [INI]
 Filename: "{app}\Bin\hMailServer.INI"; Section: "Directories"; Key: "ProgramFolder"; String: "{app}";
+Filename: "{app}\Bin\hMailServer.INI"; Section: "Directories"; Key: "DatabaseFolder"; String: "{app}\Database";  Flags: createkeyifdoesntexist; Components: server;
 Filename: "{app}\Bin\hMailServer.INI"; Section: "Directories"; Key: "DataFolder"; String: "{app}\Data";  Flags: createkeyifdoesntexist; Components: server;
 Filename: "{app}\Bin\hMailServer.INI"; Section: "Directories"; Key: "LogFolder"; String: "{app}\Logs"; Flags: createkeyifdoesntexist; Components: server;
 Filename: "{app}\Bin\hMailServer.INI"; Section: "Directories"; Key: "TempFolder"; String: "{app}\Temp"; Flags: createkeyifdoesntexist; Components: server;
@@ -114,12 +116,12 @@ Filename: "{app}\Bin\hMailServer.INI"; Section: "Directories"; Key: "EventFolder
 
 ; Languages
 Filename: "{app}\Bin\hMailServer.INI"; Section: "GUILanguages"; Key: "ValidLanguages"; String: "english,swedish";
-
-Filename: "{app}\Bin\hMailServer.INI"; Section: "Security"; Key: "AdministratorPassword"; String: "{code:GetHashedPassword}";
+Filename: "{app}\Bin\hMailServer.INI"; Section: "Security"; Key: "AdministratorPassword"; String: "{code:GetHashedPassword}"; Flags: createkeyifdoesntexist; Components: server;
 
 [Dirs]
 Name: "{app}\Externals\CA"; Components: server;
 Name: "{app}\Data"; Components: server;
+Name: "{app}\Database"; Components: server;
 Name: "{app}\Logs"; Components: server;
 Name: "{app}\Languages"
 Name: "{app}\DBScripts"; Components: server;

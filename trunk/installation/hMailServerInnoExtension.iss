@@ -4,6 +4,12 @@ var
   g_pageAccessKey: TInputQueryWizardPage;
   g_szAdminPassword: String;
   
+  g_pageDBType: TWizardPage;
+  g_bUseInternal : Boolean;
+
+  rdoUseInternal : TRadioButton;
+  rdoUseExternal : TRadioButton;
+
   // BEGIN .NET INSTALLER
   iePath, mdacPath, jetPath, dotnet20Path, msi31Path, msi20Path: string;
   //iePath, dotnet20Path, msi31Path, msi20Path: string;
@@ -15,7 +21,7 @@ var
 
 // The NT-service specific parts of the scrit below is taken
 // from the innosetup extension knowledgebase.
-// Author: Silvio Iaccarino silvio.iaccarino(at)de.adp.com 
+// Author: Silvio Iaccarino silvio.iaccarino(at)de.adp.com
 // Article created: 6 November 2002
 // Article updated: 6 November 2002
 // http://www13.brinkster.com/vincenzog/isxart.asp?idart=31
@@ -226,7 +232,7 @@ begin
 
    // Check if the file exists in the selected installation directory.
    szInifile := ExpandConstant('{app}\Bin\hMailServer.ini');
-   
+
    if (FileExists(szInifile) = False) then
    begin
 
@@ -250,6 +256,11 @@ begin
 
    Result := szInifile;
 
+end;
+
+function GetHashedPassword(Param: String): String;
+begin
+  Result := GetMD5OfString(g_szAdminPassword);
 end;
 
 function GetCurrentDatabaseType() : String;
@@ -282,7 +293,7 @@ end;
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
    Result := false;
-   
+
    if (WizardSilent() = false) then
    begin
 	   // Check if we should skip the password dialog.
@@ -304,8 +315,34 @@ begin
 		   	  Result:= true;
 		   end;
 	   end;
-	     end;
+	
+     if (PageID = g_pageDBType.ID) then
+     begin
+       if (GetCurrentDatabaseType() <> '') then
+       begin
+          // we have already selected database engine. don't ask for it again.
+          Result := true;
+       end;
 
+       if (IsComponentSelected('server') = false) then
+       begin
+          Result := true;
+       end;
+     end;
+
+  end;
+
+end;
+
+
+procedure rdoUseInternal_Click(Sender: TObject);
+begin
+   g_bUseInternal := true;
+end;
+
+procedure rdoUseExternal_Click(Sender: TObject);
+begin
+   g_bUseInternal := false;
 end;
 
 procedure moreInfoLink_Click(Sender: TObject);
@@ -320,15 +357,62 @@ procedure CreateWizardPages();
 var
    moreInfoLink : TLabel;
    moreInfoFont : TFont;
-   
+
 begin
+   g_pageDBType := CreateCustomPage(wpSelectComponents, 'Select database server type', 'Database type');
+
+    { useMySQL }
+   rdoUseInternal := TRadioButton.Create(g_pageDBType);
+   with rdoUseInternal do
+   begin
+     Parent := g_pageDBType.Surface;
+     Left := 32;
+     Top := 40;
+     Width := 329;
+     Height := 17;
+     Caption := 'Use built-in database engine (Microsoft SQL Compact)';
+     TabOrder := 0;
+     Checked := True;
+     OnClick := @rdoUseInternal_Click;
+   end;
+
+   { useExternalDB }
+   rdoUseExternal := TRadioButton.Create(g_pageDBType);
+   with rdoUseExternal do
+   begin
+     Parent := g_pageDBType.Surface;
+     Left := 32;
+     Top := 64;
+     Width := 329;
+     Height := 17;
+     Caption := 'Use external database engine (MSSQL, MySQL or PostgreSQL)';
+     TabOrder := 1;
+     OnClick := @rdoUseExternal_Click;
+   end;
+
+   moreInfoFont := TFont.Create();
+   moreInfoFont.Style := [fsUnderline];
+   moreInfoFont.Color := clBlue;
+
+   moreInfoLink := TLabel.Create(g_pageDBType);
+   with moreInfoLink do
+   begin
+     Parent := g_pageDBType.Surface;
+     Left := 32;
+     Top := 100;
+     Width := 329;
+     Height := 17;
+     Caption := 'More information...';
+     OnClick := @moreInfoLink_Click;
+     Font := moreInfoFont;
+   end;
 
  	 // Create key page
    g_pageAccessKey := CreateInputQueryPage(wpSelectTasks, 'hMailServer Security', 'Specify main password','The installation program will now create a hMailServer user with administration rights. Please enter a password below. You will need this password to be able to manage your hMailServer installation, so please remember it.');	
-  
+
    g_pageAccessKey.Add('Password:', True);
    g_pageAccessKey.Add('Confirm password:', True);
-   
+
 end;
 
 procedure InitializeWizard();
@@ -337,10 +421,12 @@ begin
    begin
       CreateWizardPages();
    end;
+
+   g_bUseInternal := true;
 end;
 
-function InitializeSetup(): Boolean; 
-	var 
+function InitializeSetup(): Boolean;
+	var
 		sMessage : String;
     SoftwareVersion: string;
     WindowsVersion: TWindowsVersion;		
@@ -570,6 +656,50 @@ begin
    Result := true;
 end;
 
+function InstallSQLCE() : boolean;
+var
+   ResultCode: Integer;
+   szInstallApp: String;
+   szParams: String;
+
+   szIniFile : String;
+   szDatabaseType : String;
+
+   bNewInstallationWithSQLCE : Boolean;
+   bUpgradeWithSQLCE : Boolean;
+begin
+
+   szIniFile := ExpandConstant('{app}\Bin\hMailServer.ini');
+   szDatabaseType := GetIniString('Database', 'Type', '', szIniFile);
+   szDatabaseType := Lowercase(szDatabaseType);
+
+   bNewInstallationWithSQLCE := (szDatabaseType = '') and g_bUseInternal;
+   bUpgradeWithSQLCE := (szDatabaseType = 'mssqlce');
+
+
+   // Only install SQL CE if we haven't already choosen another
+   // database, or if this is a fresh installation. No point in
+   // installing SQL CE if MySQL is used.
+
+   if ( bNewInstallationWithSQLCE or bUpgradeWithSQLCE) then
+   begin
+      // Register SQL CE
+      szInstallApp :=ExpandConstant('{tmp}\SSCERuntime-ENU.msi ');
+      szParams := '/qn';
+
+      if (ShellExec('', szInstallApp, szParams, '', SW_SHOW, ewWaitUntilTerminated, ResultCode) = True) then
+      begin
+        Result:= true;
+      end
+      else
+      begin
+		    MsgBox('The installation of SQL Server 2005 Compact Edition failed.', mbError, MB_OK)
+		   	Result := false;
+      end;
+   end;
+end;
+
+
 function RunPostInstallTasks() : Boolean;
    var
       ResultCode: Integer;
@@ -581,47 +711,63 @@ begin
       ProgressPage := CreateOutputProgressPage('Finalizing installation','Please wait while the setup performs post-installation tasks');
       ProgressPage.Show();
 
-      ProgressPage.SetText('Creating the hMailServer service...', '');
-      ProgressPage.SetProgress(1,4);
+      ProgressPage.SetText('Starting...', '');
+      ProgressPage.SetProgress(1,6);
 
-      // Register the hMailServer service
+      ProgressPage.SetText('Initializing database backend...', '');
+      ProgressPage.SetProgress(2,6);
+
+  	  // Install
+      InstallSQLCE();
+
+      ProgressPage.SetText('Creating the hMailServer service...', '');
+      ProgressPage.SetProgress(3,6);
+
+      // Register hMaillServer service
       if (Exec(ExpandConstant('{app}\Bin\hMailServer.exe'), '/Register', '',  SW_HIDE, ewWaitUntilTerminated, ResultCode) = False) then
          MsgBox(SysErrorMessage(ResultCode), mbError, MB_OK);
 
       ProgressPage.SetText('Initializing hMailServer database...', '');
-      ProgressPage.SetProgress(2,4);
+      ProgressPage.SetProgress(4,6);
 
       if (WizardSilent() = true) then
       begin
           szParameters:= '/silent';
-      end
-      
-      // Add the password as well, so that the administrator doesn't have to type it in again
-      // if he have just entered it. If this is an upgrade, he'll have to enter it again though.
+      end;
+
+	  // Add the password as well, so that the administrator doesn't have to type it in again
+      //  if he have just entered it. If this is an upgrade, he'll have to enter it again though.
       if (Length(g_szAdminPassword) > 0) then
          szParameters := szParameters + ' password:' + g_szAdminPassword;
+		 
+      if ((GetCurrentDatabaseType() <> '') or g_bUseInternal) then
+      begin
+         if (Exec(ExpandConstant('{app}\Bin\DBSetupQuick.exe'), szParameters, '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode) = False) then
+            MsgBox(SysErrorMessage(ResultCode), mbError, MB_OK);
+      end
+      else
+      begin
+         if (Exec(ExpandConstant('{app}\Bin\DBSetup.exe'), szParameters, '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode) = False) then
+            MsgBox(SysErrorMessage(ResultCode), mbError, MB_OK);
 
-      // Start DBSetupQuick. It will either launch DBUpdater.exe to update an existing database
-      // or it will launch DBSetup.exe to start a new one.
-      if (Exec(ExpandConstant('{app}\Bin\DBSetupQuick.exe'), szParameters, '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode) = False) then
-         MsgBox(SysErrorMessage(ResultCode), mbError, MB_OK);
+      end;
 
       ProgressPage.SetText('Starting the hMailServer service...', '');
-      ProgressPage.SetProgress(3,4);
+      ProgressPage.SetProgress(5,6);
 
       // Start hMailServer
       if (Exec(ExpandConstant('{sys}\net.exe'), 'START hMailServer', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) = False) then
          MsgBox(SysErrorMessage(ResultCode), mbError, MB_OK);
 
       ProgressPage.SetText('Completed', '');
-      ProgressPage.SetProgress(4,4);
+      ProgressPage.SetProgress(6,6);
 
    finally
      ProgressPage.Hide();
    end;
 
    Result := true;
-   
+
 end;
 
 function MoveIni() : Boolean;
@@ -674,7 +820,7 @@ begin
      (szDatabase = 'hMailServer') and
      (szDatabaseHost = 'localhost') and
      (szDatabaseUsername = 'root') then begin
-     
+
     // We're using an internal MySQL database.
     szMySQLExecutable := szProgramFolder + '\MySQL\Bin\mysqld-nt.exe';
 
@@ -684,7 +830,7 @@ begin
        // MySQL in 4.4.3 is larger than 3500000 bytes.
        if (iFileSize < 3500000) then begin
           // MySQL is too old.
-          
+
           szMessage := 'This version of hMailServer does not include MySQL. hMailServer can still' + #13 +
                        'use MySQL as backend though, assuming it is already installed on the system.' + #13 +
                        '' + #13 +
@@ -717,7 +863,7 @@ begin
                        'As an alternative, you can cancel this installation, delete the entire hMailServer ' + #13 +
                        'directory and then run this installation program again. Using this method, your configuration' + #13 +
                        'and email messages will be lost.';
-                       
+
   		  	MsgBox(szMessage, mbError, MB_OK)
           Result := true;
     end;
@@ -729,7 +875,6 @@ end;
 
 function NextButtonClick(CurPage : Integer): boolean;
 var
-	 sPassword : String;
    hWnd: Integer;
    bInstallNet: boolean;
    szIniFile : String;
@@ -740,7 +885,7 @@ begin
 
   if (CurPage = wpSelectDir) then
   begin
-  
+
     szIniFile := GetIniFile();
 
     // Check if this folder contains an old MySQL installation, or if
@@ -755,13 +900,13 @@ begin
 		if IsServiceRunning('hMailServer') = true then
 		begin
 		 	 StopService('hMailServer');
-		   
+		
 		   while (IsServiceStopped('hMailServer') = false) do
 		   begin
 		      Sleep(250);
 		   end;
     end;
-	   
+	
     hWnd := StrToInt(ExpandConstant('{wizardhwnd}'));
 
     bInstallNet := false;
@@ -782,7 +927,7 @@ begin
              bInstallNet := true;
           end;
        end;
-       
+
        if bInstallNet then
        begin
           if isxdl_DownloadFiles(hWnd) = 0 then
@@ -824,32 +969,15 @@ begin
 
 end;
 
-function GetHashedPassword(Param: String): String;
-begin
-  Result := GetMD5OfString(g_szAdminPassword);
-end;
-
-
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   szIniFile  : String;
-  szPassword : String;
 begin
+
 	if CurStep = ssInstall then
 	begin
 	   // Move hMailServer.ini before files are copied
 	   MoveIni();
-
-  	 // Write the administrator password if it has been
-	   // specified during this set up. If it has been specified
-	   // before, we keep the old one.
-	   // szPassword := g_pageAccessKey.Values[0];
-
-	   // 	   if (Length(szPassword) >= 5) then
-	   // 	   begin
-	   //    	    g_szAdminPassword := szPassword;
-	   //         SetIniString('Security', 'AdministratorPassword', GetMD5OfString(szPassword), ExpandConstant('{app}\Bin\hMailServer.ini'));	
-	   // 	   end;
 	end;
 	
 	if CurStep = ssPostInstall then
@@ -875,9 +1003,9 @@ begin
 	 end;
 
    DeleteOldFiles();
-   
+
 	end;
- 
+
 end;
 
 
@@ -896,4 +1024,5 @@ begin
 
   Result := s
 end;
+
 

@@ -903,7 +903,6 @@
     <Compile Include="Utilities\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="server.ico" />
     <Content Include="server_connect.ico" />
   </ItemGroup>
   <ItemGroup>

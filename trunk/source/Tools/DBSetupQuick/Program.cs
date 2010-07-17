@@ -22,11 +22,8 @@ namespace DBSetupQuick
 
          if (_application.Database.DatabaseExists)
             UpgradeDatabase();
-         else if (!CommandLineParser.IsSilent())
-         {
-             // Can't run the database setup in silent mode.
-             StartDatabaseSetup();
-         }
+         else
+            CreateDatabase();
       }
 
       private static void UpgradeDatabase()
@@ -43,9 +40,7 @@ namespace DBSetupQuick
 
             // If the /silent param has been supplied to this process, we should forward it to the updater
             if (CommandLineParser.IsSilent())
-            {
                arguments += " /silent";
-            }
 
             upgradeProcess.Arguments = arguments;
 
@@ -59,24 +54,44 @@ namespace DBSetupQuick
          }
       }
 
-      private static void StartDatabaseSetup()
+      private static void CreateDatabase()
+      {
+         if (!CommandLineParser.ContainsArgument("password"))
+         {
+            MessageBox.Show("Administrator password not supplied to DBUpdater.exe.\r\nDatabase creation failed.", "hMailServer");
+            return;
+         }
+
+         string adminPassword = CommandLineParser.GetArgument("password");
+
+         Authenticator authenticator = new Authenticator();
+         if (!Authenticator.AuthenticateUser(_application, adminPassword))
+            return;
+
+         if (_application.Database.DatabaseType == hMailServer.eDBtype.hDBTypeMSSQLCE ||
+             _application.Database.DatabaseType == hMailServer.eDBtype.hDBTypeUnknown)
+         {
+            InitializeInternalDatabase();
+         }
+      }
+
+      private static void InitializeInternalDatabase()
       {
           try
           {
-              // Launch the databsase set up so that the user can create a database.
-              ProcessStartInfo pi = new ProcessStartInfo("DBSetup.exe");
-              Dictionary<string, string> arguments = CommandLineParser.GetParsedArguments();
+              hMailServer.Database database = _application.Database;
 
-              if (arguments.ContainsKey("password"))
-                  pi.Arguments = arguments["password"];
+              database.CreateInternalDatabase();
 
-              Process process = Process.Start(pi);
+              // Database has been upgraded. Reinitialize the connections.
+              _application.Reinitialize();
 
-              process.WaitForExit();
+              // Re-initialize to connect to the newly created database.
+              _application.Reinitialize();
           }
           catch (Exception ex)
           {
-              MessageBox.Show("Failed to start DBSetup.exe" + Environment.NewLine + ex.Message, "hMailServer");
+              MessageBox.Show(ex.Message, "hMailServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
           }
       }
 

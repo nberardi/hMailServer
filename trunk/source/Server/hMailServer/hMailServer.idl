@@ -836,6 +836,7 @@ interface IInterfaceDatabase : IDispatch
 	[propget, id(4), helpstring("The type of the database.")] HRESULT DatabaseType([out, retval] eDBtype *pVal);
    [id(5), helpstring("Returns the filename for a given message id.")] HRESULT UtilGetFileNameByMessageID([in ] hyper MessageID, [out, retval] BSTR *Output);
    [propget, id(6), helpstring("Database needs to be upgraded.")] HRESULT RequiresUpgrade([out, retval] VARIANT_BOOL *pVal);
+   [id(7), helpstring("Create internal database")] HRESULT CreateInternalDatabase();
    [id(8), helpstring("Create external database")] HRESULT CreateExternalDatabase(eDBtype ServerType, BSTR ServerName, long lPort, BSTR DatabaseName, BSTR Username, BSTR Password);
    [propget, id(9), helpstring("Checks whether an existing database exists.")] HRESULT DatabaseExists([out, retval] VARIANT_BOOL *pVal);
 

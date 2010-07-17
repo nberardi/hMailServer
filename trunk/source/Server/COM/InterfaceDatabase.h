@@ -71,6 +71,7 @@ public:
    STDMETHOD(UtilGetFileNameByMessageID)(hyper lMessageID, BSTR *Output);
    
    STDMETHOD(CreateExternalDatabase)(eDBtype ServerType, BSTR ServerName, long lPort, BSTR DatabaseName, BSTR Username, BSTR Password);
+   STDMETHOD(CreateInternalDatabase)();
    STDMETHOD(SetDefaultDatabase)(eDBtype ServerType, BSTR ServerName, long lPort, BSTR DatabaseName, BSTR Username, BSTR Password);
 
    STDMETHOD(EnsurePrerequisites)(long DBVersion);

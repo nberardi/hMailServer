@@ -141,7 +141,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="flash.ico" />
     <Content Include="georectify.ico" />
   </ItemGroup>
   <ItemGroup>

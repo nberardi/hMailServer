@@ -9,70 +9,63 @@ namespace hMailServer.Shared
 {
    public class CommandLineParser
    {
-      private static List<string> _arguments = null;
-      private static Dictionary<string, string> _parsedArguments = null;
+      private static Dictionary<string, string> _argumentMap = null;
 
       public static void Parse()
       {
-         _arguments = new List<string>();
-         _parsedArguments = new Dictionary<string, string>();
+         _argumentMap = new Dictionary<string, string>();
+
+         bool firstArgument = true;
          
          string[] arguments = Environment.GetCommandLineArgs();
 
-         bool first = true;
-
          foreach (string argument in arguments)
          {
-             // The first argument is the executable name. We're never interested in this.
-             if (first)
-             {
-                 first = false;
-                 continue;
-             }
-
-            _arguments.Add(argument);
+            if (firstArgument)
+            {
+               // first argument is the executable path. 
+               firstArgument = false;
+               continue;
+            }
 
             if (argument.IndexOf(":") > 0)
             {
                string name = argument.Substring(0, argument.IndexOf(":"));
-               string value = argument.Substring(argument.IndexOf(":")+1);
+               string value = argument.Substring(argument.IndexOf(":") + 1);
 
-               _parsedArguments[name] = value;
+               _argumentMap[name.ToLower()] = value;
+            }
+            else
+            {
+               _argumentMap[argument] = string.Empty;
             }
          }
       }
 
       public static bool ContainsArgument(string argument)
       {
-         if (_arguments == null)
+         if (_argumentMap.ContainsKey(argument))
+            return true;
+         else
             return false;
-
-         foreach (string arg in _arguments)
-         {
-            if (arg.ToLower() == argument.ToLower())
-               return true;
-         }
-
-         return false;
       }
 
       public static bool IsSilent()
       {
-         if (_arguments == null)
-            return false;
-
-         foreach (string arg in _arguments)
-         {
-            if (arg.ToLower() == "/silent")
-               return true;
-         }
+         if (ContainsArgument("/silent"))
+            return true;
 
          return false;
       }
 
-      public static Dictionary<string, string> GetParsedArguments()
+      public static Dictionary<string, string> GetArguments()
       {
-         return _parsedArguments;
+         return _argumentMap;
+      }
+
+      public static string GetArgument(string name)
+      {
+         return _argumentMap[name];
       }
 
    }

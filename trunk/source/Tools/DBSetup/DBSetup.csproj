@@ -175,7 +175,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="database_add.ico" />
-    <Content Include="harddisk_add.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
