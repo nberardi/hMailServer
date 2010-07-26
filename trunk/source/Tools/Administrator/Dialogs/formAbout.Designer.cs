@@ -41,9 +41,9 @@ namespace hMailServer.Administrator
          // 
          this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                      | System.Windows.Forms.AnchorStyles.Right)));
-         this.groupBox1.Location = new System.Drawing.Point(7, 176);
+         this.groupBox1.Location = new System.Drawing.Point(7, 151);
          this.groupBox1.Name = "groupBox1";
-         this.groupBox1.Size = new System.Drawing.Size(327, 4);
+         this.groupBox1.Size = new System.Drawing.Size(291, 4);
          this.groupBox1.TabIndex = 10;
          this.groupBox1.TabStop = false;
          // 
@@ -51,7 +51,7 @@ namespace hMailServer.Administrator
          // 
          this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
          this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-         this.btnClose.Location = new System.Drawing.Point(245, 189);
+         this.btnClose.Location = new System.Drawing.Point(209, 164);
          this.btnClose.Name = "btnClose";
          this.btnClose.Size = new System.Drawing.Size(89, 25);
          this.btnClose.TabIndex = 9;
@@ -93,16 +93,16 @@ namespace hMailServer.Administrator
          this.labelAttribution.AutoSize = true;
          this.labelAttribution.Location = new System.Drawing.Point(13, 97);
          this.labelAttribution.Name = "labelAttribution";
-         this.labelAttribution.Size = new System.Drawing.Size(147, 13);
+         this.labelAttribution.Size = new System.Drawing.Size(199, 26);
          this.labelAttribution.TabIndex = 14;
-         this.labelAttribution.Text = "Copyright 2010 Martin Knafve";
+         this.labelAttribution.Text = "Please run installation program for full list \r\nof copyrights and attributions.";
          // 
          // formAbout
          // 
          this.AcceptButton = this.btnClose;
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(346, 220);
+         this.ClientSize = new System.Drawing.Size(310, 195);
          this.Controls.Add(this.labelAttribution);
          this.Controls.Add(this.linkVisitors);
          this.Controls.Add(this.labelCopyright);
