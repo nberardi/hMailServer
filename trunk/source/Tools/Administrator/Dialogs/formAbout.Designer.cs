@@ -34,6 +34,7 @@ namespace hMailServer.Administrator
          this.labelVersion = new System.Windows.Forms.Label();
          this.labelCopyright = new System.Windows.Forms.Label();
          this.linkVisitors = new System.Windows.Forms.LinkLabel();
+         this.labelAttribution = new System.Windows.Forms.Label();
          this.SuspendLayout();
          // 
          // groupBox1
@@ -74,12 +75,12 @@ namespace hMailServer.Administrator
          this.labelCopyright.Name = "labelCopyright";
          this.labelCopyright.Size = new System.Drawing.Size(147, 13);
          this.labelCopyright.TabIndex = 12;
-         this.labelCopyright.Text = "Copyright 2009 Martin Knafve";
+         this.labelCopyright.Text = "Copyright 2010 Martin Knafve";
          // 
          // linkVisitors
          // 
          this.linkVisitors.AutoSize = true;
-         this.linkVisitors.Location = new System.Drawing.Point(15, 91);
+         this.linkVisitors.Location = new System.Drawing.Point(12, 69);
          this.linkVisitors.Name = "linkVisitors";
          this.linkVisitors.Size = new System.Drawing.Size(93, 13);
          this.linkVisitors.TabIndex = 13;
@@ -87,12 +88,22 @@ namespace hMailServer.Administrator
          this.linkVisitors.Text = "List of contributors";
          this.linkVisitors.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkVisitors_LinkClicked);
          // 
+         // labelAttribution
+         // 
+         this.labelAttribution.AutoSize = true;
+         this.labelAttribution.Location = new System.Drawing.Point(13, 97);
+         this.labelAttribution.Name = "labelAttribution";
+         this.labelAttribution.Size = new System.Drawing.Size(147, 13);
+         this.labelAttribution.TabIndex = 14;
+         this.labelAttribution.Text = "Copyright 2010 Martin Knafve";
+         // 
          // formAbout
          // 
          this.AcceptButton = this.btnClose;
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(346, 220);
+         this.Controls.Add(this.labelAttribution);
          this.Controls.Add(this.linkVisitors);
          this.Controls.Add(this.labelCopyright);
          this.Controls.Add(this.labelVersion);
@@ -117,5 +128,6 @@ namespace hMailServer.Administrator
       private System.Windows.Forms.Label labelVersion;
       private System.Windows.Forms.Label labelCopyright;
       private System.Windows.Forms.LinkLabel linkVisitors;
+      private System.Windows.Forms.Label labelAttribution;
    }
 }
