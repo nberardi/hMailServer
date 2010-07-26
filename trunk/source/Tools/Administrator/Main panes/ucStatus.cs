@@ -310,6 +310,7 @@ namespace hMailServer.Administrator
                 }
                 else
                 {
+                    item.Text = columns[0];
                     item.SubItems.Add(columns[2]);
                     item.SubItems.Add(columns[1]);
                     item.SubItems.Add(columns[3]);
