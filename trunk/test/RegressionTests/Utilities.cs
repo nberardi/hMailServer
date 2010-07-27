@@ -127,6 +127,17 @@ namespace UnitTest
          if (_settings.MaxNumberOfMXHosts != 15)
             _settings.MaxNumberOfMXHosts = 15;
 
+         hMailServer.AntiVirus antiVirus = _settings.AntiVirus;
+
+         if (antiVirus.ClamAVEnabled)
+             antiVirus.ClamAVEnabled = false;
+
+         if (antiVirus.ClamAVPort != 3310)
+             antiVirus.ClamAVPort = 3310;
+
+         if (antiVirus.ClamAVHost != "localhost")
+             antiVirus.ClamAVHost = "localhost";
+
          EnableLogging(true);
 
          if (File.Exists(GetErrorLogFileName()))
@@ -691,8 +702,46 @@ namespace UnitTest
          }
          catch (Exception)
          {
-            Assert.Ignore("SpamAssassin is not running. Start spamd.exe");
+            Assert.Ignore("Unable to start SpamAssassin process. Is SpamAssassin installed?");
          }
+      }
+
+      public static void AssertClamDRunning()
+      {
+          Process[] processlist = Process.GetProcesses();
+
+          foreach (Process theprocess in processlist)
+          {
+              if (theprocess.ProcessName == "clamd")
+                  return;
+          }
+
+          // Check if we can launch it...
+          ProcessStartInfo startInfo = new ProcessStartInfo();
+          startInfo.FileName = @"C:\clamav\clamd.exe";
+          startInfo.WorkingDirectory = @"C:\Clamav";
+          startInfo.Arguments = "--daemon";
+
+          try
+          {
+
+              System.Diagnostics.Process.Start(startInfo);
+
+              // Wait for clamav to start up.
+              for (int i = 0; i < 10; i++)
+              {
+                  TCPSocket sock = new TCPSocket();
+                  if (sock.Connect(3310))
+                      return;
+                  System.Threading.Thread.Sleep(1000);
+              }
+
+              Assert.Fail("ClamD process not starting up.");
+          }
+          catch (Exception)
+          {
+              Assert.Ignore("Unable to start ClamD process. Is ClamAV installed?");
+          }
       }
 
       public static void AssertMessageExistsInFolder(hMailServer.IMAPFolder folder, int expectedCount)
@@ -893,10 +942,15 @@ namespace UnitTest
       public static void AssertReportedError()
       {
          string file = GetErrorLogFileName();
-
          AssertFileExists(file, true);
-
       }
+
+      public static void AssertReportedError(string content)
+      {
+          string errorLog = ReadAndDeleteErrorLog();
+          Assert.IsTrue(errorLog.Contains(content), errorLog);
+      }
+
 
       public static string ReadAndDeleteErrorLog()
       {

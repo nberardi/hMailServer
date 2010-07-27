@@ -10,36 +10,37 @@
 
 #include "../Common/BO/BlockedAttachments.h"
 
+InterfaceAntiVirus::InterfaceAntiVirus() :
+   antiVirusConfiguration_(HM::Configuration::Instance()->GetAntiVirusConfiguration())
+{
+   
+}
+
 bool 
 InterfaceAntiVirus::LoadSettings()
 {
    if (!GetIsServerAdmin())
       return false;
-
-   m_pConfig = HM::Configuration::Instance();
-
    return true;
 }
 
 
 STDMETHODIMP InterfaceAntiVirus::get_ClamWinEnabled(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->ClamWinEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
+   *pVal = antiVirusConfiguration_.ClamWinEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_ClamWinEnabled(VARIANT_BOOL newVal)
 {
-
-   m_pConfig->GetSMTPConfiguration()->ClamWinEnabled (newVal == VARIANT_TRUE ? true : false);
-
+   antiVirusConfiguration_.ClamWinEnabled (newVal == VARIANT_TRUE ? true : false);
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_ClamWinExecutable(BSTR *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->ClamWinExecutable().AllocSysString();
+   *pVal = antiVirusConfiguration_.ClamWinExecutable().AllocSysString();
 
    return S_OK;
 }
@@ -47,14 +48,14 @@ STDMETHODIMP InterfaceAntiVirus::get_ClamWinExecutable(BSTR *pVal)
 STDMETHODIMP InterfaceAntiVirus::put_ClamWinExecutable(BSTR newVal)
 {
 
-   m_pConfig->GetSMTPConfiguration()->ClamWinExecutable(newVal);
+   antiVirusConfiguration_.ClamWinExecutable(newVal);
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_ClamWinDBFolder(BSTR *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->ClamWinDatabase().AllocSysString();
+   *pVal = antiVirusConfiguration_.ClamWinDatabase().AllocSysString();
 
    return S_OK;
 }
@@ -62,14 +63,14 @@ STDMETHODIMP InterfaceAntiVirus::get_ClamWinDBFolder(BSTR *pVal)
 STDMETHODIMP InterfaceAntiVirus::put_ClamWinDBFolder(BSTR newVal)
 {
 
-   m_pConfig->GetSMTPConfiguration()->ClamWinDatabase(newVal);
+   antiVirusConfiguration_.ClamWinDatabase(newVal);
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_CustomScannerEnabled(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->GetCustomScannerEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
+   *pVal = antiVirusConfiguration_.GetCustomScannerEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
 
    return S_OK;
 }
@@ -77,14 +78,14 @@ STDMETHODIMP InterfaceAntiVirus::get_CustomScannerEnabled(VARIANT_BOOL *pVal)
 STDMETHODIMP InterfaceAntiVirus::put_CustomScannerEnabled(VARIANT_BOOL newVal)
 {
 
-   m_pConfig->GetSMTPConfiguration()->SetCustomScannerEnabled (newVal == VARIANT_TRUE ? true : false);
+   antiVirusConfiguration_.SetCustomScannerEnabled (newVal == VARIANT_TRUE ? true : false);
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_CustomScannerExecutable(BSTR *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->GetCustomScannerExecutable().AllocSysString();
+   *pVal = antiVirusConfiguration_.GetCustomScannerExecutable().AllocSysString();
 
    return S_OK;
 }
@@ -92,14 +93,14 @@ STDMETHODIMP InterfaceAntiVirus::get_CustomScannerExecutable(BSTR *pVal)
 STDMETHODIMP InterfaceAntiVirus::put_CustomScannerExecutable(BSTR newVal)
 {
 
-   m_pConfig->GetSMTPConfiguration()->SetCustomScannerExecutable(newVal);
+   antiVirusConfiguration_.SetCustomScannerExecutable(newVal);
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_CustomScannerReturnValue(long *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->GetCustomScannerReturnValue();
+   *pVal = antiVirusConfiguration_.GetCustomScannerReturnValue();
 
    return S_OK;
 }
@@ -107,19 +108,19 @@ STDMETHODIMP InterfaceAntiVirus::get_CustomScannerReturnValue(long *pVal)
 STDMETHODIMP InterfaceAntiVirus::put_CustomScannerReturnValue(long  newVal)
 {
 
-   m_pConfig->GetSMTPConfiguration()->SetCustomScannerReturnValue(newVal);
+   antiVirusConfiguration_.SetCustomScannerReturnValue(newVal);
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_Action(eAntivirusAction *pVal)
 {
-   switch (m_pConfig->GetSMTPConfiguration()->AVAction())
+   switch (antiVirusConfiguration_.AVAction())
    {
-   case HM::SMTPConfiguration::ActionDelete:
+   case HM::AntiVirusConfiguration::ActionDelete:
       *pVal = hDeleteEmail;
       break;
-   case HM::SMTPConfiguration::ActionStripAttachments:
+   case HM::AntiVirusConfiguration::ActionStripAttachments:
       *pVal = hDeleteAttachments;
       break;
    }
@@ -130,24 +131,24 @@ STDMETHODIMP InterfaceAntiVirus::get_Action(eAntivirusAction *pVal)
 STDMETHODIMP InterfaceAntiVirus::put_Action(eAntivirusAction newVal)
 {
 
-   HM::SMTPConfiguration::eAVAction iAction;
+   HM::AntiVirusConfiguration::eAVAction iAction;
    switch (newVal)
    {
    case hDeleteEmail:
-      iAction = HM::SMTPConfiguration::ActionDelete;
+      iAction = HM::AntiVirusConfiguration::ActionDelete;
       break;
    case hDeleteAttachments:
-      iAction = HM::SMTPConfiguration::ActionStripAttachments;
+      iAction = HM::AntiVirusConfiguration::ActionStripAttachments;
    }
 
-   m_pConfig->GetSMTPConfiguration()->AVAction (iAction);
+   antiVirusConfiguration_.AVAction (iAction);
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_NotifySender(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->AVNotifySender() ? VARIANT_TRUE : VARIANT_FALSE;
+   *pVal = antiVirusConfiguration_.AVNotifySender() ? VARIANT_TRUE : VARIANT_FALSE;
 
    return S_OK;
 }
@@ -155,35 +156,34 @@ STDMETHODIMP InterfaceAntiVirus::get_NotifySender(VARIANT_BOOL *pVal)
 STDMETHODIMP InterfaceAntiVirus::put_NotifySender(VARIANT_BOOL newVal)
 {
 
-   m_pConfig->GetSMTPConfiguration()->AVNotifySender(newVal == VARIANT_TRUE ? true : false);
+   antiVirusConfiguration_.AVNotifySender(newVal == VARIANT_TRUE ? true : false);
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_NotifyReceiver(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->AVNotifyReceiver() ? VARIANT_TRUE : VARIANT_FALSE;
+   *pVal = antiVirusConfiguration_.AVNotifyReceiver() ? VARIANT_TRUE : VARIANT_FALSE;
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_NotifyReceiver(VARIANT_BOOL newVal)
 {
-
-   m_pConfig->GetSMTPConfiguration()->AVNotifyReceiver(newVal == VARIANT_TRUE ? true : false);
+   antiVirusConfiguration_.AVNotifyReceiver(newVal == VARIANT_TRUE ? true : false);
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_MaximumMessageSize(long *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->GetVirusScanMaxSize();
+   *pVal = antiVirusConfiguration_.GetVirusScanMaxSize();
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_MaximumMessageSize(long  newVal)
 {
-   m_pConfig->GetSMTPConfiguration()->SetVirusScanMaxSize(newVal);
+   antiVirusConfiguration_.SetVirusScanMaxSize(newVal);
    return S_OK;
 }
 
@@ -205,14 +205,55 @@ STDMETHODIMP InterfaceAntiVirus::get_BlockedAttachments(IInterfaceBlockedAttachm
 STDMETHODIMP InterfaceAntiVirus::put_EnableAttachmentBlocking(VARIANT_BOOL newVal)
 {
 
-   m_pConfig->GetSMTPConfiguration()->SetEnableAttachmentBlocking(newVal == VARIANT_TRUE ? true : false);
+   antiVirusConfiguration_.SetEnableAttachmentBlocking(newVal == VARIANT_TRUE ? true : false);
 
    return S_OK;
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_EnableAttachmentBlocking(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetSMTPConfiguration()->GetEnableAttachmentBlocking() ? VARIANT_TRUE : VARIANT_FALSE;
+   *pVal = antiVirusConfiguration_.GetEnableAttachmentBlocking() ? VARIANT_TRUE : VARIANT_FALSE;
 
+   return S_OK;
+}
+
+STDMETHODIMP InterfaceAntiVirus::get_ClamAVEnabled(VARIANT_BOOL *pVal)
+{
+   *pVal = antiVirusConfiguration_.GetClamAVEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
+
+   return S_OK;
+}
+
+STDMETHODIMP InterfaceAntiVirus::put_ClamAVEnabled(VARIANT_BOOL newVal)
+{
+   antiVirusConfiguration_.SetClamAVEnabled (newVal == VARIANT_TRUE ? true : false);
+   return S_OK;
+}
+
+STDMETHODIMP InterfaceAntiVirus::get_ClamAVHost(BSTR *pVal)
+{
+   *pVal = antiVirusConfiguration_.GetClamAVHost().AllocSysString();
+
+   return S_OK;
+}
+
+STDMETHODIMP InterfaceAntiVirus::put_ClamAVHost(BSTR host)
+{
+
+   antiVirusConfiguration_.SetClamAVHost(host);
+
+   return S_OK;
+}
+
+STDMETHODIMP InterfaceAntiVirus::get_ClamAVPort(long *pVal)
+{
+   *pVal = antiVirusConfiguration_.GetClamAVPort();
+
+   return S_OK;
+}
+
+STDMETHODIMP InterfaceAntiVirus::put_ClamAVPort(long newVal)
+{
+   antiVirusConfiguration_.SetClamAVPort(newVal);
    return S_OK;
 }

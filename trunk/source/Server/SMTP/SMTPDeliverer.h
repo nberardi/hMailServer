@@ -34,7 +34,7 @@ namespace HM
       
       static void _SubmitErrorLog(shared_ptr<Message> pOrigMessage, vector<String> &saErrorMessages);
 
-      static bool _HandleInfectedMessage(shared_ptr<Message> pMessage);
+      static bool _HandleInfectedMessage(shared_ptr<Message> pMessage, const String &virusName);
       
       
 

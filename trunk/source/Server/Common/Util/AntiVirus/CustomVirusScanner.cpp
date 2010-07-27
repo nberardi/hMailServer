@@ -27,8 +27,8 @@ namespace HM
    {
       LOG_DEBUG("Running custom virus scanner...");
 
-      shared_ptr<SMTPConfiguration> pConfig = Configuration::Instance()->GetSMTPConfiguration();
-      String sExecutable = pConfig->GetCustomScannerExecutable();
+      AntiVirusConfiguration &pConfig = Configuration::Instance()->GetAntiVirusConfiguration();
+      String sExecutable = pConfig.GetCustomScannerExecutable();
 
       String sPath = FileUtilities::GetFilePath(sFilename);
 
@@ -53,7 +53,7 @@ namespace HM
       String sDebugMessage = Formatter::Format("Scanner: {0}. Return code: {1}", sCommandLine, exitCode);
       LOG_DEBUG(sDebugMessage);
 
-      if (exitCode == pConfig->GetCustomScannerReturnValue())
+      if (exitCode == pConfig.GetCustomScannerReturnValue())
          return true;
       else
          return false;

@@ -27,7 +27,7 @@ namespace HM
 
 
       static bool GetVirusScanningEnabled();
-      static bool Scan(shared_ptr<Message> pMessage);
+      static bool Scan(shared_ptr<Message> pMessage, String &virusName);
       static void BlockAttachments(shared_ptr<Message> pMessage);
 
       static void ResetCounter();
@@ -39,6 +39,8 @@ namespace HM
 
       static void _WaitForFreeScanner();
       static void ReportVirusFound(shared_ptr<Message> pMessage);
+      static bool _ScanFile(const String &fileName, String &virusName);
+
    };
 
 }

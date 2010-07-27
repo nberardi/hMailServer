@@ -15,12 +15,6 @@ namespace HM
 	   SMTPConfiguration();
 	   virtual ~SMTPConfiguration();
 
-      enum eAVAction
-      {
-         ActionDelete = 0,
-         ActionStripAttachments = 1
-      };
-
       bool Load();
 
       void SetMaxSMTPConnections(int newVal);
@@ -56,34 +50,6 @@ namespace HM
       long GetMinutesBetweenTry();
       long GetNoOfRetries();
       String GetSMTPRelayer() const;
-
-      // ANTIVIRUS SETTINGS
-      bool ClamWinEnabled() const;
-      void ClamWinEnabled(bool Value);
-      String ClamWinExecutable() const;
-      void ClamWinExecutable(const String & Value);
-      String ClamWinDatabase() const;
-      void ClamWinDatabase(const String & Value);
-      
-      bool GetCustomScannerEnabled() const;
-      void SetCustomScannerEnabled(bool Value);
-      String GetCustomScannerExecutable() const;
-      void SetCustomScannerExecutable(const String & Value);
-      long GetCustomScannerReturnValue() const;
-      void SetCustomScannerReturnValue(long Value);
-
-      int GetVirusScanMaxSize() const;
-      void SetVirusScanMaxSize(int iNewVal);
-
-      bool GetEnableAttachmentBlocking() const;
-      void SetEnableAttachmentBlocking(bool iNewVal);
-
-      eAVAction AVAction() const;
-      void AVAction(eAVAction Value);
-      bool AVNotifySender();
-      void AVNotifySender(bool Value);
-      bool AVNotifyReceiver();
-      void AVNotifyReceiver(bool Value);
 
       int GetMaxNoOfDeliveryThreads();
       

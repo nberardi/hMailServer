@@ -13,6 +13,7 @@
 
 // The scanners:
 
+#include "../../AntiVirus/ClamAVVirusScanner.h"
 #include "ClamWinVirusScanner.h"
 #include "CustomVirusScanner.h"
 
@@ -43,16 +44,14 @@ namespace HM
    bool
    VirusScanner::GetVirusScanningEnabled()
    {
-      bool bUseClamWin = Configuration::Instance()->GetSMTPConfiguration()->ClamWinEnabled();
-      bool bUseCustomScanner =  Configuration::Instance()->GetSMTPConfiguration()->GetCustomScannerEnabled();
+      AntiVirusConfiguration &antiVirusConfig = Configuration::Instance()->GetAntiVirusConfiguration();
 
-      if (!bUseClamWin && !bUseCustomScanner)
-      {
-         // No virus scanners enabled.
+      if (antiVirusConfig.GetClamAVEnabled() ||
+          antiVirusConfig.ClamWinEnabled() ||
+          antiVirusConfig.GetCustomScannerEnabled())
+          return true;
+      else
          return false;
-      }
-
-      return true;
    }
 
    /*
@@ -112,12 +111,11 @@ namespace HM
    }
 
    bool
-   VirusScanner::Scan(shared_ptr<Message> pMessage)
+   VirusScanner::Scan(shared_ptr<Message> pMessage, String &virusName)
    {
-      bool bUseClamWin = Configuration::Instance()->GetSMTPConfiguration()->ClamWinEnabled();
-      bool bUseCustomScanner =  Configuration::Instance()->GetSMTPConfiguration()->GetCustomScannerEnabled();
+      AntiVirusConfiguration &antiVirusConfig = Configuration::Instance()->GetAntiVirusConfiguration();
 
-      int iMaxVirusScanSizeKB = Configuration::Instance()->GetSMTPConfiguration()->GetVirusScanMaxSize();
+      int iMaxVirusScanSizeKB = antiVirusConfig.GetVirusScanMaxSize();
       int iMessageSizeKB = pMessage->GetSize() / 1024;
       if (iMaxVirusScanSizeKB > 0 &&
           iMessageSizeKB > iMaxVirusScanSizeKB)
@@ -133,21 +131,8 @@ namespace HM
       // First scan the entire file.
       String sLongFilename = PersistentMessage::GetFileName(pMessage);
 
-      if (bUseClamWin)
-      {
-         if (ClamWinVirusScanner::Scan(sLongFilename))
-         {
-            return true;
-         }
-      }
-
-      if (bUseCustomScanner)
-      {
-         if (CustomVirusScanner::Scan(sLongFilename))
-         {
-            return true;
-         }
-      }
+      if (_ScanFile(sLongFilename, virusName))
+         return true;
 
 
       // Read message, extract attachments, 
@@ -168,26 +153,13 @@ namespace HM
          pBody->WriteToFile(sLongFilename);
 
          // Scan the file
-         if (bUseClamWin)
+         if (_ScanFile(sLongFilename, virusName))
          {
-            if (ClamWinVirusScanner::Scan(sLongFilename))
-            {
-               FileUtilities::DeleteFile(sLongFilename);
-               return true;
-            }         
+            FileUtilities::DeleteFile(sLongFilename);
+            return true;
          }
 
-         if (bUseCustomScanner)
-         {
-            if (CustomVirusScanner::Scan(sLongFilename))
-            {
-               FileUtilities::DeleteFile(sLongFilename);
-               return true;
-            }         
-         }
-            
          FileUtilities::DeleteFile(sLongFilename);
-
          iter++;
       }
 
@@ -266,6 +238,41 @@ namespace HM
          // Update the size of the message.
          pMessage->SetSize(FileUtilities::FileSize(fileName));
       }
+
+   }
+
+   bool
+   VirusScanner::_ScanFile(const String &fileName, String &virusName)
+   {
+      AntiVirusConfiguration &antiVirusConfig = Configuration::Instance()->GetAntiVirusConfiguration();
+
+      if (antiVirusConfig.ClamWinEnabled())
+      {
+         if (ClamWinVirusScanner::Scan(fileName))
+         {
+            virusName = "Unknown";
+            return true;
+         }
+      }
+
+      if (antiVirusConfig.GetCustomScannerEnabled())
+      {
+         if (CustomVirusScanner::Scan(fileName))
+         {
+            virusName = "Unknown";
+            return true;
+         }
+      }
+
+      if (antiVirusConfig.GetClamAVEnabled())
+      {
+         if (ClamAVVirusScanner::Scan(fileName, virusName))
+         {
+            return true;
+         }
+      }
+
+      return false;
 
    }
 }

@@ -919,6 +919,12 @@ insert into hm_settings (settingname, settingstring, settinginteger) values ('By
 
 insert into hm_settings (settingname, settingstring, settinginteger) values ('MaxNumberOfMXHosts', '', 15)
 
+insert into hm_settings (settingname, settingstring, settinginteger) values ('ClamAVEnabled', '', 0)
+
+insert into hm_settings (settingname, settingstring, settinginteger) values ('ClamAVHost', 'localhost', 0)
+
+insert into hm_settings (settingname, settingstring, settinginteger) values ('ClamAVPort', '', 3310)
+
 insert into hm_tcpipports (portprotocol, portnumber, portaddress1, portaddress2, portusessl, portsslcertificateid) values (1, 25, 0, NULL, 0, 0) 
 
 insert into hm_tcpipports (portprotocol, portnumber, portaddress1, portaddress2, portusessl, portsslcertificateid) values (3, 110, 0, NULL, 0, 0) 

@@ -20,8 +20,6 @@ namespace HM
    bool 
    RegularExpression::TestExactMatch(const String &sExpression, const String &sValue)
    {
-      USES_CONVERSION;
-      
       try
       {
          wregex expression(sExpression); 

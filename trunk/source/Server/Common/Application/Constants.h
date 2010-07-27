@@ -118,6 +118,9 @@
 
 #define PROPERTY_MAX_NUMBER_OF_MXHOSTS          _T("MaxNumberOfMXHosts")
 
+#define PROPERTY_CLAMAV_ENABLED              _T("ClamAVEnabled")
+#define PROPERTY_CLAMAV_HOST                 _T("ClamAVHost")
+#define PROPERTY_CLAMAV_PORT                 _T("ClamAVPort")
 
 
 #define REQUIRED_DB_VERSION            5400

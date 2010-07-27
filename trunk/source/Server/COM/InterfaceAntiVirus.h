@@ -13,9 +13,7 @@ class ATL_NO_VTABLE InterfaceAntiVirus :
    public HM::COMAuthenticator
 {
 public:
-	InterfaceAntiVirus()
-	{
-	}
+	InterfaceAntiVirus();
 
    bool LoadSettings();
 
@@ -42,10 +40,8 @@ END_COM_MAP()
 public:
    STDMETHOD(get_ClamWinEnabled)(/*[out, retval]*/ VARIANT_BOOL *pVal);
    STDMETHOD(put_ClamWinEnabled)(/*[in]*/ VARIANT_BOOL newVal);
-
    STDMETHOD(get_ClamWinExecutable)(/*[out, retval]*/ BSTR *pVal);
    STDMETHOD(put_ClamWinExecutable)(/*[in]*/ BSTR newVal);
-
    STDMETHOD(get_ClamWinDBFolder)(/*[out, retval]*/ BSTR *pVal);
    STDMETHOD(put_ClamWinDBFolder)(/*[in]*/ BSTR newVal);
 
@@ -75,9 +71,17 @@ public:
    STDMETHOD(get_EnableAttachmentBlocking)(/*[out, retval]*/ VARIANT_BOOL *pVal);
    STDMETHOD(put_EnableAttachmentBlocking)(/*[in]*/ VARIANT_BOOL newVal);
 
+   STDMETHOD(get_ClamAVEnabled)(/*[out, retval]*/ VARIANT_BOOL *pVal);
+   STDMETHOD(put_ClamAVEnabled)(/*[in]*/ VARIANT_BOOL newVal);
+   STDMETHOD(get_ClamAVHost)(/*[out, retval]*/ BSTR *pVal);
+   STDMETHOD(put_ClamAVHost)(/*[in]*/ BSTR newVal);
+   STDMETHOD(get_ClamAVPort)(/*[out, retval]*/ long *pVal);
+   STDMETHOD(put_ClamAVPort)(/*[in]*/ long newVal);
+
+
 private:
 
-   HM::Configuration *m_pConfig;
+   HM::AntiVirusConfiguration &antiVirusConfiguration_;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(AntiVirus), InterfaceAntiVirus)

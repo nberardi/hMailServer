@@ -29,8 +29,8 @@ namespace HM
    {
       LOG_DEBUG("Running ClamWin");
 
-      String sExecutable = Configuration::Instance()->GetSMTPConfiguration()->ClamWinExecutable();
-      String sDatabase = Configuration::Instance()->GetSMTPConfiguration()->ClamWinDatabase();
+      String sExecutable = Configuration::Instance()->GetAntiVirusConfiguration().ClamWinExecutable();
+      String sDatabase = Configuration::Instance()->GetAntiVirusConfiguration().ClamWinDatabase();
 
       String sPath = FileUtilities::GetFilePath(sFilename);
       String sFileToScan = FileUtilities::GetFileNameFromFullPath(sFilename);

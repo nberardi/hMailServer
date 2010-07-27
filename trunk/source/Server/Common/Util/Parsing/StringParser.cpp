@@ -8,6 +8,7 @@
 
 #include "../RegularExpression.h"
 #include "../../MIME/MimeCode.h"
+#include <boost/lexical_cast.hpp>
 
 namespace HM
 {
@@ -358,17 +359,13 @@ namespace HM
    String 
    StringParser::IntToString(int lTheInt)
    {
-      String sRetVal;
-      sRetVal.Format(_T("%d"), lTheInt);
-      return sRetVal;
+      return boost::lexical_cast<std::string>(lTheInt);
    }
 
    String 
    StringParser::IntToString(unsigned int lTheInt)
    {
-      String sRetVal;
-      sRetVal.Format(_T("%d"), lTheInt);
-      return sRetVal;
+      return boost::lexical_cast<std::string>(lTheInt);
    }
 
    String 
@@ -453,6 +450,21 @@ namespace HM
    {
       IPAddress address;
       return address.TryParse(sAddress, false);
+   }
+
+   bool 
+   StringParser::TryParseInt(const std::string &str, int &value)
+   {
+      try
+      {
+         value = boost::lexical_cast<int>(str);
+         return true;
+      }
+      catch (boost::bad_lexical_cast&)
+      {
+         return false;
+      }
+      
    }
 
    char*

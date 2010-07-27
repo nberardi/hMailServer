@@ -1287,6 +1287,15 @@ interface IInterfaceAntiVirus : IDispatch{
    [propget, id(11), helpstring("Blocked attachments")] HRESULT BlockedAttachments([out, retval] IInterfaceBlockedAttachments * *pVal);
    [propget, id(12), helpstring("Enable attachment blocking.")] HRESULT EnableAttachmentBlocking([out, retval] VARIANT_BOOL *pVal);
    [propput, id(12), helpstring("Enable attachment blocking.")] HRESULT EnableAttachmentBlocking([in] VARIANT_BOOL newVal);
+
+   [propget, id(13), helpstring("ClamAV enabled.")] HRESULT ClamAVEnabled([out, retval] VARIANT_BOOL *pVal);
+   [propput, id(13), helpstring("ClamAV enabled.")] HRESULT ClamAVEnabled([in] VARIANT_BOOL newVal);
+   [propget, id(14), helpstring("ClamAV host.")] HRESULT ClamAVHost([out, retval] BSTR *pVal);
+   [propput, id(14), helpstring("ClamAV host.")] HRESULT ClamAVHost([in] BSTR newVal);
+   [propget, id(15), helpstring("ClamAV port.")] HRESULT ClamAVPort([out, retval] long *pVal);
+   [propput, id(15), helpstring("ClamAV port.")] HRESULT ClamAVPort([in] long newVal);
+
+
 };
 [
 	object,

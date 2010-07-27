@@ -87,4 +87,11 @@
 5403, ProcessLauncher::Launch, Failed to wait. Windows error code: {0}.
 5404, ProcessLauncher::Launch, Wait abandoned (infinite wait).
 5405, ProcessLauncher::Launch, Failed to wait. Windows error code: {0}.
-
+5406, ClamAVVirusScanner::Scan, Unable to connect to ClamAV server at {0}:{1}.
+5407, ClamAVVirusScanner::Scan, Unable to write STREAM command.
+5408, ClamAVVirusScanner::Scan, Unable to read response.
+5409, ClamAVVirusScanner::Scan, Protocol error. Unexpected response: {0}.
+5410, ClamAVVirusScanner::Scan, Unable to connect to ClamAV stream port at {0}:{1}.
+5411, ClamAVVirusScanner::Scan, Could not send file {0} via socket since it does not exist.
+5412, ClamAVVirusScanner::Scan, Unable to write data to stream port.
+5413, ClamAVVirusScanner::Scan, Unable to parse regular expression.

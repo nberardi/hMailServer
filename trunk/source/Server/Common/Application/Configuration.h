@@ -6,6 +6,7 @@
 #include "Backup.h"
 
 #include "../AntiSpam/AntiSpamConfiguration.h"
+#include "../AntiVirus/AntiVirusConfiguration.h"
 
 namespace HM
 {
@@ -36,6 +37,7 @@ namespace HM
       shared_ptr<SMTPConfiguration> GetSMTPConfiguration() const { return m_pSMTPConfiguration; }
       shared_ptr<IMAPConfiguration> GetIMAPConfiguration() const { return m_pIMAPConfiguration; }
       AntiSpamConfiguration &GetAntiSpamConfiguration() { return _antiSpamConfiguration; }
+      AntiVirusConfiguration &GetAntiVirusConfiguration() { return _antiVirusConfiguration; }
       shared_ptr<CacheConfiguration> GetCacheConfiguration() const { return m_pCacheConfiguration; }
 
       bool Load();
@@ -164,6 +166,7 @@ namespace HM
       shared_ptr<CacheConfiguration> m_pCacheConfiguration;
 
       AntiSpamConfiguration _antiSpamConfiguration;
+      AntiVirusConfiguration _antiVirusConfiguration;
 
       shared_ptr<ServerMessages> _serverMessages;
       shared_ptr<TCPIPPorts> _tcpipPorts;

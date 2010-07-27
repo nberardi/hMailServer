@@ -6,7 +6,7 @@
 
 #include "../../Util/ByteBuffer.h"
 #include "../../Util/File.h"
-#include "../../Util/TransparentTransmissionBuffer.h"
+#include "../../TCPIP/TCPConnection.h"
 
 namespace HM
 {

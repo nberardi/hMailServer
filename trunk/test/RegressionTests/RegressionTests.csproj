@@ -167,6 +167,7 @@
     <EmbeddedResource Include="Messages\MessageContainingGreekSubject.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AntiVirus.ClamAV.cs" />
     <Compile Include="API.Security.cs" />
     <Compile Include="API.Utilities.cs" />
     <Compile Include="API.Permissions.cs" />

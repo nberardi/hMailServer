@@ -29,6 +29,8 @@ namespace HM
       static String IntToString(unsigned int lTheInt);
       static String IntToString(__int64 lTheInt);
 
+      static bool TryParseInt(const std::string &str, int &value);
+
       
       static std::vector<String> SplitString(const String &sInput, const String &sSeperators);
       static std::vector<AnsiString> SplitString(const AnsiString &sInput, const AnsiString &sSeperators);

@@ -7,6 +7,8 @@
 
 #include "../common/Application/ObjectCache.h"
 
+#include "../common/AntiVirus/AntiVIrusCOnfiguration.h"
+
 #include "../common/BO/MessageRecipient.h"
 #include "../common/BO/MessageRecipients.h"
 #include "../common/BO/MessageData.h"
@@ -311,21 +313,21 @@ namespace HM
 
    
    bool
-   SMTPDeliverer::_HandleInfectedMessage(shared_ptr<Message> pMessage)
+   SMTPDeliverer::_HandleInfectedMessage(shared_ptr<Message> pMessage, const String &virusName)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Called if a virus is found in an email message. Checks in the configuration
    // what we should do with infected messages and does just that.
    //---------------------------------------------------------------------------()
    {
-      shared_ptr<SMTPConfiguration> pConfig = Configuration::Instance()->GetSMTPConfiguration();
+      AntiVirusConfiguration &antiVirusConfig = Configuration::Instance()->GetAntiVirusConfiguration();
 
-      if (pConfig->AVAction() == SMTPConfiguration::ActionDelete)
+      if (antiVirusConfig.AVAction() == AntiVirusConfiguration::ActionDelete)
       {
          // The message should be deleted.
 
          // Should we notify the recipient?
-         if (pConfig->AVNotifyReceiver())
+         if (antiVirusConfig.AVNotifyReceiver())
          {
             // Notify every receiver of the email.
             vector<shared_ptr<MessageRecipient> > &vecRecipients = pMessage->GetRecipients()->GetVector();
@@ -339,23 +341,29 @@ namespace HM
             }
          }
 
-         if (pConfig->AVNotifySender())
+         if (antiVirusConfig.AVNotifySender())
             SMTPVirusNotifier::CreateMessageDeletedNotification(pMessage, pMessage->GetFromAddress());
 
-         LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(pMessage->GetID()) + ": Message deleted (contained virus).");
+         String logMessage = Formatter::Format("SMTPDeliverer - Message {0}: Message deleted (contained virus {1}).", 
+            pMessage->GetID(), virusName);
+
+         LOG_APPLICATION(logMessage);
 
          PersistentMessage::DeleteObject(pMessage);
          
          return false; // do not continue delivery
 
       }
-      else if (pConfig->AVAction() == SMTPConfiguration::ActionStripAttachments)
+      else if (antiVirusConfig.AVAction() == AntiVirusConfiguration::ActionStripAttachments)
       {
          shared_ptr<MessageAttachmentStripper> pStripper = shared_ptr<MessageAttachmentStripper>(new MessageAttachmentStripper());
 
          pStripper->Strip(pMessage);
 
-         LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(pMessage->GetID()) + ": Message attachments stripped (contained virus).");
+         String logMessage = Formatter::Format("SMTPDeliverer - Message {0}: Message attachments stripped (contained virus {1}).", 
+            pMessage->GetID(), virusName);
+
+         LOG_APPLICATION(logMessage);
 
          return true; // continue delivery
       }
@@ -377,7 +385,7 @@ namespace HM
    {
 
       // First check for blocked attachments.
-      if (Configuration::Instance()->GetSMTPConfiguration()->GetEnableAttachmentBlocking())      
+      if (Configuration::Instance()->GetAntiVirusConfiguration().GetEnableAttachmentBlocking())      
       {
          VirusScanner::BlockAttachments(pMessage);
       }
@@ -389,12 +397,13 @@ namespace HM
          return true;
 
       // Virus scanning
-      if (VirusScanner::Scan(pMessage))
+      String virusName;
+      if (VirusScanner::Scan(pMessage, virusName))
       {
          // Virus found.
          ServerStatus::Instance()->OnVirusRemoved();
 
-         if (!_HandleInfectedMessage(pMessage))
+         if (!_HandleInfectedMessage(pMessage, virusName))
             return false;
       }      
 
@@ -466,4 +475,5 @@ namespace HM
 
 
 }
+
 
