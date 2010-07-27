@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../../AntiVirus/VirusScanningResult.h"
+
 namespace HM
 {
    class CustomVirusScanner
@@ -11,7 +13,8 @@ namespace HM
       CustomVirusScanner(void);
       ~CustomVirusScanner(void);
 
-      static bool Scan(const String &sFilename);
+      static VirusScanningResult Scan(const String &executablePath, int virusReturnCode, const String &sFilename);
+      static VirusScanningResult Scan(const String &sFilename);
    };
 
 }

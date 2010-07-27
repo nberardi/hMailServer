@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../../AntiVirus/VirusScanningResult.h"
+
 namespace HM
 {
    class Message;
@@ -39,8 +41,9 @@ namespace HM
 
       static void _WaitForFreeScanner();
       static void ReportVirusFound(shared_ptr<Message> pMessage);
-      static bool _ScanFile(const String &fileName, String &virusName);
+      static VirusScanningResult _ScanFile(const String &fileName);
 
+      static void _ReportScanningError(const VirusScanningResult &scanningResult);
    };
 
 }

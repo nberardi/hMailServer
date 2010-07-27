@@ -5,6 +5,8 @@
 
 using boost::asio::ip::tcp;
 
+#include "VirusScanningResult.h"
+
 namespace HM
 {
    class ClamAVVirusScanner
@@ -13,7 +15,8 @@ namespace HM
       ClamAVVirusScanner(void);
       ~ClamAVVirusScanner(void);
 
-      static bool Scan(const String &sFilename, String &virusName);
+      static VirusScanningResult Scan(const String &sFilename);
+      static VirusScanningResult Scan(const String &hostName, int primaryPort, const String &sFilename);
 
    private:
 

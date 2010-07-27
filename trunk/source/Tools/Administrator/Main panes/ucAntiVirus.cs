@@ -249,9 +249,15 @@ namespace hMailServer.Administrator
             textClamScanExecutable.Enabled = checkUseClamWin.Checked;
             textClamScanDatabase.Enabled = checkUseClamWin.Checked;
             buttonAutoDetect.Enabled = checkUseClamWin.Checked;
+            buttonClamWinTest.Enabled = checkUseClamWin.Checked;
 
             textCustomScannerExecutable.Enabled = checkUseCustomScanner.Checked;
             textCustomScannerReturnValue.Enabled = checkUseCustomScanner.Checked;
+            buttonCustomScannerTest.Enabled = checkUseCustomScanner.Checked;
+
+            textClamAVHostName.Enabled = checkClamAVEnabled.Checked;
+            textClamAVPort.Enabled = checkClamAVEnabled.Checked;
+            buttonClamAVTest.Enabled = checkClamAVEnabled.Checked;
 
             buttonEditBlockedAttachment.Enabled = listBlockedAttachments.SelectedItems.Count == 1;
             buttonDeleteBlockedAttachment.Enabled = listBlockedAttachments.SelectedItems.Count > 0;
@@ -300,29 +306,74 @@ namespace hMailServer.Administrator
 
         private void buttonClamAVTest_Click(object sender, EventArgs e)
         {
-            hMailServer.Settings settings = APICreator.Application.Settings;
-            hMailServer.AntiVirus antiVirusSettings = settings.AntiVirus;
-
-            string messageText = "";
-            bool testPass = antiVirusSettings.TestClamAVConnection(textClamAVHostName.Text, textClamAVPort.Number, out messageText);
-
-            Marshal.ReleaseComObject(antiVirusSettings);
-            Marshal.ReleaseComObject(settings);
-
-            if (testPass)
+            using (new WaitCursor())
             {
-                messageText = "Test virus was detected successfully:\r\n\r\nTest virus: " + messageText;
+                hMailServer.Settings settings = APICreator.Application.Settings;
+                hMailServer.AntiVirus antiVirusSettings = settings.AntiVirus;
 
-                string tempFile = Path.GetTempFileName();
-                File.WriteAllText(tempFile, messageText);
-                formMessageViewer viewer = new formMessageViewer(tempFile);
-                viewer.ShowDialog();
-                File.Delete(tempFile);
+                string messageText = "";
+                bool testPass = antiVirusSettings.TestClamAVScanner(textClamAVHostName.Text, textClamAVPort.Number, out messageText);
+
+                Marshal.ReleaseComObject(antiVirusSettings);
+                Marshal.ReleaseComObject(settings);
+
+                ProcessVirusTestResult(testPass, messageText);
+            }
+        }
+
+        private void ProcessVirusTestResult(bool found, string messageText)
+        {
+            if (found)
+            {
+                string message = Strings.Localize("Test virus was detected successfully. Virus name: ");
+                messageText = message + messageText;
+                MessageBox.Show(messageText, EnumStrings.hMailServerAdministrator, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
+                string message = Strings.Localize("Virus detection failed. Reason: ");
+                messageText = message + messageText;
                 MessageBox.Show(messageText, EnumStrings.hMailServerAdministrator, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        
+        private void buttonClamWinTest_Click(object sender, EventArgs e)
+        {
+            using (new WaitCursor())
+            {
+                hMailServer.Settings settings = APICreator.Application.Settings;
+                hMailServer.AntiVirus antiVirusSettings = settings.AntiVirus;
+
+                string messageText = "";
+                bool testPass = antiVirusSettings.TestClamWinScanner(textClamScanExecutable.Text, textClamScanDatabase.Text, out messageText);
+
+                Marshal.ReleaseComObject(antiVirusSettings);
+                Marshal.ReleaseComObject(settings);
+
+                ProcessVirusTestResult(testPass, messageText);
+            }
+        }
+
+        private void buttonCustomScannerTest_Click(object sender, EventArgs e)
+        {
+            using (new WaitCursor())
+            {
+                hMailServer.Settings settings = APICreator.Application.Settings;
+                hMailServer.AntiVirus antiVirusSettings = settings.AntiVirus;
+
+                string messageText = "";
+                bool testPass = antiVirusSettings.TestCustomerScanner(textCustomScannerExecutable.Text, textCustomScannerReturnValue.Number, out messageText);
+
+                Marshal.ReleaseComObject(antiVirusSettings);
+                Marshal.ReleaseComObject(settings);
+
+                ProcessVirusTestResult(testPass, messageText);
+            }
+        }
+
+        private void checkClamAVEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            EnableDisable();
         }
     }
 }

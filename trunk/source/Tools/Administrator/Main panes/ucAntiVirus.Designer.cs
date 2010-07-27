@@ -45,6 +45,7 @@ namespace hMailServer.Administrator
             this.textClamAVHostName = new hMailServer.Shared.ucText();
             this.checkClamAVEnabled = new hMailServer.Administrator.Controls.ucCheckbox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.buttonClamWinTest = new System.Windows.Forms.Button();
             this.buttonAutoDetect = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textClamScanDatabase = new hMailServer.Shared.ucText();
@@ -52,6 +53,7 @@ namespace hMailServer.Administrator
             this.textClamScanExecutable = new hMailServer.Shared.ucText();
             this.checkUseClamWin = new hMailServer.Administrator.Controls.ucCheckbox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.buttonCustomScannerTest = new System.Windows.Forms.Button();
             this.labelReturnValue = new System.Windows.Forms.Label();
             this.textCustomScannerReturnValue = new hMailServer.Shared.ucText();
             this.labelScannerExecutable = new System.Windows.Forms.Label();
@@ -261,9 +263,11 @@ namespace hMailServer.Administrator
             this.checkClamAVEnabled.TabIndex = 14;
             this.checkClamAVEnabled.Text = "Use ClamAV";
             this.checkClamAVEnabled.UseVisualStyleBackColor = true;
+            this.checkClamAVEnabled.CheckedChanged += new System.EventHandler(this.checkClamAVEnabled_CheckedChanged);
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.buttonClamWinTest);
             this.tabPage2.Controls.Add(this.buttonAutoDetect);
             this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Controls.Add(this.textClamScanDatabase);
@@ -278,6 +282,17 @@ namespace hMailServer.Administrator
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "ClamWin";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // buttonClamWinTest
+            // 
+            this.buttonClamWinTest.Location = new System.Drawing.Point(49, 172);
+            this.buttonClamWinTest.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonClamWinTest.Name = "buttonClamWinTest";
+            this.buttonClamWinTest.Size = new System.Drawing.Size(152, 33);
+            this.buttonClamWinTest.TabIndex = 34;
+            this.buttonClamWinTest.Text = "Test...";
+            this.buttonClamWinTest.UseVisualStyleBackColor = true;
+            this.buttonClamWinTest.Click += new System.EventHandler(this.buttonClamWinTest_Click);
             // 
             // buttonAutoDetect
             // 
@@ -344,6 +359,7 @@ namespace hMailServer.Administrator
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.buttonCustomScannerTest);
             this.tabPage3.Controls.Add(this.labelReturnValue);
             this.tabPage3.Controls.Add(this.textCustomScannerReturnValue);
             this.tabPage3.Controls.Add(this.labelScannerExecutable);
@@ -356,6 +372,17 @@ namespace hMailServer.Administrator
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "External virus scanner";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // buttonCustomScannerTest
+            // 
+            this.buttonCustomScannerTest.Location = new System.Drawing.Point(49, 172);
+            this.buttonCustomScannerTest.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonCustomScannerTest.Name = "buttonCustomScannerTest";
+            this.buttonCustomScannerTest.Size = new System.Drawing.Size(152, 33);
+            this.buttonCustomScannerTest.TabIndex = 37;
+            this.buttonCustomScannerTest.Text = "Test...";
+            this.buttonCustomScannerTest.UseVisualStyleBackColor = true;
+            this.buttonCustomScannerTest.Click += new System.EventHandler(this.buttonCustomScannerTest_Click);
             // 
             // labelReturnValue
             // 
@@ -565,6 +592,8 @@ namespace hMailServer.Administrator
        private System.Windows.Forms.Label labelHostname;
        private hMailServer.Shared.ucText textClamAVPort;
        private hMailServer.Shared.ucText textClamAVHostName;
+       private System.Windows.Forms.Button buttonClamWinTest;
+       private System.Windows.Forms.Button buttonCustomScannerTest;
 
      }
 }

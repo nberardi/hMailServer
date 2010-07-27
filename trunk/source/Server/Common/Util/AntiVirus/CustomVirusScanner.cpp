@@ -17,46 +17,49 @@ namespace HM
    {
 
    }
-
-   bool 
+   
+   VirusScanningResult 
    CustomVirusScanner::Scan(const String &sFilename)
-   //---------------------------------------------------------------------------()
-   // DESCRIPTION:
+   {
+      AntiVirusConfiguration &pConfig = Configuration::Instance()->GetAntiVirusConfiguration();
+      String executablePath = pConfig.GetCustomScannerExecutable();
+      int virusReturnCode = pConfig.GetCustomScannerReturnValue();
+      return Scan(executablePath, virusReturnCode, sFilename);
+   }
 
-   //---------------------------------------------------------------------------()
+   VirusScanningResult 
+   CustomVirusScanner::Scan(const String &executablePath, int virusReturnCode, const String &sFilename)
    {
       LOG_DEBUG("Running custom virus scanner...");
 
-      AntiVirusConfiguration &pConfig = Configuration::Instance()->GetAntiVirusConfiguration();
-      String sExecutable = pConfig.GetCustomScannerExecutable();
 
       String sPath = FileUtilities::GetFilePath(sFilename);
 
       String sCommandLine;
 
-      if (sExecutable.Find(_T("%FILE%")) >= 0)
+      if (executablePath.Find(_T("%FILE%")) >= 0)
       {
-         sCommandLine = sExecutable;
+         sCommandLine = executablePath;
          sCommandLine.Replace(_T("%FILE%"), sFilename);
       }
       else
-         sCommandLine.Format(_T("%s %s"), sExecutable, sFilename);
+         sCommandLine.Format(_T("%s %s"), executablePath, sFilename);
 
       unsigned int exitCode = 0;
       ProcessLauncher launcher(sCommandLine, sPath);
       launcher.SetErrorLogTimeout(20000);
       if (!launcher.Launch(exitCode))
       {
-         return false;
+         return VirusScanningResult("CustomVirusScanner::Scan", "Unable to launch executable.");
       }
 
       String sDebugMessage = Formatter::Format("Scanner: {0}. Return code: {1}", sCommandLine, exitCode);
       LOG_DEBUG(sDebugMessage);
 
-      if (exitCode == pConfig.GetCustomScannerReturnValue())
-         return true;
+      if (exitCode == virusReturnCode)
+         return VirusScanningResult(VirusScanningResult::VirusFound, "Unknown");
       else
-         return false;
+         return VirusScanningResult(VirusScanningResult::NoVirusFound, Formatter::Format("Return code: {0}", exitCode));
 
    }
 }

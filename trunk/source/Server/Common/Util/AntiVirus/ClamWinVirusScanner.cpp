@@ -20,41 +20,42 @@ namespace HM
 
    }
 
-   bool 
+   VirusScanningResult 
    ClamWinVirusScanner::Scan(const String &sFilename)
-   //---------------------------------------------------------------------------()
-   // DESCRIPTION:
-   
-   //---------------------------------------------------------------------------()
+   {
+      String scannerExecutable = Configuration::Instance()->GetAntiVirusConfiguration().ClamWinExecutable();
+      String databasePath = Configuration::Instance()->GetAntiVirusConfiguration().ClamWinDatabase();
+
+      return Scan(scannerExecutable, databasePath, sFilename);
+   }
+
+   VirusScanningResult 
+   ClamWinVirusScanner::Scan(const String &scannerExecutable, const String &databasePath, const String &sFilename)
    {
       LOG_DEBUG("Running ClamWin");
-
-      String sExecutable = Configuration::Instance()->GetAntiVirusConfiguration().ClamWinExecutable();
-      String sDatabase = Configuration::Instance()->GetAntiVirusConfiguration().ClamWinDatabase();
 
       String sPath = FileUtilities::GetFilePath(sFilename);
       String sFileToScan = FileUtilities::GetFileNameFromFullPath(sFilename);
       String sTempDir = Utilities::GetWin32TempDirectory();
 
       String sCommandLine;
-      sCommandLine.Format(_T("%s --database=\"%s\" \"%s\" --tempdir=\"%s\""), sExecutable, sDatabase, sFileToScan, sTempDir);
-
+      sCommandLine.Format(_T("%s --database=\"%s\" \"%s\" --tempdir=\"%s\""), scannerExecutable, databasePath, sFileToScan, sTempDir);
 
       unsigned int exitCode = 0;
       ProcessLauncher launcher(sCommandLine, sPath);
       launcher.SetErrorLogTimeout(20000);
       if (!launcher.Launch(exitCode))
       {
-         return false;
+         return VirusScanningResult("ClamWinVirusScanner::Scan", "Unable to launch executable.");
       }
 
       String sDebugMessage = Formatter::Format("ClamWin: {0}. Return code: {1}", sCommandLine, exitCode);
       LOG_DEBUG(sDebugMessage);
 
       if (exitCode == 1)
-         return true;
+         return VirusScanningResult(VirusScanningResult::VirusFound, "Unknown");
       else
-         return false;
+         return VirusScanningResult(VirusScanningResult::NoVirusFound, Formatter::Format("Return code: {0}", exitCode));
 
    }
 }

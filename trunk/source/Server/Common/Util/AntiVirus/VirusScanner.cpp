@@ -131,8 +131,12 @@ namespace HM
       // First scan the entire file.
       String sLongFilename = PersistentMessage::GetFileName(pMessage);
 
-      if (_ScanFile(sLongFilename, virusName))
+      VirusScanningResult result = _ScanFile(sLongFilename);
+      if (result.GetVirusFound())
+      {
+         virusName = result.GetDetails();
          return true;
+      }
 
 
       // Read message, extract attachments, 
@@ -152,9 +156,10 @@ namespace HM
          sLongFilename.Format(_T("%s\\%s.tmp"), IniFileSettings::Instance()->GetTempDirectory(), GUIDCreator::GetGUID() );
          pBody->WriteToFile(sLongFilename);
 
-         // Scan the file
-         if (_ScanFile(sLongFilename, virusName))
+         VirusScanningResult result = _ScanFile(sLongFilename);
+         if (result.GetVirusFound())
          {
+            virusName = result.GetDetails();
             FileUtilities::DeleteFile(sLongFilename);
             return true;
          }
@@ -241,38 +246,47 @@ namespace HM
 
    }
 
-   bool
-   VirusScanner::_ScanFile(const String &fileName, String &virusName)
+   VirusScanningResult
+   VirusScanner::_ScanFile(const String &fileName)
    {
       AntiVirusConfiguration &antiVirusConfig = Configuration::Instance()->GetAntiVirusConfiguration();
 
       if (antiVirusConfig.ClamWinEnabled())
       {
-         if (ClamWinVirusScanner::Scan(fileName))
-         {
-            virusName = "Unknown";
-            return true;
-         }
+         VirusScanningResult result = ClamWinVirusScanner::Scan(fileName);
+
+         if (result.GetVirusFound())
+            return result;
+         else if (result.GetErrorOccured())
+            _ReportScanningError(result);
       }
 
       if (antiVirusConfig.GetCustomScannerEnabled())
       {
-         if (CustomVirusScanner::Scan(fileName))
-         {
-            virusName = "Unknown";
-            return true;
-         }
+         VirusScanningResult result = CustomVirusScanner::Scan(fileName);
+
+         if (result.GetVirusFound())
+            return result;
+         else if (result.GetErrorOccured())
+            _ReportScanningError(result);
       }
 
       if (antiVirusConfig.GetClamAVEnabled())
       {
-         if (ClamAVVirusScanner::Scan(fileName, virusName))
-         {
-            return true;
-         }
+         VirusScanningResult result = ClamAVVirusScanner::Scan(fileName);
+         
+         if (result.GetVirusFound())
+            return result;
+         else if (result.GetErrorOccured())
+            _ReportScanningError(result);
       }
 
-      return false;
+      return VirusScanningResult(VirusScanningResult::NoVirusFound, "");
+   }
 
+   void 
+   VirusScanner::_ReportScanningError(const VirusScanningResult &scanningResult)
+   {
+      ErrorManager::Instance()->ReportError(ErrorManager::Medium, 5406, scanningResult.GetErrorMessageSource(), scanningResult.GetDetails());
    }
 }

@@ -78,7 +78,9 @@ public:
    STDMETHOD(get_ClamAVPort)(/*[out, retval]*/ long *pVal);
    STDMETHOD(put_ClamAVPort)(/*[in]*/ long newVal);
 
-   STDMETHOD(TestClamAVConnection)(BSTR hostname, long port, BSTR *messageText, VARIANT_BOOL *pResult);
+   STDMETHOD(TestCustomerScanner)(BSTR customExecutable, long virusReturnCode, BSTR *messageText, VARIANT_BOOL *pResult);
+   STDMETHOD(TestClamWinScanner)(BSTR clamWinExecutable, BSTR clamWinDatabase, BSTR *messageText, VARIANT_BOOL *pResult);
+   STDMETHOD(TestClamAVScanner)(BSTR hostname, long port, BSTR *messageText, VARIANT_BOOL *pResult);
 
 
 private:

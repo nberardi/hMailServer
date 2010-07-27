@@ -7,7 +7,7 @@
 #include "InterfaceBlockedAttachments.h"
 
 #include "../SMTP/SMTPConfiguration.h"
-#include "../Common/AntiVirus/ClamAVTestConnect.h"
+#include "../Common/AntiVirus/VirusScannerTester.h"
 #include "../Common/BO/BlockedAttachments.h"
 
 InterfaceAntiVirus::InterfaceAntiVirus() :
@@ -258,12 +258,35 @@ STDMETHODIMP InterfaceAntiVirus::put_ClamAVPort(long newVal)
    return S_OK;
 }
 
-STDMETHODIMP InterfaceAntiVirus::TestClamAVConnection(BSTR hostname, long port, BSTR *messageText, VARIANT_BOOL *pResult)
+STDMETHODIMP InterfaceAntiVirus::TestCustomerScanner(BSTR hostname, long port, BSTR *messageText, VARIANT_BOOL *pResult)
 {
-   HM::ClamAVTestConnect testClient;
+   HM::VirusScannerTester testClient;
 
    HM::String text;
-   *pResult = testClient.TestConnect(hostname, port, text) ? VARIANT_TRUE : VARIANT_FALSE;
+   *pResult = testClient.TestCustomVirusScanner(hostname, port, text) ? VARIANT_TRUE : VARIANT_FALSE;
+   *messageText = text.AllocSysString();
+
+   return S_OK;
+}
+
+STDMETHODIMP InterfaceAntiVirus::TestClamWinScanner(BSTR clamWinExecutable, BSTR clamWinDatabase, BSTR *messageText, VARIANT_BOOL *pResult)
+{
+   HM::VirusScannerTester testClient;
+
+   HM::String text;
+   *pResult = testClient.TestClamWinVirusScanner(clamWinExecutable, clamWinDatabase, text) ? VARIANT_TRUE : VARIANT_FALSE;
+   *messageText = text.AllocSysString();
+
+   return S_OK;
+}
+
+
+STDMETHODIMP InterfaceAntiVirus::TestClamAVScanner(BSTR hostname, long port, BSTR *messageText, VARIANT_BOOL *pResult)
+{
+   HM::VirusScannerTester testClient;
+
+   HM::String text;
+   *pResult = testClient.TestClamAVConnect(hostname, port, text) ? VARIANT_TRUE : VARIANT_FALSE;
    *messageText = text.AllocSysString();
 
    return S_OK;

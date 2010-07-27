@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "../../AntiVirus/VirusScanningResult.h"
+
 namespace HM
 {
    class ClamWinVirusScanner  
@@ -11,7 +13,8 @@ namespace HM
 	   ClamWinVirusScanner();
 	   virtual ~ClamWinVirusScanner();
 
-      static bool Scan(const String &sFilename);
+      static VirusScanningResult Scan(const String &sFilename);
+      static VirusScanningResult Scan(const String &scannerExecutable, const String &databasePath, const String &sFilename);
 
    protected:
       
