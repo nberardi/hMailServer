@@ -1295,7 +1295,7 @@ interface IInterfaceAntiVirus : IDispatch{
    [propget, id(15), helpstring("ClamAV port.")] HRESULT ClamAVPort([out, retval] long *pVal);
    [propput, id(15), helpstring("ClamAV port.")] HRESULT ClamAVPort([in] long newVal);
 
-
+   [id(16), helpstring("Tests to connect to ClamAV")] HRESULT TestClamAVConnection([in] BSTR ClamAVHostName, long ClamAVPort, [out] BSTR *ResultText, [out, retval] VARIANT_BOOL *pResult);
 };
 [
 	object,

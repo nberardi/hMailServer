@@ -12,6 +12,7 @@ using hMailServer.Administrator.Utilities;
 using hMailServer.Administrator.Dialogs;
 using System.Runtime.InteropServices;
 using hMailServer.Shared;
+using System.IO;
 
 namespace hMailServer.Administrator
 {
@@ -45,7 +46,8 @@ namespace hMailServer.Administrator
         {
             get
             {
-                return DirtyChecker.IsDirty(this);
+                return DirtyChecker.IsDirty(this) &&
+                      (!checkClamAVEnabled.Checked || (textClamAVHostName.Text.Length > 0 && textClamAVPort.Number > 0));
             }
         }
 
@@ -69,6 +71,10 @@ namespace hMailServer.Administrator
             textCustomScannerReturnValue.Number = antiVirusSettings.CustomScannerReturnValue;
 
             checkBlockAttachmentsEnabled.Checked = antiVirusSettings.EnableAttachmentBlocking;
+
+            textClamAVHostName.Text = antiVirusSettings.ClamAVHost;
+            textClamAVPort.Number = antiVirusSettings.ClamAVPort;
+            checkClamAVEnabled.Checked = antiVirusSettings.ClamAVEnabled;
 
             ListBlockedAttachments();
 
@@ -125,6 +131,10 @@ namespace hMailServer.Administrator
             antiVirusSettings.CustomScannerReturnValue = textCustomScannerReturnValue.Number;
 
             antiVirusSettings.EnableAttachmentBlocking = checkBlockAttachmentsEnabled.Checked;
+
+            antiVirusSettings.ClamAVHost = textClamAVHostName.Text;
+            antiVirusSettings.ClamAVPort = textClamAVPort.Number;
+            antiVirusSettings.ClamAVEnabled = checkClamAVEnabled.Checked;
 
             DirtyChecker.SetClean(this);
 
@@ -286,6 +296,33 @@ namespace hMailServer.Administrator
         private void listBlockedAttachments_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             EditSelectedBlockedAttachment();
+        }
+
+        private void buttonClamAVTest_Click(object sender, EventArgs e)
+        {
+            hMailServer.Settings settings = APICreator.Application.Settings;
+            hMailServer.AntiVirus antiVirusSettings = settings.AntiVirus;
+
+            string messageText = "";
+            bool testPass = antiVirusSettings.TestClamAVConnection(textClamAVHostName.Text, textClamAVPort.Number, out messageText);
+
+            Marshal.ReleaseComObject(antiVirusSettings);
+            Marshal.ReleaseComObject(settings);
+
+            if (testPass)
+            {
+                messageText = "Test virus was detected successfully:\r\n\r\nTest virus: " + messageText;
+
+                string tempFile = Path.GetTempFileName();
+                File.WriteAllText(tempFile, messageText);
+                formMessageViewer viewer = new formMessageViewer(tempFile);
+                viewer.ShowDialog();
+                File.Delete(tempFile);
+            }
+            else
+            {
+                MessageBox.Show(messageText, EnumStrings.hMailServerAdministrator, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

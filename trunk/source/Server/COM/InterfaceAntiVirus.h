@@ -78,6 +78,8 @@ public:
    STDMETHOD(get_ClamAVPort)(/*[out, retval]*/ long *pVal);
    STDMETHOD(put_ClamAVPort)(/*[in]*/ long newVal);
 
+   STDMETHOD(TestClamAVConnection)(BSTR hostname, long port, BSTR *messageText, VARIANT_BOOL *pResult);
+
 
 private:
 

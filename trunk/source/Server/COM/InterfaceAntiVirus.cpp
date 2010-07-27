@@ -7,7 +7,7 @@
 #include "InterfaceBlockedAttachments.h"
 
 #include "../SMTP/SMTPConfiguration.h"
-
+#include "../Common/AntiVirus/ClamAVTestConnect.h"
 #include "../Common/BO/BlockedAttachments.h"
 
 InterfaceAntiVirus::InterfaceAntiVirus() :
@@ -255,5 +255,16 @@ STDMETHODIMP InterfaceAntiVirus::get_ClamAVPort(long *pVal)
 STDMETHODIMP InterfaceAntiVirus::put_ClamAVPort(long newVal)
 {
    antiVirusConfiguration_.SetClamAVPort(newVal);
+   return S_OK;
+}
+
+STDMETHODIMP InterfaceAntiVirus::TestClamAVConnection(BSTR hostname, long port, BSTR *messageText, VARIANT_BOOL *pResult)
+{
+   HM::ClamAVTestConnect testClient;
+
+   HM::String text;
+   *pResult = testClient.TestConnect(hostname, port, text) ? VARIANT_TRUE : VARIANT_FALSE;
+   *messageText = text.AllocSysString();
+
    return S_OK;
 }
