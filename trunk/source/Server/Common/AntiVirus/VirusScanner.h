@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "../../AntiVirus/VirusScanningResult.h"
+#include "VirusScanningResult.h"
 
 namespace HM
 {

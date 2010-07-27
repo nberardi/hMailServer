@@ -4,32 +4,32 @@
 #include "stdafx.h"
 #include "VirusScanner.h"
 
-#include "../../../SMTP/SMTPConfiguration.h"
-#include "../../Mime/Mime.h"
-#include "../../BO/Message.h"
-#include "../GUIDcreator.h"
-#include "../File.h"
-#include "../../BO/MessageData.h"
+#include "../../SMTP/SMTPConfiguration.h"
+#include "../Mime/Mime.h"
+#include "../BO/Message.h"
+#include "../Util/GUIDcreator.h"
+#include "../Util/File.h"
+#include "../BO/MessageData.h"
 
 // The scanners:
 
-#include "../../AntiVirus/ClamAVVirusScanner.h"
+#include "ClamAVVirusScanner.h"
 #include "ClamWinVirusScanner.h"
 #include "CustomVirusScanner.h"
 
-#include "../../Util/MessageUtilities.h"
+#include "../Util/MessageUtilities.h"
 
 // For attachment blocking
 
-#include "../../BO/BlockedAttachments.h"
-#include "../../BO/BlockedAttachment.h"
-#include "../../BO/Attachment.h"
-#include "../../BO/Attachments.h"
-#include "../../BO/MessageData.h"
-#include "../../BO/ServerMessages.h"
+#include "../BO/BlockedAttachments.h"
+#include "../BO/BlockedAttachment.h"
+#include "../BO/Attachment.h"
+#include "../BO/Attachments.h"
+#include "../BO/MessageData.h"
+#include "../BO/ServerMessages.h"
 
-#include "../../Persistence/PersistentServerMessage.h"
-#include "../../Persistence/PersistentMessage.h"
+#include "../Persistence/PersistentServerMessage.h"
+#include "../Persistence/PersistentMessage.h"
 
 namespace HM
 {

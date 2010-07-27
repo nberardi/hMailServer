@@ -8,6 +8,7 @@
 #include "../common/Application/ObjectCache.h"
 
 #include "../common/AntiVirus/AntiVIrusCOnfiguration.h"
+#include "../common/AntiVirus/VirusScanner.h"
 
 #include "../common/BO/MessageRecipient.h"
 #include "../common/BO/MessageRecipients.h"
@@ -21,7 +22,6 @@
 
 #include "../common/Util/Utilities.h"
 #include "../common/Util/Event.h"
-#include "../common/Util/AntiVirus/VirusScanner.h"
 #include "../common/Util/MessageAttachmentStripper.h"
 #include "../common/Util/MessageUtilities.h"
 

@@ -16,16 +16,18 @@
 
 #include "FolderManager.h"
 #include "../Cache/CacheContainer.h"
+
 #include "../AntiSpam/SpamProtection.h"
+#include "../AntiVirus/VirusScanner.h"
 
 #include "../SQL/DALConnection.h"
 #include "../SQL/DALConnectionFactory.h"
+#include "../SQL/DatabaseConnectionManager.h"
 
 #include "../Util/Time.h"
 #include "../Util/ServerStatus.h"
 #include "../Util/Languages.h"
 #include "../Util/Utilities.h"
-#include "../Util/AntiVirus/VirusScanner.h"
 #include "../Mime/MimeCode.h"
 
 #include "Property.h"
@@ -36,13 +38,8 @@
 #include "../../ExternalFetcher/ExternalFetchManager.h"
 
 #include "../Util/TLD.h"
-
 #include "../Threading/WorkQueueManager.h"
-
 #include "../Tracking/NotificationServer.h"
-
-#include "../SQL/DatabaseConnectionManager.h"
-
 #include "SessionManager.h"
 
 #include "../../SMTP/GreyListCleanerTask.h"

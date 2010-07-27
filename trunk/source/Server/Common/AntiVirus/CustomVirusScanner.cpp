@@ -4,8 +4,8 @@
 #include "StdAfx.h"
 
 #include "CustomVirusScanner.h"
-#include "../../../SMTP/SMTPConfiguration.h"
-#include "../ProcessLauncher.h"
+#include "../../SMTP/SMTPConfiguration.h"
+#include "../Util/ProcessLauncher.h"
 
 namespace HM
 {

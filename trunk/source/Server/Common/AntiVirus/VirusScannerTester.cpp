@@ -4,11 +4,12 @@
 #include "StdAfx.h"
 
 #include "VirusScannerTester.h"
-#include "../Util/AntiVirus/CustomVirusScanner.h"
-#include "../Util/AntiVirus/ClamWinVirusScanner.h"
+#include "CustomVirusScanner.h"
+#include "ClamWinVirusScanner.h"
 #include "ClamAVVirusScanner.h"
-#include "../Util/GUIDCreator.h"
 #include "VirusScanningResult.h"
+
+#include "../Util/GUIDCreator.h"
 
 namespace HM
 {
