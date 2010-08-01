@@ -19,13 +19,21 @@ namespace HM
    // DESCRIPTION:
    //---------------------------------------------------------------------------()
    {
-      String testFile = _GenerateTestFile();
-
       ClamAVVirusScanner scanner;
+      
+      String testFile = _GeneratePlainTestFile();
       VirusScanningResult result = scanner.Scan(hostName, port, testFile);
-
       FileUtilities::DeleteFile(testFile);
 
+      if (result.GetVirusFound())
+      {
+         message = "False positive: " + result.GetDetails();
+         return false;
+      }
+      
+      testFile = _GenerateVirusTestFile();
+      result = scanner.Scan(hostName, port, testFile);
+      FileUtilities::DeleteFile(testFile);
       message = result.GetDetails();
 
       return result.GetVirusFound();
@@ -34,35 +42,50 @@ namespace HM
    bool 
    VirusScannerTester::TestCustomVirusScanner(const String &executable, int returnValue, String &message)
    {
-      String testFile = _GenerateTestFile();
-
       CustomVirusScanner scanner;
-      VirusScanningResult result = scanner.Scan(executable, returnValue, testFile);
 
+      String testFile = _GeneratePlainTestFile();
+      VirusScanningResult result = scanner.Scan(executable, returnValue, testFile);
       FileUtilities::DeleteFile(testFile);
 
-      message = result.GetDetails();
+      if (result.GetVirusFound())
+      {
+         message = "False positive: " + result.GetDetails();
+         return false;
+      }
 
+      testFile = _GenerateVirusTestFile();
+      result = scanner.Scan(executable, returnValue, testFile);
+      FileUtilities::DeleteFile(testFile);
+      message = result.GetDetails();
       return result.GetVirusFound();
    }
 
    bool 
    VirusScannerTester::TestClamWinVirusScanner(const String &executable, const String &databasePath, String &message)
    {
-      String testFile = _GenerateTestFile();
-
       ClamWinVirusScanner scanner;
-      VirusScanningResult result = scanner.Scan(executable, databasePath, testFile);
 
+      String testFile = _GeneratePlainTestFile();
+      VirusScanningResult result = scanner.Scan(executable, databasePath, testFile);
       FileUtilities::DeleteFile(testFile);
 
-      message = result.GetDetails();
+      if (result.GetVirusFound())
+      {
+         message = "False positive: " + result.GetDetails();
+         return false;
+      }
 
+
+      testFile = _GenerateVirusTestFile();
+      result = scanner.Scan(executable, databasePath, testFile);
+      FileUtilities::DeleteFile(testFile);
+      message = result.GetDetails();
       return result.GetVirusFound();
    }
 
    String
-   VirusScannerTester::_GenerateTestFile()
+   VirusScannerTester::_GenerateVirusTestFile()
    {
       // Store the test virus in reversed form so we don't trigger any virus scanner...
       String eicarTestString = " *H+H$!ELIF-TSET-SURIVITNA-DRADNATS-RACIE$}7)CC7)^P(45XZP\\4[PA@%P!O5X";      
@@ -75,6 +98,23 @@ namespace HM
 
       eicarTestString.MakeReverse();
       FileUtilities::WriteToFile(fullPathToMessage, eicarTestString, false);
+
+      return fullPathToMessage;
+   }
+
+   String
+   VirusScannerTester::_GeneratePlainTestFile()
+   {
+      // Store the test virus in reversed form so we don't trigger any virus scanner...
+      String testString = "Test";
+
+      // Write the test virus to the data directory to simulate email.
+      String dataDir = IniFileSettings::Instance()->GetDataDirectory();
+
+      String messageFileName = GUIDCreator::GetGUID() + ".eml";
+      String fullPathToMessage = FileUtilities::Combine(dataDir, messageFileName);
+
+      FileUtilities::WriteToFile(fullPathToMessage, testString, false);
 
       return fullPathToMessage;
    }
