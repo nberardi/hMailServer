@@ -1124,4 +1124,4 @@ namespace UnitTest
          return escapedValue;
       }
    }
-§}
+}
