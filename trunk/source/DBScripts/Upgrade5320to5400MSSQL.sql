@@ -1,4 +1,4 @@
-﻿hm_drop_table_objects 'hm_accounts'
+hm_drop_table_objects 'hm_accounts'
 
 alter table hm_accounts alter column accountaddress nvarchar(255) not null
 

@@ -1,4 +1,4 @@
-﻿insert into hm_settings (settingname, settingstring, settinginteger) values ('EnableWhitelisting', '', 1);
+insert into hm_settings (settingname, settingstring, settinginteger) values ('EnableWhitelisting', '', 1);
 
 update hm_whitelist set whiteemailaddress = replace(whiteemailaddress, '/', '//');
 
