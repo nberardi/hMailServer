@@ -22,12 +22,13 @@ namespace VMwareIntegration.Console
          int testIndex = 1;
          foreach (TestEnvironment environment in listEnvironments)
          {
-            string message = string.Format("Running test {3} / {4} - {0} on {1} (Snapshot: {2})",
+            string message = string.Format("{5} - Running test {3} / {4} - {0} on {1} (Snapshot: {2})",
                environment.Description,
                environment.OperatingSystem,
                environment.SnapshotName,
                testIndex,
-               listEnvironments.Count);
+               listEnvironments.Count,
+               DateTime.Now);
 
             System.Console.WriteLine(message);
 
