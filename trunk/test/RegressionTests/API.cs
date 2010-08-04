@@ -95,14 +95,40 @@ namespace UnitTest.API
         [Test]
         public void TestReinitialize()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                hMailServer.Application application = SingletonProvider<Utilities>.Instance.GetApp();
-                application.Reinitialize();
-            }
+           string @messageText =
+               "From: test@test.com\r\n" +
+               "\r\n" +
+               "WhatTest\r\n";
+
+           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
+           Assert.IsTrue(SMTPSimulator.StaticSend(account.Address, account.Address, "First message", "Test message"));
+           POP3Simulator.AssertMessageCount(account.Address, "test", 1);
+
+           // Create another message on disk and import it.
+           string domainPath = Path.Combine(_application.Settings.Directories.DataDirectory, "test.com");
+           string accountPath = Path.Combine(domainPath, "test");
+           Directory.CreateDirectory(accountPath);
+           string fileName = Path.Combine(accountPath, "something.eml");
+           File.WriteAllText(fileName, messageText);
+           Assert.IsTrue(_application.Utilities.ImportMessageFromFile(fileName, account.ID));
+
+           // Since the cache isn't refreshed, the message has not yet appeared.
+           POP3Simulator.AssertMessageCount(account.Address, "test", 1);
+           
+           // Reinitialize the server. Should, among other things, clear the cache.
+           _application.Reinitialize();
+
+           // Now the message should have appeared.
+           POP3Simulator.AssertMessageCount(account.Address, "test", 2);
+
+           POP3Simulator sim = new POP3Simulator();
+           sim.ConnectAndLogon(account.Address, "test");
+           messageText = sim.RETR(2);
+           sim.QUIT();
+
+           Assert.IsTrue(messageText.Contains("WhatTest"), messageText);
+           
         }
-
-
 
         private static void SendMessageToTest()
         {

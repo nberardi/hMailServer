@@ -15,9 +15,11 @@ namespace DataDirectorySynchronizer
       /// </summary>
       [STAThread]
       static void Main()
-         {
+      {
          Application.EnableVisualStyles();
          Application.SetCompatibleTextRenderingDefault(false);
+
+         CommandLineParser.Parse();
 
          hMailServer.Application application = new hMailServer.Application();
          if (!Authenticator.AuthenticateUser(application))

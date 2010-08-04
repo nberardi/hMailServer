@@ -35,9 +35,9 @@
 
 #include "../../SMTP/SMTPDeliveryManager.h"
 #include "../../IMAP/IMAPConfiguration.h"
+#include "../../IMAP/IMAPFolderContainer.h"
 #include "../../ExternalFetcher/ExternalFetchManager.h"
 
-#include "../Util/TLD.h"
 #include "../Threading/WorkQueueManager.h"
 #include "../Tracking/NotificationServer.h"
 #include "SessionManager.h"
@@ -418,6 +418,9 @@ namespace HM
 
       // Then remove the main server.
       WorkQueueManager::Instance()->RemoveQueue(m_sServerWorkQueue);
+
+      // Unload the message list cache.
+      IMAPFolderContainer::Instance()->Clear();
 
       // Deinitialize servers
       if (m_pSMTPDeliveryManager) m_pSMTPDeliveryManager.reset();

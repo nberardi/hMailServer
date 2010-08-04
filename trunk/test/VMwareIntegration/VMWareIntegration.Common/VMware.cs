@@ -159,6 +159,9 @@ namespace VMwareIntegration.Common
 
       public void CopyFileToGuest(string source, string destination)
       {
+         if (!File.Exists(source))
+            throw new Exception("CopyFileToGuest: The source file " + source + " does not exist.");
+
          VixCOM.IJob job = _virtualMachine.CopyFileFromHostToGuest(source, destination, 0, null, null);
          UInt64 err = job.WaitWithoutResults();
 
@@ -174,6 +177,9 @@ namespace VMwareIntegration.Common
 
       public void CopyFolderToGuest(string source, string destination)
       {
+         if (!Directory.Exists(source))
+            throw new Exception("CopyFolderToGuest: The source directory " + source + " does not exist.");
+
          string[] files = Directory.GetFiles(source);
 
          try
