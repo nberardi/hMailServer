@@ -88,3 +88,5 @@
 5404, ProcessLauncher::Launch, Wait abandoned (infinite wait).
 5405, ProcessLauncher::Launch, Failed to wait. Windows error code: {0}.
 5406, VirusScanner::_ReportScanningError, <scanner specific error messaeg>
+5407, SQLStatement::<func>, Unknown database type {0}
+

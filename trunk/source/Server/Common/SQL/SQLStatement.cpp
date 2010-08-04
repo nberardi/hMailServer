@@ -328,6 +328,9 @@ namespace HM
                case DatabaseSettings::TypePGServer:
                   sSQL += "lower(" + col.sName + ") = lower(" + parameterName + ")";
                   break;
+               default:
+                  ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5407, "SQLStatement::GetCommand()", Formatter::Format("Unknown database type: {0}", dbType));
+                  break;
                }
 
                command.AddParameter(parameterName, col.sString);
@@ -407,7 +410,7 @@ namespace HM
          sSQL.Format(_T("create database \"%s\" ENCODING = 'UTF8'"), sDatabaseName);
          break;
       default:
-         assert(0);
+         ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5407, "SQLStatement::GetCreateDatabase()", Formatter::Format("Unknown database type: {0}", DBType));
          break;
       }
 
@@ -434,6 +437,8 @@ namespace HM
          return "current_timestamp";
       case DatabaseSettings::TypeMYSQLServer:
          return "NOW()";
+      default:
+         ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5407, "SQLStatement::GetCurrentTimestamp()", Formatter::Format("Unknown database type: {0}", DBType));   
       }
 
       assert(0);
@@ -462,6 +467,9 @@ namespace HM
       case DatabaseSettings::TypeMYSQLServer:
          sRetVal.Format(_T("LEFT(%s, %d)"), sParamName, iLength);
          break;
+      default:
+         ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5407, "SQLStatement::GetLeftFunction()", Formatter::Format("Unknown database type: {0}", DBType));
+         break;
       }
 
       return sRetVal;
@@ -489,6 +497,9 @@ namespace HM
       case DatabaseSettings::TypeMYSQLServer:
          sRetVal.Format(_T("SELECT * FROM %s LIMIT 0, %d"), tableName, rows);
          break;
+      default:
+         ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5407, "SQLStatement::GetTopRows()", Formatter::Format("Unknown database type: {0}", DBType));
+         break;
       }
 
       return sRetVal;
@@ -514,8 +525,9 @@ namespace HM
          sRetVal.Format(_T("current_timestamp + INTERVAL '%d minutes'"), iMinutes);
          break;
       default:
-         assert(0);
+         ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5407, "SQLStatement::GetCurrentTimestampPlusMinutes()", Formatter::Format("Unknown database type: {0}", DBType));
          break;
+
       }
 
       return sRetVal;

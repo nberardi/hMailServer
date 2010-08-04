@@ -40,7 +40,7 @@ namespace HM
    IniFileSettings::LoadSettings()
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
-   // Load all settings from GetInitializationFile()
+   // Load all settings from hMailServer.ini
    //---------------------------------------------------------------------------()
    {
       m_eSQLDBType = HM::DatabaseSettings::TypeUnknown;
