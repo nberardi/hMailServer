@@ -33,7 +33,7 @@ namespace hMailServer.Shared
                string name = argument.Substring(0, argument.IndexOf(":"));
                string value = argument.Substring(argument.IndexOf(":") + 1);
 
-               _argumentMap[name.ToLower()] = value;
+               _argumentMap[name] = value;
             }
             else
             {
