@@ -346,9 +346,9 @@ namespace UnitTest.API
          Utilities.AssertRecipientsInDeliveryQueue(0);
 
          string eventLogText = Utilities.ReadExistingTextFile(Utilities.GetEventLogFileName());
-         Assert.IsTrue(eventLogText.Contains("File: "));
-         Assert.IsTrue(eventLogText.Contains("Recipient: user@some-non-existant-domain.abc"));
-         Assert.IsTrue(eventLogText.Contains("No mail servers appear to exists"));
+         Assert.IsTrue(eventLogText.Contains("File: "), eventLogText);
+         Assert.IsTrue(eventLogText.Contains("Recipient: user@some-non-existant-domain.abc"), eventLogText);
+         Assert.IsTrue(eventLogText.Contains("No mail servers appear to exists"), eventLogText);
 
       }
 

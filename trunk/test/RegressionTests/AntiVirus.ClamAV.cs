@@ -40,17 +40,6 @@ namespace UnitTest.AntiVirus
         }
 
         [Test]
-        public void Repeater()
-        {
-            for (int i = 0; i < 1000;i++)
-            {
-                base.SetUp();
-                SetUp();
-                TestWithVirus();
-            }
-        }
-
-        [Test]
         public void TestWithVirus()
         {
             _antiVirus.ClamAVEnabled = true;

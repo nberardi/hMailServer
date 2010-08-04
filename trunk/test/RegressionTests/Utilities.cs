@@ -130,13 +130,13 @@ namespace UnitTest
          hMailServer.AntiVirus antiVirus = _settings.AntiVirus;
 
          if (antiVirus.ClamAVEnabled)
-             antiVirus.ClamAVEnabled = false;
+            antiVirus.ClamAVEnabled = false;
 
          if (antiVirus.ClamAVPort != 3310)
-             antiVirus.ClamAVPort = 3310;
+            antiVirus.ClamAVPort = 3310;
 
          if (antiVirus.ClamAVHost != "localhost")
-             antiVirus.ClamAVHost = "localhost";
+            antiVirus.ClamAVHost = "localhost";
 
          EnableLogging(true);
 
@@ -708,40 +708,40 @@ namespace UnitTest
 
       public static void AssertClamDRunning()
       {
-          Process[] processlist = Process.GetProcesses();
+         Process[] processlist = Process.GetProcesses();
 
-          foreach (Process theprocess in processlist)
-          {
-              if (theprocess.ProcessName == "clamd")
+         foreach (Process theprocess in processlist)
+         {
+            if (theprocess.ProcessName == "clamd")
+               return;
+         }
+
+         // Check if we can launch it...
+         ProcessStartInfo startInfo = new ProcessStartInfo();
+         startInfo.FileName = @"C:\clamav\clamd.exe";
+         startInfo.WorkingDirectory = @"C:\Clamav";
+         startInfo.Arguments = "--daemon";
+
+         try
+         {
+
+            System.Diagnostics.Process.Start(startInfo);
+
+            // Wait for clamav to start up.
+            for (int i = 0; i < 10; i++)
+            {
+               TCPSocket sock = new TCPSocket();
+               if (sock.Connect(3310))
                   return;
-          }
+               System.Threading.Thread.Sleep(1000);
+            }
 
-          // Check if we can launch it...
-          ProcessStartInfo startInfo = new ProcessStartInfo();
-          startInfo.FileName = @"C:\clamav\clamd.exe";
-          startInfo.WorkingDirectory = @"C:\Clamav";
-          startInfo.Arguments = "--daemon";
-
-          try
-          {
-
-              System.Diagnostics.Process.Start(startInfo);
-
-              // Wait for clamav to start up.
-              for (int i = 0; i < 10; i++)
-              {
-                  TCPSocket sock = new TCPSocket();
-                  if (sock.Connect(3310))
-                      return;
-                  System.Threading.Thread.Sleep(1000);
-              }
-
-              Assert.Fail("ClamD process not starting up.");
-          }
-          catch (Exception)
-          {
-              Assert.Ignore("Unable to start ClamD process. Is ClamAV installed?");
-          }
+            Assert.Fail("ClamD process not starting up.");
+         }
+         catch (Exception)
+         {
+            Assert.Ignore("Unable to start ClamD process. Is ClamAV installed?");
+         }
       }
 
       public static void AssertMessageExistsInFolder(hMailServer.IMAPFolder folder, int expectedCount)
@@ -947,8 +947,8 @@ namespace UnitTest
 
       public static void AssertReportedError(string content)
       {
-          string errorLog = ReadAndDeleteErrorLog();
-          Assert.IsTrue(errorLog.Contains(content), errorLog);
+         string errorLog = ReadAndDeleteErrorLog();
+         Assert.IsTrue(errorLog.Contains(content), errorLog);
       }
 
 
@@ -1102,5 +1102,26 @@ namespace UnitTest
          return hash.ToString();
       }
 
+
+      static public string Escape(string input)
+      {
+         string escapedValue = input;
+
+         switch (SingletonProvider<Utilities>.Instance.GetApp().Database.DatabaseType)
+         {
+            case hMailServer.eDBtype.hDBTypeMSSQL:
+            case hMailServer.eDBtype.hDBTypeMSSQLCE:
+               break;
+            case hMailServer.eDBtype.hDBTypeMySQL:
+            case hMailServer.eDBtype.hDBTypePostgreSQL:
+               escapedValue = escapedValue.Replace("\\", "\\\\");
+               break;
+            default:
+               throw new Exception("Unknown database type");
+
+         }
+
+         return escapedValue;
+      }
    }
-}
+§}

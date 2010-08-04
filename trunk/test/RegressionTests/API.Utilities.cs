@@ -222,7 +222,7 @@ namespace UnitTest.API
             File.Move(message.Filename, fileName);
 
             // Update the database with the 'invalid' path.
-            string sql = string.Format("update hm_messages set messagefilename = '{0}' where messageid = {1}", fileName, message.ID);
+            string sql = string.Format("update hm_messages set messagefilename = '{0}' where messageid = {1}", Utilities.Escape(fileName), message.ID);
             SingletonProvider<Utilities>.Instance.GetApp().Database.ExecuteSQL(sql);
 
             Assert.IsTrue(File.Exists(fileName));
@@ -254,7 +254,8 @@ namespace UnitTest.API
             // Now nothing should happen.
             Assert.IsFalse(_application.Utilities.ImportMessageFromFile(message.Filename, account.ID));
 
-            string sql = string.Format("update hm_messages set messagefilename = '{0}' where messageid = {1}", message.Filename, message.ID);
+
+            string sql = string.Format("update hm_messages set messagefilename = '{0}' where messageid = {1}", Utilities.Escape(message.Filename), message.ID);
 
             SingletonProvider<Utilities>.Instance.GetApp().Database.ExecuteSQL(sql);
 
@@ -290,7 +291,7 @@ namespace UnitTest.API
             File.Move(message.Filename, fileName);
 
             // Update the database with the 'invalid' path.
-            string sql = string.Format("update hm_messages set messagefilename = '{0}' where messageid = {1}", fileName, message.ID);
+            string sql = string.Format("update hm_messages set messagefilename = '{0}' where messageid = {1}", Utilities.Escape(fileName), message.ID);
             SingletonProvider<Utilities>.Instance.GetApp().Database.ExecuteSQL(sql);
 
             // Now try to insert the message.
@@ -302,5 +303,6 @@ namespace UnitTest.API
             Assert.AreNotEqual(fileName, newMessgaeFilename);
             Assert.IsTrue(File.Exists(newMessgaeFilename));
         }
+
     }
 }
