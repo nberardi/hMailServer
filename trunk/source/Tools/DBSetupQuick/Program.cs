@@ -56,13 +56,10 @@ namespace DBSetupQuick
 
       private static void CreateDatabase()
       {
-         if (!CommandLineParser.ContainsArgument("password"))
-         {
-            MessageBox.Show("Administrator password not supplied to DBUpdater.exe.\r\nDatabase creation failed.", "hMailServer");
-            return;
-         }
+         string adminPassword = string.Empty;
 
-         string adminPassword = CommandLineParser.GetArgument("password");
+         if (CommandLineParser.ContainsArgument("password"))
+            adminPassword = CommandLineParser.GetArgument("password");
 
          Authenticator authenticator = new Authenticator();
          if (!Authenticator.AuthenticateUser(_application, adminPassword))
