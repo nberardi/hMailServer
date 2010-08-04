@@ -397,7 +397,7 @@ namespace UnitTest.Protocols.IMAP
           string sWelcomeMessage = oSimulator.Connect();
           oSimulator.Logon(oAccount.Address, "test");
           string response = oSimulator.List("");
-          Assert.IsTrue(response.StartsWith("* LIST (/NoSelect) \".\" \"\""));
+          Assert.IsTrue(response.StartsWith("* LIST (/Noselect) \".\" \"\""));
           oSimulator.Disconnect();
 
           _settings.IMAPHierarchyDelimiter = "/";
@@ -406,7 +406,7 @@ namespace UnitTest.Protocols.IMAP
           sWelcomeMessage = oSimulator.Connect();
           oSimulator.Logon(oAccount.Address, "test");
           response = oSimulator.List("");
-          Assert.IsTrue(response.StartsWith("* LIST (/NoSelect) \"/\" \"\""));
+          Assert.IsTrue(response.StartsWith("* LIST (/Noselect) \"/\" \"\""));
           oSimulator.Disconnect();
 
           _settings.IMAPHierarchyDelimiter = "\\";
@@ -415,7 +415,7 @@ namespace UnitTest.Protocols.IMAP
           sWelcomeMessage = oSimulator.Connect();
           oSimulator.Logon(oAccount.Address, "test");
           response = oSimulator.List("", false);
-          string expectedResponse = "* LIST (/NoSelect) \"\\\\\" \"\"";
+          string expectedResponse = "* LIST (/Noselect) \"\\\\\" \"\"";
           Assert.IsTrue(response.StartsWith(expectedResponse));
           oSimulator.Disconnect();
 
