@@ -70,9 +70,15 @@ ALTER TABLE hm_distributionlistsrecipients alter column distributionlistrecipien
 
 CREATE CLUSTERED INDEX idx_hm_distributionlists_distributionlistdomainid ON hm_distributionlists (distributionlistdomainid) 
 
+hm_drop_table_objects 'hm_messagerecipients'
+
 alter table hm_messagerecipients alter column recipientaddress nvarchar(255) not null
 
 alter table hm_messagerecipients alter column recipientoriginaladdress nvarchar(255) not null
+
+ALTER TABLE hm_messagerecipients ADD CONSTRAINT hm_messagerecipients_pk PRIMARY KEY NONCLUSTERED (recipientid) 
+
+CREATE CLUSTERED INDEX idx_hm_messagerecipients_recipientmessageid ON hm_messagerecipients (recipientmessageid) 
 
 hm_drop_table_objects 'hm_imapfolders'
 
