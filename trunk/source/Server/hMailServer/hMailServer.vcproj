@@ -25,6 +25,7 @@
 			UseOfATL="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -56,15 +57,15 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\Libraries\boost_1_43_0;..\..\..\..\Libraries\mssqlce3.5;&quot;..\..\..\..\Libraries\openssl-1.0.0a\include&quot;;..\..\..\..\Libraries\pgsql8.2.4\include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;UNICODE;_UNICODE;BOOST_DATE_TIME_NO_LIB"
-				MinimalRebuild="true"
+				MinimalRebuild="false"
 				ExceptionHandling="2"
-				BasicRuntimeChecks="3"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				WarnAsError="true"
 				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -89,6 +90,7 @@
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
+				AssemblyDebug="1"
 				SubSystem="2"
 				FixedBaseAddress="1"
 				ImportLibrary="$(OutDir)/hMailServer.lib"
@@ -127,6 +129,7 @@
 			UseOfATL="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -556,11 +559,11 @@
 						>
 					</File>
 					<File
-						RelativePath=".\InterfaceClient.rgs"
+						RelativePath="..\Com\InterfaceClient.rgs"
 						>
 					</File>
 					<File
-						RelativePath="..\Com\InterfaceClient.rgs"
+						RelativePath=".\InterfaceClient.rgs"
 						>
 					</File>
 					<File
@@ -1080,11 +1083,11 @@
 						>
 					</File>
 					<File
-						RelativePath="..\COM\InterfaceResult.rgs"
+						RelativePath="..\Com\InterfaceResult.rgs"
 						>
 					</File>
 					<File
-						RelativePath="..\Com\InterfaceResult.rgs"
+						RelativePath="..\COM\InterfaceResult.rgs"
 						>
 					</File>
 					<File
@@ -1377,11 +1380,11 @@
 							>
 						</File>
 						<File
-							RelativePath=".\InterfaceAntiSpam.rgs"
+							RelativePath="..\COM\InterfaceAntiSpam.rgs"
 							>
 						</File>
 						<File
-							RelativePath="..\COM\InterfaceAntiSpam.rgs"
+							RelativePath=".\InterfaceAntiSpam.rgs"
 							>
 						</File>
 						<File
@@ -1389,11 +1392,11 @@
 							>
 						</File>
 						<File
-							RelativePath="..\COM\InterfaceBlockedAttachment.rgs"
+							RelativePath=".\InterfaceBlockedAttachment.rgs"
 							>
 						</File>
 						<File
-							RelativePath=".\InterfaceBlockedAttachment.rgs"
+							RelativePath="..\COM\InterfaceBlockedAttachment.rgs"
 							>
 						</File>
 						<File
@@ -1417,19 +1420,19 @@
 							>
 						</File>
 						<File
-							RelativePath=".\InterfaceGreyListingWhiteAddress.rgs"
-							>
-						</File>
-						<File
 							RelativePath="..\COM\InterfaceGreyListingWhiteAddress.rgs"
 							>
 						</File>
 						<File
-							RelativePath=".\InterfaceGreyListingWhiteAddresses.rgs"
+							RelativePath=".\InterfaceGreyListingWhiteAddress.rgs"
 							>
 						</File>
 						<File
 							RelativePath="..\COM\InterfaceGreyListingWhiteAddresses.rgs"
+							>
+						</File>
+						<File
+							RelativePath=".\InterfaceGreyListingWhiteAddresses.rgs"
 							>
 						</File>
 						<File
@@ -1441,11 +1444,11 @@
 							>
 						</File>
 						<File
-							RelativePath=".\InterfaceIMAPFolders.rgs"
+							RelativePath="..\COM\InterfaceIMAPFolders.rgs"
 							>
 						</File>
 						<File
-							RelativePath="..\COM\InterfaceIMAPFolders.rgs"
+							RelativePath=".\InterfaceIMAPFolders.rgs"
 							>
 						</File>
 						<File
@@ -1457,19 +1460,19 @@
 							>
 						</File>
 						<File
-							RelativePath=".\InterfaceServerMessage.rgs"
-							>
-						</File>
-						<File
 							RelativePath="..\COM\InterfaceServerMessage.rgs"
 							>
 						</File>
 						<File
-							RelativePath="..\COM\InterfaceServerMessages.rgs"
+							RelativePath=".\InterfaceServerMessage.rgs"
 							>
 						</File>
 						<File
 							RelativePath=".\InterfaceServerMessages.rgs"
+							>
+						</File>
+						<File
+							RelativePath="..\COM\InterfaceServerMessages.rgs"
 							>
 						</File>
 						<File
@@ -1481,19 +1484,19 @@
 							>
 						</File>
 						<File
-							RelativePath=".\InterfaceTCPIPPort.rgs"
-							>
-						</File>
-						<File
 							RelativePath="..\COM\InterfaceTCPIPPort.rgs"
 							>
 						</File>
 						<File
-							RelativePath=".\InterfaceTCPIPPorts.rgs"
+							RelativePath=".\InterfaceTCPIPPort.rgs"
 							>
 						</File>
 						<File
 							RelativePath="..\COM\InterfaceTCPIPPorts.rgs"
+							>
+						</File>
+						<File
+							RelativePath=".\InterfaceTCPIPPorts.rgs"
 							>
 						</File>
 						<File

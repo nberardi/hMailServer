@@ -13,9 +13,6 @@ namespace HM
 
       static bool ValidateUser(const String &sDomain, const String &sUsername, const String &sPassword);
 
-   private:
-
-      static CriticalSection m_oCritSec;
    };
 
 }
