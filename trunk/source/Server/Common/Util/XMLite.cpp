@@ -1,6 +1,6 @@
 /*
-	License notice from http://www.codeproject.com/KB/recipes/xmlite.aspx
-	LicenseSometimes I get email about license of XMLite. You can use/modify/redistribute 
+	License
+	Sometimes I get email about license of XMLite. You can use/modify/redistribute 
 	XMLite for commercial/noncomercial. But please give me thanks email with your project 
 	information.Then I will be happy and add it to references of XMLite. If you fix or 
 	update XMLite then give it to me for all to have. Thanks. 
