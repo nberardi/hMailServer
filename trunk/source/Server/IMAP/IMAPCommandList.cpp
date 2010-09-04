@@ -64,7 +64,7 @@ namespace HM
       if (sResult.IsEmpty() && sWildcards.IsEmpty())
       {
          hierarchyDelimiter.Replace(_T("\\"), _T("\\\\"));
-         sResult = _T("* LIST (/Noselect) \"") + hierarchyDelimiter + _T("\" \"\"\r\n");
+         sResult = _T("* LIST (\\Noselect) \"") + hierarchyDelimiter + _T("\" \"\"\r\n");
       }
 
       sResult += sTag + " OK LIST completed\r\n";
