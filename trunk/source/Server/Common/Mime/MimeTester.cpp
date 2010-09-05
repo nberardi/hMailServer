@@ -59,7 +59,7 @@ namespace HM
          }
          else
          { 
-            TestFile(sFullPath);
+            TestLoadFile(sFullPath);
          }
       }
 
@@ -67,6 +67,24 @@ namespace HM
 
       return true;
    
+   }
+
+   void 
+   MimeTester::TestLoadFile(const String &sFilename)
+   {
+	   try
+	   {
+		   shared_ptr<Message> pMessage = shared_ptr<Message>(new Message(false));
+
+		   shared_ptr<MessageData> pMsgData = shared_ptr<MessageData>(new MessageData());
+		   pMsgData->LoadFromMessage(sFilename, pMessage);
+	   }
+	   catch (...)
+	   {
+		   assert(0);
+		   MessageBox(0,_T("ERROR"), _T("ERROR"), 0);
+		   throw;
+	   }
    }
 
    void 

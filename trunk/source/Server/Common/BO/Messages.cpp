@@ -213,6 +213,8 @@ namespace HM
    {
       CriticalSectionScope scope(_lock);
 
+	  // int startTime = GetTickCount();
+
       bool retrieveQueue = m_iAccountID == -1;
 
       if (retrieveQueue && _lastRefreshedUID > 0)
@@ -268,6 +270,8 @@ namespace HM
       shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return;
+
+	  // int timeAfterOpenRecordset = GetTickCount();
    
       // Do this before we actually read the messages, so that we does not
       // mark any unread message as recent. If we haven't actually read
@@ -293,6 +297,13 @@ namespace HM
       }
 
       AddToCollection(pRS);
+
+	  // int timeAfterReadingRecordset = GetTickCount();
+
+	  // 
+	  //
+	  // LOG_DEBUG(Formatter::Format("Messages::Refresh - Time to load recordset {0}", timeAfterOpenRecordset - startTime));
+	  // LOG_DEBUG(Formatter::Format("Messages::Refresh - Time to read recordset {0}", timeAfterReadingRecordset - timeAfterOpenRecordset));
    }
 
    void
@@ -305,6 +316,8 @@ namespace HM
          long lRecCount = pRS->RecordCount();
          if (lRecCount < 0)
             lRecCount = 0;
+
+		 LOG_DEBUG("Reading messages from database.");
 
          vecObjects.reserve(vecObjects.size() + lRecCount);
 

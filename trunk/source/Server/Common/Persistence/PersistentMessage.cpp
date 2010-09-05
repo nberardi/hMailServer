@@ -201,8 +201,6 @@ namespace HM
    bool 
    PersistentMessage::ReadObject(shared_ptr<DALRecordset> pRS, shared_ptr<Message> pMessage, bool bReadRecipients)
    {
-      LOG_DEBUG("Reading message from database");
-
       pMessage->SetID(pRS->GetInt64Value("messageid"));
       pMessage->SetAccountID(pRS->GetLongValue("messageaccountid"));
       pMessage->SetPartialFileName(pRS->GetStringValue("messagefilename"));

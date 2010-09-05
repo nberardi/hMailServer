@@ -13,5 +13,6 @@ namespace HM
 
       bool TestFolder(const String &sFolderName);
       void TestFile(const String &sFilename);
+	  void TestLoadFile(const String &sFilename);
    };
 }

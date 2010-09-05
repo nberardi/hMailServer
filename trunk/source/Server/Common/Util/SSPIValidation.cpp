@@ -1,5 +1,7 @@
-#include "StdAfx.h"
+// Copyright (c) 2010 Martin Knafve / hMailServer.com.  
+// http://www.hmailserver.com
 
+#include "StdAfx.h"
 #include "SSPIValidation.h"
 
 namespace HM
