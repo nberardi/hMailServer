@@ -104,6 +104,7 @@ namespace HM
    class MessageDataTester
    {
    public:
+      MessageDataTester() {};
       void Test();
    };
 

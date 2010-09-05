@@ -9,6 +9,11 @@
 #include "../BO/MessageData.h"
 #include "../Persistence/PersistentMessage.h"
 
+#ifdef _DEBUG
+   #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+   #define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    MimeTester::MimeTester(void)
@@ -22,11 +27,6 @@ namespace HM
    bool 
    MimeTester::TestFolder(const String &sFolderName)
    {
-      MimeParameterRFC2184Decoder rfc2184tester;
-      AnsiString result = rfc2184tester.Decode("us-ascii'en'This%20is%20even%20more%20%2A%2A%2Afun%2A%2A%2A%20isn't it!");
-
-      return true;
-
       String sCleanFolder = sFolderName;
       if (sCleanFolder.Right(1) == _T("\\"))
          sCleanFolder = sCleanFolder.Left(sCleanFolder.GetLength() - 1);
@@ -74,6 +74,8 @@ namespace HM
    {
 	   try
 	   {
+         OutputDebugString("Loading file " + sFilename +"\n");
+
 		   shared_ptr<Message> pMessage = shared_ptr<Message>(new Message(false));
 
 		   shared_ptr<MessageData> pMsgData = shared_ptr<MessageData>(new MessageData());
@@ -93,8 +95,7 @@ namespace HM
       try
       {
          shared_ptr<Message> pMessage = shared_ptr<Message>(new Message(false));
-         // pMessage->SetFileName(sFilename);
-
+         
          shared_ptr<MessageData> pMsgData = shared_ptr<MessageData>(new MessageData());
          pMsgData->LoadFromMessage(sFilename, pMessage);
 

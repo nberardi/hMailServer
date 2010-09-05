@@ -45,7 +45,7 @@ namespace HM
    class UtilitiesTester
    {
    public:
-
+      UtilitiesTester() {};
       void Test();
 
    private:

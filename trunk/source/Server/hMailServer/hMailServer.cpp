@@ -2,6 +2,13 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+// START: Enable tracking of memory leaks.
+
+#ifdef _DEBUG
+   #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+   #define new DEBUG_NEW
+#endif
+
 #include "resource.h"
 #include "hMailServer.h"
 
@@ -10,6 +17,10 @@
 #include "../Common/Util/Utilities.h"
 #include "../Common/Util/SystemInformation.h"
 #include "../Common/Application/SingletonCreator.h"
+
+// #define VLD_START_DISABLED
+// #include "C:\Temp\vld-10\vldapi.h"
+// #include "C:\Temp\vld-10\vld.h"
 
 using namespace HM;
 
@@ -237,8 +248,7 @@ extern "C" int WINAPI _tWinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstan
       _AtlModule.RegisterObjects();
    }
    
-   // We should run as a service.
-   _AtlModule.m_bRunAsService = false;
+   int iRet = 0;
 
    if (sLastParam.CompareNoCase(_T("/Test")) == 0)
    {
@@ -246,6 +256,10 @@ extern "C" int WINAPI _tWinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstan
       //     This is a bit ugly but should work fine
       //     for debugging purposes.
       DEBUG_MODE = true;
+
+
+      _CrtMemState state;
+      _CrtMemCheckpoint(&state);
 
 	   SingletonCreator::Create();
 	
@@ -267,10 +281,9 @@ extern "C" int WINAPI _tWinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstan
       SingletonCreator::Delete();
       Logger::DeleteInstance();
 
-      return 0;
+      _CrtMemDumpAllObjectsSince (&state);
    }
-
-   if (sLastParam.CompareNoCase(_T("/Debug")) == 0)
+   else if (sLastParam.CompareNoCase(_T("/Debug")) == 0)
    {
       // --- We are running in debug mode.
       //     This is a bit ugly but should work fine
@@ -286,20 +299,17 @@ extern "C" int WINAPI _tWinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstan
          // until the debugger is stopped.
          Sleep(5000);
       }
-
-      return 0;
    }
-
-
-   if (sLastParam.CompareNoCase(_T("RunAsService")) == 0)
+   else if (sLastParam.CompareNoCase(_T("RunAsService")) == 0)
    {
       _AtlModule.m_bRunAsService = true;
+
+	  iRet = _AtlModule.WinMain(nShowCmd);
    }
 
-   int iRet = _AtlModule.WinMain(nShowCmd);
-
-   return iRet;
+	//_CrtDumpMemoryLeaks();
    
+   return iRet;
 }
 
 DWORD WINAPI StartServiceInitialization(LPVOID vd)

@@ -8,6 +8,11 @@
 #include "../Persistence/PersistentSecurityRange.h"
 #include "../Persistence/PersistentLogonFailure.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    RemoveExpiredRecords::RemoveExpiredRecords(void)

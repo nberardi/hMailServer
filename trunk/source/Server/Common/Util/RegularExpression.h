@@ -19,6 +19,7 @@ namespace HM
    class RegularExpressionTester
    {
    public:
+      RegularExpressionTester() {}; 
 
       static void Test();
    };

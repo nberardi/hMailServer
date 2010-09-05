@@ -1,4 +1,6 @@
 #define SS_DANGEROUS_FORMAT
+#define SS_ANSI
+
 // =============================================================================
 //  FILE:  StdString.h
 //  AUTHOR:	Joe O'Leary (with outside help noted in comments)
@@ -4400,3 +4402,9 @@ struct StdStringEqualsNoCaseA
 #endif
 
 #endif	// #ifndef STDSTRING_H
+
+namespace HM 
+{ 
+   typedef CStdStr<wchar_t> String; 
+   typedef CStdStr<char> AnsiString; 
+}

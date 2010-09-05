@@ -33,9 +33,8 @@
 #include "../Util/Unicode.h"
 
 #ifdef _DEBUG
-#undef TFILE
-static char TFILE[]=__FILE__;
-#define new DEBUG_NEW
+   #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+   #define new DEBUG_NEW
 #endif
 
 //////////////////////////////////////////////////////////////////////

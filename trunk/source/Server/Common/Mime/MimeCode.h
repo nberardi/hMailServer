@@ -37,10 +37,6 @@ using namespace std;
 #endif
 #endif
 
-#if defined(_DEBUG) && !defined(DEBUG_NEW)
-#define DEBUG_NEW new
-#endif
-
 // maximum length of an encoded line (RFC 2045)
 #define MAX_MIME_LINE_LEN	76
 #define MAX_ENCODEDWORD_LEN	75

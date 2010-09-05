@@ -517,7 +517,6 @@ namespace HM
 
    inline bool MimeBody::AllocateBuffer(int nBufSize)
    {
-	   FreeBuffer();
 
       m_pbText.reserve(nBufSize);
 

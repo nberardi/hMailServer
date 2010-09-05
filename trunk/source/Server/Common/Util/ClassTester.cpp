@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "ClassTester.h"
-
 #include "../TCPIP/DNSResolver.h"
 #include "../Application/BackupManager.h"
 #include "../Application/TimeoutCalculator.h"
@@ -27,8 +26,12 @@
 #include "../Util/Encoding/Base64.h"
 #include "../Util/Encoding/ModifiedUTF7.h"
 #include "../Util/Hashing/HashCreator.h"
-
 #include <boost/pool/object_pool.hpp>
+
+#ifdef _DEBUG
+   #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+   #define new DEBUG_NEW
+#endif
 
 namespace HM
 {
@@ -46,6 +49,11 @@ namespace HM
    void
    ClassTester::DoTests()
    {
+	   OutputDebugString(_T("hMailServer: Testing mime parser\n"));
+	   MimeTester *pMimeTester = new MimeTester;
+      pMimeTester->TestFolder("C:\\Temp\\Testdata\\martin");
+	   delete pMimeTester;
+
       OutputDebugString(_T("hMailServer: Testing StringParser\n"));
       StringParserTester *pParser = new StringParserTester();
       pParser->Test();
@@ -67,11 +75,8 @@ namespace HM
       TimeoutCalculatorTester timeoutCalculatortester;
       timeoutCalculatortester.Test();
 
-      OutputDebugString(_T("hMailServer: Testing mime parser\n"));
-      MimeTester *pMimeTester = new MimeTester;
-      pMimeTester->TestFolder(m_sMimeDataPath);
-      delete pMimeTester;
-
+      
+/*
       OutputDebugString(_T("hMailServer: Test DateTime\n"));
       DateTimeTests tests;
       tests.Test();
@@ -119,9 +124,6 @@ namespace HM
       delete pCharsetTester;
 
 
-
-
-
       OutputDebugString(_T("hMailServer: Testing LocalIPAddresses\n"));
       LocalIPAddressesTester *pTest4 = new LocalIPAddressesTester();
       pTest4->Test();
@@ -148,10 +150,9 @@ namespace HM
       OutputDebugString(_T("hMailServer: Testing IMAPSimpleCommandParserTester\n"));
       IMAPSimpleCommandParserTester *pTest = new IMAPSimpleCommandParserTester();
       pTest->Test();
-      delete pTest;
+      delete pTest;*/
 
-
-
+      
 
    }
 

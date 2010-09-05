@@ -7,6 +7,12 @@
 #include <oledb.h>
 
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
+
 #ifndef _ERROR_LOGGING_IN_MESSAGE_BOXES
    #include "ScriptingHost/ScriptServer.h"
    #include "ScriptingHost/ScriptObjectContainer.h"
