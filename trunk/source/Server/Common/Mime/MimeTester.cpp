@@ -14,6 +14,11 @@
    #define new DEBUG_NEW
 #endif
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    MimeTester::MimeTester(void)
@@ -27,6 +32,8 @@ namespace HM
    bool 
    MimeTester::TestFolder(const String &sFolderName)
    {
+      return true;
+
       String sCleanFolder = sFolderName;
       if (sCleanFolder.Right(1) == _T("\\"))
          sCleanFolder = sCleanFolder.Left(sCleanFolder.GetLength() - 1);

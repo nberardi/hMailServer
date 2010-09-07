@@ -54,11 +54,12 @@ namespace HM
       pMimeTester->TestFolder("C:\\Temp\\Testdata\\martin");
 	   delete pMimeTester;
 
+      return;
       OutputDebugString(_T("hMailServer: Testing StringParser\n"));
       StringParserTester *pParser = new StringParserTester();
       pParser->Test();
       delete pParser;
-
+  
       OutputDebugString(_T("hMailServer: Testing FileUtilities\n"));
       FileUtilitiesTester fileUtilitiesTester;
       fileUtilitiesTester.Test();
@@ -75,8 +76,6 @@ namespace HM
       TimeoutCalculatorTester timeoutCalculatortester;
       timeoutCalculatortester.Test();
 
-      
-/*
       OutputDebugString(_T("hMailServer: Test DateTime\n"));
       DateTimeTests tests;
       tests.Test();
@@ -150,7 +149,7 @@ namespace HM
       OutputDebugString(_T("hMailServer: Testing IMAPSimpleCommandParserTester\n"));
       IMAPSimpleCommandParserTester *pTest = new IMAPSimpleCommandParserTester();
       pTest->Test();
-      delete pTest;*/
+      delete pTest;
 
       
 

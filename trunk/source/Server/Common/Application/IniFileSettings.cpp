@@ -13,7 +13,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 namespace HM
 {
    String IniFileSettings::m_sLogDirectory;

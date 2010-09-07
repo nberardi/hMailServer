@@ -33,6 +33,11 @@
 #include "../Common/AntiSpam/AntiSpamConfiguration.h"
 #include "../Common/AntiSpam/SpamProtection.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    POP3ClientConnection::POP3ClientConnection(shared_ptr<FetchAccount> pAccount) :

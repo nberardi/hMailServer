@@ -10,6 +10,11 @@
 #include "../../MIME/MimeCode.h"
 #include <boost/lexical_cast.hpp>
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
 
@@ -61,8 +66,9 @@ namespace HM
 
       String regularExpression = "[^<>\" ]+@[^<>\" ]+\\.[^<>\" ]+";
 
-      RegularExpression regexpEvaluator;
       
+
+      RegularExpression regexpEvaluator;
       bool result = regexpEvaluator.TestExactMatch(regularExpression, sEmailAddress);
       return result;
    }
@@ -583,16 +589,17 @@ namespace HM
       sTest = "Test TestA Test Test";
       sTest.ReplaceNoCase(_T("TestA"), _T("TESTB"));
       if (sTest != _T("Test TESTB Test Test")) throw;
-
+ 
       // Check email addresses
-      if (StringParser::IsValidEmailAddress("a")) throw;
+
+      
       if (StringParser::IsValidEmailAddress("@")) throw;
+      if (StringParser::IsValidEmailAddress("a")) throw;      
       if (StringParser::IsValidEmailAddress("test@")) throw;
       if (StringParser::IsValidEmailAddress("@.com")) throw;
       if (StringParser::IsValidEmailAddress("\"va@ff\"@test.co.uk")) throw;
       if (StringParser::IsValidEmailAddress("some one@test.co.uk")) throw;
       if (StringParser::IsValidEmailAddress("<someone@test.co.uk>")) throw;
-
       if (!StringParser::IsValidEmailAddress("test@test.com")) throw;
       if (!StringParser::IsValidEmailAddress("test@hmailserver.com")) throw;
       if (!StringParser::IsValidEmailAddress("test_test+testÃ¥Ã¤Ã¶|@hmailserver.com")) throw;

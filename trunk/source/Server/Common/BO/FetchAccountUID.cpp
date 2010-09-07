@@ -6,6 +6,11 @@
 
 #include "..\Util\Time.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    FetchAccountUID::FetchAccountUID (__int64 iID, __int64 iAccountID, const String &sUID, const String &sDate) :

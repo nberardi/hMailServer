@@ -8,6 +8,11 @@
 #include "../../Util/File.h"
 #include "../../TCPIP/TCPConnection.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    SpamAssassinClient::SpamAssassinClient(const String &sFile) 

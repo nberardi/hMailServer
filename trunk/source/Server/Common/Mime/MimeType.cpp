@@ -33,6 +33,11 @@
 // text/image/audio/video/application (discrete type) or message/multipart (composite type).
 // the default Content-Type is: text/plain; charset=us-ascii (RFC 2046)
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
 

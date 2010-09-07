@@ -4,6 +4,11 @@
 #include "stdafx.h"
 #include "ServerInfo.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    ServerInfo::ServerInfo(bool fixed, const String &hostName, int port, const String&userName, const String &passWord, bool useSSL) :

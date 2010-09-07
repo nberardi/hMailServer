@@ -8,6 +8,11 @@
 #include "../BO/MessageRecipients.h"
 #include "../BO/MessageRecipient.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    bool AWStats::m_bEnabled = false;

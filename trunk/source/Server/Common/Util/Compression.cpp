@@ -5,6 +5,11 @@
 
 #include "Compression.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    Compression::Compression(String sResultFile, String sBaseDir, bool bCompress) :

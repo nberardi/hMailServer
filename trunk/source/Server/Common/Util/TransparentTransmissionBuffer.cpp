@@ -8,6 +8,11 @@
 #include "ByteBuffer.h"
 #include "../TCPIP/ProtocolParser.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    TransparentTransmissionBuffer::TransparentTransmissionBuffer(bool bSending) : 
@@ -118,8 +123,10 @@ namespace HM
    bool
    TransparentTransmissionBuffer::Flush(bool bForce)
    {
+      bool dataProcessed = false;
+
       if (!GetRequiresFlush() && !bForce)
-         return false;
+         return dataProcessed;
 
       if (m_pBuffer->GetSize() > MAX_LINE_LENGTH)
       {
@@ -145,15 +152,19 @@ namespace HM
             Service Extensions.
       */
 
-      int maxLineLength = 1000 * 2; // * 2 to be kind...
+      int maxLineLength = MAX_LINE_LENGTH;
 
-      // Start in the end and move 'back' 10 000 characters.
+      // Start in the end and move 'back' MAX_LINE_LENGTH characters.
       int searchEndPos = max(bufferSize - maxLineLength, 0);
       for (int i = bufferSize - 1; i >= searchEndPos; i--)
       {
          char s = pBuffer[i];
 
-         // If force is on, we should send everything in the buffer.
+         // If we found a newline, send anything up until that.
+         // If we're forcing a send, send all we got
+         // If we found no newline in the stream, the message is malformed according to RFC2821 (max 1000 chars per line). 
+         //    Send all we got anyway. 
+
          if (s == '\n' || bForce)
          {
             m_bLastSendEndedWithNewline = s == '\n';
@@ -185,6 +196,8 @@ namespace HM
                _SaveToFile(pOutBuffer);
             }
 
+            dataProcessed = true;
+
             break;
          }
       }
@@ -194,7 +207,7 @@ namespace HM
          m_oFile.Close();
       }
 
-      return true;
+      return dataProcessed;
    }
 
    bool 

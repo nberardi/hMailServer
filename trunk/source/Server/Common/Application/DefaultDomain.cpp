@@ -9,7 +9,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 namespace HM
 {
    DefaultDomain::DefaultDomain(void)

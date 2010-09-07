@@ -6,6 +6,11 @@
 #include "IOOperation.h"
 #include "../Util/ByteBuffer.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    IOOperation::IOOperation(OperationType type, shared_ptr<ByteBuffer> buffer) :

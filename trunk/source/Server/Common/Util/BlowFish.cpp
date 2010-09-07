@@ -19,6 +19,11 @@
 
 #define NOT_SECRET_KYE "THIS_KEY_IS_NOT_SECRET"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    BlowFishEncryptor::BlowFishEncryptor ()
@@ -330,6 +335,11 @@ namespace HM
    }
 
 }
+
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
 
 namespace HM
 {

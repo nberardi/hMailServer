@@ -41,6 +41,11 @@
    #define new DEBUG_NEW
 #endif
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    // search for a character in the current line (before CRLF)
@@ -1418,6 +1423,7 @@ namespace HM
 	   nDataSize -= nSize;
 	   FreeBuffer();
 
+      char *p = new char[10];
 	   // determine the length of the content
 	   const char* pszEnd = pszData + nDataSize;
 	   int nMediaType = GetMediaType();

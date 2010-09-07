@@ -31,6 +31,11 @@
 static int rgMonthDays[13] =
 {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    

@@ -56,6 +56,8 @@
 #define new DEBUG_NEW
 #endif
 
+
+
 namespace HM
 {
    Application::Application() :

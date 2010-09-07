@@ -11,7 +11,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 namespace HM
 {
    BackupTask::BackupTask(bool bDoBackup) :

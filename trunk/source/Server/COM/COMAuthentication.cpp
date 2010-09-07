@@ -15,7 +15,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 namespace HM
 {
    COMAuthentication::COMAuthentication(void)

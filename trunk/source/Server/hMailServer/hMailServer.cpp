@@ -22,6 +22,11 @@
 // #include "C:\Temp\vld-10\vldapi.h"
 // #include "C:\Temp\vld-10\vld.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 using namespace HM;
 
 // Declarations of some extremely global 
@@ -39,6 +44,11 @@ SERVICE_STATUS_HANDLE   ServiceStatusHandle;
 DWORD WINAPI StartServiceInitialization(LPVOID vd);
 
 bool DEBUG_MODE = false;
+
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
 
 namespace HM
 {

@@ -20,7 +20,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 namespace HM
 {
    FolderManager::FolderManager(void)

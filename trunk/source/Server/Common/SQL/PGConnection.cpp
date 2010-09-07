@@ -8,6 +8,11 @@
 #include "..\Util\Unicode.h"
 #include "Macros/PGSQLMacroExpander.h"
 
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
 namespace HM
 {
    PGConnection::PGConnection(shared_ptr<DatabaseSettings> pSettings) :
