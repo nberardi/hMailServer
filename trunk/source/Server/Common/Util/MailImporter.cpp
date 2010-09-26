@@ -62,7 +62,7 @@ namespace HM
          // The file apparently already exists. But if the full path is stored in the database,
          // we should replace that with the partial file name.
          if (isPartialFileName)
-            return false;
+            return true;
          else
          {
             bool result = _ReplaceMessagePath(messageID, originalFullPath);
