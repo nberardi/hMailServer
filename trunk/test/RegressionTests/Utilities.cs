@@ -964,7 +964,7 @@ namespace UnitTest
          return contents;
       }
 
-      public void AssertUserDirectoryEmpty(hMailServer.Account account)
+      public void AssertFilesInUserDirectory(hMailServer.Account account, int expectedFileCount)
       {
          string domain = account.Address.Substring(account.Address.IndexOf("@") + 1);
          string mailbox = account.Address.Substring(0, account.Address.IndexOf("@"));
@@ -972,13 +972,26 @@ namespace UnitTest
          string domainDir = Path.Combine(_settings.Directories.DataDirectory, domain);
          string userDir = Path.Combine(domainDir, mailbox);
 
-         string[] dirs = Directory.GetDirectories(userDir);
-         foreach (string dir in dirs)
-         {
-            string[] files = Directory.GetFiles(dir);
+         AssertFilesInDirectory(userDir, expectedFileCount);
 
-            Assert.AreEqual(0, files.Length);
-         }
+      }
+
+      public void AssertFilesInDirectory(string directory, int expectedFileCount)
+      {
+          int count = 0;
+
+          if (Directory.Exists(directory))
+          {
+              string[] dirs = Directory.GetDirectories(directory);
+              
+              foreach (string dir in dirs)
+              {
+                  string[] files = Directory.GetFiles(dir);
+                  count += files.Length;
+              }
+          }
+
+          Assert.AreEqual(expectedFileCount, count);
       }
 
       public static string GetCurrentMIMEDateTime()
@@ -1122,6 +1135,13 @@ namespace UnitTest
          }
 
          return escapedValue;
+      }
+
+      public string GetPublicDirectory()
+      {
+          string dataDir = _settings.Directories.DataDirectory;
+          string publicDir = Path.Combine(dataDir, _settings.PublicFolderDiskName);
+          return publicDir;
       }
    }
 }

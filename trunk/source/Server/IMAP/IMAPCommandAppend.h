@@ -33,9 +33,13 @@ namespace HM
       String m_sCreateTimeToSet;
       long m_lBytesLeftToReceive;
 
+      String m_sMessageFileName;
+
       ByteBuffer _appendBuffer;
       shared_ptr<IMAPFolder> m_pDestinationFolder;
       shared_ptr<Message> m_pCurrentMessage;
+
+      
    };
 
 }

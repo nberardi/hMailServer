@@ -43,11 +43,8 @@ namespace HM
       if (!m_pCurrentMessage)
          return;
 
-      String sFile = PersistentMessage::GetFileName(m_pCurrentMessage);
-
-      if (FileUtilities::Exists(sFile))
-         FileUtilities::DeleteFile(sFile);
-
+      if (FileUtilities::Exists(m_sMessageFileName))
+         FileUtilities::DeleteFile(m_sMessageFileName);
    }
 
    IMAPResult
@@ -130,11 +127,22 @@ namespace HM
 
       if (!pConnection->CheckPermission(m_pDestinationFolder, ACLPermission::PermissionInsert))
          return IMAPResult(IMAPResult::ResultBad, "ACL: Insert permission denied (Required for APPEND command).");
-      
+
+
+
       __int64 lFolderID = m_pDestinationFolder->GetID();
-      
+
       m_pCurrentMessage = shared_ptr<Message>(new Message);
+      m_pCurrentMessage->SetAccountID(m_pDestinationFolder->GetAccountID());
       m_pCurrentMessage->SetFolderID(lFolderID);
+
+      // Construct a file name which we'll write the message to.
+      // Should we connect this message to an account? Yes, if this is not a public folder.
+      shared_ptr<const Account> pMessageOwner;
+      if (!m_pDestinationFolder->IsPublicFolder())
+         pMessageOwner = pConnection->GetAccount();
+
+      m_sMessageFileName = PersistentMessage::GetFileName(pMessageOwner, m_pCurrentMessage);
 
       String sResponse = "+ Ready for literal data\r\n";
       pConnection->SetReceiveBinary(true);
@@ -175,21 +183,18 @@ namespace HM
       if (!m_pCurrentMessage)
          return false;
 
-      String fileName = PersistentMessage::GetFileName(m_pCurrentMessage);
-
-      String destinationPath = FileUtilities::GetFilePath(fileName);
+      String destinationPath = FileUtilities::GetFilePath(m_sMessageFileName);
       if (!FileUtilities::Exists(destinationPath))
          FileUtilities::CreateDirectoryRecursive(destinationPath);
 
       File oFile;
-      if (!oFile.Open(fileName, File::OTAppend))
+      if (!oFile.Open(m_sMessageFileName, File::OTAppend))
          return false;
    
       DWORD dwNoOfBytesWritten = 0;
       oFile.Write(pBuf, WriteLen, dwNoOfBytesWritten);
 
       return true;
-
    }
 
    bool
@@ -212,14 +217,10 @@ namespace HM
       if (!m_pCurrentMessage)
          return;
 
-      String fileName = PersistentMessage::GetFileName(pConnection->GetAccount(), m_pCurrentMessage);
-
       // Add this message to the folder.
-      m_pCurrentMessage->SetSize(FileUtilities::FileSize(fileName));
-
+      m_pCurrentMessage->SetSize(FileUtilities::FileSize(m_sMessageFileName));
       m_pCurrentMessage->SetState(Message::Delivered);
-      m_pCurrentMessage->SetAccountID(m_pDestinationFolder->GetAccountID());
-      
+
       // Set message flags.
       bool bSeen = (m_sFlagsToSet.FindNoCase(_T("\\Seen")) >= 0);
       bool bDeleted = (m_sFlagsToSet.FindNoCase(_T("\\Deleted")) >= 0);

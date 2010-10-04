@@ -213,7 +213,7 @@ namespace UnitTest.API
             hMailServer.Message message = account.IMAPFolders.get_ItemByName("Inbox").Messages[0];
 
             // Now nothing should happen.
-            Assert.IsFalse(_application.Utilities.ImportMessageFromFile(message.Filename, account.ID));
+            Assert.IsTrue(_application.Utilities.ImportMessageFromFile(message.Filename, account.ID));
 
             // Move the message file to another folder.
             string domainPath = Path.Combine(_application.Settings.Directories.DataDirectory, _domain.Name);
@@ -251,9 +251,10 @@ namespace UnitTest.API
 
             hMailServer.Message message = account.IMAPFolders.get_ItemByName("Inbox").Messages[0];
 
-            // Now nothing should happen.
-            Assert.IsFalse(_application.Utilities.ImportMessageFromFile(message.Filename, account.ID));
-
+            string filename = message.Filename;
+            // Now nothing should happen here.
+            Assert.IsTrue(_application.Utilities.ImportMessageFromFile(filename, account.ID));
+            Assert.IsTrue(File.Exists(filename));
 
             string sql = string.Format("update hm_messages set messagefilename = '{0}' where messageid = {1}", Utilities.Escape(message.Filename), message.ID);
 
@@ -263,7 +264,8 @@ namespace UnitTest.API
             Assert.IsTrue(_application.Utilities.ImportMessageFromFile(message.Filename, account.ID));
 
             // Now nothing should happen.
-            Assert.IsFalse(_application.Utilities.ImportMessageFromFile(message.Filename, account.ID));
+            Assert.IsTrue(_application.Utilities.ImportMessageFromFile(message.Filename, account.ID));
+            Assert.IsTrue(File.Exists(message.Filename));
 
             string content = POP3Simulator.AssertGetFirstMessageText(account.Address, "test");
 

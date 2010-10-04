@@ -651,7 +651,7 @@ namespace UnitTest.Protocols.SMTP
          // Make sure the recipient did not receive it.
          Utilities.AssertRecipientsInDeliveryQueue(0);
          POP3Simulator.AssertMessageCount(recipientAccount.Address, "test", 0);
-         SingletonProvider<Utilities>.Instance.AssertUserDirectoryEmpty(recipientAccount);
+         SingletonProvider<Utilities>.Instance.AssertFilesInUserDirectory(recipientAccount, 0);
 
          // Make sure it bounced.
          string content = POP3Simulator.AssertGetFirstMessageText(senderAccount.Address, "test");
@@ -686,7 +686,7 @@ namespace UnitTest.Protocols.SMTP
          // Make sure the recipient did not receive it.
          Utilities.AssertRecipientsInDeliveryQueue(0);
          POP3Simulator.AssertMessageCount(recipientAccount.Address, "test", 0);
-         SingletonProvider<Utilities>.Instance.AssertUserDirectoryEmpty(recipientAccount);
+         SingletonProvider<Utilities>.Instance.AssertFilesInUserDirectory(recipientAccount, 0);
 
          // Make sure it bounced.
          string content = POP3Simulator.AssertGetFirstMessageText(senderAccount.Address, "test");
