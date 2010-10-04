@@ -52,6 +52,9 @@ namespace HM
             diagResult.SetSuccess(false);
             diagResult.SetDetails(Formatter::Format("ERROR: Backup directory {0} is not writable.", backupDirectory));
          }
+
+         // Delete the temp file.
+         FileUtilities::DeleteFile(tempFileName);
          
       }
 
