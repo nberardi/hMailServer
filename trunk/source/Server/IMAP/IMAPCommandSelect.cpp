@@ -66,19 +66,19 @@ namespace HM
 
 	   sResponse += _T("* FLAGS (\\Deleted \\Seen \\Draft \\Answered \\Flagged)\r\n");
 
-      sRespTemp.Format(_T("* OK [UIDVALIDITY %d]\r\n"), pSelectedFolder->GetCreationTime().ToInt());   
+      sRespTemp.Format(_T("* OK [UIDVALIDITY %d] current uidvalidity\r\n"), pSelectedFolder->GetCreationTime().ToInt());   
       sResponse += sRespTemp;
       
       if (lFirstUnseenID > 0)
       {
-         sRespTemp.Format(_T("* OK [UNSEEN %d]\r\n"), lFirstUnseenID);
+         sRespTemp.Format(_T("* OK [UNSEEN %d] unseen messages\r\n"), lFirstUnseenID);
          sResponse += sRespTemp;
       }
       
-      sRespTemp.Format(_T("* OK [UIDNEXT %d]\r\n"), pSelectedFolder->GetCurrentUID()+1);
+      sRespTemp.Format(_T("* OK [UIDNEXT %d] next uid\r\n"), pSelectedFolder->GetCurrentUID()+1);
       sResponse += sRespTemp;
 
-      sResponse += _T("* OK [PERMANENTFLAGS (\\Deleted \\Seen \\Draft \\Answered \\Flagged)]\r\n");
+      sResponse += _T("* OK [PERMANENTFLAGS (\\Deleted \\Seen \\Draft \\Answered \\Flagged)] limited\r\n");
 
       if (writeAccess)
          sResponse += pArgument->Tag() + _T(" OK [READ-WRITE] SELECT completed\r\n");
