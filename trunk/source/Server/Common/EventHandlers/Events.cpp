@@ -55,7 +55,7 @@ namespace HM
                _T("Message deleted. Action was taken by script subscribing to OnDeliveryStart."),
                pMessage->GetID());
 
-            LOG_APPLICATION(sMessage);
+            LOG_SMTP(0,"APP",sMessage);
 
             PersistentMessage::DeleteObject(pMessage);             
 
@@ -91,7 +91,7 @@ namespace HM
                   _T("Message deleted. Action was taken by script subscribing to OnDeliverMessage."),
                   pMessage->GetID());
 
-               LOG_APPLICATION(sMessage);
+               LOG_SMTP(0,"APP",sMessage);
 
                PersistentMessage::DeleteObject(pMessage);             
 

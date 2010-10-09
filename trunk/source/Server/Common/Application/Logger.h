@@ -4,6 +4,7 @@
 #pragma once
 
 #include "../Util/File.h"
+#include "..\Application\IniFileSettings.h"
 
 namespace HM
 {
@@ -65,7 +66,10 @@ namespace HM
          Error = 2,
          AWStats = 3,
          Backup = 4,
-         Events = 5
+         Events = 5,
+         IMAP = 6,
+         POP3 = 7,
+         SMTP = 8
       };
    
       enum Constants
@@ -129,7 +133,9 @@ namespace HM
 
 
       bool m_bEnableLiveLog;
-      
+      bool m_bSepSvcLogs;      
+      int  m_iLogLevel;      
+      int  m_iMaxLogLineLen;      
 
       CriticalSection m_oCritSec;
       CriticalSection m_oCritSecLiveLog;
@@ -142,7 +148,9 @@ namespace HM
       File _awstatsLogFile;
       File _backupLogFile;
       File _eventsLogFile;
-
+      File _IMAPLogFile;
+      File _POP3LogFile;
+      File _SMTPLogFile;
       
    };
 

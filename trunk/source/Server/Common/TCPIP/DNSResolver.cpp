@@ -113,7 +113,7 @@ namespace HM
          {
             String sMessage;
             sMessage.Format(_T("DNS - Query failure. Treating as temporary failure. Query: %s, Type: %d, DnsQuery return value: %d."), sSearchFor, wType, nDnsStatus);
-            LOG_TCPIP(sMessage);
+            LOG_SMTP(0,"TCP",sMessage);
             return false;
          }
 
@@ -253,7 +253,7 @@ namespace HM
          {
             String sMessage;
             sMessage.Format(_T("DNS query failure. Treating as temporary failure. Query: %s, Type: A/AAAA, DnsQuery return value: %d. Message: %s"), sDomain, errorCode.value(), String(errorCode.message()));
-            LOG_TCPIP(sMessage);
+            LOG_SMTP(0,"TCP",sMessage);
             return false;
          }
 
@@ -272,7 +272,7 @@ namespace HM
          {
             String sMessage;
             sMessage.Format(_T("DNS query failure. Treating as temporary failure. Conversion of DNS record to string failed. Domain: %s, Error code: %d, Message: %s"), sDomain, errorCode.value(), String(errorCode.message()));
-            LOG_TCPIP(sMessage);
+            LOG_SMTP(0,"TCP",sMessage);
             return false;
          }
 
@@ -293,7 +293,7 @@ namespace HM
    bool
    DNSResolver::GetEmailServers(const String &sDomainName, std::vector<String> &saFoundNames )
    {
-      LOG_TCPIP("DNS - MX Lookup: " + sDomainName);
+      LOG_SMTP(0,"TCP","DNS - MX Lookup: " + sDomainName);
 
       std::vector<String> vecFoundMXRecords;
 
@@ -375,7 +375,7 @@ namespace HM
          String sLogMsg;
          sLogMsg.Format(_T("DNS - MX Result: %d IP addresses were found."), saFoundNames.size());
 
-         LOG_TCPIP(sLogMsg);
+         LOG_SMTP(0,"TCP",sLogMsg);
       }
       catch (...)
       {

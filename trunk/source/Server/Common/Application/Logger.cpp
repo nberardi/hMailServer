@@ -82,7 +82,7 @@ namespace HM
       if (m_bEnableLiveLog)
          _LogLive(sData);
 
-      _WriteData(sData);
+      _WriteData(sData, SMTP);
    
    }
 
@@ -96,12 +96,16 @@ namespace HM
       String sTime = GetCurrentTime();
 
       String sData;
-      sData.Format(_T("\"POP3D\"\t%d\t%d\t\"%s\"\t\"%s\"\t\"%s\"\r\n"), lThread, iSessionID, sTime, sRemoteHost, sMessage);
+      // Seems this was never done so now external account activity logs as client
+      if (bClient)
+         sData.Format(_T("\"POP3C\"\t%d\t%d\t\"%s\"\t\"%s\"\t\"%s\"\r\n"), lThread, iSessionID, sTime, sRemoteHost, sMessage);
+      else
+         sData.Format(_T("\"POP3D\"\t%d\t%d\t\"%s\"\t\"%s\"\t\"%s\"\r\n"), lThread, iSessionID, sTime, sRemoteHost, sMessage);
 
       if (m_bEnableLiveLog)
          _LogLive(sData);
 
-      _WriteData(sData);
+      _WriteData(sData, POP3);
    
    }
 
@@ -120,7 +124,7 @@ namespace HM
       if (m_bEnableLiveLog)
          _LogLive(sData);
 
-      _WriteData(sData);
+      _WriteData(sData, IMAP);
    
    }
 
@@ -234,6 +238,8 @@ namespace HM
 
       String theTime = Time::GetCurrentDate();
 
+      m_bSepSvcLogs = IniFileSettings::Instance()->GetSepSvcLogs();
+
       switch (lt)
       {
       case Normal:
@@ -250,6 +256,24 @@ namespace HM
          break;
       case Events:
          sFilename.Format(_T("%s\\hmailserver_events.log"), m_sLogDir );
+         break;
+      case IMAP:
+         if (m_bSepSvcLogs) 
+            sFilename.Format(_T("%s\\hmailserver_IMAP_%s.log"), m_sLogDir, theTime );
+         else
+            sFilename.Format(_T("%s\\hmailserver_%s.log"), m_sLogDir, theTime );
+         break;
+      case POP3:
+         if (m_bSepSvcLogs) 
+            sFilename.Format(_T("%s\\hmailserver_POP3_%s.log"), m_sLogDir, theTime );
+         else
+            sFilename.Format(_T("%s\\hmailserver_%s.log"), m_sLogDir, theTime );
+         break;
+      case SMTP:
+         if (m_bSepSvcLogs) 
+            sFilename.Format(_T("%s\\hmailserver_SMTP_%s.log"), m_sLogDir, theTime );
+         else
+            sFilename.Format(_T("%s\\hmailserver_%s.log"), m_sLogDir, theTime );
          break;
       }
 
@@ -285,6 +309,18 @@ namespace HM
       case Events:
          file = &_eventsLogFile;
          writeUnicode = true;
+         break;
+      case IMAP:
+         file = &_IMAPLogFile;
+         writeUnicode = false;
+         break;
+      case POP3:
+         file = &_POP3LogFile;
+         writeUnicode = false;
+         break;
+      case SMTP:
+         file = &_SMTPLogFile;
+         writeUnicode = false;
          break;
       }
 
@@ -326,6 +362,9 @@ namespace HM
       case Normal:
       case Error:
       case AWStats:
+      case IMAP:
+      case POP3:
+      case SMTP:
          writeUnicode = false;
          break;
       case Backup:
@@ -340,7 +379,21 @@ namespace HM
       }
       else
       {
-         AnsiString sAnsiString = sData;
+         AnsiString sAnsiString;
+         // Let's truncate some of those crazy long log lines
+         // only when debug is not enabled or loglevel <= 2
+         // Only do it if long enough default is 500 by set by MaxLogLineLen
+         
+         int iDataLenTmp = sData.GetLength();
+         m_iLogLevel = IniFileSettings::Instance()->GetLogLevel();
+         m_iMaxLogLineLen = IniFileSettings::Instance()->GetMaxLogLineLen();
+
+         if ((Logger::Instance()->GetLogDebug()) || (m_iLogLevel > 2) || (iDataLenTmp < m_iMaxLogLineLen ))
+            sAnsiString = sData;
+         else
+            sAnsiString = sData.Mid(0, m_iMaxLogLineLen - 30) + " ... " + sData.Mid(iDataLenTmp - 25);
+            // We keep 25 of end which includes crlf but need to account for middle ... too
+
          file->Write(sAnsiString);
       }
 

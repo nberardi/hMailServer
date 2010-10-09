@@ -126,6 +126,12 @@ namespace HM
 
       m_bDNSBlChecksAfterMailFrom = _ReadIniSettingInteger("Settings", "DNSBLChecksAfterMailFrom", 1) == 1;
 
+      m_bSepSvcLogs = _ReadIniSettingInteger("Settings", "SepSvcLogs", 0) == 1;
+      m_iLogLevel = _ReadIniSettingInteger("Settings", "LogLevel", 9);
+      m_iMaxLogLineLen = _ReadIniSettingInteger("Settings", "MaxLogLineLen", 500);
+      if (m_iMaxLogLineLen < 100) m_iMaxLogLineLen = 100;
+      //Probably need some sanity checks on these settigns but for now we assume user has sense
+
       // check if we should validate peer's.
       _useSSLVerifyPeer = FileUtilities::GetFilesInDirectory(GetCertificateAuthorityDirectory()).size() > 0;
    }

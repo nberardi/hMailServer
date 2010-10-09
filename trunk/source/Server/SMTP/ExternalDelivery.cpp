@@ -184,7 +184,7 @@ namespace HM
       {
          String relayServer = serverInfo->GetHostName();
 
-         LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Relaying to host " + relayServer + ".");      
+         LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Relaying to host " + relayServer + ".");      
 
          vector<String> mailServerHosts;
          if (relayServer.Find(_T("|")) > 0)
@@ -290,7 +290,7 @@ namespace HM
    // Takes care of the situation when no valid recipient server addresses exist.
    //---------------------------------------------------------------------------()
    {
-      LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": No mail servers could be found for the address " + (*vecRecipients.begin())->GetAddress() + ".");
+      LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": No mail servers could be found for the address " + (*vecRecipients.begin())->GetAddress() + ".");
 
       String bounceMessageText;
 
@@ -459,7 +459,7 @@ namespace HM
       if (iCurNoOfRetries < iMaxNoOfRetries)
       {
          // We should try at least once more - reschedule the message.
-         LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery.");
+         LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery.");
          PersistentMessage::SetNextTryTime(_originalMessage->GetID(), true, lMinutesBewteen);
          
          // Unlock the message now so that a future delivery thread can pick it up.
@@ -471,7 +471,7 @@ namespace HM
       else
       {
          // We are finished trying. Let's give up!
-         LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Returning error log to sender.");
+         LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Returning error log to sender.");
 
          // Delivery failed the last time.
          String sErrorMessage;

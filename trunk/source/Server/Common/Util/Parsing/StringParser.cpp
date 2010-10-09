@@ -347,12 +347,22 @@ namespace HM
    StringParser::CleanEmailAddress(const String &sAddress)
    {
       String sOut = sAddress;
+      int iStartPos = sOut.Find(_T("<"));
+      int iEndPos = sOut.Find(_T(">"), iStartPos + 1);
       
-      if (sOut.Find(_T("<")) >= 0)
+      // Verify values & End is greater than Start
+      if (iEndPos > iStartPos && iStartPos >= 0 && iEndPos >= 0)
       {
-         int iStartPos = sOut.Find(_T("<")) + 1;
-         int iEndPos = sOut.Find(_T(">"), iStartPos);
+         iStartPos++;
          sOut = sOut.Mid(iStartPos, iEndPos - iStartPos);
+      }
+      else
+      { 
+         // Set to space to invalidate rather than interpret as <> which was the case before.
+         // Probably a better way but this should do for now.
+         // Can't use "" since that is possibly valid address
+         sOut = _T(" ");
+         return sOut;
       }
 
       // Remove other characters

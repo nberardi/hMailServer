@@ -177,6 +177,8 @@ namespace HM
 
       shared_ptr<IMAPNotificationClient> _notificationClient;
 
+      int  m_iLogLevel;      
+
    };
    
 }

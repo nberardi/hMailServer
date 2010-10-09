@@ -75,6 +75,9 @@ namespace HM
       int GetGreylistingExpirationInterval() {return m_iGreylistingExpirationInterval; }
       int GetPreferredHashAlgorithm() {return _preferredHashAlgorithm;}
       bool GetDNSBLChecksAfterMailFrom() {return m_bDNSBlChecksAfterMailFrom; }
+      bool GetSepSvcLogs() {return m_bSepSvcLogs; }
+      int GetLogLevel() {return m_iLogLevel; }
+      int GetMaxLogLineLen() {return m_iMaxLogLineLen; }
       
       bool GetUseSSLVerifyPeer() {return _useSSLVerifyPeer;}
       
@@ -122,6 +125,9 @@ namespace HM
 
       bool m_bDNSBlChecksAfterMailFrom;
       bool _useSSLVerifyPeer;
+      bool m_bSepSvcLogs;
+      int m_iLogLevel;
+      int m_iMaxLogLineLen;
 
    };
 }

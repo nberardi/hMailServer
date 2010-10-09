@@ -39,6 +39,8 @@
 
 #include "../common/Tracking/NotificationServer.h"
 
+#include "../Common/Application/IniFileSettings.h"
+
 #ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #define new DEBUG_NEW
@@ -441,11 +443,22 @@ namespace HM
    {
       if (Logger::Instance()->GetLogIMAP())
       {
-         String sLogData = _T("SENT: ") + sData;
-         sLogData.TrimRight(_T("\r\n"));
-         sLogData.Replace(_T("\r\n"), _T("[nl]"));
+         // Let's tame these logs a bit. Disables IMAP SENT
+         // logging unless debug logging enabled or LogLevel > 2
+         // for lines with FETCH, STATUS or short )-only lines < 5
+         String sDataTmp = sData;
+         int iDataLenTmp = sDataTmp.GetLength();
+         m_iLogLevel = IniFileSettings::Instance()->GetLogLevel();
 
-         LOG_IMAP(GetSessionID(),GetIPAddressString(), sLogData);
+         if ((Logger::Instance()->GetLogDebug()) || (m_iLogLevel > 2) || (!(sDataTmp.Find(_T("FETCH")) > 0) && !(sDataTmp.Find(_T("STATUS")) > 0) && iDataLenTmp >= 5))
+         {
+            String sLogData = _T("SENT: ") + sData;
+            sLogData.TrimRight(_T("\r\n"));
+            sLogData.Replace(_T("\r\n"), _T("[nl]"));
+
+            LOG_IMAP(GetSessionID(),GetIPAddressString(), sLogData);
+         }
+         // Logging gets skipped otherwise
       }
 
       return SendData(sData);

@@ -661,7 +661,7 @@ namespace HM
    {
       _UpdateAllRecipientsWithError(0, sErrorDescription, true);
 
-      LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(m_pDeliveryMessage->GetID()) + " - Connection failed: " + String(sErrorDescription) );
+      LOG_SMTP_CLIENT(0,"TCP","SMTPDeliverer - Message " + StringParser::IntToString(m_pDeliveryMessage->GetID()) + " - Connection failed: " + String(sErrorDescription) );
    }
 
 }
