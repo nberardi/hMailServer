@@ -284,6 +284,7 @@ namespace HM
    Logger::_GetCurrentLogFile(LogType lt)
    {
       String fileName = GetCurrentLogFileName(lt);
+      m_bSepSvcLogs = IniFileSettings::Instance()->GetSepSvcLogs();
 
       bool writeUnicode = false;
 
@@ -311,15 +312,24 @@ namespace HM
          writeUnicode = true;
          break;
       case IMAP:
-         file = &_IMAPLogFile;
+         if (m_bSepSvcLogs) 
+            file = &_IMAPLogFile;
+         else
+            file = &_normalLogFile;
          writeUnicode = false;
          break;
       case POP3:
-         file = &_POP3LogFile;
+         if (m_bSepSvcLogs) 
+            file = &_POP3LogFile;
+         else
+            file = &_normalLogFile;
          writeUnicode = false;
          break;
       case SMTP:
-         file = &_SMTPLogFile;
+         if (m_bSepSvcLogs) 
+            file = &_SMTPLogFile;
+         else
+            file = &_normalLogFile;
          writeUnicode = false;
          break;
       }
@@ -355,7 +365,7 @@ namespace HM
       File *file = _GetCurrentLogFile(lt);
 
       bool writeUnicode = false;
-      bool keepFileOpen = (m_iLogMask & LSKeepFilesOpen) && lt == Normal;
+      bool keepFileOpen = (m_iLogMask & LSKeepFilesOpen) && (lt == Normal || lt == SMTP || lt == POP3 || lt == IMAP);
 
       switch (lt)
       {
