@@ -60,7 +60,8 @@ namespace HM
          TOP = 9,
          RSET = 10,
          DELE = 11,
-         UIDL = 12
+         UIDL = 12,
+         CAPA = 13
       };
 
       enum ConnectionState

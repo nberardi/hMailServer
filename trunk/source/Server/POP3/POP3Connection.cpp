@@ -145,9 +145,11 @@ namespace HM
          resolvedCommand = DELE;
       else if (command == _T("UIDL"))
          resolvedCommand = UIDL;
+      else if (command == _T("CAPA"))
+         resolvedCommand = CAPA;
       
       // Some commands are always allowed, regardless of state.
-      if (resolvedCommand == NOOP || resolvedCommand == HELP || resolvedCommand == QUIT)
+      if (resolvedCommand == NOOP || resolvedCommand == HELP || resolvedCommand == QUIT || resolvedCommand == CAPA)
          return resolvedCommand;
 
       switch (currentState)
@@ -280,6 +282,9 @@ namespace HM
          case QUIT:
             _ProtocolQUIT();
             return ResultDisconnect;
+         case CAPA:
+            _SendData("+OK CAPA list follows\r\nUSER\r\nUIDL\r\nTOP\r\n.");
+            return ResultNormalResponse;
          case INVALID:
             _SendData("-ERR Invalid command in current state." );
             return ResultNormalResponse;  
