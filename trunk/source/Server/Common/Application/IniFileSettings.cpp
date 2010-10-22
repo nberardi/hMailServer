@@ -130,6 +130,11 @@ namespace HM
       m_iLogLevel = _ReadIniSettingInteger("Settings", "LogLevel", 9);
       m_iMaxLogLineLen = _ReadIniSettingInteger("Settings", "MaxLogLineLen", 500);
       if (m_iMaxLogLineLen < 100) m_iMaxLogLineLen = 100;
+      m_iQuickRetries = _ReadIniSettingInteger("Settings", "QuickRetries", 0);
+      m_iQuickRetriesMinutes = _ReadIniSettingInteger("Settings", "QuickRetriesMinutes", 6);
+      m_iQueueRandomnessMinutes = _ReadIniSettingInteger("Settings", "QueueRandomnessMinutes", 0);
+      // If m_iQueueRandomnessMinutes out of range use 0 
+      if (m_iQueueRandomnessMinutes <= 0) m_iQueueRandomnessMinutes = 0;
       //Probably need some sanity checks on these settigns but for now we assume user has sense
 
       // check if we should validate peer's.

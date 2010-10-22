@@ -78,7 +78,10 @@ namespace HM
       bool GetSepSvcLogs() {return m_bSepSvcLogs; }
       int GetLogLevel() {return m_iLogLevel; }
       int GetMaxLogLineLen() {return m_iMaxLogLineLen; }
-      
+      int GetQuickRetries() {return m_iQuickRetries; }
+      int GetQuickRetriesMinutes() {return m_iQuickRetriesMinutes; }
+      int GetQueueRandomnessMinutes () {return m_iQueueRandomnessMinutes; }
+
       bool GetUseSSLVerifyPeer() {return _useSSLVerifyPeer;}
       
 
@@ -128,6 +131,9 @@ namespace HM
       bool m_bSepSvcLogs;
       int m_iLogLevel;
       int m_iMaxLogLineLen;
+      int m_iQuickRetries;
+      int m_iQuickRetriesMinutes;
+      int m_iQueueRandomnessMinutes;
 
    };
 }

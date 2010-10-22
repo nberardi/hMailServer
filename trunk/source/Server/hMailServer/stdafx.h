@@ -58,6 +58,10 @@
 	#define _ATL_ALL_WARNINGS
 // END: ATL settings
 
+// Needed for rand_s() function
+#define _CRT_RAND_S
+#include <stdlib.h>
+
 #include "WinSock2.h"
 #include "Windows.h"
 

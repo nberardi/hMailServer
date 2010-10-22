@@ -454,19 +454,52 @@ namespace HM
       long lMinutesBewteen = 0;
       int iCurNoOfRetries = _originalMessage->GetNoOfRetries() ;
 
+      m_iQuickRetries = IniFileSettings::Instance()->GetQuickRetries();
+      m_iQuickRetriesMinutes = IniFileSettings::Instance()->GetQuickRetriesMinutes();
+      m_iQueueRandomnessMinutes = IniFileSettings::Instance()->GetQueueRandomnessMinutes();
+
+      // Variables used to generate randomness value for retry delay
+      errno_t rnd_err;
+      unsigned int tmp_rnd;
+      int iRandomAdjust = 0;
+
+      // Get our random #
+      rnd_err = (rand_s(&tmp_rnd));
+
+      // If error getting random # or Randomness disabled set to 0 otherwise use it
+      if (rnd_err != 0 || m_iQueueRandomnessMinutes <= 0)
+         iRandomAdjust = 0; 
+      else
+         iRandomAdjust = (unsigned int) ((double)tmp_rnd / (double) UINT_MAX * m_iQueueRandomnessMinutes) + 1;
+
       _GetRetryOptions(mapFailedDueToNonFatalError, iMaxNoOfRetries, lMinutesBewteen);
 
       if (iCurNoOfRetries < iMaxNoOfRetries)
       {
          // We should try at least once more - reschedule the message.
-         LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery.");
-         PersistentMessage::SetNextTryTime(_originalMessage->GetID(), true, lMinutesBewteen);
+
+         // First few retries should be quicker for greylisting IF enabled
+         if (iCurNoOfRetries < m_iQuickRetries) {
+            LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Greylisting? Scheduling it for quick retry " + StringParser::IntToString(iCurNoOfRetries + 1) + " of " + StringParser::IntToString(m_iQuickRetries) + " in " + StringParser::IntToString(m_iQuickRetriesMinutes + iRandomAdjust) + " minutes.");
+            PersistentMessage::SetNextTryTime(_originalMessage->GetID(), true, m_iQuickRetriesMinutes + iRandomAdjust);
          
-         // Unlock the message now so that a future delivery thread can pick it up.
-         PersistentMessage::UnlockObject(_originalMessage);
+            // Unlock the message now so that a future delivery thread can pick it up.
+            PersistentMessage::UnlockObject(_originalMessage);
          
-         LOG_DEBUG("Message rescheduled for later delivery.");
-         return true; // Do not delete e-mail now
+            LOG_DEBUG("Message rescheduled for later quick delivery. (Greylisting?)");
+            return true; // Do not delete e-mail now
+         }
+         else
+         {
+            LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery in " + StringParser::IntToString(lMinutesBewteen + iRandomAdjust) + " minutes..");
+            PersistentMessage::SetNextTryTime(_originalMessage->GetID(), true, lMinutesBewteen + iRandomAdjust);
+         
+            // Unlock the message now so that a future delivery thread can pick it up.
+            PersistentMessage::UnlockObject(_originalMessage);
+         
+            LOG_DEBUG("Message rescheduled for later delivery.");
+            return true; // Do not delete e-mail now
+         }
       }
       else
       {
