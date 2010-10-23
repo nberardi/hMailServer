@@ -81,6 +81,7 @@ namespace HM
       int GetQuickRetries() {return m_iQuickRetries; }
       int GetQuickRetriesMinutes() {return m_iQuickRetriesMinutes; }
       int GetQueueRandomnessMinutes () {return m_iQueueRandomnessMinutes; }
+      int GetMXTriesFactor () {return m_iMXTriesFactor; }
 
       bool GetUseSSLVerifyPeer() {return _useSSLVerifyPeer;}
       
@@ -134,6 +135,6 @@ namespace HM
       int m_iQuickRetries;
       int m_iQuickRetriesMinutes;
       int m_iQueueRandomnessMinutes;
-
+      int m_iMXTriesFactor;
    };
 }

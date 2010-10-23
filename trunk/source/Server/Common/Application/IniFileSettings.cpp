@@ -135,6 +135,8 @@ namespace HM
       m_iQueueRandomnessMinutes = _ReadIniSettingInteger("Settings", "QueueRandomnessMinutes", 0);
       // If m_iQueueRandomnessMinutes out of range use 0 
       if (m_iQueueRandomnessMinutes <= 0) m_iQueueRandomnessMinutes = 0;
+      m_iMXTriesFactor = _ReadIniSettingInteger("Settings", "MXTriesFactor", 0);
+      if (m_iMXTriesFactor <= 0) m_iMXTriesFactor = 0;
       //Probably need some sanity checks on these settigns but for now we assume user has sense
 
       // check if we should validate peer's.

@@ -132,6 +132,8 @@ namespace HM
       if (!_ResolveRecipientServer(serverInfo, vecRecipients, saMailServers))
          return;
 
+      m_iMXTriesFactor = IniFileSettings::Instance()->GetMXTriesFactor();
+
       // Try to connect to one server at a time. If a fatal error
       // occurs, (an exception with eFatalError), we should stop trying
       // and just return an error message.
@@ -162,6 +164,14 @@ namespace HM
             // All deliveries are complete or fatal. 
             LOG_DEBUG("SD::~_DeliverToExternalAccounts-1");
             return;
+         }
+
+         // Let's limit # of servers tried per retry to m_iMXTriesFactor * current number of retries to free up queue
+         int iMXServerLimit = (_originalMessage->GetNoOfRetries()+1) * m_iMXTriesFactor;
+         if (m_iMXTriesFactor > 0 && i + 1 >= (unsigned int) iMXServerLimit )
+         {
+            LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Limiting to MXTriesFactored value of " + StringParser::IntToString(iMXServerLimit) + ".");      
+            break;
          }
       }
 

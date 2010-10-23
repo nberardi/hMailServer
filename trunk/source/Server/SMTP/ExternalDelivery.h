@@ -42,5 +42,6 @@ namespace HM
       int m_iQuickRetries;      
       int m_iQuickRetriesMinutes;      
       int m_iQueueRandomnessMinutes;
+      int m_iMXTriesFactor; 
    };
 }
