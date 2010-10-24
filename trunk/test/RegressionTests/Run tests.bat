@@ -1,1 +1,0 @@
-"C:\Program Files\NUnit 2.4.6\bin\nunit.exe" /config=hMailServer.nunit /run
