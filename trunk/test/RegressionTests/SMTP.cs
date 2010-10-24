@@ -461,14 +461,7 @@ namespace UnitTest.Protocols.SMTP
       [Description("Confirm that it's OK to send MAIL FROM without the < and >")]
       public void TestMailFromSyntaxValidation()
       {
-         hMailServer.Logging logging = SingletonProvider<Utilities>.Instance.GetApp().Settings.Logging;
-         logging.AWStatsEnabled = true;
-         logging.Enabled = true;
-
-         if (File.Exists(logging.CurrentAwstatsLog))
-            File.Delete(logging.CurrentAwstatsLog);
-
-         hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
+         var account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
          SMTPSimulator oSMTP = new SMTPSimulator();
          oSMTP.Connect(25);
@@ -484,6 +477,8 @@ namespace UnitTest.Protocols.SMTP
          Assert.IsFalse(oSMTP.SendAndReceive("MAIL FROM: <        \r\n").StartsWith("250"));
          Assert.IsFalse(oSMTP.SendAndReceive("MAIL FROM: >        \r\n").StartsWith("250"));
          Assert.IsFalse(oSMTP.SendAndReceive("MAIL FROM: <sdsdfs@sdsdf.csd\r\n").StartsWith("250"));
+         Assert.IsFalse(oSMTP.SendAndReceive("MAIL FROM <sdsdfs@sdsdf.csd>\r\n").StartsWith("250"));
+         Assert.IsFalse(oSMTP.SendAndReceive("MAIL FROM  sdsdfs@sdsdf.csd\r\n").StartsWith("250"));
          
          // Valid syntax, < and >
          Assert.IsTrue(oSMTP.SendAndReceive("MAIL FROM: <test@test.com>\r\n").StartsWith("250"));
@@ -500,6 +495,33 @@ namespace UnitTest.Protocols.SMTP
 
          Assert.IsTrue(oSMTP.SendAndReceive("MAIL FROM:<test@test.com>\r\n").StartsWith("250"));
          Assert.IsTrue(oSMTP.SendAndReceive("RSET\r\n").StartsWith("250"));
+
+         oSMTP.Disconnect();
+      }
+
+      [Test]
+      [Category("SMTP")]
+      [Description("Confirm that it's OK to send MAIL FROM without the < and >")]
+      public void TestRcptToSyntax()
+      {
+         hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
+
+         SMTPSimulator oSMTP = new SMTPSimulator();
+         oSMTP.Connect(25);
+
+         Assert.IsTrue(oSMTP.Receive().StartsWith("220"));
+         oSMTP.Send("HELO test\r\n");
+         Assert.IsTrue(oSMTP.Receive().StartsWith("250"));
+
+         // A few tests of invalid syntax.
+         Assert.IsTrue(oSMTP.SendAndReceive("MAIL FROM: <test@test.com>\r\n").StartsWith("250"));
+         Assert.IsFalse(oSMTP.SendAndReceive("RCPT TO: test@test.com>\r\n").StartsWith("250"));
+         Assert.IsFalse(oSMTP.SendAndReceive("RCPT TO: <test@test.com\r\n").StartsWith("250"));
+         Assert.IsFalse(oSMTP.SendAndReceive("RCPT TO <test@test.com\r\n").StartsWith("250"));
+         Assert.IsFalse(oSMTP.SendAndReceive("RCPT TO<test@test.com\r\n").StartsWith("250"));
+         
+         Assert.IsTrue(oSMTP.SendAndReceive("RCPT TO: <test@test.com>\r\n").StartsWith("250"));
+         Assert.IsTrue(oSMTP.SendAndReceive("RCPT TO: test@test.com\r\n").StartsWith("250"));
 
          oSMTP.Disconnect();
       }

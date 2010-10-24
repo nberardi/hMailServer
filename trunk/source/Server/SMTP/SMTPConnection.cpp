@@ -439,6 +439,12 @@ namespace HM
          return 0;
       }
 
+      if (!Request.StartsWith(_T("MAIL FROM:")))
+      {
+         _SendErrorResponse(550, "Invalid syntax. Syntax should be MAIL FROM:<userdomain>[crlf]");
+         return 0;
+      }
+
       // Parse the contents of the MAIL FROM: command
       String sMailFromParameters = Request.Mid(10).Trim();
       String sFromAddress;
@@ -633,6 +639,12 @@ namespace HM
       if (!m_pCurrentMessage) 
       {
          _SendData("503 must have sender first."); 
+         return;
+      }
+
+      if (!Request.StartsWith(_T("RCPT TO:")))
+      {
+         _SendErrorResponse(550, "Invalid syntax. Syntax should be RCPT TO:<userdomain>[crlf]");
          return;
       }
 
