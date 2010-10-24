@@ -101,6 +101,12 @@ namespace UnitTest
          return m_oSocket.Receive();
       }
 
+      public string SendAndReceive(string sData)
+      {
+         Send(sData);
+         return Receive();
+      }
+
       public string GetWelcomeMessage()
       {
          m_oSocket.Connect(_port);

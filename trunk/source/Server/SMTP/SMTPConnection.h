@@ -57,6 +57,7 @@ namespace HM
 
    private:
 
+      bool _TryExtractAddress(const String &mailFromParameter, String& address);
       void _HandleSMTPFinalizationTaskCompleted();
 
       virtual void InternalParseData(const AnsiString &sRequest);

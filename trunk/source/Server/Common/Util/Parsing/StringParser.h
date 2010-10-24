@@ -21,10 +21,6 @@ namespace HM
 
       static char* Search(const char *haystack, int haystackSize, const char *needle);
 
-      // Removes everything in the string except
-      // for the email address.
-      static String CleanEmailAddress(const String &sAddress);
-
       static String IntToString(int lTheInt);
       static String IntToString(unsigned int lTheInt);
       static String IntToString(__int64 lTheInt);

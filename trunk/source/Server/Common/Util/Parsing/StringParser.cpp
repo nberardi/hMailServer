@@ -343,35 +343,6 @@ namespace HM
       return result;
    }
 
-   String
-   StringParser::CleanEmailAddress(const String &sAddress)
-   {
-      String sOut = sAddress;
-      int iStartPos = sOut.Find(_T("<"));
-      int iEndPos = sOut.Find(_T(">"), iStartPos + 1);
-      
-      // Verify values & End is greater than Start
-      if (iEndPos > iStartPos && iStartPos >= 0 && iEndPos >= 0)
-      {
-         iStartPos++;
-         sOut = sOut.Mid(iStartPos, iEndPos - iStartPos);
-      }
-      else
-      { 
-         // Set to space to invalidate rather than interpret as <> which was the case before.
-         // Probably a better way but this should do for now.
-         // Can't use "" since that is possibly valid address
-         sOut = _T(" ");
-         return sOut;
-      }
-
-      // Remove other characters
-      sOut.Replace(_T(" "), _T(""));
-
-      return sOut;
-   }
-
-
    String 
    StringParser::IntToString(int lTheInt)
    {

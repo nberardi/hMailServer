@@ -440,18 +440,27 @@ namespace HM
       }
 
       // Parse the contents of the MAIL FROM: command
-      String sFromAddress = Request.Mid(10);
-      sFromAddress.Trim();
+      String sMailFromParameters = Request.Mid(10).Trim();
+      String sFromAddress;
 
-      std::vector<String> vecParams = StringParser::SplitString(sFromAddress, " ");
+      std::vector<String> vecParams = StringParser::SplitString(sMailFromParameters, " ");
       std::vector<String>::iterator iterParam = vecParams.begin();
+
       if (iterParam != vecParams.end())
       {
-         sFromAddress = StringParser::CleanEmailAddress(*iterParam);
+         if (!_TryExtractAddress((*iterParam), sFromAddress))
+         {
+            _SendErrorResponse(550, "Invalid syntax. Syntax should be MAIL FROM:<userdomain>[crlf]");
+            return 0;
+         }         
+
          iterParam++;
       }
 
       sFromAddress = DefaultDomain::ApplyDefaultDomain(sFromAddress);
+
+      if (!CheckIfValidSenderAddress(sFromAddress))
+         return false;
 
       // Parse the extensions 
       String sAuthParam;
@@ -466,10 +475,6 @@ namespace HM
 
          iterParam++;
       }
-
-
-      if (!CheckIfValidSenderAddress(sFromAddress))
-         return false;
 
       // Initialize spam protection now when we know the sender address.
       _InitializeSpamProtectionType(sFromAddress);
@@ -631,8 +636,14 @@ namespace HM
          return;
       }
 
-      String sRecipientAddress = Request.Mid(8);
-      sRecipientAddress = StringParser::CleanEmailAddress(sRecipientAddress);
+      String sRecipientAddress;
+
+      if (!_TryExtractAddress(Request.Mid(8), sRecipientAddress))
+      {
+         _SendErrorResponse(550, "Invalid syntax. Syntax should be RCPT TO:<userdomain>[crlf]");
+         return;
+      }
+
       sRecipientAddress = DefaultDomain::ApplyDefaultDomain(sRecipientAddress);
 
       if (!StringParser::IsValidEmailAddress(sRecipientAddress))
@@ -1693,5 +1704,38 @@ namespace HM
 
        // Does not match a local domain or route.
        return false;
+   }
+
+   bool 
+   SMTPConnection::_TryExtractAddress(const String &mailFromParameter, String& address)
+   {
+      // Start of by removing any leading and trailing space.
+      address = mailFromParameter;
+      address = address.TrimLeft();
+      address = address.TrimRight();
+
+      // Empty address is OK
+      if (address.GetLength() == 0)
+         return true;
+
+      // If the user is supplying a <, the address must end with a >
+      if (address.StartsWith(_T("<")))
+      {
+         if (!address.EndsWith(_T(">")))
+            return false;
+
+         address.TrimLeft('<');
+         address.TrimRight('>');
+
+         address.TrimLeft();
+         address.TrimRight();
+      }
+      else if (address.EndsWith(_T(">")))
+      {
+         // The address starts with something other than < but ands with >: Syntax error
+         return false;
+      }
+
+      return true;
    }
 }

@@ -271,7 +271,9 @@ namespace HM
       sAddressPart.TrimLeft(_T(" \r\n\t"));
       sAddressPart.TrimRight(_T(" \r\n\t"));
 
-      sAddressPart = StringParser::CleanEmailAddress(sAddressPart);
+      sAddressPart.Replace(_T("<"), _T(""));
+      sAddressPart.Replace(_T(">"), _T(""));
+      sAddressPart.Replace(_T(" "), _T(""));
 
       if (!StringParser::IsValidEmailAddress(sAddressPart))
          return "";
