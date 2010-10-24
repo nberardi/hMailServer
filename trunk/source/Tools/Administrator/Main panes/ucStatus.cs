@@ -33,7 +33,10 @@ namespace hMailServer.Administrator
 			
             // Enable dobule-buffering in live log to improve performance.
             PropertyInfo aProp = typeof(ListView).GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-			aProp.SetValue(listLiveLog, true, null); 
+			   aProp.SetValue(listLiveLog, true, null);
+
+            listLiveLog.LoadWidths("StatusLiveLog");
+            listDeliveryQueue.LoadWidths("StatusDeliveryQueue");
         }
 
         public void OnLeavePage()
@@ -42,6 +45,9 @@ namespace hMailServer.Administrator
             timerServerStats.Enabled = false;
 
             Marshal.ReleaseComObject(_logging);
+
+            listLiveLog.SaveWidths("StatusLiveLog");
+            listDeliveryQueue.SaveWidths("StatusDeliveryQueue");
         }
 
         ~ucStatus()

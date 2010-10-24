@@ -1,5 +1,3 @@
-using System;
-using Microsoft.Win32;
 
 namespace hMailServer.Administrator
 {
@@ -267,17 +265,10 @@ namespace hMailServer.Administrator
            // 
            this.columnHeader2.Text = "Severity";
            // 
-           // Let's read in column widths from registry
-           // 
-           RegistryKey currentUserKey = Registry.CurrentUser;
-           RegistryKey administratorKey = currentUserKey.CreateSubKey("Software\\hMailServer\\Administrator");
-           // 
            // columnHeader3
            // 
            this.columnHeader3.Text = "Description";
-           object value = administratorKey.GetValue("columnHeader3Width", "300");
-           if (value != null)
-               this.columnHeader3.Width = Convert.ToInt32(value);
+           this.columnHeader3.Width = 300;
            // 
            // labelWarnings
            // 
@@ -588,44 +579,29 @@ namespace hMailServer.Administrator
            // columnType
            // 
            this.columnType.Text = "Type";
-           value = administratorKey.GetValue("columnTypeWidth", "64");
-           if (value != null)
-               this.columnType.Width = Convert.ToInt32(value);
+           this.columnType.Width = 64;
            // 
            // columnSession
            // 
            this.columnSession.Text = "Session";
-           value = administratorKey.GetValue("columnSessionWidth", null);
-           if (value != null)
-               this.columnSession.Width = Convert.ToInt32(value);
            // 
            // columnThread
            // 
            this.columnThread.Text = "Thread";
-           value = administratorKey.GetValue("columnThreadWidth", null);
-           if (value != null)
-               this.columnThread.Width = Convert.ToInt32(value);
            // 
            // columnTime
            // 
            this.columnTime.Text = "Time";
-           value = administratorKey.GetValue("columnTimeWidth", "100");
-           if (value != null)
-               this.columnTime.Width = Convert.ToInt32(value);
+           this.columnTime.Width = 100;
            // 
            // columnIP
            // 
            this.columnIP.Text = "IP";
-           value = administratorKey.GetValue("columnIPWidth", null);
-           if (value != null)
-               this.columnIP.Width = Convert.ToInt32(value);
            // 
            // columnText
            // 
            this.columnText.Text = "Text";
-           value = administratorKey.GetValue("columnTextWidth", "250");
-           if (value != null)
-               this.columnText.Width = Convert.ToInt32(value);
+           this.columnText.Width = 250;
            // 
            // contextMenuStripLiveLog
            // 
@@ -713,58 +689,37 @@ namespace hMailServer.Administrator
            // columnID
            // 
            this.columnID.Text = "ID";
-           value = administratorKey.GetValue("columnIDWidth", "40");
-           if (value != null)
-               this.columnID.Width = Convert.ToInt32(value);
-//           this.columnID.Width = 40;
+           this.columnID.Width = 40;
            // 
            // columnCreated
            // 
            this.columnCreated.Text = "Created";
-           value = administratorKey.GetValue("columnCreatedWidth", "100");
-           if (value != null)
-               this.columnCreated.Width = Convert.ToInt32(value);
-//           this.columnCreated.Width = 100;
+           this.columnCreated.Width = 100;
            // 
            // columnFrom
            // 
            this.columnFrom.Text = "From";
-           value = administratorKey.GetValue("columnFromWidth", "100");
-           if (value != null)
-               this.columnFrom.Width = Convert.ToInt32(value);
-//           this.columnFrom.Width = 100;
+           this.columnFrom.Width = 100;
            // 
            // columnTo
            // 
            this.columnTo.Text = "To";
-           value = administratorKey.GetValue("columnToWidth", "100");
-           if (value != null)
-               this.columnTo.Width = Convert.ToInt32(value);
-//           this.columnTo.Width = 100;
+           this.columnTo.Width = 100;
            // 
            // columnNextTry
            // 
            this.columnNextTry.Text = "Next try";
-           value = administratorKey.GetValue("columnNextTryWidth", "140");
-           if (value != null)
-               this.columnNextTry.Width = Convert.ToInt32(value);
-//           this.columnNextTry.Width = 140;
+           this.columnNextTry.Width = 140;
            // 
            // columnNoOfTries
            // 
            this.columnNoOfTries.Text = "Number of retries";
-           value = administratorKey.GetValue("columnNoOfTriesWidth", "70");
-           if (value != null)
-               this.columnNoOfTries.Width = Convert.ToInt32(value);
-//           this.columnNoOfTries.Width = 70;
+           this.columnNoOfTries.Width = 70;
            // 
            // columnFilename
            // 
            this.columnFilename.Text = "File name";
-           value = administratorKey.GetValue("columnFilenameWidth", "150");
-           if (value != null)
-               this.columnFilename.Width = Convert.ToInt32(value);
-//           this.columnFilename.Width = 150;
+           this.columnFilename.Width = 150;
            // 
            // contextMenuDeliveryQueue
            // 

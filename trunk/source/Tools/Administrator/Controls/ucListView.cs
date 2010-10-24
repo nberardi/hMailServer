@@ -8,11 +8,14 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace hMailServer.Administrator
 {
    public partial class ucListView : ListView
    {
+      private const string ListViewSaveLocation = @"Software\hMailServer\Administrator\ListViews";
+
       private ListViewColumnSorter _columnSorter;
 
       public delegate void BeforeSelectedIndexChangedHandler();
@@ -108,6 +111,48 @@ namespace hMailServer.Administrator
  	      base.OnColumnClick(e);
       }
 
+      /// <summary>
+      /// Saves the width of the columns in the registry.
+      /// </summary>
+      /// <param name="viewName"></param>
+      public void SaveWidths(string viewName)
+      {
+         var currentUserKey = Registry.CurrentUser;
+         var administratorKey = currentUserKey.CreateSubKey(ListViewSaveLocation);
 
+         for (int i = 0; i < Columns.Count; i++)
+         {
+            var columnHeader = Columns[i];
+            string columnName = viewName + "_" + columnHeader.Text;
+            administratorKey.SetValue(columnName, columnHeader.Width);
+         }
+
+         administratorKey.Close();
+         currentUserKey.Close();
+
+      }
+
+      /// <summary>
+      /// Loads the width of the columns from the registry.
+      /// </summary>
+      /// <param name="viewName"></param>
+      public void LoadWidths(string viewName)
+      {
+         var currentUserKey = Registry.CurrentUser;
+         var administratorKey = currentUserKey.CreateSubKey(ListViewSaveLocation);
+
+         for (int i = 0; i < Columns.Count; i++)
+         {
+            var columnHeader = Columns[i];
+            string columnName = viewName + "_" + columnHeader.Text;
+            object value = administratorKey.GetValue(columnName, null);
+
+            if (value is int)
+               columnHeader.Width = Convert.ToInt32(value);
+         }
+
+         administratorKey.Close();
+         currentUserKey.Close();
+      }
    }
 }
