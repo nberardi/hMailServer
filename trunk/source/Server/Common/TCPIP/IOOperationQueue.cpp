@@ -119,12 +119,11 @@ namespace HM
                return empty;         
             }
 
-            if (ongoingType == IOOperation::BCTSend)
+            // Changes below fix for race condition causing POP errors when send/receive timing was off
+            if (ongoingType == IOOperation::BCTSend && (pendingType == IOOperation::BCTReceive || pendingType == IOOperation::BCTShutdownSend))
             {
-               if (pendingType == IOOperation::BCTDisconnect)
-               {
                   /* 
-                     If we're currently sending data, we cannot disconnect. 
+                     If we're currently sending data, we cannot disconnect or receive. 
                      Case in point:
                      A client connects to hMailServer, and there is timeout while waiting  
                      for client commands. At this time, hMailServer will send a timeout-message
@@ -135,8 +134,27 @@ namespace HM
                   
                   shared_ptr<IOOperation> empty;
                   return empty;
-               }
             }
+            
+            if (ongoingType == IOOperation::BCTReceive && (pendingType == IOOperation::BCTSend || pendingType == IOOperation::BCTShutdownSend))
+            {
+                  /* 
+                     If we're currently receiving data, we cannot send or disconnect. 
+                  */
+                  
+                  shared_ptr<IOOperation> empty;
+                  return empty;
+            }
+            
+            if (ongoingType == IOOperation::BCTShutdownSend && (pendingType == IOOperation::BCTSend || pendingType == IOOperation::BCTReceive))
+            {
+                  /* 
+                     If we're currently ShutdownSend, we cannot disconnect, send or receive. 
+                  */
+                  
+                  shared_ptr<IOOperation> empty;
+                  return empty;
+            }            
          }
       }
 

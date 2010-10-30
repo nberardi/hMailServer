@@ -298,7 +298,7 @@ namespace HM
    void
    POP3Connection::OnConnectionTimeout()
    {
-      String sMessage = "-ERR Autologout; idle to long\r\n";
+      String sMessage = "-ERR Autologout; idle too long\r\n";
       SendData(sMessage);
    }
 
@@ -824,7 +824,8 @@ namespace HM
    POP3Connection::_ProtocolSTAT(const String &sParameter)
    {
       int iMessageCount = 0;
-      int iTotalSize = 0;
+      // Fix for negative STAT results when box over 2GB
+      __int64 iTotalSize = 0;
 
       std::vector<shared_ptr<Message> >::iterator iter = _messages.begin();
       std::vector<shared_ptr<Message> >::iterator iterEnd = _messages.end();
@@ -842,7 +843,7 @@ namespace HM
 
       // --- Display basic status (number of messages and total mailbox size)
       String sResponse; 
-      sResponse.Format(_T("+OK %d %d"), iMessageCount, iTotalSize);
+      sResponse.Format(_T("+OK %d %I64d"), iMessageCount, iTotalSize);
 
       _SendData(sResponse);
 
