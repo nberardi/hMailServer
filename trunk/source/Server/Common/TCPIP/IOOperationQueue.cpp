@@ -141,9 +141,13 @@ namespace HM
                   /* 
                      If we're currently receiving data, we cannot send or disconnect. 
                   */
-                  
+
+               // Only restrict if more than 1 Op in queue to fix timeout not occurring issue
+               if (_ongoingOperations.size() > 1)
+               {                  
                   shared_ptr<IOOperation> empty;
                   return empty;
+               }
             }
             
             if (ongoingType == IOOperation::BCTShutdownSend && (pendingType == IOOperation::BCTSend || pendingType == IOOperation::BCTReceive))
@@ -152,8 +156,12 @@ namespace HM
                      If we're currently ShutdownSend, we cannot disconnect, send or receive. 
                   */
                   
+               // Only restrict if more than 1 Op in queue to fix timeout not occurring issue
+               if (_ongoingOperations.size() > 1)
+               {                  
                   shared_ptr<IOOperation> empty;
                   return empty;
+               }
             }            
          }
       }

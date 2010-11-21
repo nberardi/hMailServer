@@ -416,7 +416,12 @@ namespace hMailServer.Administrator
                  if (columns[4] == "1901-01-01 00:00:00")
                     item.SubItems.Add("As soon as possible");
                  else
-                    item.SubItems.Add(columns[4]);
+                    // This is added to show HOLD in Status
+                    // Note ends in 1 to signify difference
+                    if (columns[4] == "1901-01-01 00:00:01")
+                       item.SubItems.Add("Route HOLD");
+                    else
+                       item.SubItems.Add(columns[4]);
 
                  item.SubItems.Add(columns[7]);
 

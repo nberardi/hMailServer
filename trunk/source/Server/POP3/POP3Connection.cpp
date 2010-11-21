@@ -56,7 +56,7 @@ namespace HM
       */
 
       TimeoutCalculator calculator;
-      SetTimeout(calculator.Calculate(10, 10 * 60));
+      SetTimeout(calculator.Calculate(IniFileSettings::Instance()->GetPOP3DMinTimeout(), IniFileSettings::Instance()->GetPOP3DMaxTimeout()));
 
    }
 
@@ -759,7 +759,7 @@ namespace HM
                if (iNoOfLines <= 0)
                   break;
               
-               _SendData(sLine);
+               _SendDataDebugOnly(sLine);
 
                iCurNoOfLines++;
 
@@ -771,7 +771,7 @@ namespace HM
                if (sLine.IsEmpty())
                   bHeaderSent = true;
 
-               _SendData(sLine);
+               _SendDataDebugOnly(sLine);
             
             }
         
@@ -792,6 +792,23 @@ namespace HM
    POP3Connection::_SendData(const String &sData)
    {
       if (Logger::Instance()->GetLogPOP3())
+      {
+         String sLogData = "SENT: " + sData;
+         sLogData.TrimRight(_T("\r\n"));
+         sLogData.Replace(_T("\r\n"), _T("[nl]"));
+
+         LOG_POP3(GetSessionID(),GetIPAddressString(), sLogData);
+      }
+
+      SendData(sData + "\r\n");
+   }
+
+   void
+   POP3Connection::_SendDataDebugOnly(const String &sData)
+   {
+      // Logs are crazy huge for clients that do a lot of TOP's so
+      // let's not log every email line unless loglevel is high enough
+      if (IniFileSettings::Instance()->GetLogLevel() >= 8)
       {
          String sLogData = "SENT: " + sData;
          sLogData.TrimRight(_T("\r\n"));

@@ -30,8 +30,9 @@ namespace HM
    String 
    ServerStatus::GetUnsortedMessageStatus() const
    {
+      // messagetype 3 added for ETRN on GUI Delivery Queue
       SQLCommand command("select messageid, messagecurnooftries, messagecreatetime, messagefrom, messagenexttrytime, messagefilename, messagelocked from hm_messages "
-                         " where messagetype = 1 order by messageid asc");
+                         " where messagetype = 1 OR messagetype = 3 order by messageid asc");
 
       shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)

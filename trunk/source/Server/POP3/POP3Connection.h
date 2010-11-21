@@ -31,6 +31,7 @@ namespace HM
       virtual AnsiString GetCommandSeparator() const;
 
       virtual void _SendData(const String &sData) ;
+      virtual void _SendDataDebugOnly(const String &sData) ;
 
       virtual void OnDisconnect();
       virtual void OnConnectionTimeout();

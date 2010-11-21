@@ -482,7 +482,17 @@ namespace HM
       else
          iRandomAdjust = (unsigned int) ((double)tmp_rnd / (double) UINT_MAX * m_iQueueRandomnessMinutes) + 1;
 
-      _GetRetryOptions(mapFailedDueToNonFatalError, iMaxNoOfRetries, lMinutesBewteen);
+      // _GetRetryOptions returns true if Route HOLD placed
+      if (_GetRetryOptions(mapFailedDueToNonFatalError, iMaxNoOfRetries, lMinutesBewteen))
+      {
+         // so return now since no need for retry at this time
+
+         // For now we unlock message here but might be best to do @ ETRN time..
+         PersistentMessage::UnlockObject(_originalMessage);
+
+         LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Route Message: HOLD for later delivery..");
+         return true; // Do not delete e-mail now
+      }
 
       if (iCurNoOfRetries < iMaxNoOfRetries)
       {
@@ -553,7 +563,8 @@ namespace HM
    /// Returns the retry options for a list of address.
    /// The maximum number of retries and the maximum number of mintues between
    /// every try.
-   void 
+   // Type changed to bool for use in ETRN's
+   bool 
    ExternalDelivery::_GetRetryOptions(map<String,String> &mapFailedDueToNonFatalError, long &lNoOfRetries, long &lMinutesBetween)
    {
       shared_ptr<SMTPConfiguration> pSMTPConfig = Configuration::Instance()->GetSMTPConfiguration();
@@ -569,6 +580,10 @@ namespace HM
 
 
       bool bFirstMatchingRoute = true;
+      bool bNonRouteFound = false;
+      int iRouteCount = 0;
+      __int64 iRouteID;
+      String sRouteDomain;
       map<String,String>::iterator iterAddress = mapFailedDueToNonFatalError.begin();
       while (iterAddress != mapFailedDueToNonFatalError.end())
       {
@@ -582,11 +597,16 @@ namespace HM
          {
             int lTmpNoOfRetries = pRoute->NumberOfTries() - 1;
             int lTmpMinutesBetween = pRoute->MinutesBetweenTry();
+            iRouteID = pRoute->GetID();
 
             if (bFirstMatchingRoute)
             {
                lNoOfRetries = lTmpNoOfRetries;
                lMinutesBetween = lTmpMinutesBetween;
+
+               // We store 1st found Route domain
+               sRouteDomain = sDomainName;
+               iRouteCount++;
 
                bFirstMatchingRoute = false;
             }
@@ -598,15 +618,33 @@ namespace HM
                if (lTmpMinutesBetween > lMinutesBetween)
                   lMinutesBetween = lTmpMinutesBetween;
             }
+            // See if more than 1 unique Route domain found
+            if (sDomainName != sRouteDomain) iRouteCount++;
          }
+         else bNonRouteFound = true;
 
          iterAddress++;
       }
 
+      // If ONLY 1 route was found & not any non routes say we HOLD message otherwise don't.
+      // HOLD when non-route recipient would be BAD. :D
+      if (!bFirstMatchingRoute && !bNonRouteFound && iRouteCount == 1)
+      {
 
+            // Here we change ID, type to 3 for HOLD. Retries reset to ensure it doesn't
+            // bounce yet. NOT 0 though to stop mirror account copy over & over
+            SQLCommand command("update hm_messages set messageaccountid = @ROUTEID, messagetype = 3, messagecurnooftries =  1,  messagenexttrytime = '1901-01-01 00:00:01' where messageid = @MESSAGEID");
+            command.AddParameter("@ROUTEID", iRouteID);
+            command.AddParameter("@MESSAGEID", _originalMessage->GetID());
+
+            if (Application::Instance()->GetDBManager()->Execute(command))
+            {
+               // Execute OK - Should do some error checking & logging here..
+            }
+
+         return true;  // Say we HELD message
+      }
+      else
+         return false;  // Continue as normal, no HOLD         
    }
-
-
-
-
 }

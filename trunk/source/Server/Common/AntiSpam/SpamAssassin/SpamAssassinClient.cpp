@@ -8,6 +8,8 @@
 #include "../../Util/File.h"
 #include "../../TCPIP/TCPConnection.h"
 
+#include "../../Application/TimeoutCalculator.h"
+
 #ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #define new DEBUG_NEW
@@ -17,7 +19,8 @@ namespace HM
 {
    SpamAssassinClient::SpamAssassinClient(const String &sFile) 
    {
-      SetTimeout(30); 
+      TimeoutCalculator calculator;
+      SetTimeout(calculator.Calculate(IniFileSettings::Instance()->GetSAMinTimeout(), IniFileSettings::Instance()->GetSAMaxTimeout()));
       
       m_sMessageFile = sFile;
    }
@@ -145,13 +148,26 @@ namespace HM
       bool bTestsRun = true;
 
       String sTempFile = m_pResult->GetName();
-      if (bTestsRun && FileUtilities::FileSize(sTempFile) > 0)
+      // In reality the SA response should always be bigger than the original message
+      // since SA should add SOMETHING to it, even if just a header or pre-pend subject
+      // So checking > orig EML makes more sense than just 0
+      if (bTestsRun && FileUtilities::FileSize(sTempFile) > FileUtilities::FileSize(m_sMessageFile))
       {
-         // Copy temp file to message file
-         FileUtilities::Copy(sTempFile, m_sMessageFile, false);
+         if (IniFileSettings::Instance()->GetSAMoveVsCopy())
+         {
+            // Move temp file overwriting message file
+            FileUtilities::Move(sTempFile, m_sMessageFile, true);
+            LOG_DEBUG("SA - Move used");
+         }
+         else
+         {
+            // Copy temp file to message file
+            FileUtilities::Copy(sTempFile, m_sMessageFile, false);
+            FileUtilities::DeleteFile(sTempFile);
+            LOG_DEBUG("SA - Copy+Delete used");
+         }
       }
 
-      FileUtilities::DeleteFile(sTempFile);
       return true;
    }
 

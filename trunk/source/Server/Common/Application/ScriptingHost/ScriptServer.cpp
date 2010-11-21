@@ -28,7 +28,8 @@ namespace HM
       m_bHasOnDeliveryStart(false),
       m_bHasOnError(false),
       m_bHasOnDeliveryFailed(false),
-      m_bHasOnExternalAccountDownload(false)
+      m_bHasOnExternalAccountDownload(false),
+      m_bHasOnSMTPData(false)
    {
       
    }
@@ -95,6 +96,7 @@ namespace HM
          m_bHasOnError = _DoesFunctionExist("OnError");
          m_bHasOnDeliveryFailed = _DoesFunctionExist("OnDeliveryFailed");
          m_bHasOnExternalAccountDownload = _DoesFunctionExist("OnExternalAccountDownload");
+         m_bHasOnSMTPData = _DoesFunctionExist("OnSMTPData");
 
       }
       catch (...)
@@ -229,6 +231,10 @@ namespace HM
          break;
       case EventOnExternalAccountDownload:
          if (!m_bHasOnExternalAccountDownload)
+            return;
+         break;
+      case EventOnSMTPData:
+         if (!m_bHasOnSMTPData)
             return;
          break;
 

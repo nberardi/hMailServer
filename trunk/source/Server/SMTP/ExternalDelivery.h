@@ -31,7 +31,9 @@ namespace HM
       
       void _CollectDeliveryResult(vector<shared_ptr<MessageRecipient> > &vecRecipients, vector<String> &saErrorMessages, map<String,String> &mapFailedDueToNonFatalError);
       bool _RescheduleDelivery(map<String,String> &mapFailedDueToNonFatalError,vector<String> &saErrorMessages);
-      void _GetRetryOptions(map<String,String> &mapFailedDueToNonFatalError, long &lNoOfRetries, long &lMinutesBetween);
+      // Type changed from void to bool for use with ETRN.
+      // Function not called anywhere else to matter
+      bool _GetRetryOptions(map<String,String> &mapFailedDueToNonFatalError, long &lNoOfRetries, long &lMinutesBetween);
 
       IPAddress _GetLocalAddress();
 

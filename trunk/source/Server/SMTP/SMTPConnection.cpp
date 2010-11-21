@@ -37,7 +37,12 @@
 #include "../Common/Cache/MessageCache.h"
 #include "../Common/BO/DomainAliases.h"
 #include "../Common/BO/Account.h"
+#include "../Common/BO/Domains.h"
 #include "../Common/BO/Domain.h"
+
+#include "../Common/BO/Collection.h"
+#include "../common/persistence/PersistentDomain.h"
+
 #include "../common/Threading/AsynchronousTask.h"
 #include "../common/Threading/WorkQueue.h"
 
@@ -92,7 +97,8 @@ namespace HM
       */
 
       TimeoutCalculator calculator;
-      SetTimeout(calculator.Calculate(10, 30 * 60));
+      SetTimeout(calculator.Calculate(IniFileSettings::Instance()->GetSMTPDMinTimeout(), IniFileSettings::Instance()->GetSMTPDMaxTimeout()));
+//      SetTimeout(calculator.Calculate(10, 30 * 60));
    }
 
    SMTPConnection::~SMTPConnection()
@@ -152,6 +158,8 @@ namespace HM
          return SMTP_COMMAND_RSET;
       else if (sFirstWord == _T("NOOP"))
          return SMTP_COMMAND_NOOP;
+      else if (sFirstWord == _T("ETRN"))
+         return SMTP_COMMAND_ETRN;
 
       return SMTP_COMMAND_UNKNOWN;
    }
@@ -344,6 +352,12 @@ namespace HM
          
             return;
          }
+         else if (eCommandType == SMTP_COMMAND_ETRN)
+         {
+            _ProtocolETRN(sRequest);
+         
+            return;
+         }
          else if (eCommandType == SMTP_COMMAND_VRFY)
          {
             _SendData("502 VRFY disallowed.");
@@ -367,6 +381,49 @@ namespace HM
             
                return;
             }  
+
+            // Let's add an event call on DATA so we can act on reception during SMTP conversation..
+            if (Configuration::Instance()->GetUseScriptServer())
+            {
+               shared_ptr<ScriptObjectContainer> pContainer = shared_ptr<ScriptObjectContainer>(new ScriptObjectContainer);
+               shared_ptr<Result> pResult = shared_ptr<Result>(new Result);
+               shared_ptr<ClientInfo> pClientInfo = shared_ptr<ClientInfo>(new ClientInfo);
+
+               pClientInfo->SetUsername(m_sUsername);
+               pClientInfo->SetIPAddress(GetIPAddressString());
+               pClientInfo->SetPort(GetLocalPort());
+
+               pContainer->AddObject("HMAILSERVER_CLIENT", pClientInfo, ScriptObject::OTClient);
+               pContainer->AddObject("Result", pResult, ScriptObject::OTResult);
+
+               String sEventCaller = "OnSMTPData(HMAILSERVER_CLIENT)";
+               ScriptServer::Instance()->FireEvent(ScriptServer::EventOnSMTPData, sEventCaller, pContainer);
+
+               switch (pResult->GetValue())
+               {
+               case 1:
+                  {
+                     String sErrorMessage = "554 Rejected";
+                     _SendData(sErrorMessage);
+                     _LogAwstatsMessageRejected();
+                     return;
+                  }
+               case 2:
+                  {
+                     String sErrorMessage = "554 " + pResult->GetMessage();
+                     _SendData(sErrorMessage);
+                     _LogAwstatsMessageRejected();
+                     return;
+                  }
+               case 3:
+                  {
+                     String sErrorMessage = "453 " + pResult->GetMessage();
+                     _SendData(sErrorMessage);
+                     _LogAwstatsMessageRejected();
+                     return;
+                  }
+               }
+            }      
 
             m_CurrentState = DATA;
 
@@ -884,7 +941,16 @@ namespace HM
 
          // Add received by tag.
          String sReceivedLine;
-         sReceivedLine.Format(_T("Received: %s\r\n"), Utilities::GenerateReceivedHeader(GetIPAddressString(), m_sHeloHost));
+         String sReceivedIP;
+         String sAuthSenderReplacementIP = IniFileSettings::Instance()->GetAuthUserReplacementIP();
+         
+         // If sender is logged in and replace IP is enabled use it
+         if (!m_sUsername.IsEmpty() && !sAuthSenderReplacementIP.empty())
+            sReceivedIP = sAuthSenderReplacementIP;
+         else
+            sReceivedIP = GetIPAddressString();
+
+         sReceivedLine.Format(_T("Received: %s\r\n"), Utilities::GenerateReceivedHeader(sReceivedIP, m_sHeloHost));
          sOutput += sReceivedLine;
 
          String sComputerName = Utilities::ComputerName(); 
@@ -902,6 +968,14 @@ namespace HM
          {
             if (!pHeader->FieldExists("X-AuthUser"))
                sOutput += "X-AuthUser: " + m_sUsername + "\r\n";
+         }
+
+         // Now add x- header for AUTH user if enabled since it was replaced above if so
+         // Likely would be good idea for this to be optional at some point
+         if (!m_sUsername.IsEmpty() && !sAuthSenderReplacementIP.empty())
+         {
+            if (!pHeader->FieldExists("X-AuthUserIP"))
+               sOutput += "X-AuthUserIP: " + sReceivedIP + "\r\n";
          }
          
          // We need to prepend these headers to the message buffer.
@@ -978,6 +1052,119 @@ namespace HM
 
       // Transmission has ended.
       m_pCurrentMessage->SetSize(FileUtilities::FileSize(PersistentMessage::GetFileName(m_pCurrentMessage)));
+
+
+   // Let's archive message we just received
+   String sArchiveDir = IniFileSettings::Instance()->GetArchiveDir();
+
+   if (!sArchiveDir.empty()) {
+      LOG_SMTP(GetSessionID(), GetIPAddressString(), "Archiving..");      
+
+      bool bArchiveHardlinks = IniFileSettings::Instance()->GetArchiveHardlinks();
+      String _messageFileName;
+      String sFileNameExclPath;
+      String sMessageArchivePath;
+      String sFromAddress1 = m_pCurrentMessage->GetFromAddress();
+      std::vector<String> vecParams1 = StringParser::SplitString(sFromAddress1,  "@");
+
+      // We need exactly 2 or not an email address
+      if (vecParams1.size() == 2)
+      {
+         String sResponse;
+         String sSenderName = vecParams1[0];
+         sSenderName = sSenderName.ToLower();
+         String sSenderDomain = vecParams1[1];
+         sSenderDomain = sSenderDomain.ToLower();
+         bool blocalSender1 = _GetIsLocalSender();
+
+         if (blocalSender1)
+         {
+            // First copy goes to local sender
+            _messageFileName = PersistentMessage::GetFileName(m_pCurrentMessage);
+            sFileNameExclPath = FileUtilities::GetFileNameFromFullPath(_messageFileName);
+            sMessageArchivePath = sArchiveDir + "\\" + sSenderDomain + "\\" + sSenderName + "\\Sent-" + sFileNameExclPath;
+
+            LOG_SMTP(GetSessionID(), GetIPAddressString(), "Local sender: " + sFromAddress1 + ". Putting in user folder: " + sMessageArchivePath);      
+
+            FileUtilities::Copy(_messageFileName, sMessageArchivePath, true);
+         }
+         else
+         {
+            LOG_SMTP(GetSessionID(), GetIPAddressString(), "Non local sender, putting in common Inbound folder..");      
+
+            // First copy goes to common archive folder instead
+            _messageFileName = PersistentMessage::GetFileName(m_pCurrentMessage);
+            sFileNameExclPath = FileUtilities::GetFileNameFromFullPath(_messageFileName);
+            sMessageArchivePath = sArchiveDir + "\\Inbound\\" + sFileNameExclPath;
+
+            FileUtilities::Copy(_messageFileName, sMessageArchivePath, true);
+         }
+            String sMessageArchivePath2;
+
+            // Now create hardlink/copy for each *local* recipient
+            shared_ptr<const Domain> pDomaintmp;
+            bool bDomainIsLocal = false;
+
+            const std::vector<shared_ptr<MessageRecipient> > vecRecipients = m_pCurrentMessage->GetRecipients()->GetVector();
+            std::vector<shared_ptr<MessageRecipient> >::const_iterator iterRecipient = vecRecipients.begin();
+            while (iterRecipient != vecRecipients.end())
+            {
+               String sRecipientAddress = (*iterRecipient)->GetAddress();
+               vecParams1 = StringParser::SplitString(sRecipientAddress,  "@");
+
+               // We need exactly 2 or not an email address
+               if (vecParams1.size() == 2)
+               {
+                  String sResponse;
+                  String sSenderName = vecParams1[0];
+                  sSenderName = sSenderName.ToLower();
+                  String sSenderDomain = vecParams1[1];
+                  sSenderDomain = sSenderDomain.ToLower();
+
+                  pDomaintmp = CacheContainer::Instance()->GetDomain(sSenderDomain);
+                  bDomainIsLocal = pDomaintmp ? true : false;
+
+                  if (bDomainIsLocal)
+                  {
+
+                     sMessageArchivePath2 = sArchiveDir + "\\" + sSenderDomain + "\\" + sSenderName + "\\" + sFileNameExclPath;
+                     LOG_SMTP(GetSessionID(), GetIPAddressString(), "Local recipient: " + sRecipientAddress + ". Putting in user folder: " + sMessageArchivePath2);      
+
+                     if (bArchiveHardlinks) {
+                     FileUtilities::CreateDirectoryRecursive(sArchiveDir + "\\" + sSenderDomain + "\\" + sSenderName);
+                     // This function call is odd in that original is 2nd anc destination is 1st..
+                     BOOL fCreatedLink = CreateHardLink( sMessageArchivePath2, sMessageArchivePath, NULL ); // Last is reserved, must be NULL
+
+                     if ( fCreatedLink == FALSE )
+                     {
+                        // If error try normal copy
+                        FileUtilities::Copy(sMessageArchivePath, sMessageArchivePath2, true);
+                        LOG_SMTP(GetSessionID(), GetIPAddressString(), "HardLink failed.. Falling back to Copy.");      
+                     }
+                     else
+                        LOG_SMTP(GetSessionID(), GetIPAddressString(), "HardLink succeeded.");      
+                    }
+                    else
+                    {
+                       FileUtilities::Copy(sMessageArchivePath, sMessageArchivePath2, true);
+                    }
+                  }
+               }
+            iterRecipient++;
+         }
+   }
+   else
+   {
+      // Sender is either null/blank (ie <>) or some other odd thing happed so we'll save in Error folder
+      // either way as failsafe.
+      LOG_SMTP(GetSessionID(), GetIPAddressString(), "Sender is NULL or invalid. Saving to Error folder.");      
+
+      _messageFileName = PersistentMessage::GetFileName(m_pCurrentMessage);
+      sFileNameExclPath = FileUtilities::GetFileNameFromFullPath(_messageFileName);
+      sMessageArchivePath = sArchiveDir + "\\Error\\" + sFileNameExclPath;
+      FileUtilities::Copy(_messageFileName, sMessageArchivePath, true);
+   }
+}   
 
       float dTime = ((float) GetTickCount() - (float) m_lMessageStartTC) / (float) 1000;
       double dTCDiff = Math::Round(dTime ,3);
@@ -1166,6 +1353,13 @@ namespace HM
          case 2:
             {
                String sErrorMessage = "554 " + pResult->GetMessage();
+               _SendData(sErrorMessage);
+               _LogAwstatsMessageRejected();
+               return false;
+            }
+         case 3:
+            {
+               String sErrorMessage = "453 " + pResult->GetMessage();
                _SendData(sErrorMessage);
                _LogAwstatsMessageRejected();
                return false;
@@ -1517,6 +1711,104 @@ namespace HM
       _SendErrorResponse(504, "Authentication mechanism not supported.");
    }
 
+   void 
+   SMTPConnection::_ProtocolETRN(const String &sRequest)
+   {
+      // RFC ETRN Codes
+      //   250 OK, queuing for node <x> started
+      //   251 OK, no messages waiting for node <x>
+      //   252 OK, pending messages for node <x> started
+      //   253 OK, <n> pending messages for node <x> started
+      //   458 Unable to queue messages for node <x>
+      //   459 Node <x> not allowed: <reason>
+      //   500 Syntax Error
+      //   501 Syntax Error in Parameters
+
+
+// WE SHOULD ADD SOME LOGGING HERE
+
+      std::vector<String> vecParams = StringParser::SplitString(sRequest,  " ");
+
+      // We need at least 1 parameter. ETRN alone results in error
+      if (vecParams.size() == 1)
+      {
+         _SendErrorResponse(500, "Syntax Error: No domain parameter included");
+         LOG_SMTP(GetSessionID(), GetIPAddressString(), "SMTPDeliverer - ETRN - No domain parameter included");      
+         return;
+      }
+      
+      String sResponse;
+      String sETRNDomain = vecParams[1];
+      String sETRNDomain2 = sETRNDomain.ToLower();
+      String sLogData;
+
+      bool bIsRouteDomain = false;
+      vector<shared_ptr<Route> > routes = Configuration::Instance()->GetSMTPConfiguration()->GetRoutes()->GetItemsByName(sETRNDomain.ToLower());
+
+      // See if sender supplied param matches one of our domains
+      if (routes.size() > 0)
+       {
+          boost_foreach(shared_ptr<Route> route, routes)
+          {
+             if (route->GetName() == sETRNDomain2) 
+             {
+             bIsRouteDomain = true;
+             break;
+             }
+          }
+       }       
+
+      if (bIsRouteDomain)
+      {
+         LOG_SMTP(GetSessionID(), GetIPAddressString(), "SMTPDeliverer - ETRN - Route found, continuing..");      
+
+         shared_ptr<Routes> pRoutes = Configuration::Instance()->GetSMTPConfiguration()->GetRoutes();
+         shared_ptr<Route> pRoute = pRoutes->GetItemByName(sETRNDomain.ToLower());
+
+         if (pRoute)
+         {
+            __int64 iRouteID = pRoute->GetID();
+
+            LOG_SMTP(GetSessionID(), GetIPAddressString(), "SMTPDeliverer - ETRN - Route settings read successfully.");      
+
+            int lTmpNoOfRetries = pRoute->NumberOfTries();
+            int lTmpMinutesBetween = pRoute->MinutesBetweenTry();
+
+            // Here we change ID back to 0, type back to 1 & next try to ASAP for Route ID
+            // Special 1901-01-01 00:00:01 tells admin it is HOLD
+            SQLCommand command("update hm_messages set messageaccountid = 0, messagetype = 1, messagenexttrytime = '1901-01-01 00:00:00' where messagetype = 3 and messageaccountid = @ROUTEID");
+            command.AddParameter("@ROUTEID", iRouteID);
+            if (Application::Instance()->GetDBManager()->Execute(command))
+            {
+               // Need to tell hmail to reload the settings
+               //Configuration::Instance()->Load();
+               _SendData("250 OK, message queuing started for " + sETRNDomain.ToLower());
+               LOG_SMTP(GetSessionID(), GetIPAddressString(), "SMTPDeliverer - ETRN - 250 OK, message queuing started.");      
+            }
+            else
+            {
+               _SendData("458 Unable to queue messages for " + sETRNDomain.ToLower());
+               LOG_SMTP(GetSessionID(), GetIPAddressString(), "SMTPDeliverer - ETRN - 458 Unable to queue messages");      
+            }
+         return;
+
+       }
+       else
+       {
+          // Send that we don't accept ETRN for that domain or invalid param
+          _SendData("458 Error getting info for " + sETRNDomain.ToLower());
+          LOG_SMTP(GetSessionID(), GetIPAddressString(), "SMTPDeliverer - ETRN - Could not get Route values");      
+          return;
+       }
+     }
+     else
+     {
+         // Send that we don't accept ETRN for that domain or invalid param
+         _SendData("501 ETRN not supported for " + sETRNDomain.ToLower());
+         LOG_SMTP(GetSessionID(), GetIPAddressString(), "SMTPDeliverer - ETRN - Domain is not Route");      
+         return;
+     }
+   }
    void
    SMTPConnection::_AuthenticateUsingPLAIN(const String &sLine)
    {

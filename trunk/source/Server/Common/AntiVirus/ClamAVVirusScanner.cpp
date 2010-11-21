@@ -10,6 +10,7 @@
 #include "../Util/ByteBuffer.h"
 #include "../Util/RegularExpression.h"
 
+#include "../Application/TimeoutCalculator.h"
 
 #ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
@@ -48,7 +49,9 @@ namespace HM
 
       int streamPort = 0;
 
-      SynchronousConnection commandConnection(15);
+      TimeoutCalculator calculator;
+
+      SynchronousConnection commandConnection(calculator.Calculate(IniFileSettings::Instance()->GetClamMinTimeout(), IniFileSettings::Instance()->GetClamMaxTimeout()));
       if (!commandConnection.Connect(hostName, primaryPort))
       {
          return VirusScanningResult(_T("ClamAVVirusScanner::Scan"), 

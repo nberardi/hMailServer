@@ -11,6 +11,8 @@
 #include "../Common/Util/TransparentTransmissionBuffer.h"
 #include "../Common/Persistence/PersistentMessage.h"
 
+#include "../Common/Application/TimeoutCalculator.h"
+
 #ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #define new DEBUG_NEW
@@ -36,7 +38,8 @@ namespace HM
          as well set the entire timeout to 10.
       */
       
-      SetTimeout(10 * 60); 
+      TimeoutCalculator calculator;
+      SetTimeout(calculator.Calculate(IniFileSettings::Instance()->GetSMTPCMinTimeout(), IniFileSettings::Instance()->GetSMTPCMaxTimeout()));
    }
 
    SMTPClientConnection::~SMTPClientConnection()
@@ -293,15 +296,18 @@ namespace HM
          {
             // Send the data!
             const String fileName = PersistentMessage::GetFileName(m_pDeliveryMessage);
+            LOG_DEBUG("SMTPClientConnection::~_BEFORE SendFile");
             _StartSendFile(fileName);
+            LOG_DEBUG("SMTPClientConnection::~_AFTER SendFile");
             return;
-
          }
       }
 
       if (m_CurrentState == DATASENT)
       {
+            LOG_DEBUG("SMTPClientConnection::~_BEFORE SendQUIT");
          _SendQUIT();
+            LOG_DEBUG("SMTPClientConnection::~_AFTER SendQUIT");
 
          if (IsPositiveCompletion(iCode))
          {
@@ -381,8 +387,9 @@ namespace HM
    SMTPClientConnection::OnConnectionTimeout()
    {
       if (m_bSessionEnded)
+{       _UpdateAllRecipientsWithError(0, "SESSION ENDED but there was a timeout while talking to the remote server.", false);
          return; // The session has ended, so any error which takes place now is not interesting.
-
+}
       _UpdateAllRecipientsWithError(0, "There was a timeout while talking to the remote server.", false);
    }
 
@@ -615,6 +622,7 @@ namespace HM
    void 
    SMTPClientConnection::_ReadAndSend()
    {
+            LOG_DEBUG("SMTPClientConnection::~_Continue sendfile");
       // Continue sending the file..
       int bufferSize = GetBufferSize();
       shared_ptr<ByteBuffer> pBuffer = _currentFile.ReadChunk(bufferSize);
@@ -627,22 +635,36 @@ namespace HM
          {
             // Data was sent. We'll wait with sending more data until
             // the current data has been sent.
-            return; 
+// This return was causing problems with gmail & aol among others
+// because continue sendfile was called after done based on logs
+// Just commented out for now until further investigation
+//            return; 
          }
 
          pBuffer = _currentFile.ReadChunk(bufferSize);
       }
 
+            LOG_DEBUG("SMTPClientConnection::~_SendFile done close file");
       // We're done sending!
       _currentFile.Close();
 
       // No more data to send. Make sure all buffered data is flushed.
       _transmissionBuffer.Flush(true);
 
-      // We're ready to receive the Message accepted-response.
-      m_CurrentState = DATASENT;
+            LOG_DEBUG("SMTPClientConnection::~_SendFile flushed buffer");
 
+      // We're ready to receive the Message accepted-response.
+            LOG_DEBUG("SMTPClientConnection::~_SendFile DATASENT set");
+
+      // No \r\n on end because SendData adds
       _SendData("\r\n.");
+            LOG_DEBUG("SMTPClientConnection::~_SendFile . sent");
+
+      // State change moved to AFTER crlf.crlf to help with race condition
+      m_CurrentState = DATASENT;
+            LOG_DEBUG("SMTPClientConnection::~_SendFile DATASENT set");
+
+return;
    }
 
    void

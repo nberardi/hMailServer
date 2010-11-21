@@ -27,6 +27,8 @@
 
 #include "../Common/Util/TransparentTransmissionBuffer.h"
 
+#include "../Common/Application/TimeoutCalculator.h"
+
 #include "../Common/Util/VariantDateTime.h"
 #include "../Common/Util/Time.h"
 #include "../Common/Cache/CacheContainer.h"
@@ -55,7 +57,8 @@ namespace HM
       But since we're a client, we increase this a bit.
       */
 
-      SetTimeout(15 * 60); 
+      TimeoutCalculator calculator;
+      SetTimeout(calculator.Calculate(IniFileSettings::Instance()->GetPOP3CMinTimeout(), IniFileSettings::Instance()->GetPOP3CMaxTimeout()));
    }
 
    POP3ClientConnection::~POP3ClientConnection(void)
@@ -110,6 +113,58 @@ namespace HM
          m_bAwaitingMultilineResponse = false;
       }
 
+      // This code is temporary home of ETRN client settings in GUI
+      // It checks External Account for ETRN domain.com for name
+      // and if found uses that info to perform ETRN client connections
+      String sTest1 = m_pAccount->GetName();
+      if (sTest1.StartsWith(_T("ETRN")))
+      {
+
+      _LogSMTPString(m_sCommandBuffer, false);
+
+      std::vector<String> vecParams = StringParser::SplitString(sTest1, " ");
+      if (vecParams.size() == 2)
+      {
+
+         bool bRetVal = true;
+         switch (m_eCurrentState)
+            {
+
+            // Re-using POP states names for now
+            case StateConnected:
+               // Realize we shouldn't blindly send but this works for now
+              _SendData2("HELO " + vecParams[1]);
+               m_eCurrentState = StateUsernameSent;
+               break;
+
+            case StateUsernameSent:
+               _SendData2("ETRN " + vecParams[1]);
+               Sleep(20);
+               m_eCurrentState = StateUIDLRequestSent;
+               break;
+
+            case StateUIDLRequestSent:
+               _SendData2("QUIT");
+               m_eCurrentState = StateQUITSent;
+               Sleep(20);
+               break;
+            }
+      }
+      else
+      {
+         //We just log error & QUIT because we have no domain to send..
+         _SendData("NOOP ETRN-Domain not set");
+         Sleep(20);
+         _SendData("QUIT");
+         _ParseQuitResponse(m_sCommandBuffer);
+       }
+      }
+      else
+      {
+       // No sense in indenting code below inward as this is temp
+       // and it'd just have to be moved back.
+       // **** Don't miss } below when removing the above code! ****
+
       _LogPOP3String(m_sCommandBuffer, false);
 
       bool bRetVal = true;
@@ -134,7 +189,8 @@ namespace HM
          _ParseDELEResponse(m_sCommandBuffer);
          break;
       }
-
+// This will be removed too when ETRN code is moved
+    }
       // The ASCII buffer has been parsed, so we
       // may clear it now.
       m_sCommandBuffer.Empty();
@@ -158,6 +214,7 @@ namespace HM
       }
 
       // Disconnect immediately.
+      LOG_DEBUG("POP3 External Account: Connection to remote POP3-server failed upon USER command.");
       _QuitNow();
       return;
    }
@@ -180,6 +237,7 @@ namespace HM
          return;
       }
 
+      LOG_DEBUG("POP3 External Account: Connection to remote POP3-server failed upon PASS command.");
       _QuitNow();
       return;
    }
@@ -203,6 +261,7 @@ namespace HM
          return;
       }
 
+      LOG_DEBUG("POP3 External Account: Connection to remote POP3-server failed upon UIDL command.");
       _QuitNow();
       return;
    }
@@ -352,6 +411,7 @@ namespace HM
       _DeleteUIDsNoLongerOnServer();
 
       // Cleanup is complete. Time to quit.
+      LOG_DEBUG("POP3 External Account: Normal QUIT.");
       _QuitNow();
      
    }
@@ -547,6 +607,7 @@ namespace HM
          if (!m_pTransmissionBuffer->Initialize(fileName))
          {
             // We have probably failed to create the file...
+            LOG_DEBUG("POP3 External Account: Error creating binary buffer or file.");
             _QuitNow();
             return;
          }
@@ -586,6 +647,7 @@ namespace HM
       if (m_pCurrentMessage->GetSize() == 0)
       {
          // Error handling.
+         LOG_DEBUG("POP3 External Account: Message is 0 bytes.");
          _QuitNow();
          return;
       }
@@ -1031,4 +1093,44 @@ namespace HM
 
       return _fetchAccountUIDList;
    }
+   // This is temp function to log ETRN client commands to SMTP
+   void
+   POP3ClientConnection::_LogSMTPString(const String &sLogString, bool bSent) const
+   {
+      String sTemp;
+
+      if (bSent)
+      {
+         // Check if we should remove the password.
+         if (m_eCurrentState == StatePasswordSent)
+         {
+            // Remove password.
+            sTemp = "SENT: ***";
+         }
+         else
+         {
+            sTemp = "SENT: " + sLogString;
+         }
+      }
+      else
+         sTemp = "RECEIVED: " + sLogString;
+
+      sTemp.TrimRight(_T("\r\n"));
+      sTemp.Replace(_T("\r\n"), _T("[nl]"));
+
+      LOG_SMTP_CLIENT(GetSessionID(), GetIPAddressString(), sTemp);
+   }
+
+   // This is temp function to log ETRN client commands to SMTP
+   void
+   POP3ClientConnection::_SendData2(const String &sData) 
+   {
+      _LogSMTPString(sData, true);
+
+      SendData(sData + "\r\n");
+   }
+
+
+
+
 }

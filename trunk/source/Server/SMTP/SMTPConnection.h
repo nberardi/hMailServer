@@ -6,6 +6,8 @@
 
 #include "../Common/TCPIP/ProtocolParser.h"
 #include "RecipientParser.h"
+#include "../Common/BO/Collection.h"
+#include "../common/persistence/PersistentDomain.h"
 
 namespace HM
 {
@@ -33,6 +35,7 @@ namespace HM
       SMTP_COMMAND_DATA = 1010,
       SMTP_COMMAND_RSET = 1011,
       SMTP_COMMAND_NOOP = 1012,
+      SMTP_COMMAND_ETRN = 1013
    };
 
    class SMTPConnection : public ProtocolParser, 
@@ -117,6 +120,7 @@ namespace HM
       void _ProtocolQUIT();
       void _ProtocolHELP();
       void _ProtocolRCPT(const String &Request);
+      void _ProtocolETRN(const String &sRequest);
 
       void _TarpitCheckDelay();
 

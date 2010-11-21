@@ -35,6 +35,9 @@ namespace HM
      virtual void OnExcessiveDataReceived();
 
       void _SendData(const String &sData) ;
+   
+   // This is temp function to log ETRN client commands to SMTP
+      void _SendData2(const String &sData) ;
 
    private:
 
@@ -53,6 +56,9 @@ namespace HM
 
       // Logs a line in the POP3 log.
       void _LogPOP3String(const String &sLogString, bool bSent) const;
+
+      // This is temp function to log ETRN client commands to SMTP
+      void _LogSMTPString(const String &sLogString, bool bSent) const;
 
       void _ParseStateConnected(const String &sData);
       void _ParseUsernameSent(const String &sData);

@@ -65,4 +65,20 @@ namespace HM
       return result;
    }
 
+   bool 
+   Domains::ETRNDomain(String sDomainName)
+   // Returns true if domain is a Route. Used for ETRN
+   {
+      bool bFoundRouteName = false;
+
+      boost_foreach(shared_ptr<Domain> domain, vecObjects)
+         if ((sDomainName) == domain->GetName()) 
+         {
+            bFoundRouteName = true;
+            break;
+         }
+
+      return bFoundRouteName;
+   }
+
 }

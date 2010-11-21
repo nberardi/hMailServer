@@ -82,6 +82,22 @@ namespace HM
       int GetQuickRetriesMinutes() {return m_iQuickRetriesMinutes; }
       int GetQueueRandomnessMinutes () {return m_iQueueRandomnessMinutes; }
       int GetMXTriesFactor () {return m_iMXTriesFactor; }
+      String GetArchiveDir() const { return m_sArchiveDir; }
+      bool GetArchiveHardlinks() const { return m_bArchiveHardlinks; }
+      int GetPOP3DMinTimeout () {return m_iPOP3DMinTimeout; }
+      int GetPOP3DMaxTimeout () {return m_iPOP3DMaxTimeout; }
+      int GetPOP3CMinTimeout () {return m_iPOP3CMinTimeout; }
+      int GetPOP3CMaxTimeout () {return m_iPOP3CMaxTimeout; }
+      int GetSMTPDMinTimeout () {return m_iSMTPDMinTimeout; }
+      int GetSMTPDMaxTimeout () {return m_iSMTPDMaxTimeout; }
+      int GetSMTPCMinTimeout () {return m_iSMTPCMinTimeout; }
+      int GetSMTPCMaxTimeout () {return m_iSMTPCMaxTimeout; }
+      int GetSAMinTimeout () {return m_iSAMinTimeout; }
+      int GetSAMaxTimeout () {return m_iSAMaxTimeout; }
+      int GetClamMinTimeout () {return m_iClamMinTimeout; }
+      int GetClamMaxTimeout () {return m_iClamMaxTimeout; }
+      bool GetSAMoveVsCopy() const { return m_bSAMoveVsCopy; }
+      String GetAuthUserReplacementIP() const { return m_sAuthUserReplacementIP; }
 
       bool GetUseSSLVerifyPeer() {return _useSSLVerifyPeer;}
       
@@ -136,5 +152,21 @@ namespace HM
       int m_iQuickRetriesMinutes;
       int m_iQueueRandomnessMinutes;
       int m_iMXTriesFactor;
+      String m_sArchiveDir;
+      bool m_bArchiveHardlinks;
+      int m_iPOP3DMinTimeout;
+      int m_iPOP3DMaxTimeout;
+      int m_iPOP3CMinTimeout;
+      int m_iPOP3CMaxTimeout;
+      int m_iSMTPDMinTimeout;
+      int m_iSMTPDMaxTimeout;
+      int m_iSMTPCMinTimeout;
+      int m_iSMTPCMaxTimeout;
+      int m_iSAMinTimeout;
+      int m_iSAMaxTimeout;
+      int m_iClamMinTimeout;
+      int m_iClamMaxTimeout;
+      bool m_bSAMoveVsCopy;
+      String m_sAuthUserReplacementIP;
    };
 }

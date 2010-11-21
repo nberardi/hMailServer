@@ -66,6 +66,11 @@ namespace HM
 
          String sURL = sBody.Mid(iCurPos, iURLLength);
 
+         String logMessage;
+         logMessage.Format(_T("SURBL:: Found URL: %s"), sURL);
+         LOG_DEBUG(logMessage);
+
+
          // Clean the URL from linefeeds
          _CleanURL(sURL);
 
@@ -74,6 +79,9 @@ namespace HM
             continue;
 
          String sHostToLookup = sURL + "." + pSURBLServer->GetDNSHost();
+
+         logMessage.Format(_T("SURBL:: Lookup: %s"), sHostToLookup);
+         LOG_DEBUG(logMessage);
 
          std::vector<String> saFoundNames;
          DNSResolver resolver;
@@ -101,11 +109,14 @@ namespace HM
    {
       for (int i = iURLStart; i < sBody.GetLength(); i++)
       {
+         // Space added as fix to no test on plain-text emails without end slash
+         // Might be best to look for 1st non-allowed domain char instead..
          wchar_t c = sBody.GetAt(i);
          if (c == '<' || 
              c == '/' || 
              c == '\\' || 
              c == '>' ||
+             c == ' ' ||
              c == '"')
              return i;
       }

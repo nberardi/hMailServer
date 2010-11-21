@@ -137,7 +137,25 @@ namespace HM
       if (m_iQueueRandomnessMinutes <= 0) m_iQueueRandomnessMinutes = 0;
       m_iMXTriesFactor = _ReadIniSettingInteger("Settings", "MXTriesFactor", 0);
       if (m_iMXTriesFactor <= 0) m_iMXTriesFactor = 0;
-      //Probably need some sanity checks on these settigns but for now we assume user has sense
+      m_sArchiveDir = _ReadIniSettingString("Settings", "ArchiveDir", "");
+      if (m_sArchiveDir.Right(1) == _T("\\"))
+         m_sArchiveDir = m_sArchiveDir.Left(m_sArchiveDir.GetLength() -1);
+      m_bArchiveHardlinks =  _ReadIniSettingInteger("Settings", "ArchiveHardLinks", 0) == 1;
+      m_iPOP3DMinTimeout =  _ReadIniSettingInteger("Settings", "POP3DMinTimeout", 10);
+      m_iPOP3DMaxTimeout =  _ReadIniSettingInteger("Settings", "POP3DMaxTimeout",600);
+      m_iPOP3CMinTimeout =  _ReadIniSettingInteger("Settings", "POP3CMinTimeout", 30);
+      m_iPOP3CMaxTimeout =  _ReadIniSettingInteger("Settings", "POP3CMaxTimeout",900);
+      m_iSMTPDMinTimeout =  _ReadIniSettingInteger("Settings", "SMTPDMinTimeout", 10);
+      m_iSMTPDMaxTimeout =  _ReadIniSettingInteger("Settings", "SMTPDMaxTimeout",1800);
+      m_iSMTPCMinTimeout =  _ReadIniSettingInteger("Settings", "SMTPCMinTimeout", 30);
+      m_iSMTPCMaxTimeout =  _ReadIniSettingInteger("Settings", "SMTPCMaxTimeout",600);
+      m_iSAMinTimeout =  _ReadIniSettingInteger("Settings", "SAMinTimeout", 30);
+      m_iSAMaxTimeout =  _ReadIniSettingInteger("Settings", "SAMaxTimeout",90);
+      m_iClamMinTimeout =  _ReadIniSettingInteger("Settings", "ClamMinTimeout", 15);
+      m_iClamMaxTimeout =  _ReadIniSettingInteger("Settings", "ClamMaxTimeout",90);
+      m_bSAMoveVsCopy = _ReadIniSettingInteger("Settings", "SAMoveVsCopy", 0) == 1;
+      m_sAuthUserReplacementIP = _ReadIniSettingString("Settings", "AuthUserReplacementIP", "");
+      //Probably need some more sanity checks on these settings but for now we assume user has some sense
 
       // check if we should validate peer's.
       _useSSLVerifyPeer = FileUtilities::GetFilesInDirectory(GetCertificateAuthorityDirectory()).size() > 0;
