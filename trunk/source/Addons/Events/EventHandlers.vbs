@@ -1,7 +1,7 @@
 '   Sub OnClientConnect(oClient)
 '   End Sub
 
-'   Sub OnSMTPData(oClient)
+'   Sub OnSMTPData(oClient, oMessage)
 '   End Sub
 
 '   Sub OnAcceptMessage(oClient, oMessage)

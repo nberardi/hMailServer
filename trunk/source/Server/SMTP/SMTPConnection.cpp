@@ -393,10 +393,11 @@ namespace HM
                pClientInfo->SetIPAddress(GetIPAddressString());
                pClientInfo->SetPort(GetLocalPort());
 
+               pContainer->AddObject("HMAILSERVER_MESSAGE", m_pCurrentMessage, ScriptObject::OTMessage);
                pContainer->AddObject("HMAILSERVER_CLIENT", pClientInfo, ScriptObject::OTClient);
                pContainer->AddObject("Result", pResult, ScriptObject::OTResult);
 
-               String sEventCaller = "OnSMTPData(HMAILSERVER_CLIENT)";
+               String sEventCaller = "OnSMTPData(HMAILSERVER_CLIENT, HMAILSERVER_MESSAGE)";
                ScriptServer::Instance()->FireEvent(ScriptServer::EventOnSMTPData, sEventCaller, pContainer);
 
                switch (pResult->GetValue())
