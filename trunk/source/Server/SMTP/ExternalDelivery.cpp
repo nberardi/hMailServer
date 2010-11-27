@@ -571,45 +571,34 @@ namespace HM
       shared_ptr<SMTPConfiguration> pSMTPConfig = Configuration::Instance()->GetSMTPConfiguration();
       shared_ptr<Routes> pRoutes = Configuration::Instance()->GetSMTPConfiguration()->GetRoutes();
 
+      bool bFirstMatchingRoute = true;
+
       // First fetch the default values. Theese are used
       // if we can't find a route for any of the domains.
       lNoOfRetries = pSMTPConfig->GetNoOfRetries();
       lMinutesBetween  = pSMTPConfig->GetMinutesBetweenTry();
 
-      // Now iterate over all addresses and try to find a route
-      // for them.
-
-
-      bool bFirstMatchingRoute = true;
-      bool bNonRouteFound = false;
-      int iRouteCount = 0;
-      __int64 iRouteID;
-      String sRouteDomain;
       map<String,String>::iterator iterAddress = mapFailedDueToNonFatalError.begin();
+      map<String, shared_ptr<Route> > matchingRoutes;
+
+      bool recipientsFoundNotMatchingRoute = false;
+
       while (iterAddress != mapFailedDueToNonFatalError.end())
       {
-
          String sAddress = (*iterAddress).first;
-         String sDomainName = StringParser::ExtractDomain (sAddress);
-
+         String sDomainName = StringParser::ExtractDomain (sAddress).ToLower();
+         
          shared_ptr<Route> pRoute = pRoutes->GetItemByName(sDomainName);
 
          if (pRoute)
          {
             int lTmpNoOfRetries = pRoute->NumberOfTries() - 1;
             int lTmpMinutesBetween = pRoute->MinutesBetweenTry();
-            iRouteID = pRoute->GetID();
 
-            if (bFirstMatchingRoute)
+            if (matchingRoutes.size() == 0)
             {
                lNoOfRetries = lTmpNoOfRetries;
                lMinutesBetween = lTmpMinutesBetween;
-
-               // We store 1st found Route domain
-               sRouteDomain = sDomainName;
-               iRouteCount++;
-
-               bFirstMatchingRoute = false;
             }
             else
             {
@@ -619,22 +608,30 @@ namespace HM
                if (lTmpMinutesBetween > lMinutesBetween)
                   lMinutesBetween = lTmpMinutesBetween;
             }
-            // See if more than 1 unique Route domain found
-            if (sDomainName != sRouteDomain) iRouteCount++;
+
+            matchingRoutes[sDomainName] = pRoute;
          }
-         else bNonRouteFound = true;
+         else
+            recipientsFoundNotMatchingRoute = true;
 
          iterAddress++;
       }
 
       // If ONLY 1 route was found & not any non routes say we HOLD message otherwise don't.
       // HOLD when non-route recipient would be BAD. :D
-      if (!bFirstMatchingRoute && !bNonRouteFound && iRouteCount == 1)
+      if (matchingRoutes.size() == 1 && !recipientsFoundNotMatchingRoute)
       {
+         shared_ptr<Route> route = (*matchingRoutes.begin()).second;
+         String routeDescription = route->GetDescription();
+
+         if (routeDescription.ToUpper().StartsWith(_T("ETRN")))
+         {
+            __int64 iRouteID = route->GetID();
 
             // Here we change ID, type to 3 for HOLD. Retries reset to ensure it doesn't
             // bounce yet. NOT 0 though to stop mirror account copy over & over
             SQLCommand command("update hm_messages set messageaccountid = @ROUTEID, messagetype = 3, messagecurnooftries =  1,  messagenexttrytime = '1901-01-01 00:00:01' where messageid = @MESSAGEID");
+            
             command.AddParameter("@ROUTEID", iRouteID);
             command.AddParameter("@MESSAGEID", _originalMessage->GetID());
 
@@ -643,7 +640,10 @@ namespace HM
                // Execute OK - Should do some error checking & logging here..
             }
 
-         return true;  // Say we HELD message
+            return true;  // Say we HELD message
+         }
+         
+         return false;
       }
       else
          return false;  // Continue as normal, no HOLD         
