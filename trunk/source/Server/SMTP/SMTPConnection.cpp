@@ -1058,7 +1058,8 @@ namespace HM
    // Let's archive message we just received
    String sArchiveDir = IniFileSettings::Instance()->GetArchiveDir();
 
-   if (!sArchiveDir.empty()) {
+   if (!sArchiveDir.empty()) 
+   {
       LOG_SMTP(GetSessionID(), GetIPAddressString(), "Archiving..");      
 
       bool bArchiveHardlinks = IniFileSettings::Instance()->GetArchiveHardlinks();
@@ -1127,23 +1128,25 @@ namespace HM
 
                   if (bDomainIsLocal)
                   {
-
                      sMessageArchivePath2 = sArchiveDir + "\\" + sSenderDomain + "\\" + sSenderName + "\\" + sFileNameExclPath;
                      LOG_SMTP(GetSessionID(), GetIPAddressString(), "Local recipient: " + sRecipientAddress + ". Putting in user folder: " + sMessageArchivePath2);      
 
-                     if (bArchiveHardlinks) {
-                     FileUtilities::CreateDirectoryRecursive(sArchiveDir + "\\" + sSenderDomain + "\\" + sSenderName);
-                     // This function call is odd in that original is 2nd anc destination is 1st..
-                     BOOL fCreatedLink = CreateHardLink( sMessageArchivePath2, sMessageArchivePath, NULL ); // Last is reserved, must be NULL
-
-                     if ( fCreatedLink == FALSE )
+                     if (bArchiveHardlinks) 
                      {
-                        // If error try normal copy
-                        FileUtilities::Copy(sMessageArchivePath, sMessageArchivePath2, true);
-                        LOG_SMTP(GetSessionID(), GetIPAddressString(), "HardLink failed.. Falling back to Copy.");      
-                     }
-                     else
-                        LOG_SMTP(GetSessionID(), GetIPAddressString(), "HardLink succeeded.");      
+                        FileUtilities::CreateDirectoryRecursive(sArchiveDir + "\\" + sSenderDomain + "\\" + sSenderName);
+                        // This function call is odd in that original is 2nd anc destination is 1st..
+                        BOOL fCreatedLink = CreateHardLink( sMessageArchivePath2, sMessageArchivePath, NULL ); // Last is reserved, must be NULL
+
+                        if ( fCreatedLink == FALSE )
+                        {
+                           // If error try normal copy
+                           FileUtilities::Copy(sMessageArchivePath, sMessageArchivePath2, true);
+                           LOG_SMTP(GetSessionID(), GetIPAddressString(), "HardLink failed.. Falling back to Copy.");      
+                        }
+                        else
+                        {
+                           LOG_SMTP(GetSessionID(), GetIPAddressString(), "HardLink succeeded.");      
+                        }
                     }
                     else
                     {
