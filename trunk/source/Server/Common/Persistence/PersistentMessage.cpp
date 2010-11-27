@@ -690,7 +690,8 @@ namespace HM
       if (bUpdateNoOfTries)
          sUpdateSQL += " , messagecurnooftries = messagecurnooftries + 1 ";
    
-      String sWhereClause = _T("where messageid = @MESSAGEID");
+      // To prevent already delivered messages from being updated>
+      String sWhereClause = _T("where messageid = @MESSAGEID and messagetype = 1 or messagetype = 3");
 
       sUpdateSQL += sWhereClause;
 
