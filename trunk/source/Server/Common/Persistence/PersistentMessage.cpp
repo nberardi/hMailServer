@@ -172,15 +172,9 @@ namespace HM
 
       String messageFile = GetFileName(account, pMessage);
 
-      String sErrorMessage;
-
-      // Handy to have full file path logged if debug enabled
-      if (Logger::Instance()->GetLogDebug())
-         sErrorMessage.Format(_T("Deleting message file: %s."), messageFile);
-      else
-         sErrorMessage.Format(_T("Deleting message file."));
-
-      LOG_DEBUG(sErrorMessage);
+      String sLogMessage;
+      sLogMessage.Format(_T("Deleting message file."));
+      LOG_DEBUG(sLogMessage);
 
       // We do not allow deletion of file if the message still
       // exists in the database.
@@ -189,11 +183,10 @@ namespace HM
       {
          // A message with this ID already exists. Disallow deletion and log to 
          // the event logger.
+         String sErrorMessage;
          sErrorMessage.Format(_T("Tried to delete the file %s even though the message was not deleted."), messageFile);
 
          ErrorManager::Instance()->ReportError(ErrorManager::Medium, 5025, "PersistentAccount::DeleteFile", sErrorMessage);
-
-
          return false;
       }
 

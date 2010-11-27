@@ -891,7 +891,7 @@ namespace HM
 
          String sLogMessage;
          sLogMessage.Format(_T("hMailServer SpamProtection rejected RCPT (Sender: %s, IP:%s, Reason: %s)"), sFromAddress, String(GetIPAddressString()), messageText);
-         LOG_SMTP(0,"APP",sLogMessage);
+         LOG_APPLICATION(sLogMessage);
 
          return false;
       }

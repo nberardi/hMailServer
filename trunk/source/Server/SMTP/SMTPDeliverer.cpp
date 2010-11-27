@@ -129,7 +129,7 @@ namespace HM
 
       String logText;
       logText.Format(_T("SMTPDeliverer - Message %I64d: Message delivery thread completed."), messageID);
-      LOG_SMTP_CLIENT(0,"APP",logText);
+      LOG_APPLICATION(logText);
 
       return;   
    }
@@ -176,7 +176,7 @@ namespace HM
       String sMessage = Formatter::Format("SMTPDeliverer - Message {0}: Delivering message from {1} to {2}. File: {3}",
                                                 pMessage->GetID(), pMessage->GetFromAddress(), sRecipientList, messageFileName);
 
-      LOG_SMTP_CLIENT(0,"APP",sMessage);
+      LOG_APPLICATION(sMessage);
 
       // Run the first event in the delivery chain
       if (!Events::FireOnDeliveryStart(pMessage))
@@ -352,7 +352,7 @@ namespace HM
          String logMessage = Formatter::Format("SMTPDeliverer - Message {0}: Message deleted (contained virus {1}).", 
             pMessage->GetID(), virusName);
 
-         LOG_SMTP_CLIENT(0,"APP",logMessage);
+         LOG_APPLICATION(logMessage);
 
          PersistentMessage::DeleteObject(pMessage);
          
@@ -368,7 +368,7 @@ namespace HM
          String logMessage = Formatter::Format("SMTPDeliverer - Message {0}: Message attachments stripped (contained virus {1}).", 
             pMessage->GetID(), virusName);
 
-         LOG_SMTP_CLIENT(0,"APP",logMessage);
+         LOG_APPLICATION(logMessage);
 
          return true; // continue delivery
       }
@@ -437,7 +437,7 @@ namespace HM
             pMessage->GetID(), 
             sDeleteRuleName);
 
-         LOG_SMTP_CLIENT(0,"APP",sMessage);
+         LOG_APPLICATION(sMessage);
 
          PersistentMessage::DeleteObject(pMessage);
          return false;

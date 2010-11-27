@@ -256,7 +256,7 @@ namespace HM
             _T("Delivery to this account was cancelled since the account inbox is full. Max size: %d MB, Current size (including cancelled message): %d MB"), 
             _originalMessage->GetID(), String(pCheckAccount->GetAddress()), pCheckAccount->GetAccountMaxSize(), (currentSize / 1024 / 1024));
 
-         LOG_SMTP(0,"APP",sMessage);
+         LOG_APPLICATION(sMessage);
 
          return false;
       }
@@ -360,7 +360,7 @@ namespace HM
          String sMessage = Formatter::Format("SMTPDeliverer - Message {0}: The message was not delivered to {1}. Delivery to this account was canceled by an account rule {2}.",
                                                    pMessage->GetID(), pAccount->GetAddress(), sDeleteRuleName);
 
-         LOG_SMTP(0,"APP",sMessage);
+         LOG_APPLICATION(sMessage);
          return false;
       }
 

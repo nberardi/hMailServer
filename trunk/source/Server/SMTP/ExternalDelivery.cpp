@@ -170,7 +170,7 @@ namespace HM
          int iMXServerLimit = (_originalMessage->GetNoOfRetries()+1) * m_iMXTriesFactor;
          if (m_iMXTriesFactor > 0 && i + 1 >= (unsigned int) iMXServerLimit )
          {
-            LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Limiting to MXTriesFactored value of " + StringParser::IntToString(iMXServerLimit) + ".");      
+            LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Limiting to MXTriesFactored value of " + StringParser::IntToString(iMXServerLimit) + ".");      
             break;
          }
       }
@@ -194,7 +194,7 @@ namespace HM
       {
          String relayServer = serverInfo->GetHostName();
 
-         LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Relaying to host " + relayServer + ".");      
+         LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Relaying to host " + relayServer + ".");      
 
          vector<String> mailServerHosts;
          if (relayServer.Find(_T("|")) > 0)
@@ -300,7 +300,7 @@ namespace HM
    // Takes care of the situation when no valid recipient server addresses exist.
    //---------------------------------------------------------------------------()
    {
-      LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": No mail servers could be found for the address " + (*vecRecipients.begin())->GetAddress() + ".");
+      LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": No mail servers could be found for the address " + (*vecRecipients.begin())->GetAddress() + ".");
 
       String bounceMessageText;
 
@@ -490,7 +490,7 @@ namespace HM
          // For now we unlock message here but might be best to do @ ETRN time..
          PersistentMessage::UnlockObject(_originalMessage);
 
-         LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Route Message: HOLD for later delivery..");
+         LOG_APPLICATION("SMTPDeliverer - Route Message: HOLD for later delivery..");
          return true; // Do not delete e-mail now
       }
 
@@ -499,8 +499,9 @@ namespace HM
          // We should try at least once more - reschedule the message.
 
          // First few retries should be quicker for greylisting IF enabled
-         if (iCurNoOfRetries < m_iQuickRetries) {
-            LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Greylisting? Scheduling it for quick retry " + StringParser::IntToString(iCurNoOfRetries + 1) + " of " + StringParser::IntToString(m_iQuickRetries) + " in " + StringParser::IntToString(m_iQuickRetriesMinutes + iRandomAdjust) + " minutes.");
+         if (iCurNoOfRetries < m_iQuickRetries) 
+         {
+            LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Greylisting? Scheduling it for quick retry " + StringParser::IntToString(iCurNoOfRetries + 1) + " of " + StringParser::IntToString(m_iQuickRetries) + " in " + StringParser::IntToString(m_iQuickRetriesMinutes + iRandomAdjust) + " minutes.");
             PersistentMessage::SetNextTryTime(_originalMessage->GetID(), true, m_iQuickRetriesMinutes + iRandomAdjust);
          
             // Unlock the message now so that a future delivery thread can pick it up.
@@ -511,7 +512,7 @@ namespace HM
          }
          else
          {
-            LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery in " + StringParser::IntToString(lMinutesBewteen + iRandomAdjust) + " minutes..");
+            LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery in " + StringParser::IntToString(lMinutesBewteen + iRandomAdjust) + " minutes..");
             PersistentMessage::SetNextTryTime(_originalMessage->GetID(), true, lMinutesBewteen + iRandomAdjust);
          
             // Unlock the message now so that a future delivery thread can pick it up.
@@ -524,7 +525,7 @@ namespace HM
       else
       {
          // We are finished trying. Let's give up!
-         LOG_SMTP_CLIENT(0,"APP","SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Returning error log to sender.");
+         LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Returning error log to sender.");
 
          // Delivery failed the last time.
          String sErrorMessage;
