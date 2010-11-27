@@ -19,7 +19,6 @@ namespace HM
       void Refresh();
       void Refresh(__int64 iDomainID);
       String GetNames();
-      bool ETRNDomain(String sDomainName);
 
    protected:
       virtual String GetCollectionName() const {return "Domains"; }
