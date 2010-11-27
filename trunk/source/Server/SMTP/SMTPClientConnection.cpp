@@ -387,9 +387,11 @@ namespace HM
    SMTPClientConnection::OnConnectionTimeout()
    {
       if (m_bSessionEnded)
-{       _UpdateAllRecipientsWithError(0, "SESSION ENDED but there was a timeout while talking to the remote server.", false);
-         return; // The session has ended, so any error which takes place now is not interesting.
-}
+      {       
+         LOG_DEBUG("Session has ended, but there was a timeout while waiting for a response from the remote server.");
+         return; // The session has already ended, so any error which takes place now is not interesting.
+      }
+
       _UpdateAllRecipientsWithError(0, "There was a timeout while talking to the remote server.", false);
    }
 
