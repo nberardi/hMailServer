@@ -8,9 +8,12 @@
 
 #include "../TCPIP/SynchronousConnection.h"
 #include "../Util/ByteBuffer.h"
-#include "../Util/RegularExpression.h"
 
 #include "../Application/TimeoutCalculator.h"
+
+#include <Boost/Regex.hpp>
+using namespace boost;
+
 
 #ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
