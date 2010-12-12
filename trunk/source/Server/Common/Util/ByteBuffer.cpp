@@ -20,7 +20,23 @@ namespace HM
 
    ByteBuffer::~ByteBuffer()
    {
-      Empty();
+      try
+      {
+         if (m_pBuffer)
+         {
+            delete [] m_pBuffer;
+            m_pBuffer = 0;
+
+            m_lBufferSize = 0;
+         }   
+      }
+      catch (...)
+      {
+         String message;
+         message.Format(_T("Error when emptying buffer. This: %d"), this);
+         ErrorManager::Instance()->ReportError(ErrorManager::High, 5339, "ByteBuffer::~ByteBuffer", message);
+         throw;
+      }
    }
 
    void 

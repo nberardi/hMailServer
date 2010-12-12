@@ -72,35 +72,73 @@ namespace HM
    void 
    TransparentTransmissionBuffer::Append(const BYTE *pBuffer, int iBufferSize)
    {
+      if (iBufferSize == 0)
+      {
+         // Nothing to add.
+         return;
+      }   
+
+      if (pBuffer == 0)
+      {
+         ErrorManager::Instance()->ReportError(ErrorManager::High, 5411, "TransparentTransmissionBuffer::Append", "pBuffer is NULL");
+         throw;
+      }
+
+      if (m_pBuffer == 0)
+      {
+         ErrorManager::Instance()->ReportError(ErrorManager::High, 5412, "TransparentTransmissionBuffer::Append", "m_pBuffer is NULL");
+         throw;
+      }
+
       m_iDataSent+= iBufferSize;
 
       // Add the new data to the buffer.
-      m_pBuffer->Add(pBuffer, iBufferSize);
+      try
+      {
+         // Add the new data to the buffer.
+         m_pBuffer->Add(pBuffer, iBufferSize);
+      }
+      catch (...)
+      {
+         String message;
+         message.Format(_T("Error when appending buffer. Buffer: %d, pBuffer: %d, Size: %d"), &m_pBuffer, &pBuffer, iBufferSize);
+
+         ErrorManager::Instance()->ReportError(ErrorManager::High, 5413, "TransparentTransmissionBuffer::Append", message);
+         throw;
+      }
 
       // Check if we have received the entire buffer.
       if (m_pBuffer->GetSize() >= 3 && !m_bIsSending)
       {
-         // If receiving, we should check for end-of-data
-         int iSize = m_pBuffer->GetSize();
-         const char *pCharBuffer = m_pBuffer->GetCharBuffer();
-         
-         // Check if the buffer only contains a dot on an empty line.
-         bool bDotCRLFOnEmptyLine = (pCharBuffer[0] == '.' && pCharBuffer[1] == '\r' && pCharBuffer[2] == '\n');
-         
-         // Look for \r\n.\r\n. 
-         bool bLineBeginnningWithDotCRLF = m_pBuffer->GetSize() >= 5 &&
-                                             (pCharBuffer[iSize -5] == '\r' && 
-                                             pCharBuffer[iSize -4] == '\n' && 
-                                             pCharBuffer[iSize -3] == '.' && 
-                                             pCharBuffer[iSize -2] == '\r' && 
-                                             pCharBuffer[iSize -1] == '\n');
-         
-         if (bDotCRLFOnEmptyLine || bLineBeginnningWithDotCRLF)
+         try
          {
-            // Remove the transmission-end characters. (the 3 last)
-            m_pBuffer->DecreaseSize(3);
-            
-            m_bTransmissionEnded = true;
+            // If receiving, we should check for end-of-data
+            int iSize = m_pBuffer->GetSize();
+            const char *pCharBuffer = m_pBuffer->GetCharBuffer();
+
+            // Check if the buffer only contains a dot on an empty line.
+            bool bDotCRLFOnEmptyLine = (pCharBuffer[0] == '.' && pCharBuffer[1] == '\r' && pCharBuffer[2] == '\n');
+
+            // Look for \r\n.\r\n. 
+            bool bLineBeginnningWithDotCRLF = m_pBuffer->GetSize() >= 5 &&
+               (pCharBuffer[iSize -5] == '\r' && 
+               pCharBuffer[iSize -4] == '\n' && 
+               pCharBuffer[iSize -3] == '.' && 
+               pCharBuffer[iSize -2] == '\r' && 
+               pCharBuffer[iSize -1] == '\n');
+
+            if (bDotCRLFOnEmptyLine || bLineBeginnningWithDotCRLF)
+            {
+               // Remove the transmission-end characters. (the 3 last)
+               m_pBuffer->DecreaseSize(3);
+
+               m_bTransmissionEnded = true;
+            }
+         }
+         catch (...)
+         {
+            ErrorManager::Instance()->ReportError(ErrorManager::High, 5339, "TransparentTransmissionBuffer::Append", "Error when checking for linebreaks.");
+            throw;
          }
       }
    }

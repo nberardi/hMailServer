@@ -177,7 +177,7 @@ namespace UnitTest.SSL
                   IMAPSimulator imapSim = new IMAPSimulator(true, 14300);
                   imapSim.ConnectAndLogon(account.Address, "test");
                   Assert.IsTrue(imapSim.SelectFolder("Inbox"), "SelectInbox");
-                  Assert.IsTrue(imapSim.CreateFolder("Test"), "CreateFolder");
+                  imapSim.CreateFolder("Test");
                   Assert.IsTrue(imapSim.SelectFolder("Test"), "SelectTest");
                   Assert.IsTrue(imapSim.Logout(), "Logout");
 

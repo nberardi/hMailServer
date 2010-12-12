@@ -82,8 +82,7 @@ namespace HM
    {
       CriticalSectionScope scope(_criticalSection);
 
-      // Check that we have items to process and that 
-      // we are not currently processing some.
+      // Do we have any items to process? If not, not much to do.
       if (_queueOperations.empty())
       {
          shared_ptr<IOOperation> empty;
@@ -119,50 +118,49 @@ namespace HM
                return empty;         
             }
 
-            // Changes below fix for race condition causing POP errors when send/receive timing was off
-            if (ongoingType == IOOperation::BCTSend && (pendingType == IOOperation::BCTReceive || pendingType == IOOperation::BCTShutdownSend))
+            switch (ongoingType)
             {
-                  /* 
-                     If we're currently sending data, we cannot disconnect or receive. 
-                     Case in point:
-                     A client connects to hMailServer, and there is timeout while waiting  
-                     for client commands. At this time, hMailServer will send a timeout-message
-                     to the client. 
-                     - We must wait for the BCTSend-operation to complete, so that the client is notified. 
-                     - We must not wait for the BCTReceive-operation to complete, since we might not receive one.
-                  */
-                  
-                  shared_ptr<IOOperation> empty;
-                  return empty;
-            }
-            
-            if (ongoingType == IOOperation::BCTReceive && (pendingType == IOOperation::BCTSend || pendingType == IOOperation::BCTShutdownSend))
-            {
-                  /* 
-                     If we're currently receiving data, we cannot send or disconnect. 
-                  */
+            case IOOperation::BCTSend:
+               {
+                  switch (pendingType)
+                  {
+                     case IOOperation::BCTSend:         // We can only send one item at a time.
+                     case IOOperation::BCTReceive:      // We can not start to process new incoming commands before old data has been sent.
+                     case IOOperation::BCTDisconnect:   // We can't disconnect - we want timeout commands to be sent to client.
+                     case IOOperation::BCTShutdownSend: // We can't disable send-mode while we're sending data. Makes no sense.
+                        shared_ptr<IOOperation> empty;
+                        return empty;  
 
-               // Only restrict if more than 1 Op in queue to fix timeout not occurring issue
-               if (_ongoingOperations.size() > 1)
-               {                  
-                  shared_ptr<IOOperation> empty;
-                  return empty;
+                  }
+                  break;
                }
-            }
-            
-            if (ongoingType == IOOperation::BCTShutdownSend && (pendingType == IOOperation::BCTSend || pendingType == IOOperation::BCTReceive))
-            {
-                  /* 
-                     If we're currently ShutdownSend, we cannot disconnect, send or receive. 
-                  */
-                  
-               // Only restrict if more than 1 Op in queue to fix timeout not occurring issue
-               if (_ongoingOperations.size() > 1)
-               {                  
-                  shared_ptr<IOOperation> empty;
-                  return empty;
+            case IOOperation::BCTReceive:
+               {
+                  switch (pendingType)
+                  {
+                  case IOOperation::BCTSend:         // We may send data while waiting for data - timeout messages to clients.
+                  case IOOperation::BCTDisconnect:   // We may disconnect even though we're waiting for data. If a client times out, this would be nice.
+                  case IOOperation::BCTShutdownSend: // It's OK to close the sending even thoug we're receiving data.
+                     break;
+                  case IOOperation::BCTReceive:      // We can not start new receives while we're already waiting for data. Does not make any sense.
+                     shared_ptr<IOOperation> empty;
+                     return empty;  
+                  }
+                  break;
                }
-            }            
+            case IOOperation::BCTDisconnect:
+               {
+                  // If we're disconnecting we can't start any new operations.
+                  shared_ptr<IOOperation> empty;
+                  return empty;  
+               }
+            case IOOperation::BCTShutdownSend:
+               {
+                  // Shutting down Send isn't an async operation. We can wait for it to complete.
+                  shared_ptr<IOOperation> empty;
+                  return empty;  
+               }
+            }         
          }
       }
 

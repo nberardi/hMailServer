@@ -580,12 +580,7 @@ namespace HM
       responseTemp.Format(_T("+OK %d octets\r\n"), message->GetSize());
       AnsiString responseString = responseTemp;
 
-      shared_ptr<ByteBuffer> pBuffer = _currentFile.ReadChunk(20000);
-      if (!pBuffer)
-         return;
-
       m_oTransmissionBuffer.Append((BYTE*) responseString.GetBuffer(), responseString.GetLength());
-      m_oTransmissionBuffer.Append(pBuffer->GetBuffer(), pBuffer->GetSize());
       
 	  _ReadAndSend();
    }
@@ -593,39 +588,49 @@ namespace HM
    void 
    POP3Connection::_ReadAndSend()
    {
-      // Continue sending the file..
-      int bufferSize = GetBufferSize();
-
-      shared_ptr<ByteBuffer> pBuffer = _currentFile.ReadChunk(bufferSize);
-
-      while (pBuffer)
+      try
       {
-         m_oTransmissionBuffer.Append(pBuffer->GetBuffer(), pBuffer->GetSize());
+         // Continue sending the file..
+         int bufferSize = GetBufferSize();
 
-         if (m_oTransmissionBuffer.Flush())
+         shared_ptr<ByteBuffer> pBuffer = _currentFile.ReadChunk(bufferSize);
+
+         while (pBuffer)
          {
-            // Data was sent. We'll wait with sending more data until
-            // the current data has been sent.
-            return; 
+            m_oTransmissionBuffer.Append(pBuffer->GetBuffer(), pBuffer->GetSize());
+
+            if (m_oTransmissionBuffer.Flush())
+            {
+               // Data was sent. We'll wait with sending more data until
+               // the current data has been sent.
+               return; 
+            }
+
+            // No data was sent. Send some more...
+            pBuffer = _currentFile.ReadChunk(bufferSize);
          }
 
-         // No data was sent. Send some more...
-         pBuffer = _currentFile.ReadChunk(bufferSize);
+         // We're done. Cleanup...
+         _currentFile.Close();
+
+         // No more data to send. Make sure all buffered data is flushed.
+         m_oTransmissionBuffer.Flush(true);
+
+         if (!m_oTransmissionBuffer.GetLastSendEndedWithNewline())
+            _SendData(""); // Send a newline character now.
+
+         _SendData(".");
+
+         // Request new data from the client now.
+         PostReceive();
       }
+      catch (...)
+      {
+         String location = _T("An unknown error occurred while reading and sending file data.");
+         ErrorManager::Instance()->ReportError(ErrorManager::High, 5414, "POP3Connection::_ReadAndSend", location);
 
-      // We're done. Cleanup...
-      _currentFile.Close();
-
-      // No more data to send. Make sure all buffered data is flushed.
-      m_oTransmissionBuffer.Flush(true);
-
-      if (!m_oTransmissionBuffer.GetLastSendEndedWithNewline())
-         _SendData(""); // Send a newline character now.
-
-      _SendData(".");
-
-      // Request new data from the client now.
-      PostReceive();
+         throw;
+      }
    }
    
    void

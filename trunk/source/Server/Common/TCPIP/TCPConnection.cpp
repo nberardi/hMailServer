@@ -368,27 +368,8 @@ namespace HM
    {
       try
       {
-         if (pBuffer->GetSize() <= BufferSize)
-         {
-            shared_ptr<IOOperation> operation = shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTSend, pBuffer));
-            _operationQueue.Push(operation);
-         }
-         else
-         {
-            // We'll have to split the buffer.
-            for (int i = 0; i < pBuffer->GetSize(); i = i + BufferSize)
-            {
-               int remainingData = pBuffer->GetSize() - i;
-               int partialBufferSize = min(remainingData, BufferSize);
-
-               shared_ptr<ByteBuffer> pPartialBuffer = shared_ptr<ByteBuffer>(new ByteBuffer);
-               pPartialBuffer->Add(pBuffer->GetBuffer() + i, partialBufferSize);
-
-               shared_ptr<IOOperation> operation = shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTSend, pPartialBuffer));
-               _operationQueue.Push(operation);
-
-            }
-         }
+         shared_ptr<IOOperation> operation = shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTSend, pBuffer));
+         _operationQueue.Push(operation);
 
          _ProcessOperationQueue();
       }
@@ -834,58 +815,95 @@ namespace HM
       try
       {
          // Remove the item we have just handled.
-         _operationQueue.Pop(IOOperation::BCTReceive);
-
-         if (error.value() != 0)
+         try
          {
-            // This isn't really an error.
-            bool isClientDisconnectedError = error.value() == 2;
-            
-            if (isClientDisconnectedError == false)
-            {
-               _protocolParser->OnReadError(error.value());
+            _operationQueue.Pop(IOOperation::BCTReceive);
+         }
+         catch (...)
+         {
+            ReportError(ErrorManager::Medium, 5141, "TCPConnection::HandleRead", "An error occurred while popping queue");
+            throw;
+         }
 
-               String message;
-               message.Format(_T("The read operation failed. Bytes transferred: %d"), bytes_transferred);
-               ReportDebugMessage(message, error);
-            }
-
-            if (error.value() == boost::asio::error::not_found)
+         try
+         {
+            if (error.value() != 0)
             {
-               // read buffer is full...
-               _protocolParser->OnExcessiveDataReceived();
-               PostDisconnect();
+               // This isn't really an error.
+               bool isClientDisconnectedError = error.value() == 2;
+               
+               if (isClientDisconnectedError == false)
+               {
+                  _protocolParser->OnReadError(error.value());
+
+                  String message;
+                  message.Format(_T("The read operation failed. Bytes transferred: %d"), bytes_transferred);
+                  ReportDebugMessage(message, error);
+               }
+
+               if (error.value() == boost::asio::error::not_found)
+               {
+                  // read buffer is full...
+                  _protocolParser->OnExcessiveDataReceived();
+                  PostDisconnect();
+                  return;
+               }
+
                return;
             }
-
-            return;
+         }
+         catch (...)
+         {
+            ReportError(ErrorManager::Medium, 5141, "TCPConnection::HandleRead", "An error occurred while checking error state");
+            throw;
          }
 
          // Disable the logout timer while we're parsing data. We don't want to terminate
          // a client just because he has issued a long-running command. If we do this, we
          // would have to take care of the fact that we're dropping a connectio despite it
          // still being active.
-         CancelLogoutTimer();
+         try
+         {
+            CancelLogoutTimer();
+         }
+         catch (...)
+         {
+            ReportError(ErrorManager::Medium, 5141, "TCPConnection::HandleRead", "An error occurred while cancelling logout timer.");
+            throw;
+         }
 
          if (_receiveBinary)
          {
-            shared_ptr<ByteBuffer> pBuffer = shared_ptr<ByteBuffer>(new ByteBuffer());
-            pBuffer->Allocate(_receiveBuffer.size());
-
-            std::istream is(&_receiveBuffer);
-            is.read((char*) pBuffer->GetBuffer(), _receiveBuffer.size());
-
             try
             {
-               _protocolParser->ParseData(pBuffer);
-            }
-            catch (boost::system::system_error error)
-            {
-               ReportError(ErrorManager::Medium, 5136, "TCPConnection::HandleRead", "An error occured while parsing buffer.", error);
+               shared_ptr<ByteBuffer> pBuffer = shared_ptr<ByteBuffer>(new ByteBuffer());
+               pBuffer->Allocate(_receiveBuffer.size());
+
+               std::istream is(&_receiveBuffer);
+               is.read((char*) pBuffer->GetBuffer(), _receiveBuffer.size());
+
+               try
+               {
+                  _protocolParser->ParseData(pBuffer);
+               }
+               catch (boost::system::system_error error)
+               {
+                  ReportError(ErrorManager::Medium, 5136, "TCPConnection::HandleRead", "An error occured while parsing buffer.", error);
+                  throw;
+               }
+               catch (...)
+               {
+                  String message;
+                  message.Format(_T("An error occured while parsing buffer. Received bytes: %d, Buffer: %d, Buffer size: %d"), bytes_transferred, &pBuffer, pBuffer->GetSize());
+
+                  ReportError(ErrorManager::Medium, 5136, "TCPConnection::HandleRead", "An error occured while parsing buffer.");
+                  throw;
+               }
             }
             catch (...)
             {
-               ReportError(ErrorManager::Medium, 5136, "TCPConnection::HandleRead", "An error occured while parsing buffer.");
+               ReportError(ErrorManager::Medium, 5136, "TCPConnection::HandleRead", "An error occured while parsing binary data.");
+               throw;
             }
          }
          else
@@ -930,6 +948,7 @@ namespace HM
       catch (...)
       {
          ReportError(ErrorManager::Medium, 5141, "TCPConnection::HandleRead", "An error occurred while handling read operation.");
+         throw;
       }
       
       _ProcessOperationQueue();
@@ -941,7 +960,15 @@ namespace HM
       try
       {
          // Remove the item we have just handled.
-         _operationQueue.Pop(IOOperation::BCTSend);
+         try
+         {
+            _operationQueue.Pop(IOOperation::BCTSend);
+         }
+         catch (...)
+         {
+            ErrorManager::Instance()->ReportError(ErrorManager::High, 5339, "TCPConnection::HandleWrite", "An unknown error occurred while handling buffer write and popping queue.");
+            throw;
+         }
 
          if (error.value() != 0)
          {
@@ -949,17 +976,48 @@ namespace HM
             return;
          }
 
-         // notify the connection that all data is sent, so that it can continue now.
-         if (!_operationQueue.ContainsQueuedSendOperation())
+         bool containsQueuedSendOperations = false;
+
+         try
          {
-            _protocolParser->OnDataSent();
+            containsQueuedSendOperations = _operationQueue.ContainsQueuedSendOperation();
+         }
+         catch (...)
+         {
+            ErrorManager::Instance()->ReportError(ErrorManager::High, 5339, "TCPConnection::HandleWrite", "An unknown error occurred while handling buffer write and checking if queue contained buffered operations.");
+            throw;
          }
 
-         _ProcessOperationQueue();
+         if (!containsQueuedSendOperations)
+         {
+            try
+            {
+               _protocolParser->OnDataSent();
+            }
+            catch (...)
+            {
+               ErrorManager::Instance()->ReportError(ErrorManager::High, 5339, "TCPConnection::HandleWrite", "An unknown error occurred while handling buffer write and notifying protocol parser that data was sent.");
+               throw;
+            }
+
+         }
+
+         try
+         {
+            _ProcessOperationQueue();
+         }
+         catch (...)
+         {
+            ErrorManager::Instance()->ReportError(ErrorManager::High, 5339, "TCPConnection::HandleWrite", "An unknown error occurred while handling buffer write and processing the queue.");
+            throw;
+         }
       }
       catch (...)
       {
-         ErrorManager::Instance()->ReportError(ErrorManager::High, 5339, "TCPConnection::HandleWrite", "An unknown error occurred while handling buffer write.");
+         String message;
+         message.Format(_T("An unknown error occurred while handling buffer write. Session ID: %d, Transferred bytes: %d"),  GetSessionID(), bytes_transferred);
+
+         ErrorManager::Instance()->ReportError(ErrorManager::High, 5339, "TCPConnection::HandleWrite", message);
          throw;
       }
    }
