@@ -565,8 +565,6 @@ namespace HM
       {
          m_pSenderDomain = CacheContainer::Instance()->GetDomain(StringParser::ExtractDomain(sAccountAddress));
          m_pSenderAccount = CacheContainer::Instance()->GetAccount(sAccountAddress);
-
-         PersistentAccount::UpdateLastLogonTime(m_pSenderAccount);
       }
       catch (...)
       {

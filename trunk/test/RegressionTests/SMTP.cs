@@ -1134,5 +1134,51 @@ namespace UnitTest.Protocols.SMTP
          string log = Utilities.ReadCurrentDefaultLog();
          Assert.IsTrue(log.Contains("Truncating MX server list."));
       }
+
+      [Test]
+      [Description("Issue 325, Last logon time being updated at wrong point")]
+      public void MailFromShouldNotUpdatedLastLogonTime()
+      {
+         hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "us'er@test.com", "test");
+         DateTime lastLogonTimeBefore = Convert.ToDateTime(account.LastLogonTime);
+
+         System.Threading.Thread.Sleep(1000);
+         SMTPSimulator.StaticSend("someone@test.com", "us'er@test.com", "Test", "Test");
+
+         Utilities.AssertRecipientsInDeliveryQueue(0);
+         DateTime lastLogonTimeAfter = Convert.ToDateTime(SingletonProvider<Utilities>.Instance.GetApp().Domains[0].Accounts[0].LastLogonTime);
+         Assert.AreEqual(lastLogonTimeBefore, lastLogonTimeAfter);
+      }
+
+      [Test]
+      [Description("Issue 325, Last logon time being updated at wrong point")]
+      public void AuthShouldUpdateLastLogonTime()
+      {
+         hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
+         DateTime lastLogonTimeBefore = Convert.ToDateTime(account.LastLogonTime);
+
+         System.Threading.Thread.Sleep(1000);
+         TCPSocket sock = new TCPSocket();
+         sock.Connect(25);
+         Assert.IsTrue(sock.Receive().StartsWith("220"));
+         sock.Send("EHLO test.com\r\n");
+         Assert.IsTrue(sock.Receive().StartsWith("250"));
+
+         string base64EncodedUsername = EncodeBase64("test@test.com");
+         sock.Send("AUTH LOGIN " + base64EncodedUsername + "\r\n");
+         Assert.IsTrue(sock.Receive().StartsWith("334"));
+
+         sock.Send(EncodeBase64("test") + "\r\n");
+         Assert.IsTrue(sock.Receive().StartsWith("235"));
+
+         DateTime lastLogonTimeAfter = Convert.ToDateTime(SingletonProvider<Utilities>.Instance.GetApp().Domains[0].Accounts[0].LastLogonTime);
+         Assert.AreNotEqual(lastLogonTimeBefore, lastLogonTimeAfter);
+      }
+
+      private string EncodeBase64(string s)
+      {
+         byte[] bytes = System.Text.Encoding.UTF8.GetBytes(s);
+         return System.Convert.ToBase64String(bytes);
+      }
    }
 }
