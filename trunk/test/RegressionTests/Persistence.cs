@@ -364,5 +364,89 @@ namespace UnitTest.Persistence
 
          Assert.AreEqual((long)account.MaxSize + (long)secondAccount.MaxSize, domain.AllocatedSize);
       }
+
+      [Test]
+      [Description("Issue 343, Changing domain name doesn't change distribution list addresses")]
+      public void TestRenameDomainWithList()
+      {
+         hMailServer.DistributionList oList = _domain.DistributionLists.Add();
+         oList.Address = "list@test.com";
+         oList.Active = true;
+         oList.Save();
+
+         hMailServer.DistributionListRecipient oRecipient = oList.Recipients.Add();
+         oRecipient.RecipientAddress = "recipient1@test.com";
+         oRecipient.Save();
+
+         oRecipient = oList.Recipients.Add();
+         oRecipient.RecipientAddress = "recipient2@Test.com";
+         oRecipient.Save();
+
+         oRecipient = oList.Recipients.Add();
+         oRecipient.RecipientAddress = "recipient3@otherdomain.com";
+         oRecipient.Save();
+
+         _domain.Name = "example.com";
+         _domain.Save();
+
+         var list = _domain.DistributionLists[0];
+         Assert.AreEqual("list@example.com", list.Address);
+         Assert.AreEqual("recipient1@example.com", list.Recipients[0].RecipientAddress);
+         Assert.AreEqual("recipient2@example.com", list.Recipients[1].RecipientAddress);
+         Assert.AreEqual("recipient3@otherdomain.com", list.Recipients[2].RecipientAddress);
+
+
+      }
+
+      [Test]
+      [Description("Issue 343, Changing domain name doesn't change distribution list addresses")]
+      public void TestRenameDomainWithAliases()
+      {
+         var alias1 = _domain.Aliases.Add();
+         alias1.Name =  "alias1@test.com";
+         alias1.Value = "alias2@test.com";
+         alias1.Save();
+
+         var alias2 = _domain.Aliases.Add();
+         alias2.Name = "alias2@test.com";
+         alias2.Value = "account@test.com";
+         alias2.Save();
+
+         var alias3 = _domain.Aliases.Add();
+         alias3.Name = "alias3@test.com";
+         alias3.Value = "external@external.com";
+         alias3.Save();
+
+         _domain.Name = "example.com";
+         _domain.Save();
+
+         Assert.AreEqual("alias1@example.com", _domain.Aliases[0].Name);
+         Assert.AreEqual("alias2@example.com", _domain.Aliases[0].Value);
+
+         Assert.AreEqual("alias2@example.com", _domain.Aliases[1].Name);
+         Assert.AreEqual("account@example.com", _domain.Aliases[1].Value);
+
+         Assert.AreEqual("alias3@example.com", _domain.Aliases[2].Name);
+         Assert.AreEqual("external@external.com", _domain.Aliases[2].Value);
+      }
+
+      [Test]
+      [Description("Issue 343, Changing domain name doesn't change distribution list addresses")]
+      public void TestRenameDomainWithAccountForward()
+      {
+         hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "account1@test.com", "test");
+         oAccount1.ForwardAddress = "someone@test.com";
+         oAccount1.Save();
+
+         hMailServer.Account oAccount2 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "account2@test.com", "test");
+         oAccount2.ForwardAddress = "someone@external.com";
+         oAccount2.Save();
+
+         _domain.Name = "example.com";
+         _domain.Save();
+
+         Assert.AreEqual("someone@example.com", _domain.Accounts[0].ForwardAddress);
+         Assert.AreEqual("someone@external.com", _domain.Accounts[1].ForwardAddress);
+      }
    }
 }

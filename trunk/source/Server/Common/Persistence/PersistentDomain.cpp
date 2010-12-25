@@ -7,6 +7,7 @@
 #include "PersistentAccount.h"
 #include "PersistentAlias.h"
 #include "PersistentDistributionList.h"
+#include "PersistentDistributionListRecipient.h"
 
 #include "../BO/Domain.h"
 #include "../BO/DomainAliases.h"
@@ -15,6 +16,8 @@
 #include "../BO/Aliases.h"
 #include "../BO/Account.h"
 #include "../BO/DistributionLists.h"
+#include "../BO/DistributionListRecipients.h"
+#include "../BO/DistributionListRecipient.h"
 #include "../Cache/Cache.h"
 
 #include "PreSaveLimitationsCheck.h"
@@ -77,8 +80,10 @@ namespace HM
    }
 
    bool
-   PersistentDomain::_RenameDomain(shared_ptr<Domain> pDomain)
+   PersistentDomain::_RenameDomain(const String& oldDomainName, shared_ptr<Domain> pDomain)
    {
+      const String& newDomainName = pDomain->GetName();
+
       // Update accounts...
       std::vector<shared_ptr<Account> > vecAccounts = pDomain->GetAccounts()->GetVector();
       std::vector<shared_ptr<Account> >::iterator iterAccount = vecAccounts.begin();
@@ -89,8 +94,12 @@ namespace HM
          shared_ptr<Account> pAccount = (*iterAccount);
          
          String sAddress = pAccount->GetAddress();
-         _UpdateDomainName(sAddress, pDomain);
+         _UpdateDomainName(sAddress, oldDomainName, newDomainName);
          pAccount->SetAddress(sAddress);
+
+         String currentVal = pAccount->GetForwardAddress();
+         if (_UpdateDomainName(currentVal, oldDomainName, newDomainName))
+            pAccount->SetForwardAddress(currentVal);
 
          PersistentAccount::SaveObject(pAccount);
       }
@@ -105,8 +114,13 @@ namespace HM
          shared_ptr<Alias> pAlias = (*iterAlias);
 
          String sAddress = pAlias->GetName();
-         _UpdateDomainName(sAddress, pDomain);
+         _UpdateDomainName(sAddress, oldDomainName, newDomainName);
          pAlias->SetName(sAddress);
+
+         String aliasValue = pAlias->GetValue();
+
+         if (_UpdateDomainName(aliasValue, oldDomainName, newDomainName))
+            pAlias->SetValue(aliasValue);
 
          PersistentAlias::SaveObject(pAlias);
       }
@@ -121,8 +135,19 @@ namespace HM
          shared_ptr<DistributionList> pList = (*iterList);
 
          String sAddress = pList->GetAddress();
-         _UpdateDomainName(sAddress, pDomain);
+         _UpdateDomainName(sAddress, oldDomainName,newDomainName);
          pList->SetAddress(sAddress);
+
+         vector<shared_ptr<HM::DistributionListRecipient>> recipients = pList->GetMembers()->GetVector();
+         boost_foreach(shared_ptr<DistributionListRecipient> recipient, recipients)
+         {
+            String address = recipient->GetAddress();
+            if (_UpdateDomainName(address,oldDomainName, newDomainName))
+            {
+               recipient->SetAddress(address);
+               PersistentDistributionListRecipient::SaveObject(recipient);
+            }
+         }
 
          PersistentDistributionList::SaveObject(pList);
       }
@@ -130,21 +155,26 @@ namespace HM
       return true;
    }
 
-   void 
-   PersistentDomain::_UpdateDomainName(String &sAddress, shared_ptr<Domain> pDomain)
+   bool 
+   PersistentDomain::_UpdateDomainName(String &sAddress, const String &oldDomainName, const String& newDomainName)
    {
-      int atPos = sAddress.Find(_T("@"));
-      if (atPos < 0)
+      
+      if (!sAddress.EndsWith("@" + oldDomainName))
       {
          // Doesn't seem to contain the domain name.
-         return;
+         return false;
       }
       
+      int atPos = sAddress.Find(_T("@"));
+
+
       // Remove the current domain name.
       sAddress = sAddress.Mid(0, atPos+1);
 
       // Add the new one.
-      sAddress += pDomain->GetName();
+      sAddress += newDomainName;
+
+      return true;
    }
 
    bool
@@ -249,7 +279,7 @@ namespace HM
          if (pTempDomain->GetName().CompareNoCase(pDomain->GetName()) != 0)
          {
             // Name has been changed. Rename all sub objects first.
-            _RenameDomain(pDomain);
+            _RenameDomain(pTempDomain->GetName(), pDomain);
          }
       }
 
