@@ -342,7 +342,7 @@ namespace HM
       HM::DatabaseSettings::SQLDBType DBType = IniFileSettings::Instance()->GetDatabaseType();
 
       String sSQL;
-      if (DBType == DatabaseSettings::TypeMSSQLServer || DBType == DatabaseSettings::TypePGServer)
+      if (DBType == DatabaseSettings::TypeMSSQLServer || DBType == DatabaseSettings::TypeMSSQLCompactEdition || DBType == DatabaseSettings::TypePGServer)
       {
          sSQL = "select sum(messagesize) as size from hm_messages "
                 "where messageaccountid in "
@@ -383,7 +383,19 @@ namespace HM
    {
       HM::DatabaseSettings::SQLDBType DBType = IniFileSettings::Instance()->GetDatabaseType();
 
-      SQLCommand command ("select sum(cast(accountmaxsize as bigint)) as size from hm_accounts where accountdomainid = @DOMAINID");
+      SQLCommand command;
+      
+      if (DBType == DatabaseSettings::TypeMSSQLServer || 
+          DBType == DatabaseSettings::TypePGServer ||
+          DBType == DatabaseSettings::TypeMSSQLCompactEdition)
+      {
+         command.SetQueryString("select sum(cast(accountmaxsize as bigint)) as size from hm_accounts where accountdomainid = @DOMAINID");
+      }
+      else 
+      {
+         command.SetQueryString("select sum(accountmaxsize) as size from hm_accounts where accountdomainid = @DOMAINID");
+      }
+
       command.AddParameter("@DOMAINID", pDomain->GetID());
 
       shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
