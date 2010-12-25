@@ -120,7 +120,6 @@ namespace hMailServer.Administrator.Nodes
 
                         string address = accountName;
                         address = address.Replace(" ", ".");
-                        address = address.Replace("-", ".");
                         address = address + "@" + domain.Name;
                         account.Address = address;
 
