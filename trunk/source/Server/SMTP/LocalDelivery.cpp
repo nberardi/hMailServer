@@ -297,6 +297,15 @@ namespace HM
       else
       {
          pNewMessage = PersistentMessage::CopyFromQueueToInbox(pOriginalMessage, pRecipientAccount);
+
+         boost_foreach (shared_ptr<MessageRecipient> recipient, pOriginalMessage->GetRecipients()->GetVector())
+         {
+            if (recipient->GetAddress().CompareNoCase(pRecipientAccount->GetAddress()) == 0)
+            {
+               pNewMessage->GetRecipients()->Add(recipient);
+               break;
+            }
+         }
       }
 
       pNewMessage->SetNoOfRetries(pOriginalMessage->GetNoOfRetries());

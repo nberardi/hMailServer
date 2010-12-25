@@ -1389,5 +1389,89 @@ namespace UnitTest.Delivery
          Assert.IsTrue(errorLog.Contains("Failed to bind to IP address 255.254.253.252."));
       }
 
+      [Test]
+      [Description("Issue 338, Recipient Count is wrong under certain circumstances")]
+      public void TestRecipientCountInAccountLevelRule()
+      {
+         _settings.Scripting.Enabled = true;
+
+         // Add an account
+         hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "ruletest1@test.com", "test");
+         hMailServer.Account account2 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "ruletest2@test.com", "test");
+
+         CreatePrintRecipientCountRule(account1.Rules);
+
+         SMTPSimulator.StaticSend(account1.Address, account1.Address, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
+         Utilities.AssertRecipientsInDeliveryQueue(0);
+         // This should print a single recipient.
+         string eventLogText = Utilities.ReadExistingTextFile(Utilities.GetEventLogFileName());
+         Utilities.AssertDeleteFile(Utilities.GetEventLogFileName());
+         Assert.IsTrue(eventLogText.Contains("\"1\""), eventLogText);
+
+         // Send message to two recipients. Recipient should still be one, since it's an account-level rule.
+         SMTPSimulator.StaticSend(account1.Address, new List<string>() {account1.Address, account2.Address}, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
+
+         Utilities.AssertRecipientsInDeliveryQueue(0);
+         // This should print a single recipient.
+         eventLogText = Utilities.ReadExistingTextFile(Utilities.GetEventLogFileName());
+         Utilities.AssertDeleteFile(Utilities.GetEventLogFileName());
+         Assert.IsTrue(eventLogText.Contains("\"1\""), eventLogText);
+      }
+
+      [Test]
+      [Description("Issue 338, Recipient Count is wrong under certain circumstances")]
+      public void TestRecipientCountInGlobalRule()
+      {
+         _settings.Scripting.Enabled = true;
+
+         // Add an account
+         hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "ruletest1@test.com", "test");
+         hMailServer.Account account2 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "ruletest2@test.com", "test");
+
+         CreatePrintRecipientCountRule(_application.Rules);
+
+         SMTPSimulator.StaticSend(account1.Address, account1.Address, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
+         Utilities.AssertRecipientsInDeliveryQueue(0);
+         // This should print a single recipient.
+         string eventLogText = Utilities.ReadExistingTextFile(Utilities.GetEventLogFileName());
+         Utilities.AssertDeleteFile(Utilities.GetEventLogFileName());
+         Assert.IsTrue(eventLogText.Contains("\"1\""), eventLogText);
+
+         // Send message to two recipients. 
+         SMTPSimulator.StaticSend(account1.Address, new List<string>() { account1.Address, account2.Address }, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
+
+         Utilities.AssertRecipientsInDeliveryQueue(0);
+         // This should print a two recipients. Global rule is affected before message reaches recipients.
+         eventLogText = Utilities.ReadExistingTextFile(Utilities.GetEventLogFileName());
+         Utilities.AssertDeleteFile(Utilities.GetEventLogFileName());
+         Assert.IsTrue(eventLogText.Contains("\"2\""), eventLogText);
+      }
+
+      private void CreatePrintRecipientCountRule(hMailServer.Rules rules)
+      {
+         hMailServer.Rule oRule = rules.Add();
+         oRule.Name = "Criteria test";
+         oRule.Active = true;
+
+         hMailServer.RuleCriteria oRuleCriteria = oRule.Criterias.Add();
+         oRuleCriteria.UsePredefined = true;
+         oRuleCriteria.PredefinedField = hMailServer.eRulePredefinedField.eFTMessageSize;
+         oRuleCriteria.MatchType = hMailServer.eRuleMatchType.eMTGreaterThan;
+         oRuleCriteria.MatchValue = "0";
+         oRuleCriteria.Save();
+
+         hMailServer.RuleAction oRuleAction = oRule.Actions.Add();
+         oRuleAction.Type = hMailServer.eRuleActionType.eRARunScriptFunction;
+         oRuleAction.ScriptFunction = "PrintRecipientCount";
+         oRuleAction.Save();
+
+         oRule.Save();
+
+         File.WriteAllText(_settings.Scripting.CurrentScriptFile, "Sub PrintRecipientCount(oMessage)" + Environment.NewLine +
+                                                                     " Call EventLog.Write(oMessage.Recipients.Count)" + Environment.NewLine +
+                                                                  "End Sub");
+
+         _settings.Scripting.Reload();
+      }
    }
 }
