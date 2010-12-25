@@ -61,6 +61,9 @@ namespace HM
    String
    Time::GetTimeStampFromDateTime(const DateTime &dt) 
    {
+      if (dt.GetStatus() == DateTime::invalid)
+         return "";
+
       String sValue;
       sValue.Format(_T("%d-%.02d-%.02d %.02d:%.02d:%.02d"), dt.GetYear(), dt.GetMonth(), dt.GetDay(), dt.GetHour(), dt.GetMinute(), dt.GetSecond() );
       return sValue;

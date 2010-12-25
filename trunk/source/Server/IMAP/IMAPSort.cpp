@@ -58,7 +58,8 @@ namespace HM
       std::map<__int64, DateTime> &m_mapDateTimeInfo;
    };   
 
-   class IMAPSortHeaderField {
+   class IMAPSortHeaderField 
+   {
    public:
       IMAPSortHeaderField(std::map<__int64, String> &mapHeaderFields) :
          _mapHeaderFields(mapHeaderFields)
@@ -196,7 +197,6 @@ namespace HM
             {
                // Fetch message.
                shared_ptr<Message> p1 = (*iterMessage).second;
-
                String headerValue = mapHeaderFields[p1->GetID()];
                
                DateTime dt1 = Time::GetDateFromSystemDate(headerValue);
@@ -208,6 +208,7 @@ namespace HM
                iterMessage++;
             }
 
+            std::sort(vecMessages.begin(), vecMessages.end(), IMAPSortCachedDateTime(mapDateTimeInfo));
          }
 
 
@@ -307,15 +308,22 @@ namespace HM
 
             if (sortField == Date)
             {
-               // Conver to system date format.
-               DateTime dt = Time::GetDateFromMimeHeader(sFieldValue);
+               DateTime dt = Time::GetDateTimeFromMimeHeader(sFieldValue);
                sFieldValue = Time::GetTimeStampFromDateTime(dt);
             }
-
          }
          else
          {
             sFieldValue = (*dbMetaIter).second;
+         }
+
+         if (sortField == Date && sFieldValue.IsEmpty())
+         {
+             /*
+              * RFC 5256 "2.2. Sent Date" chapter. If the sent date cannot be determined (a Date: header is missing or cannot be parsed), 
+              * the INTERNALDATE for that message is used as the sent date.
+              */
+            sFieldValue = p1->GetCreateTime();
          }
 
          // Convert the string to upper case. The sorting should be
