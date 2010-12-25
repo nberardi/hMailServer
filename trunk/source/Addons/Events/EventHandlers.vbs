@@ -25,5 +25,5 @@
 '   Sub OnDeliveryFailed(oMessage, sRecipient, sErrorMessage)
 '   End Sub
 
-'   Sub OnExternalAccountDownload(oMessage, sRemoteUID)
+'   Sub OnExternalAccountDownload(oFetchAccount, oMessage, sRemoteUID)
 '   End Sub
