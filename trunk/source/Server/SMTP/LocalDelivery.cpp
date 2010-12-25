@@ -167,7 +167,7 @@ namespace HM
          shared_ptr<ChangeNotification>(new ChangeNotification(accountLevelMessage->GetAccountID(), accountLevelMessage->GetFolderID(), ChangeNotification::NotificationMessageAdded));
       Application::Instance()->GetNotificationServer()->SendNotification(changeNotification);
 
-      AWStats::LogDeliverySuccess(_sendersIP, accountLevelMessage, account->GetAddress());
+      AWStats::LogDeliverySuccess(_sendersIP, "127.0.0.1", accountLevelMessage, account->GetAddress());
    }
 
    /*

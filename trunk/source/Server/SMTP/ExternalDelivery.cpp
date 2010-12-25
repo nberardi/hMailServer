@@ -91,7 +91,7 @@ namespace HM
                _DeliverToExternalDomain(batch, serverInfo);
 
                // Check what status we got on the external deliveries.
-               _CollectDeliveryResult(batch, saErrorMessages, mapFailedDueToNonFatalError);    
+               _CollectDeliveryResult(serverInfo->GetHostName(), batch, saErrorMessages, mapFailedDueToNonFatalError);    
 
                batch.clear();
             }
@@ -398,7 +398,8 @@ namespace HM
    }
 
    void 
-   ExternalDelivery::_CollectDeliveryResult(vector<shared_ptr<MessageRecipient> > &vecRecipients, 
+   ExternalDelivery::_CollectDeliveryResult(const String &serverHostName, 
+                                             vector<shared_ptr<MessageRecipient> > &vecRecipients, 
                                              vector<String> &saErrorMessages,
                                              map<String,String> &mapFailedDueToNonFatalError)
    //---------------------------------------------------------------------------()
@@ -415,7 +416,7 @@ namespace HM
       {
          if (recipient->GetDeliveryResult() == MessageRecipient::ResultOK)
          {
-            AWStats::LogDeliverySuccess(_sendersIP, _originalMessage, recipient->GetAddress());
+            AWStats::LogDeliverySuccess(_sendersIP, serverHostName, _originalMessage, recipient->GetAddress());
 
             // Delete this recipient from the database.
             PersistentMessageRecipient::DeleteObject(recipient);
@@ -512,7 +513,7 @@ namespace HM
          }
          else
          {
-            LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery in " + StringParser::IntToString(lMinutesBewteen + iRandomAdjust) + " minutes..");
+            LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery in " + StringParser::IntToString(lMinutesBewteen + iRandomAdjust) + " minutes.");
             PersistentMessage::SetNextTryTime(_originalMessage->GetID(), true, lMinutesBewteen + iRandomAdjust);
          
             // Unlock the message now so that a future delivery thread can pick it up.

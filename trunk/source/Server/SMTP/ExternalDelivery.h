@@ -29,7 +29,7 @@ namespace HM
       void _HandleExternalDeliveryFailure(vector<shared_ptr<MessageRecipient> > &vecRecipients, bool bIsFatal, String &sErrorString);
       void _HandleNoRecipientServers(vector<shared_ptr<MessageRecipient> > &vecRecipients, bool bDNSQueryOK, bool isSpecificRelayServer);
       
-      void _CollectDeliveryResult(vector<shared_ptr<MessageRecipient> > &vecRecipients, vector<String> &saErrorMessages, map<String,String> &mapFailedDueToNonFatalError);
+      void _CollectDeliveryResult(const String &serverHostName, vector<shared_ptr<MessageRecipient> > &vecRecipients, vector<String> &saErrorMessages, map<String,String> &mapFailedDueToNonFatalError);
       bool _RescheduleDelivery(map<String,String> &mapFailedDueToNonFatalError,vector<String> &saErrorMessages);
       // Type changed from void to bool for use with ETRN.
       // Function not called anywhere else to matter

@@ -26,30 +26,32 @@ namespace HM
    }
 
    void 
-   AWStats::LogDeliveryFailure(const String &sSendersIP, const String &sFromAddress, const String &sToAddress, int iErrorCode)
+   AWStats::LogDeliveryFailure(const String &senderIP, const String &sFromAddress, const String &sToAddress, int iErrorCode)
    {
       if (!m_bEnabled)
          return;
 
       LOG_DEBUG(_T("AWStats::LogDeliveryFailure"));
 
-      _Log(sFromAddress, sToAddress, sSendersIP, iErrorCode, 0);
+      // Since we were unable to deliver the message, we log that the recipient IP address was 127.0.0.1
+      // Not really clear what the 'correct' thing to log here is.
+      _Log(senderIP, "127.0.0.1", sFromAddress, sToAddress, iErrorCode, 0);
    }
 
 
    void
-   AWStats::LogDeliverySuccess(const String &sSendersIP, shared_ptr<Message> pMessage, const String &sRecipient)
+   AWStats::LogDeliverySuccess(const String &senderIP, const String &recipientIP, shared_ptr<Message> pMessage, const String &sRecipient)
    {
       if (!m_bEnabled)
          return;
 
       LOG_DEBUG(_T("AWStats::LogDeliverySuccess"));
 
-      _Log(pMessage->GetFromAddress(), sRecipient, sSendersIP, 250, pMessage->GetSize());
+      _Log(senderIP, recipientIP, pMessage->GetFromAddress(), sRecipient, 250, pMessage->GetSize());
    }
 
    void 
-   AWStats::_Log(const String &sSender, const String &sRecipient, const String &sRemoteHost, int iErrorCode, int iBytesReceived)
+   AWStats::_Log(const String &senderIP, const String &recipientIP, const String &senderAddress, const String &recipientAddress, int iErrorCode, int iBytesReceived)
    {
       if (!m_bEnabled)
          return;
@@ -59,13 +61,13 @@ namespace HM
       
       String sTime = Time::GetCurrentDateTime();
 
-      String sModifiedSender = sSender;
+      String sModifiedSender = senderAddress;
       sModifiedSender.Replace(_T("<"), _T(""));
       sModifiedSender.Replace(_T(">"), _T(""));
       sModifiedSender.Replace(_T(" "), _T(""));
       sModifiedSender.Replace(_T("\t"), _T(""));
 
-      String sModifiedRecipient = sRecipient;
+      String sModifiedRecipient = recipientAddress;
       sModifiedRecipient.Replace(_T("<"), _T(""));
       sModifiedRecipient.Replace(_T(">"), _T(""));
       sModifiedRecipient.Replace(_T(" "), _T(""));
@@ -73,7 +75,7 @@ namespace HM
 
       String sLogLine;
       sLogLine.Format(_T("%s\t%s\t%s\t%s\t%s\tSMTP\t?\t%d\t%d\r\n"), 
-                        sTime, sModifiedSender, sModifiedRecipient, sRemoteHost, _T("127.0.0.1"), iErrorCode, iBytesReceived );
+                        sTime, sModifiedSender, sModifiedRecipient, senderIP, recipientIP, iErrorCode, iBytesReceived );
 
       Logger::Instance()->LogAWStats(sLogLine);
    }
