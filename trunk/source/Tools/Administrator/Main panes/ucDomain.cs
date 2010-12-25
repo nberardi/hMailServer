@@ -92,7 +92,7 @@ namespace hMailServer.Administrator
             }
 
             textMaxSize.Number = _domain.MaxSize;
-            textAllocatedSize.Number = _domain.AllocatedSize;
+            textAllocatedSize.Number64 = _domain.AllocatedSize;
             textMaxMessageSize.Number = _domain.MaxMessageSize;
             textMaxAccountSize.Number = _domain.MaxAccountSize;
             textMaxNumberOfAccounts.Number = _domain.MaxNumberOfAccounts;

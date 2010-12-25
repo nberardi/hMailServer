@@ -373,7 +373,7 @@ namespace HM
 
    }
 
-   int 
+   __int64 
    PersistentDomain::GetAllocatedSize(shared_ptr<Domain> pDomain)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
@@ -383,7 +383,7 @@ namespace HM
    {
       HM::DatabaseSettings::SQLDBType DBType = IniFileSettings::Instance()->GetDatabaseType();
 
-      SQLCommand command ("select sum(accountmaxsize) as size from hm_accounts where accountdomainid = @DOMAINID");
+      SQLCommand command ("select sum(cast(accountmaxsize as bigint)) as size from hm_accounts where accountdomainid = @DOMAINID");
       command.AddParameter("@DOMAINID", pDomain->GetID());
 
       shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
@@ -391,7 +391,7 @@ namespace HM
          return 0;
 
       // The account size is stored in MB so we don't have to do any conversion.
-      int iSize = pRS->GetLongValue("size");
+      __int64 iSize = pRS->GetInt64Value("size");
 
       return iSize;
    }

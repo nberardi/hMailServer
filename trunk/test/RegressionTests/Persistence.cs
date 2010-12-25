@@ -348,5 +348,21 @@ namespace UnitTest.Persistence
 
           Assert.AreEqual(0, incomingRelays.Count);
       }
+
+      [Test]
+      public void TestDomainWithLargeAccounts()
+      {
+         hMailServer.Domain domain = SingletonProvider<Utilities>.Instance.AddDomain("example.com");
+         
+         var account = SingletonProvider<Utilities>.Instance.AddAccount(domain.Accounts, "test1@example.com", "secret");
+         account.MaxSize = 1024 * 1024 * 2000;
+         account.Save();
+
+         var secondAccount = SingletonProvider<Utilities>.Instance.AddAccount(domain.Accounts, "test2@example.com", "secret");
+         secondAccount.MaxSize = 1024 * 1024 * 2000;
+         secondAccount.Save();
+
+         Assert.AreEqual((long)account.MaxSize + (long)secondAccount.MaxSize, domain.AllocatedSize);
+      }
    }
 }

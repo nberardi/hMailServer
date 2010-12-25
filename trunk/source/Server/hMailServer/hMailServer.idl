@@ -678,7 +678,7 @@ interface IInterfaceDomain : IDispatch
 	   [propput, id(18), helpstring("Maximum size of this domain in MB.")] HRESULT MaxSize([in] long pVal);
 
 	   [propget, id(19), helpstring("Current size of this domain in MB.")] HRESULT Size([out, retval] long *pVal);
-      [propget, id(20), helpstring("Allocated space for this domain.")] HRESULT AllocatedSize([out, retval] long *pVal);
+      [propget, id(20), helpstring("Allocated space for this domain.")] HRESULT AllocatedSize([out, retval] hyper *pVal);
 
 	   [propget, id(21), helpstring("Enable the signature")] HRESULT SignatureEnabled([out, retval] VARIANT_BOOL *pVal);
 	   [propput, id(21), helpstring("Enable the signature")] HRESULT SignatureEnabled([in] VARIANT_BOOL newVal);

@@ -350,7 +350,7 @@ STDMETHODIMP InterfaceDomain::get_Size(long *pVal)
 }
 
 
-STDMETHODIMP InterfaceDomain::get_AllocatedSize(long *pVal)
+STDMETHODIMP InterfaceDomain::get_AllocatedSize(hyper  *pVal)
 {
    if (!m_pAuthentication->GetIsDomainAdmin())
       return m_pAuthentication->GetAccessDenied();

@@ -25,7 +25,7 @@ namespace HM
       static bool DomainExists(const String &DomainName, bool &bIsActive);
 
       static int GetSize(shared_ptr<Domain> pDomain);
-      static int GetAllocatedSize(shared_ptr<Domain> pDomain);
+      static __int64 GetAllocatedSize(shared_ptr<Domain> pDomain);
 
    private:
       static bool _RenameDomain(shared_ptr<Domain> pDomain);

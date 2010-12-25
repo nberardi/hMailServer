@@ -107,7 +107,7 @@ END_COM_MAP()
    STDMETHOD(put_MaxAccountSize)(/*[in]*/ long newVal);
 
    STDMETHOD(get_Size)(/*[out, retval]*/ long *pVal);
-   STDMETHOD(get_AllocatedSize)(/*[out, retval]*/ long *pVal);
+   STDMETHOD(get_AllocatedSize)(/*[out, retval]*/ hyper  *pVal);
 
    STDMETHOD(get_SignatureEnabled)(/*[out, retval]*/ VARIANT_BOOL *pVal);
    STDMETHOD(put_SignatureEnabled)(/*[in]*/ VARIANT_BOOL newVal);

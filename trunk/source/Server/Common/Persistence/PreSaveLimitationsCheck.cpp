@@ -106,7 +106,7 @@ namespace HM
 
          String sError = "Account could not be saved. The total size of all accounts in the domain would exceed the maximum size for the domain.";
          
-         int currentSize = PersistentDomain::GetAllocatedSize(domain);
+         __int64 currentSize = PersistentDomain::GetAllocatedSize(domain);
 
          if (account->GetID() == 0)
          {

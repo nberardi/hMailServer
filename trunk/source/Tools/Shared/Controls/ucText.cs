@@ -57,6 +57,27 @@ namespace hMailServer.Shared
          }
       }
 
+      public Int64 Number64
+      {
+         get
+         {
+            if (_numeric == false)
+               return 0;
+
+            if (Text == "")
+               return 0;
+
+            return Convert.ToInt64(Text);
+         }
+         set
+         {
+            if (_numeric == false)
+               return;
+
+            Text = value.ToString();
+         }
+      }
+
       public bool Dirty
       {
          get
