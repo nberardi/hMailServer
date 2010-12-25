@@ -694,7 +694,7 @@ namespace UnitTest
          }
 
          // Check if we can launch it...
-         string spamdExecutable = @"C:\Program Files\SpamAssasssin\spamd.exe";
+         string spamdExecutable = @"C:\Program Files (x86)\SpamAssasssin\spamd.exe";
 
          try
          {

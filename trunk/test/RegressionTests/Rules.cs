@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System.Threading;
 using UnitTest.Protocols.SMTP;
 using System.IO;
+using System.Diagnostics;
 
 namespace UnitTest.Delivery
 {
@@ -190,6 +191,9 @@ namespace UnitTest.Delivery
       [Test]
       public void CriteriaContains()
       {
+         Stopwatch watch = new Stopwatch();
+         watch.Start();
+
          // Add an account
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "ruletest@test.com", "test");
 
@@ -214,14 +218,17 @@ namespace UnitTest.Delivery
          oRule.Save();
 
          SMTPSimulator oSMTP = new SMTPSimulator();
-
+         
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "TestString", "Detta ska hamna i mappen Inbox\\Wildcard");
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "TestStri", "Detta ska inte hamna Inbox\\Wildcard");
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "VaffeTestStringBaffe", "Detta ska hamna i mappen Inbox\\Wildcard");
-
+         
          IMAPSimulator.AssertMessageCount("ruletest@test.com", "test", "Inbox.Wildcard", 2);
          IMAPSimulator.AssertMessageCount("ruletest@test.com", "test", "Inbox", 1);
+         
+
+         Trace.WriteLine(watch.ElapsedMilliseconds);
       }
 
       [Test]

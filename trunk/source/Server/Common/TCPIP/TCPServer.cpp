@@ -146,6 +146,23 @@ namespace HM
 
          return false;
       }
+
+      try
+      {
+         _context.use_certificate_chain_file(certificateFile);
+      }
+      catch (boost::system::system_error ec)
+      {
+         String asioError = ec.what();
+
+         String errorMessage;
+         errorMessage.Format(_T("Failed to load certificate chain from certificate file. Path: %s, Address: %s, Port: %i, Error: %s"), 
+            String(certificateFile), String(_ipaddress.ToString()), _port, asioError);
+
+         ErrorManager::Instance()->ReportError(ErrorManager::High, 5113, "TCPServer::InitSSL()", errorMessage);
+
+         return false;
+      }
       
       try
       {
