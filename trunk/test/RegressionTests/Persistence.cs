@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using System.IO;
 
 namespace UnitTest.Persistence
 {
@@ -447,6 +448,101 @@ namespace UnitTest.Persistence
 
          Assert.AreEqual("someone@example.com", _domain.Accounts[0].ForwardAddress);
          Assert.AreEqual("someone@external.com", _domain.Accounts[1].ForwardAddress);
+      }
+
+      [Test]
+      public void TestRenameDomainWithMessages()
+      {
+         var account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "account1@test.com", "test");
+         account.ForwardAddress = "someone@test.com";
+         account.Save();
+
+         string messageBody = Guid.NewGuid().ToString();
+         SMTPSimulator.StaticSend(account.Address, account.Address, "Subj", messageBody);
+         POP3Simulator.AssertMessageCount(account.Address, "test", 1);
+
+         _domain.Name = "example.com";
+         _domain.Save();
+
+         string messageText = POP3Simulator.AssertGetFirstMessageText("account1@example.com", "test");
+         Assert.IsTrue(messageText.Contains(messageBody), messageText);
+      }
+
+      [Test]
+      public void TestRenameAccountWithMessages()
+      {
+         var account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "account1@test.com", "test");
+
+         string messageBody = Guid.NewGuid().ToString();
+         SMTPSimulator.StaticSend(account.Address, account.Address, "Subj", messageBody);
+         POP3Simulator.AssertMessageCount(account.Address, "test", 1);
+
+         account.Address = "account2@test.com";
+         account.Save();
+
+         string messageText = POP3Simulator.AssertGetFirstMessageText("account2@test.com", "test");
+         Assert.IsTrue(messageText.Contains(messageBody), messageText);
+      }
+
+      [Test]
+      public void TestRenameAccountOrDomainWithMessagesWithFullPath()
+      {
+         var account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
+         SMTPSimulator.StaticSend(account.Address, account.Address, "Test message", "Test body");
+
+         hMailServer.IMAPFolder folder = account.IMAPFolders.get_ItemByName("Inbox");
+         Utilities.AssertMessageExistsInFolder(folder, 1);
+         hMailServer.Message message = account.IMAPFolders.get_ItemByName("Inbox").Messages[0];
+
+         // Move the message file to another folder.
+         string domainPath = Path.Combine(_application.Settings.Directories.DataDirectory, _domain.Name);
+         string accountPath = Path.Combine(domainPath, "test");
+         string fileName = Path.Combine(accountPath, "randomMail.eml");
+         File.Move(message.Filename, fileName);
+
+         // Update the database with the full path.
+         string sql = string.Format("update hm_messages set messagefilename = '{0}' where messageid = {1}", Utilities.Escape(fileName), message.ID);
+         SingletonProvider<Utilities>.Instance.GetApp().Database.ExecuteSQL(sql);
+         
+         // Now try to change the name of the domain or account. Should fail.
+         account.Address = "test2@test.com";
+         bool thrown = false;
+
+         try
+         {
+            account.Save();
+         }
+         catch (Exception)
+         {
+            thrown = true;
+         }
+
+         Assert.IsTrue(thrown);
+
+         // Saving account is OK, unless its address is changed.
+         account.Address = "test@test.com";
+         account.Save();
+
+         thrown = false;
+
+         _domain.Name = "example.com";
+
+         try
+         {
+            
+            _domain.Save();
+         }
+         catch (Exception)
+         {
+            thrown = true;
+         }
+
+         Assert.IsTrue(thrown);
+
+         // Saving domain is OK, unless its address is changed.
+         _domain.Name = "test.com";
+         _domain.Save();
+
       }
    }
 }

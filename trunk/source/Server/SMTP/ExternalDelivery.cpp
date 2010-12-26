@@ -513,7 +513,7 @@ namespace HM
          }
          else
          {
-            LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery in " + StringParser::IntToString(lMinutesBewteen + iRandomAdjust) + " minutes.");
+            LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery in " + StringParser::IntToString(lMinutesBewteen + iRandomAdjust) + " minutes.nn");
             PersistentMessage::SetNextTryTime(_originalMessage->GetID(), true, lMinutesBewteen + iRandomAdjust);
          
             // Unlock the message now so that a future delivery thread can pick it up.

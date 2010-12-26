@@ -50,8 +50,8 @@ namespace HM
       static bool MoveFileToPublicFolder(const String &sourceLocation, shared_ptr<Message> pMessage);
       static bool MoveFileToUserFolder(const String &sourceLocation, shared_ptr<Message>, shared_ptr<const Account> destinationAccount);
 
-      static bool AllMessageFilesAreInDataFolder();
-      static bool AllMessageFilesArePartialNames();
+      static bool GetAllMessageFilesAreInDataFolder();
+      static bool GetAllMessageFilesArePartialNames();
 
       static int GetTotalMessageCount();
       static int GetTotalMessageCountDelivered();

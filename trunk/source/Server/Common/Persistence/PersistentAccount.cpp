@@ -18,6 +18,8 @@
 #include "../BO/IMAPFolder.h"
 #include "../BO/IMAPFolders.h"
 
+#include "NameChanger.h"
+
 #include "../Cache/Cache.h"
 #include "../Cache/AccountSizeCache.h"
 
@@ -211,6 +213,37 @@ namespace HM
    {
       if (!PreSaveLimitationsCheck::CheckLimitations(pAccount, sErrorMessage))
          return false;
+
+      __int64 iID = pAccount->GetID();
+      if (iID > 0)
+      {
+         // First read the domain to see if we've changed its name.
+         shared_ptr<Account> tempAccount = shared_ptr<Account>(new Account());
+         if (!PersistentAccount::ReadObject(tempAccount, iID))
+            return false;
+
+         if (tempAccount->GetAddress().CompareNoCase(pAccount->GetAddress()) != 0)
+         {
+            // Check if this account contains messages with full path. If so, the user cannot 
+            // rename it at this point.
+            // Disallow change, if not all files are partial in the database.
+            if (!PersistentMessage::GetAllMessageFilesArePartialNames())
+            {
+               sErrorMessage = "As of hMailServer 5.4, partial file names are stored in the database, rather than the full path\r\n" 
+                                 "To be able to rename the account, you must first migrate your database to the new partial paths scheme. To do\r\n" 
+                                 "this, run Data Directory Synchronizer.";
+               return false;
+            }
+
+            // Name has been changed. Rename all sub objects first.
+            NameChanger nameChanger;
+            if (!nameChanger.RenameAccount(tempAccount->GetAddress(), pAccount, sErrorMessage))
+               return false;
+
+            // Remove the old account from the cache.
+            Cache<Account, PersistentAccount>::Instance()->RemoveObject(tempAccount->GetAddress());
+         }
+      }
 
       SQLStatement oStatement;
       oStatement.AddColumnInt64("accountdomainid", pAccount->GetDomainID());

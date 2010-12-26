@@ -801,7 +801,7 @@ namespace HM
    }
 
    bool
-   PersistentMessage::AllMessageFilesAreInDataFolder()
+   PersistentMessage::GetAllMessageFilesAreInDataFolder()
    {
       String sDataDir = IniFileSettings::Instance()->GetDataDirectory();
 
@@ -828,7 +828,7 @@ namespace HM
    }
 
    bool
-   PersistentMessage::AllMessageFilesArePartialNames()
+   PersistentMessage::GetAllMessageFilesArePartialNames()
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Returns true if all message files in the database only have their partial

@@ -36,7 +36,7 @@ namespace HM
       static String  GetShortPath(const String &sInPath);
       static String  GetLongPath(const String &sInPath);
 
-      static bool CopyDirectory(String sFrom, String sTo);
+      static bool CopyDirectory(String sFrom, String sTo, String &errorMessage);
       static bool DeleteDirectory(const String &sDirName);
       static bool DeleteFilesInDirectory(const String &sDirName);
       static bool DeleteDirectoriesInDirectory(const String &sDirName, const std::set<String> vecExcludes);

@@ -27,11 +27,6 @@ namespace HM
       static int GetSize(shared_ptr<Domain> pDomain);
       static __int64 GetAllocatedSize(shared_ptr<Domain> pDomain);
 
-   private:
-
-      static bool _RenameDomain(const String& oldDomainName, shared_ptr<Domain> pDomain);
-      static bool _UpdateDomainName(String &sAddress, const String &oldDomainName, const String& newDomainName);
-
    };
 
 }

@@ -30,8 +30,8 @@ namespace HM
       diagResult.SetName("Test message file locations");
       diagResult.SetDescription("Confirms that all email messages are located in the data directory.");
 
-      bool allMessagesPartialNames = PersistentMessage::AllMessageFilesArePartialNames();
-      bool allMessagesInDataDir = PersistentMessage::AllMessageFilesAreInDataFolder();
+      bool allMessagesPartialNames = PersistentMessage::GetAllMessageFilesArePartialNames();
+      bool allMessagesInDataDir = PersistentMessage::GetAllMessageFilesAreInDataFolder();
 
       String result;
       String formattedString;

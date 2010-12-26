@@ -61,7 +61,7 @@ namespace HM
 
       if (m_iBackupMode & Backup::BOMessages)
       {
-         if (!PersistentMessage::AllMessageFilesAreInDataFolder())
+         if (!PersistentMessage::GetAllMessageFilesAreInDataFolder())
          {
             Application::Instance()->GetBackupManager()->OnBackupFailed("All messages are not located in the data folder.");
             return false;
@@ -205,10 +205,12 @@ namespace HM
    {
       String sDataDir = IniFileSettings::Instance()->GetDataDirectory();
 
-      bool bResult = FileUtilities::CopyDirectory(sDataDir, sDataBackupDir);
+      String errorMessage;
+
+      bool bResult = FileUtilities::CopyDirectory(sDataDir, sDataBackupDir, errorMessage);
       if (!bResult)
       {
-         Logger::Instance()->LogBackup("Failed to copy data directory. Please see hMailServer error log.");
+         Logger::Instance()->LogBackup("Failed to copy data directory. Details: " + errorMessage);
          return bResult;
       }
 
@@ -384,7 +386,8 @@ namespace HM
       FileUtilities::DeleteFilesInDirectory(sDataDirectory);
       FileUtilities::DeleteDirectoriesInDirectory(sDataDirectory, vecExcludes);
 
-      FileUtilities::CopyDirectory(sDirContainingDataFiles, sDataDirectory);
+      String errorMessage;
+      FileUtilities::CopyDirectory(sDirContainingDataFiles, sDataDirectory, errorMessage);
 
       if (sDataFileFormat.CompareNoCase(_T("Zip")) == 0)
       {

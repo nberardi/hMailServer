@@ -480,17 +480,15 @@ namespace HM
 
 
    bool 
-   FileUtilities::CopyDirectory(String sFrom, String sTo)
+   FileUtilities::CopyDirectory(String sFrom, String sTo, String &errorMessage)
    {
       if (!FileUtilities::Exists(sTo))
       {
          if( !CreateDirectory(sTo))
          {
-            String sErrorMessage;
-            sErrorMessage.Format(_T("CreateDirectory %s failed. See previous error."), sTo);
+            errorMessage = Formatter::Format(_T("CreateDirectory {0} failed. See previous error."), sTo);
 
-            ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4234, "File::CopyDirectory", sErrorMessage);
-
+            ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4234, "File::CopyDirectory", errorMessage);
             return false;
          }
       }
@@ -508,11 +506,8 @@ namespace HM
 
       if (hFileFound == INVALID_HANDLE_VALUE)
       {
-         String sErrorMessage;
-         sErrorMessage.Format(_T("Find first file with wildcard %s failed. Error: %d."), sWildCard, GetLastError());
-
-         ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4233, "File::CopyDirectory", sErrorMessage);
-
+         errorMessage.Format(_T("Find first file with wildcard %s failed. Error: %d."), sWildCard, GetLastError());
+         ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4233, "File::CopyDirectory", errorMessage);
          return false;
       }
 
@@ -526,7 +521,7 @@ namespace HM
             if( (_tcscmp(ffData.cFileName, _T(".")) != 0) &&
                (_tcscmp(ffData.cFileName, _T("..")) != 0) ) 
             {
-               if( !CopyDirectory(sOldFullPath, sNewFullPath) )
+               if( !CopyDirectory(sOldFullPath, sNewFullPath, errorMessage) )
                   return false;
             }
 
@@ -551,11 +546,8 @@ namespace HM
                continue;
 
             // The file exists , but we were not able to copy it.
-            String sErrorMessage;
-            sErrorMessage.Format(_T("Copy of file from %s to %s failed. Error: %d"), sOldFullPath, sNewFullPath, GetLastError());
-            
-            ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4232, "File::CopyDirectory", sErrorMessage);
-
+            errorMessage.Format(_T("Copy of file from %s to %s failed. Error: %d"), sOldFullPath, sNewFullPath, GetLastError());
+            ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4232, "File::CopyDirectory", errorMessage);
             return false;
          }
       }
