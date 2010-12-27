@@ -30,7 +30,14 @@ namespace HM
       m_iGreylistingExpirationInterval(240),
       _preferredHashAlgorithm(3),
       m_bDNSBlChecksAfterMailFrom(false),
-      _useSSLVerifyPeer(false)
+      _useSSLVerifyPeer(false),
+      m_iLogLevel(0),
+      m_iMaxLogLineLen(500),
+      m_iQuickRetries(0),
+      m_iQuickRetriesMinutes(0),
+      m_iQueueRandomnessMinutes(0),
+      m_iMXTriesFactor(0),
+      m_eSQLDBType(HM::DatabaseSettings::TypeUnknown)
    {
 
    }
@@ -48,8 +55,6 @@ namespace HM
    // Load all settings from hMailServer.ini
    //---------------------------------------------------------------------------()
    {
-      m_eSQLDBType = HM::DatabaseSettings::TypeUnknown;
-
       m_AdministratorPassword = _ReadIniSettingString("Security", "AdministratorPassword", "");
 
       m_DatabaseServer = _ReadIniSettingString("Database", "Server", "");
@@ -59,9 +64,8 @@ namespace HM
       m_bIsInternalDatabase = _ReadIniSettingInteger("Database", "Internal", 0) == 1;
       m_DatabaseServerFailoverPartner = _ReadIniSettingString("Database", "ServerFailoverPartner", "");
 
-
       String sDatabaseType = _ReadIniSettingString("Database", "Type", "");
-
+      
       Crypt::EncryptionType iPWDEncryptionType = (Crypt::EncryptionType) _ReadIniSettingInteger("Database", "Passwordencryption", 0);
 
       // Decrypt password read from hmailserver.ini
@@ -75,6 +79,13 @@ namespace HM
          m_eSQLDBType = HM::DatabaseSettings::TypePGServer;
       else if (sDatabaseType.CompareNoCase(_T("MSSQLCE")) == 0)
          m_eSQLDBType = HM::DatabaseSettings::TypeMSSQLCompactEdition;
+      else
+      {
+         m_eSQLDBType = HM::DatabaseSettings::TypeUnknown;
+         String errorMessage = Formatter::Format("Error determining database type. Type: {0}", sDatabaseType);
+         ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5415, "IniFileSettings::LoadSettings", errorMessage);
+      }
+         
 
       m_lDBPort = _ReadIniSettingInteger( "Database", "Port", 0);
 
@@ -493,6 +504,7 @@ namespace HM
          return;
       }
 
+      LOG_DEBUG("Setting database type to " + sDatabaseType);
       m_eSQLDBType = type;
 
       _WriteIniSetting("Database", "Type", sDatabaseType);

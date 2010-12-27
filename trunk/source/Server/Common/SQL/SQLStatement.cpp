@@ -151,8 +151,14 @@ namespace HM
    SQLCommand
    SQLStatement::GetCommand() const
    {
-      HM::DatabaseSettings::SQLDBType dbType = IniFileSettings::Instance()->GetDatabaseType();
-      
+      DatabaseSettings::SQLDBType dbType = IniFileSettings::Instance()->GetDatabaseType();
+      if (dbType == DatabaseSettings::TypeUnknown)
+      {
+         ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5407, "SQLStatement::GetCommand()", Formatter::Format("Unknown database type: {0}", dbType));
+         SQLCommand emtpy;
+         return emtpy;
+      }
+
       String sSQL;
       SQLCommand command;
 
@@ -332,9 +338,6 @@ namespace HM
                   break;
                case DatabaseSettings::TypePGServer:
                   sSQL += "lower(" + col.sName + ") = lower(" + parameterName + ")";
-                  break;
-               default:
-                  ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5407, "SQLStatement::GetCommand()", Formatter::Format("Unknown database type: {0}", dbType));
                   break;
                }
 
