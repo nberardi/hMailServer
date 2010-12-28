@@ -79,13 +79,6 @@ namespace HM
          m_eSQLDBType = HM::DatabaseSettings::TypePGServer;
       else if (sDatabaseType.CompareNoCase(_T("MSSQLCE")) == 0)
          m_eSQLDBType = HM::DatabaseSettings::TypeMSSQLCompactEdition;
-      else
-      {
-         m_eSQLDBType = HM::DatabaseSettings::TypeUnknown;
-         String errorMessage = Formatter::Format("Error determining database type. Type: {0}", sDatabaseType);
-         ErrorManager::Instance()->ReportError(ErrorManager::Critical, 5415, "IniFileSettings::LoadSettings", errorMessage);
-      }
-         
 
       m_lDBPort = _ReadIniSettingInteger( "Database", "Port", 0);
 
