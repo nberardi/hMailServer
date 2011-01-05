@@ -637,36 +637,33 @@ namespace HM
          {
             // Data was sent. We'll wait with sending more data until
             // the current data has been sent.
-// This return was causing problems with gmail & aol among others
-// because continue sendfile was called after done based on logs
-// Just commented out for now until further investigation
-//            return; 
+            return; 
          }
 
          pBuffer = _currentFile.ReadChunk(bufferSize);
       }
 
-            LOG_DEBUG("SMTPClientConnection::~_SendFile done close file");
+       LOG_DEBUG("SMTPClientConnection::~_SendFile done close file");
       // We're done sending!
       _currentFile.Close();
 
       // No more data to send. Make sure all buffered data is flushed.
       _transmissionBuffer.Flush(true);
 
-            LOG_DEBUG("SMTPClientConnection::~_SendFile flushed buffer");
+      LOG_DEBUG("SMTPClientConnection::~_SendFile flushed buffer");
 
       // We're ready to receive the Message accepted-response.
-            LOG_DEBUG("SMTPClientConnection::~_SendFile DATASENT set");
+      LOG_DEBUG("SMTPClientConnection::~_SendFile DATASENT set");
 
       // No \r\n on end because SendData adds
       _SendData("\r\n.");
-            LOG_DEBUG("SMTPClientConnection::~_SendFile . sent");
+
+      LOG_DEBUG("SMTPClientConnection::~_SendFile . sent");
 
       // State change moved to AFTER crlf.crlf to help with race condition
       m_CurrentState = DATASENT;
-            LOG_DEBUG("SMTPClientConnection::~_SendFile DATASENT set");
-
-return;
+      LOG_DEBUG("SMTPClientConnection::~_SendFile DATASENT set");
+      return;
    }
 
    void
