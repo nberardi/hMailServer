@@ -83,7 +83,7 @@ namespace hMailServer.Administrator.Dialogs
          // labelPassword
          // 
          this.labelPassword.AutoSize = true;
-         this.labelPassword.Location = new System.Drawing.Point(178, 199);
+         this.labelPassword.Location = new System.Drawing.Point(179, 221);
          this.labelPassword.Name = "labelPassword";
          this.labelPassword.Size = new System.Drawing.Size(53, 13);
          this.labelPassword.TabIndex = 37;
@@ -92,7 +92,7 @@ namespace hMailServer.Administrator.Dialogs
          // labelUsername
          // 
          this.labelUsername.AutoSize = true;
-         this.labelUsername.Location = new System.Drawing.Point(20, 199);
+         this.labelUsername.Location = new System.Drawing.Point(21, 221);
          this.labelUsername.Name = "labelUsername";
          this.labelUsername.Size = new System.Drawing.Size(58, 13);
          this.labelUsername.TabIndex = 35;
@@ -199,7 +199,7 @@ namespace hMailServer.Administrator.Dialogs
          // 
          // textPassword
          // 
-         this.textPassword.Location = new System.Drawing.Point(179, 215);
+         this.textPassword.Location = new System.Drawing.Point(180, 237);
          this.textPassword.Name = "textPassword";
          this.textPassword.Size = new System.Drawing.Size(128, 20);
          this.textPassword.TabIndex = 57;
@@ -210,6 +210,7 @@ namespace hMailServer.Administrator.Dialogs
          this.textDaysToKeepMessages.Location = new System.Drawing.Point(224, 490);
          this.textDaysToKeepMessages.Name = "textDaysToKeepMessages";
          this.textDaysToKeepMessages.Number = 7;
+         this.textDaysToKeepMessages.Number64 = ((long)(7));
          this.textDaysToKeepMessages.Numeric = true;
          this.textDaysToKeepMessages.Size = new System.Drawing.Size(78, 20);
          this.textDaysToKeepMessages.TabIndex = 48;
@@ -274,6 +275,7 @@ namespace hMailServer.Administrator.Dialogs
          this.textMinutesBetweenFetch.Location = new System.Drawing.Point(24, 320);
          this.textMinutesBetweenFetch.Name = "textMinutesBetweenFetch";
          this.textMinutesBetweenFetch.Number = 30;
+         this.textMinutesBetweenFetch.Number64 = ((long)(30));
          this.textMinutesBetweenFetch.Numeric = true;
          this.textMinutesBetweenFetch.Size = new System.Drawing.Size(146, 20);
          this.textMinutesBetweenFetch.TabIndex = 42;
@@ -282,18 +284,20 @@ namespace hMailServer.Administrator.Dialogs
          // checkUseSSL
          // 
          this.checkUseSSL.AutoSize = true;
-         this.checkUseSSL.Location = new System.Drawing.Point(24, 248);
+         this.checkUseSSL.Location = new System.Drawing.Point(24, 199);
          this.checkUseSSL.Name = "checkUseSSL";
          this.checkUseSSL.Size = new System.Drawing.Size(68, 17);
          this.checkUseSSL.TabIndex = 39;
          this.checkUseSSL.Text = "Use SSL";
          this.checkUseSSL.UseVisualStyleBackColor = true;
+         this.checkUseSSL.CheckedChanged += new System.EventHandler(this.checkUseSSL_CheckedChanged);
          // 
          // textUsername
          // 
-         this.textUsername.Location = new System.Drawing.Point(24, 215);
+         this.textUsername.Location = new System.Drawing.Point(25, 237);
          this.textUsername.Name = "textUsername";
          this.textUsername.Number = 0;
+         this.textUsername.Number64 = ((long)(0));
          this.textUsername.Numeric = false;
          this.textUsername.Size = new System.Drawing.Size(148, 20);
          this.textUsername.TabIndex = 36;
@@ -303,6 +307,7 @@ namespace hMailServer.Administrator.Dialogs
          this.textPort.Location = new System.Drawing.Point(176, 168);
          this.textPort.Name = "textPort";
          this.textPort.Number = 0;
+         this.textPort.Number64 = ((long)(0));
          this.textPort.Numeric = true;
          this.textPort.Size = new System.Drawing.Size(84, 20);
          this.textPort.TabIndex = 34;
@@ -312,6 +317,7 @@ namespace hMailServer.Administrator.Dialogs
          this.textServer.Location = new System.Drawing.Point(24, 168);
          this.textServer.Name = "textServer";
          this.textServer.Number = 0;
+         this.textServer.Number64 = ((long)(0));
          this.textServer.Numeric = false;
          this.textServer.Size = new System.Drawing.Size(146, 20);
          this.textServer.TabIndex = 32;
@@ -330,6 +336,7 @@ namespace hMailServer.Administrator.Dialogs
          this.textName.Location = new System.Drawing.Point(8, 24);
          this.textName.Name = "textName";
          this.textName.Number = 0;
+         this.textName.Number64 = ((long)(0));
          this.textName.Numeric = false;
          this.textName.Size = new System.Drawing.Size(159, 20);
          this.textName.TabIndex = 18;

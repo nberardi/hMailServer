@@ -16,6 +16,8 @@ namespace hMailServer.Administrator.Dialogs
    public partial class formExternalAccount : Form
    {
       private hMailServer.FetchAccount _fetchAccount = null;
+      private Timer _timer;
+      private bool _isLoading = false;
 
       public formExternalAccount()
       {
@@ -27,13 +29,13 @@ namespace hMailServer.Administrator.Dialogs
          new TabOrderManager(this).SetTabOrder(TabOrderManager.TabScheme.AcrossFirst);
          Strings.Localize(this);
 
+         textPort.Number = 110;
+         
          DirtyChecker.SubscribeToChange(this, OnContentChanged);
-         EnableDisable();
-
-
+         
          buttonDownloadNow.Enabled = false;
 
-
+         EnableDisable();
       }
 
       private void OnContentChanged(object sender, EventArgs e)
@@ -51,6 +53,8 @@ namespace hMailServer.Administrator.Dialogs
 
       public void LoadAccountProperties(hMailServer.FetchAccount fetchAccount)
       {
+         _isLoading = true;
+
          _fetchAccount = fetchAccount;
 
          checkEnabled.Checked = fetchAccount.Enabled;
@@ -81,7 +85,10 @@ namespace hMailServer.Administrator.Dialogs
          }
 
          buttonDownloadNow.Enabled = true;
-         
+
+         _isLoading = false;
+
+         EnableDisable();
       }
 
       public void SaveAccountProperties(hMailServer.FetchAccount fetchAccount)
@@ -149,6 +156,37 @@ namespace hMailServer.Administrator.Dialogs
       private void checkProcessMIMERecipients_CheckedChanged(object sender, EventArgs e)
       {
          EnableDisable();
+      }
+
+      private void checkUseSSL_CheckedChanged(object sender, EventArgs e)
+      {
+         if (_isLoading)
+            return;
+
+         if (checkUseSSL.Checked)
+            textPort.Number = 995;
+         else
+            textPort.Number = 110;
+         
+         textPort.Font = new Font(this.Font, FontStyle.Bold);
+
+         if (_timer != null)
+            _timer.Stop();
+
+         _timer = new Timer();
+         _timer.Interval = 3000;
+         _timer.Tick += (s, ev) =>
+            {
+               textPort.Font = new Font(this.Font, FontStyle.Regular);
+               _timer.Stop();
+            };
+         _timer.Start();
+
+      }
+
+      void _timer_Tick(object sender, EventArgs e)
+      {
+         throw new NotImplementedException();
       }
    }
 }
