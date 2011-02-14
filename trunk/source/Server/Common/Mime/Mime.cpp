@@ -1336,18 +1336,20 @@ namespace HM
 	   int nBoundSize = (int)strBoundary.size() + 6;
 	   for (BodyList::const_iterator it=m_listBodies.begin(); it!=m_listBodies.end(); it++)
 	   {
-		   if (m_listBodies.begin() == it && output[output.size()-2] == '\r' && output[output.size()-1] == '\n')
+		   // If the initial body ends with \r\n, remove them. We add new ones below.if (m_listBodies.begin() == it && output.size() >= 2 && 
+		   if (m_listBodies.begin() == it && output.size() >= 2 && 
+			   output[output.size()-2] == '\r' && output[output.size()-1] == '\n')
 		   {
-            // TODO: decrease size of output with 2.
+			   output = output.Mid(0, output.GetLength() - 2);
 		   }
 
-         AnsiString boundaryLine = Formatter::Format(_T("\r\n--{0}\r\n"), String(strBoundary));
-         output.append(boundaryLine);
+           AnsiString boundaryLine = Formatter::Format(_T("\r\n--{0}\r\n"), String(strBoundary));
+           output.append(boundaryLine);
 
 		   shared_ptr<MimeBody> pBP = *it;
 		   ASSERT(pBP != NULL);	
 
-         pBP->Store(output);
+           pBP->Store(output);
 	   }
 
       AnsiString endBoundaryLine = Formatter::Format(_T("\r\n--{0}--\r\n"), String(strBoundary));

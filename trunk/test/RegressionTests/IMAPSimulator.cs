@@ -591,6 +591,8 @@ namespace UnitTest
 
             bool expectingLiteral = result.StartsWith("+ Ready");
 
+            DateTime startTime = DateTime.Now;
+
             // If the commandName is found in the middle of the stream, we shouldn't consider
             // the command completed. Otherwise this code will fail if the subject or message
             // ID happens to contain the command name.
@@ -604,6 +606,9 @@ namespace UnitTest
 
                 if (!m_oSocket.Connected)
                    return result;
+
+                if (DateTime.Now - startTime > new TimeSpan(0, 0, 30))
+                    throw new Exception("Timeout while waiting for data.");
             }
 
             return result;

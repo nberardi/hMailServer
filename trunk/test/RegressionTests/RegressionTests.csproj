@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8F691179-0851-4A25-AC78-3548DD0514FA}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -174,7 +174,11 @@
     <Compile Include="IMAP.Append.cs" />
     <Compile Include="IMAP.Examine.cs" />
     <Compile Include="IMAP.Fetch.cs" />
+    <Compile Include="MIME.MessageParsing.cs" />
     <Compile Include="Persistence.Maintenance.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Messages\MultipartMessageWithNoMainBodyText.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
