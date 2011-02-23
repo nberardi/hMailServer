@@ -6,19 +6,21 @@
 #include "IMAPConnection.h"
 #include "../Common/BO/IMAPFolders.h"
 #include "../Common/BO/Message.h"
-#include "../Common/BO/account.h"
+#include "../Common/BO/Account.h"
+#include "../Common/BO/Domain.h"
 #include "../Common/BO/IMAPFolder.h"
 #include "../Common/Persistence/PersistentAccount.h"
 #include "../Common/Persistence/PersistentMessage.h"
 #include "../Common/Util/Time.h"
 #include "../Common/Util/File.h"
 #include "../Common/Util/ByteBuffer.h"
-#include "IMAPSimpleCommandParser.h"
 #include "../Common/Cache/CacheContainer.h"
 #include "../Common/BO/ACLPermission.h"
-
 #include "../Common/Tracking/ChangeNotification.h"
 #include "../Common/Tracking/NotificationServer.h"
+#include "../SMTP/SMTPConfiguration.h"
+
+#include "IMAPSimpleCommandParser.h"
 
 #ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
@@ -88,6 +90,19 @@ namespace HM
       
       // Add an extra two bytes since we expect a <newline> in the end.
       m_lBytesLeftToReceive += 2;
+
+      shared_ptr<const Domain> domain = CacheContainer::Instance()->GetDomain(pConnection->GetAccount()->GetDomainID());
+      int maxMessageSizeKB = _GetMaxMessageSize(domain);
+
+      if (maxMessageSizeKB > 0 && 
+          m_lBytesLeftToReceive / 1024 > maxMessageSizeKB)
+      {
+         String sMessage;
+         sMessage.Format(_T("Message size exceeds fixed maximum message size. Size: %d KB, Max size: %d KB"), 
+            m_lBytesLeftToReceive / 1024, maxMessageSizeKB);
+
+         return IMAPResult(IMAPResult::ResultNo, sMessage);
+      }
 
       // Locate the parameter containing the date to set.
       // Can't use pParser->QuotedWord() since there may
@@ -277,6 +292,24 @@ namespace HM
 
       m_pDestinationFolder.reset();
       m_pCurrentMessage.reset();
+   }
+
+   int 
+   IMAPCommandAppend::_GetMaxMessageSize(shared_ptr<const Domain> pDomain)
+   {
+      int iMaxMessageSizeKB = Configuration::Instance()->GetSMTPConfiguration()->GetMaxMessageSize();
+
+      if (pDomain)
+      {
+         int iDomainMaxSizeKB = pDomain->GetMaxMessageSize(); 
+         if (iDomainMaxSizeKB > 0)
+         {
+            if (iMaxMessageSizeKB == 0 || iMaxMessageSizeKB > iDomainMaxSizeKB)
+               iMaxMessageSizeKB = iDomainMaxSizeKB;
+         }
+      }
+
+      return iMaxMessageSizeKB;
    }
 
 }

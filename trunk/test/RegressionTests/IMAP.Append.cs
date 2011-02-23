@@ -95,5 +95,84 @@ namespace UnitTest.Protocols.IMAP
 
                 
         }
+
+        [Test]
+        public void TestDomainMaxMessageSizeLimitEnabled()
+        {
+           var account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test", 0);
+           var message = new StringBuilder();
+           
+           // ~2 kb string
+           for (int i = 0; i < 25; i++)
+              message.AppendLine("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+
+           _domain.MaxMessageSize = 1; // 1 kb
+           _domain.Save();
+
+           var imapSim = new IMAPSimulator("test@test.com", "test", "INBOX");
+           string result = imapSim.SendSingleCommandWithLiteral("A01 APPEND INBOX {" + message.Length + "}", message.ToString());
+           imapSim.Logout();
+
+           Assert.IsTrue(result.StartsWith("A01 NO Message size exceeds fixed maximum message size."));
+        }
+
+        [Test]
+        public void TestDomainMaxMessageSizeLimitDisabled()
+        {
+           var account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test", 0);
+           var message = new StringBuilder();
+           
+           // ~2 kb string
+           for (int i = 0; i < 25; i++)
+              message.AppendLine("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+
+           _domain.MaxMessageSize = 0; // 1 kb
+           _domain.Save();
+
+           var imapSim = new IMAPSimulator("test@test.com", "test", "INBOX");
+           string result = imapSim.SendSingleCommandWithLiteral("A01 APPEND INBOX {" + message.Length + "}", message.ToString());
+           imapSim.Logout();
+
+           Assert.IsFalse(result.StartsWith("A01 NO Message size exceeds fixed maximum message size."));
+        }
+
+        [Test]
+        public void TestGlobalMaxMessageSizeLimitEnabled()
+        {
+           var account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test", 0);
+           var message = new StringBuilder();
+
+           // ~2 kb string
+           for (int i = 0; i < 25; i++)
+              message.AppendLine("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+
+           _settings.MaxMessageSize = 1;
+
+           var imapSim = new IMAPSimulator("test@test.com", "test", "INBOX");
+           string result = imapSim.SendSingleCommandWithLiteral("A01 APPEND INBOX {" + message.Length + "}", message.ToString());
+           imapSim.Logout();
+
+           Assert.IsTrue(result.StartsWith("A01 NO Message size exceeds fixed maximum message size."));
+        }
+
+        [Test]
+        public void TestGlobalMaxMessageSizeLimitDisabled()
+        {
+           var account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test", 0);
+           var message = new StringBuilder();
+
+           // ~2 kb string
+           for (int i = 0; i < 25; i++)
+              message.AppendLine("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+
+           _settings.MaxMessageSize = 0;
+
+           var imapSim = new IMAPSimulator("test@test.com", "test", "INBOX");
+           string result = imapSim.SendSingleCommandWithLiteral("A01 APPEND INBOX {" + message.Length + "}", message.ToString());
+           imapSim.Logout();
+
+           Assert.IsFalse(result.StartsWith("A01 NO Message size exceeds fixed maximum message size."));
+        }
     }
 }
+

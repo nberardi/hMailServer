@@ -10,7 +10,8 @@ namespace HM
 {
    class ByteBuffer;
    class IMAPFolder;
-   
+   class Domain;
+
    class IMAPCommandAppend : public IMAPCommand  
    {
    public:
@@ -28,6 +29,8 @@ namespace HM
       bool _WriteData(const shared_ptr<IMAPConnection> pConnection, const BYTE *pBuf, int WriteLen);
       void _KillCurrentMessage();
       
+      int _GetMaxMessageSize(shared_ptr<const Domain> pDomain);
+
       String m_sCurrentTag;
       String m_sFlagsToSet;
       String m_sCreateTimeToSet;
