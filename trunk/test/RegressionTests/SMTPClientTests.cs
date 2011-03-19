@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 namespace UnitTest.Protocols.SMTP
 {
    [TestFixture]
-   public class SMTPClient : TestFixtureBase
+   public class SMTPClientTests : TestFixtureBase
    {
       hMailServer.DeliveryQueue _queue;
       hMailServer.Status _status;
@@ -35,7 +35,7 @@ namespace UnitTest.Protocols.SMTP
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["test@dummy-example.com"] = 452;
 
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
 
@@ -43,7 +43,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhost(2, 250, false);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
          recipients.Add("test@dummy-example.com");
          Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "Test message"));
@@ -54,7 +54,7 @@ namespace UnitTest.Protocols.SMTP
          Assert.AreNotEqual(0, _status.UndeliveredMessages.Length);
 
          // Start to listen again.
-         server = new SMTPServer(1, 250);
+         server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
          
@@ -88,7 +88,7 @@ namespace UnitTest.Protocols.SMTP
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["test@dummy-example.com"] = 550;
 
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
 
@@ -96,7 +96,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhost(0, 250, false);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
          recipients.Add("test@dummy-example.com");
          Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "Test message"));
@@ -134,7 +134,7 @@ namespace UnitTest.Protocols.SMTP
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["test@dummy-example.com"] = 250;
 
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
 
@@ -142,7 +142,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhost(5, 250, false);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
          recipients.Add("test@dummy-example.com");
          Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "Test message"));
@@ -168,7 +168,7 @@ namespace UnitTest.Protocols.SMTP
          for (int i = 0; i < 50; i++)
             deliveryResults["user" + i.ToString() + "@dummy-example.com"] = 250;
 
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
 
@@ -176,7 +176,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhost(5, 250, false);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
 
          for (int i = 0; i < 50; i++)
@@ -203,7 +203,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhost(1, 25, false);
 
          // Send message to this route.
-         SMTPSimulator.StaticSend("test@test.com", "test@dummy-example.com", "subject", "body");
+         SMTPClientSimulator.StaticSend("test@test.com", "test@dummy-example.com", "subject", "body");
 
          for (int i = 0; i < 40; i++)
          {
@@ -249,7 +249,7 @@ namespace UnitTest.Protocols.SMTP
          // Set up a server and start listening.
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["user@dummy-example.com"] = 250;
-         SMTPServer server = new SMTPServer(1, 25);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 25);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
 
@@ -257,7 +257,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhost(5, 25, false);
 
          // Send message to this route.
-         SMTPSimulator sim = new SMTPSimulator(false, 11000);
+         SMTPClientSimulator sim = new SMTPClientSimulator(false, 11000);
          sim.Send("test@test.com", "user@dummy-example.com", "Test", "Test message");
 
 
@@ -283,7 +283,7 @@ namespace UnitTest.Protocols.SMTP
          for (int i = 0; i < 250; i++)
             deliveryResults["user" + i.ToString() + "@dummy-example.com"] = 250;
 
-         SMTPServer server = new SMTPServer(3, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(3, 250);
          
          server.AddRecipientResult(deliveryResults);
          server.AddRecipientResult(deliveryResults);
@@ -294,7 +294,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhost(5, 250, false);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
 
          for (int i = 0; i < 250; i++)
@@ -321,7 +321,7 @@ namespace UnitTest.Protocols.SMTP
          deliveryResults["user2@dummy-example.com"] = 250;
          deliveryResults["user3@dummy-example.com"] = 400;
 
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
 
@@ -329,7 +329,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhost(2, 250, false);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
 
          recipients.Add("user1@dummy-example.com");
@@ -352,7 +352,7 @@ namespace UnitTest.Protocols.SMTP
          Assert.IsTrue(server.MessageData.Contains("Test message"));
 
          // Attempt to deliver the message again.
-         server = new SMTPServer(1, 250);
+         server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
          Utilities.SendMessagesInQueue();
@@ -380,7 +380,7 @@ namespace UnitTest.Protocols.SMTP
          deliveryResults["user2@dummy-example.com"] = 250;
          deliveryResults["user3@dummy-example.com"] = 499;
 
-         SMTPServer server = new SMTPServer(2, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(2, 250);
          server.AddRecipientResult(deliveryResults);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
@@ -389,7 +389,7 @@ namespace UnitTest.Protocols.SMTP
          hMailServer.Route route = AddRoutePointingAtLocalhostMultipleHosts(2);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
 
          recipients.Add("user1@dummy-example.com");
@@ -409,7 +409,7 @@ namespace UnitTest.Protocols.SMTP
          Assert.AreEqual(-1, _status.UndeliveredMessages.IndexOf("user2@dummy-example.com"));
          Assert.AreNotEqual(-1, _status.UndeliveredMessages.IndexOf("user3@dummy-example.com"));
 
-         server = new SMTPServer(2, 250);
+         server = new SMTPServerSimulator(2, 250);
          server.AddRecipientResult(deliveryResults);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
@@ -444,7 +444,7 @@ namespace UnitTest.Protocols.SMTP
          deliveryResultsSecond["user3@dummy-example.com"] = 250;
                   
 
-         SMTPServer server = new SMTPServer(2, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(2, 250);
          server.AddRecipientResult(deliveryResults);
          server.AddRecipientResult(deliveryResultsSecond);
          server.StartListen();
@@ -454,7 +454,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhostMultipleHosts(2);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
 
          recipients.Add("user1@dummy-example.com");
@@ -495,7 +495,7 @@ namespace UnitTest.Protocols.SMTP
          deliveryResultsSecond["user3@dummy-example.com"] = 500;
 
 
-         SMTPServer server = new SMTPServer(2, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(2, 250);
          server.AddRecipientResult(deliveryResults);
          server.AddRecipientResult(deliveryResultsSecond);
          server.StartListen();
@@ -505,7 +505,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhostMultipleHosts(1);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
 
          recipients.Add("user1@dummy-example.com");
@@ -569,7 +569,7 @@ namespace UnitTest.Protocols.SMTP
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["test@dummy-example.com"] = 542;
 
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
 
@@ -577,7 +577,7 @@ namespace UnitTest.Protocols.SMTP
          AddRoutePointingAtLocalhost(5, 250, false);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
          recipients.Add("test@dummy-example.com");
          Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "Test message"));
@@ -608,7 +608,7 @@ namespace UnitTest.Protocols.SMTP
           Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
           deliveryResults["test@dummy-example.com"] = 250;
 
-          SMTPServer server = new SMTPServer(1, 250);
+          SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
           server.AddRecipientResult(deliveryResults);
           server.QuitResult = 421;
           server.StartListen();
@@ -617,7 +617,7 @@ namespace UnitTest.Protocols.SMTP
           AddRoutePointingAtLocalhost(5, 250, false);
 
           // Send message to this route.
-          SMTPSimulator smtp = new SMTPSimulator();
+          SMTPClientSimulator smtp = new SMTPClientSimulator();
           List<string> recipients = new List<string>();
           recipients.Add("test@dummy-example.com");
           Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "test of error after accepted delivery"));
@@ -642,16 +642,16 @@ namespace UnitTest.Protocols.SMTP
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["test@dummy-example.com"] = 250;
 
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
-         server.DisconnectAfterDataDeliveryStarted = true;
+         server.SimulatedError = SimulatedErrorType.DisconnectAfterDeliveryStarted;
          server.StartListen();
 
          // Add a route so we can connect to localhost.
          AddRoutePointingAtLocalhost(1, 250, false);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
          recipients.Add("test@dummy-example.com");
          Assert.IsTrue(smtp.Send(_account.Address, recipients, "Test", "Test message"));
@@ -671,6 +671,84 @@ namespace UnitTest.Protocols.SMTP
       }
 
       [Test]
+      [Description("Test that an error after the message delivery has started causes a retry.")]
+      public void TestFailureAfterConnect()
+      {
+         _application.Settings.SMTPNoOfTries = 3;
+         _application.Settings.SMTPMinutesBetweenTry = 60;
+
+         Assert.AreEqual(0, _status.UndeliveredMessages.Length);
+         // No valid recipients...
+         Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
+         deliveryResults["test@dummy-example.com"] = 250;
+
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
+         server.AddRecipientResult(deliveryResults);
+         server.SimulatedError = SimulatedErrorType.DisconnectAfterSessionStart;
+         server.StartListen();
+
+         // Add a route so we can connect to localhost.
+         AddRoutePointingAtLocalhost(1, 250, false);
+
+         // Send message to this route.
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
+         List<string> recipients = new List<string>();
+         recipients.Add("test@dummy-example.com");
+         Assert.IsTrue(smtp.Send(_account.Address, recipients, "Test", "Test message"));
+
+         // Wait for the client to disconnect.
+         server.WaitForCompletion();
+
+         // Force the message to be bounced.
+         Utilities.AssertRecipientsInDeliveryQueue(0, true);
+
+         string bounce = POP3Simulator.AssertGetFirstMessageText(_account.Address, "test");
+
+         Assert.IsTrue(bounce.Contains("test@dummy-example.com"));
+         Assert.IsTrue(bounce.Contains("Remote server closed connection."));
+         Assert.IsTrue(bounce.Contains("Tried 1 time(s)"));
+      }
+
+      [Test]
+      [Description("Test that an error after the message delivery has started causes a retry.")]
+      public void TestFailureAfterReceivedHelloBanner()
+      {
+         _application.Settings.SMTPNoOfTries = 3;
+         _application.Settings.SMTPMinutesBetweenTry = 60;
+
+         Assert.AreEqual(0, _status.UndeliveredMessages.Length);
+         // No valid recipients...
+         Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
+         deliveryResults["test@dummy-example.com"] = 250;
+
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
+         server.AddRecipientResult(deliveryResults);
+         server.SimulatedError = SimulatedErrorType.DisconnectAfterSessionStart;
+         server.StartListen();
+
+         // Add a route so we can connect to localhost.
+         AddRoutePointingAtLocalhost(1, 250, false);
+
+         // Send message to this route.
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
+         List<string> recipients = new List<string>();
+         recipients.Add("test@dummy-example.com");
+         Assert.IsTrue(smtp.Send(_account.Address, recipients, "Test", "Test message"));
+
+         // Wait for the client to disconnect.
+         server.WaitForCompletion();
+
+         // Force the message to be bounced.
+         Utilities.AssertRecipientsInDeliveryQueue(0, true);
+
+         string bounce = POP3Simulator.AssertGetFirstMessageText(_account.Address, "test");
+
+         Assert.IsTrue(bounce.Contains("test@dummy-example.com"));
+         Assert.IsTrue(bounce.Contains("Remote server closed connection."));
+         Assert.IsTrue(bounce.Contains("Tried 1 time(s)"));
+      }
+
+      [Test]
       [Description("In this test, the server will respond with a permanent-error on the MAIL FROM command.")]
       public void TestErrorOnMailFrom()
       {
@@ -680,7 +758,7 @@ namespace UnitTest.Protocols.SMTP
           Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
           deliveryResults["test@dummy-example.com"] = 250;
 
-          SMTPServer server = new SMTPServer(1, 250);
+          SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
           server.MailFromResult = 561;
           server.AddRecipientResult(deliveryResults);
           server.StartListen();
@@ -689,7 +767,7 @@ namespace UnitTest.Protocols.SMTP
           AddRoutePointingAtLocalhost(5, 250, false);
 
           // Send message to this route.
-          SMTPSimulator smtp = new SMTPSimulator();
+          SMTPClientSimulator smtp = new SMTPClientSimulator();
           List<string> recipients = new List<string>();
           recipients.Add("test@dummy-example.com");
           Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "Test message"));
@@ -716,16 +794,16 @@ namespace UnitTest.Protocols.SMTP
           Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
           deliveryResults["test@dummy-example.com"] = 250;
 
-          SMTPServer server = new SMTPServer(1, 250);
+          SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
           server.AddRecipientResult(deliveryResults);
           server.StartListen();
-          server.DisconnectWithoutReplyOnQuit = true;
+          server.SimulatedError = SimulatedErrorType.DisconnectWithoutReplyOnQuit;
 
           // Add a route so we can connect to localhost.
           AddRoutePointingAtLocalhost(5, 250, false);
 
           // Send message to this route.
-          SMTPSimulator smtp = new SMTPSimulator();
+          SMTPClientSimulator smtp = new SMTPClientSimulator();
           List<string> recipients = new List<string>();
           recipients.Add("test@dummy-example.com");
           Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "DeliverySuccessNoQuitResponse"));
@@ -750,16 +828,16 @@ namespace UnitTest.Protocols.SMTP
           Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
           deliveryResults["test@dummy-example.com"] = 250;
 
-          SMTPServer server = new SMTPServer(1, 250);
+          SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
           server.AddRecipientResult(deliveryResults);
           server.StartListen();
-          server.DisconnectAfterMessageAccept = true;
+          server.SimulatedError = SimulatedErrorType.DisconnectAfterMessageAccept;
 
           // Add a route so we can connect to localhost.
           AddRoutePointingAtLocalhost(5, 250, false);
 
           // Send message to this route.
-          SMTPSimulator smtp = new SMTPSimulator();
+          SMTPClientSimulator smtp = new SMTPClientSimulator();
           List<string> recipients = new List<string>();
           recipients.Add("test@dummy-example.com");
           Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "DisconnectAfterAcceptBeforeQuit"));
@@ -782,9 +860,9 @@ namespace UnitTest.Protocols.SMTP
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["test@dummy-example.com"] = 250;
 
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
-         server.ForceAuthenticationFailure = true;
+         server.SimulatedError = SimulatedErrorType.ForceAuthenticationFailure;
          server.StartListen();
 
          // Add a route so we can connect to localhost.
@@ -794,7 +872,7 @@ namespace UnitTest.Protocols.SMTP
          route.SetRelayerAuthPassword("MySecretPassword");
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
          recipients.Add("test@dummy-example.com");
          Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "Test message"));

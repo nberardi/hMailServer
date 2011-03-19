@@ -23,7 +23,7 @@ namespace UnitTest.AntiVirus
         {
             Utilities.DeleteCurrentDefaultLog();
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            Assert.IsTrue(SMTPSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", "Mail 1"));
+            Assert.IsTrue(SMTPClientSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", "Mail 1"));
             POP3Simulator.AssertMessageCount(account1.Address, "test", 1);
             string defaultLog = Utilities.ReadCurrentDefaultLog();
             Assert.IsFalse(defaultLog.Contains("Connecting to ClamAV"));
@@ -35,7 +35,7 @@ namespace UnitTest.AntiVirus
             _antiVirus.ClamAVEnabled = true;
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            Assert.IsTrue(SMTPSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", "Mail 1"));
+            Assert.IsTrue(SMTPClientSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", "Mail 1"));
             POP3Simulator.AssertMessageCount(account1.Address, "test", 1);
         }
 
@@ -48,7 +48,7 @@ namespace UnitTest.AntiVirus
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
             string firstPart = @"X5O!P%@AP[4\PZX54(P^)7CC)7}";
             string secondPart = @"$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*";
-            Assert.IsTrue(SMTPSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", firstPart + secondPart));
+            Assert.IsTrue(SMTPClientSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", firstPart + secondPart));
 
             Utilities.AssertRecipientsInDeliveryQueue(0);
             POP3Simulator.AssertMessageCount(account1.Address, "test", 0);
@@ -65,7 +65,7 @@ namespace UnitTest.AntiVirus
             _antiVirus.ClamAVPort = 110;
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            Assert.IsTrue(SMTPSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", "DummyBody"));
+            Assert.IsTrue(SMTPClientSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", "DummyBody"));
             POP3Simulator.AssertMessageCount(account1.Address, "test", 1);
             Utilities.AssertReportedError("Protocol error. Unexpected response: +OK");
         }
@@ -77,7 +77,7 @@ namespace UnitTest.AntiVirus
             _antiVirus.ClamAVPort = 54391;
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            Assert.IsTrue(SMTPSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", "DummyBody"));
+            Assert.IsTrue(SMTPClientSimulator.StaticSend(account1.Address, account1.Address, "Mail 1", "DummyBody"));
             POP3Simulator.AssertMessageCount(account1.Address, "test", 1);
             Utilities.AssertReportedError("Unable to connect to ClamAV server at localhost:54391.");
         }

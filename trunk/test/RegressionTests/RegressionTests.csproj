@@ -80,7 +80,6 @@
     <Compile Include="Rules.cs" />
     <Compile Include="SingletonProvider.cs" />
     <Compile Include="SMTP.cs" />
-    <Compile Include="SMTPSimulator.cs" />
     <Compile Include="SSL.cs" />
     <Compile Include="TCPIP.cs" />
     <Compile Include="Timeouts.cs" />
@@ -101,8 +100,6 @@
     <Compile Include="API.Unicode.cs" />
     <Compile Include="BackupRestore.cs" />
     <Compile Include="ServerSocket.cs" />
-    <Compile Include="SMTPClient.cs" />
-    <Compile Include="SMTPServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -176,6 +173,9 @@
     <Compile Include="IMAP.Fetch.cs" />
     <Compile Include="MIME.MessageParsing.cs" />
     <Compile Include="Persistence.Maintenance.cs" />
+    <Compile Include="SMTPClientSimulator.cs" />
+    <Compile Include="SMTPClientTests.cs" />
+    <Compile Include="SMTPServerSimulator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Messages\MultipartMessageWithNoMainBodyText.txt" />

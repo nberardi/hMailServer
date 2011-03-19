@@ -45,7 +45,7 @@ namespace UnitTest
 
          oApp.Settings.TCPIPPorts.SetDefault();
 
-         SMTPSimulator pSMTPSimulator = new SMTPSimulator();
+         SMTPClientSimulator pSMTPSimulator = new SMTPClientSimulator();
          POP3Simulator pPOP3Simulator = new POP3Simulator();
          IMAPSimulator pIMAPSimulator = new IMAPSimulator();
 

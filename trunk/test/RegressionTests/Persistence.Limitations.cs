@@ -252,12 +252,12 @@ namespace UnitTest.Persistence
             message.Append("ABCDEFGH");
          }
 
-         Assert.IsTrue(SMTPSimulator.StaticSend("test@test.com", "test@test.com", "TestSubject", message.ToString()));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("test@test.com", "test@test.com", "TestSubject", message.ToString()));
          POP3Simulator.AssertMessageCount("test@test.com", "secret1", 1);
          _domain.MaxMessageSize = 50;
          _domain.Save();
 
-         Assert.IsFalse(SMTPSimulator.StaticSend("test@test.com", "test@test.com", "TestSubject", message.ToString()));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("test@test.com", "test@test.com", "TestSubject", message.ToString()));
 
       }
 

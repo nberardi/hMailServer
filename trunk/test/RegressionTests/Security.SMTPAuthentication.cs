@@ -29,7 +29,7 @@ namespace UnitTest.Security
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             string result;
             Assert.IsFalse(oSMTP.Send(account1.Address, account1.Address, "Mail 1", "Mail 1", out result));
             Assert.IsTrue(result.Contains("SMTP authentication is required."));
@@ -51,7 +51,7 @@ namespace UnitTest.Security
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             string result;
             Assert.IsFalse(oSMTP.Send(account1.Address, "someexternaladdress@example.com", "Mail 1", "Mail 1", out result));
             Assert.IsTrue(result.Contains("SMTP authentication is required"));
@@ -67,7 +67,7 @@ namespace UnitTest.Security
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             Assert.IsFalse(oSMTP.Send("someexternaladdress@example.com", account1.Address, "Mail 1", "Mail 1"));
 
             range.RequireSMTPAuthExternalToLocal = false;
@@ -86,7 +86,7 @@ namespace UnitTest.Security
             range.RequireSMTPAuthExternalToExternal = true;
             range.Save();
 
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             string result;
             Assert.IsFalse(oSMTP.Send("externaladdress@example.com", "someexternaladdress@example.com", "Mail 1", "Mail 1", out result));
             Assert.IsTrue(result.Contains("SMTP authentication is required."));
@@ -119,7 +119,7 @@ namespace UnitTest.Security
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             
             string result1, result2, result3, result4;
 
@@ -146,7 +146,7 @@ namespace UnitTest.Security
            range.Save();
 
 
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatRecipientAsLocalDomain = true;
            route.TreatSenderAsLocalDomain = true;
            route.Save();
@@ -155,12 +155,12 @@ namespace UnitTest.Security
            Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
            deliveryResults["dummy@dummy-example.com"] = 250;
 
-           SMTPServer server = new SMTPServer(1, 250);
+           SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
            server.AddRecipientResult(deliveryResults);
            server.StartListen();
 
            // Make sure we can't send to this route without using smtp auth.
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            Assert.IsTrue(oSMTP.Send("someexternaladdress@example.com", "dummy@dummy-example.com", "Mail 1", "Mail 1"));
 
            server.WaitForCompletion();
@@ -173,7 +173,7 @@ namespace UnitTest.Security
         [Description("Use case 1: Delivery from internal users to a route configured as local. SMTP-auth should not be required.")]
         public void TestUseCaseDeliveryToLocalRoute()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatRecipientAsLocalDomain = true;
            route.TreatSenderAsLocalDomain = false;
            route.Save();
@@ -181,11 +181,11 @@ namespace UnitTest.Security
            Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
            deliveryResults["test@dummy-example.com"] = 250;
 
-           SMTPServer server = new SMTPServer(1, 250);
+           SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
            server.AddRecipientResult(deliveryResults);
            server.StartListen();
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsTrue(oSMTP.Send("someone@dummy-example.com", "test@dummy-example.com", "Mail 1", "Mail 1", out result));
 
@@ -198,14 +198,14 @@ namespace UnitTest.Security
         [Description("Use case 2: Delivery from primary MX to backup server. For example someone@customer to someone@hoster.")]
         public void TestUseCaseDeliveryFromPrimaryMXToBackupMX()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatRecipientAsLocalDomain = true;
            route.TreatSenderAsLocalDomain = false;
            route.Save();
 
            hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "sales@test.com", "test");
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsTrue(oSMTP.Send("someone@dummy-example.com", account1.Address, "Mail 1", "Mail 1", out result));
 
@@ -217,7 +217,7 @@ namespace UnitTest.Security
         [Description("Use case 3: Delivery from external user to route (backup MX case).")]
         public void TestUseCase3DeliveryFromExternalUserToPrimaryViaBackup()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatRecipientAsLocalDomain = true;
            route.TreatSenderAsLocalDomain = false;
            route.Save();
@@ -225,11 +225,11 @@ namespace UnitTest.Security
            Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
            deliveryResults["test@dummy-example.com"] = 250;
 
-           SMTPServer server = new SMTPServer(1, 250);
+           SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
            server.AddRecipientResult(deliveryResults);
            server.StartListen();
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsTrue(oSMTP.Send("someone@example.com", "test@dummy-example.com", "Mail 1", "Mail 1", out result));
 
@@ -243,11 +243,11 @@ namespace UnitTest.Security
         [Description("Test option TreatRecipientAsLocalDomain. Attempt to send message from external account to route configured as exernal. Should fail.")]
         public void TreatRecipientAsExternalDomain()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatRecipientAsLocalDomain = false;
            route.Save();
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsFalse(oSMTP.Send("someone@example.com", "test@dummy-example.com", "Mail 1", "Mail 1", out result));
            Assert.IsTrue(result.Contains("530 SMTP authentication is required."));
@@ -258,7 +258,7 @@ namespace UnitTest.Security
         [Description("Test option TreatRecipientAsLocalDomain. Attempt to send message from external account to route configured as exernal. Should succeed, since it's permitted by IP range.")]
         public void TreatRecipientAsExternalDomainPermitted()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatRecipientAsLocalDomain = false;
            route.Save();
 
@@ -270,11 +270,11 @@ namespace UnitTest.Security
            Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
            deliveryResults["test@dummy-example.com"] = 250;
 
-           SMTPServer server = new SMTPServer(1, 250);
+           SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
            server.AddRecipientResult(deliveryResults);
            server.StartListen();
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsTrue(oSMTP.Send("someone@example.com", "test@dummy-example.com", "Mail 1", "Mail 1", out result));
 
@@ -287,18 +287,18 @@ namespace UnitTest.Security
         [Description("Test option TreatRecipientAsLocalDomain. Attempt to send message from external account to route configured as local. Should succeed.")]
         public void TreatRecipientAsLocalDomain()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatRecipientAsLocalDomain = true;
            route.Save();
 
            Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
            deliveryResults["test@dummy-example.com"] = 250;
 
-           SMTPServer server = new SMTPServer(1, 250);
+           SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
            server.AddRecipientResult(deliveryResults);
            server.StartListen();
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsTrue(oSMTP.Send("someone@example.com", "test@dummy-example.com", "Mail 1", "Mail 1", out result));
 
@@ -312,7 +312,7 @@ namespace UnitTest.Security
         [Description("Test option TestSenderAsLocalDomain. Attempt to send a message from a route configured as local domain to an external account. Should fail, since SMTP auth is required.")]
         public void TestSenderAsLocalDomainSendToExternal()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatSenderAsLocalDomain = true;
            route.Save();
 
@@ -320,7 +320,7 @@ namespace UnitTest.Security
            range.RequireSMTPAuthLocalToExternal = true;
            range.Save();
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsFalse(oSMTP.Send("someone@dummy-example.com", "test@example.com", "Mail 1", "Mail 1", out result));
            Assert.IsTrue(result.Contains("530 SMTP authentication is required."));
@@ -330,7 +330,7 @@ namespace UnitTest.Security
         [Description("Test option TestSenderAsLocalDomain. Attempt to send a message from a route configured as local domain to a local account account. Should fail, since SMTP auth is required.")]
         public void TestSenderAsLocalDomainSendToLocalAccount()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatSenderAsLocalDomain = true;
            route.Save();
 
@@ -340,7 +340,7 @@ namespace UnitTest.Security
 
            hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "sales@test.com", "test");
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsFalse(oSMTP.Send("someone@dummy-example.com", account1.Address, "Mail 1", "Mail 1", out result));
            Assert.IsTrue(result.Contains("530 SMTP authentication is required."));
@@ -350,7 +350,7 @@ namespace UnitTest.Security
         [Description("Test option TestSenderAsLocalDomain. Attempt to send a message from a route configured as local domain to a local account account. Should succeed.")]
         public void TestSenderAsLocalDomainSendToLocalAccountPass()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatSenderAsLocalDomain = true;
            route.Save();
 
@@ -360,7 +360,7 @@ namespace UnitTest.Security
 
            hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "sales@test.com", "test");
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsTrue(oSMTP.Send("someone@dummy-example.com", account1.Address, "Mail 1", "Mail 1", out result));
 
@@ -372,7 +372,7 @@ namespace UnitTest.Security
         [Description("Test option TestSenderAsLocalDomain. Attempt to send a message from a route configured as external domain to a local account account. Should succeed.")]
         public void TestSenderAsExternalDomainSendToLocalAccountPass()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatSenderAsLocalDomain = false;
            route.Save();
 
@@ -382,7 +382,7 @@ namespace UnitTest.Security
 
            hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "sales@test.com", "test");
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsTrue(oSMTP.Send("someone@dummy-example.com", account1.Address, "Mail 1", "Mail 1", out result));
 
@@ -394,7 +394,7 @@ namespace UnitTest.Security
         [Description("Test option TestSenderAsLocalDomain. Attempt to send a message from a route configured as external domain to a local account account. Should fail, since SMTP auth is required.")]
         public void TestSenderAsExternalDomainSendToLocalAccountFail()
         {
-           hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+           hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
            route.TreatSenderAsLocalDomain = false;
            route.Save();
 
@@ -404,7 +404,7 @@ namespace UnitTest.Security
 
            hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "sales@test.com", "test");
 
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
            string result;
            Assert.IsFalse(oSMTP.Send("someone@dummy-example.com", account1.Address, "Mail 1", "Mail 1", out result));
         }

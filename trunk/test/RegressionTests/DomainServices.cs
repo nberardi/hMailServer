@@ -26,7 +26,7 @@ namespace UnitTest.Services
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "domain-alias-test@test.com", "test");
 
          // Send 5 messages to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          for (int i = 0; i < 5; i++)
             oSMTP.Send("domain-alias-test@alias.com", "domain-alias-test@alias.com", "INBOX", "Alias test message");
 
@@ -62,7 +62,7 @@ namespace UnitTest.Services
          hMailServer.Account account3 = SingletonProvider<Utilities>.Instance.AddAccount(domain2, "test1@test2.com", "test");
          hMailServer.Account account4 = SingletonProvider<Utilities>.Instance.AddAccount(domain2, "test2@test2.com", "test");
 
-         SMTPSimulator smtpSimulator = new SMTPSimulator();
+         SMTPClientSimulator smtpSimulator = new SMTPClientSimulator();
          smtpSimulator.Send("test@alias.com", account1.Address, "Test", "test1@test.com");
          smtpSimulator.Send("test@alias.com", account2.Address, "Test", "test2@test.com");
          smtpSimulator.Send("test@alias.com", account3.Address, "Test", "test1@test1.com");
@@ -92,7 +92,7 @@ namespace UnitTest.Services
          hMailServer.Account oAccount2 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "plustest2@test.com", "test");
 
          // Send 5 messages to this account, without using plus addressing.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          for (int i = 0; i < 5; i++)
             oSMTP.Send("plustest@test.com", "plustest2@test.com", "INBOX", "Plus addressing message");
          // Wait for completion

@@ -30,7 +30,7 @@ namespace UnitTest.Protocols.IMAP
       {
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "examine@test.com", "test");
 
-         Assert.IsTrue(SMTPSimulator.StaticSend("test@test.com", oAccount.Address, "Test", "test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("test@test.com", oAccount.Address, "Test", "test"));
          POP3Simulator.AssertMessageCount(oAccount.Address, "test", 1);
 
          IMAPSimulator simulator = new IMAPSimulator();
@@ -45,7 +45,7 @@ namespace UnitTest.Protocols.IMAP
       {
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "examine@test.com", "test");
 
-         Assert.IsTrue(SMTPSimulator.StaticSend("test@test.com", oAccount.Address, "Test", "test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("test@test.com", oAccount.Address, "Test", "test"));
          POP3Simulator.AssertMessageCount(oAccount.Address, "test", 1);
 
          IMAPSimulator simulator = new IMAPSimulator();
@@ -72,7 +72,7 @@ namespace UnitTest.Protocols.IMAP
       {
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "examine@test.com", "test");
 
-         Assert.IsTrue(SMTPSimulator.StaticSend("test@test.com", oAccount.Address, "Test", "test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("test@test.com", oAccount.Address, "Test", "test"));
          POP3Simulator.AssertMessageCount(oAccount.Address, "test", 1);
          
          IMAPSimulator simulator = new IMAPSimulator();
@@ -103,7 +103,7 @@ namespace UnitTest.Protocols.IMAP
       {
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "examine@test.com", "test");
 
-         Assert.IsTrue(SMTPSimulator.StaticSend("test@test.com", oAccount.Address, "Test", "test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("test@test.com", oAccount.Address, "Test", "test"));
          POP3Simulator.AssertMessageCount(oAccount.Address, "test", 1);
 
          IMAPSimulator simulator = new IMAPSimulator();

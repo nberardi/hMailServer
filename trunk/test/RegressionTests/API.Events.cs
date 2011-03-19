@@ -104,7 +104,7 @@ namespace UnitTest.API
          hMailServer.IMAPFolder inbox = account.IMAPFolders.get_ItemByName("Inbox"); ;
 
          string deletedMessageText = app.Settings.ServerMessages.get_ItemByName("MESSAGE_FILE_MISSING").Text;
-         SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
          
          Utilities.AssertMessageExistsInFolder(inbox, 1);
          hMailServer.Message message = inbox.Messages[0];
@@ -139,7 +139,7 @@ namespace UnitTest.API
          hMailServer.IMAPFolder inbox = account.IMAPFolders.get_ItemByName("Inbox"); ;
 
          string deletedMessageText = app.Settings.ServerMessages.get_ItemByName("MESSAGE_FILE_MISSING").Text;
-         SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
 
          Utilities.AssertMessageExistsInFolder(inbox, 1);
          hMailServer.Message message = inbox.Messages[0];
@@ -180,7 +180,7 @@ namespace UnitTest.API
          // Add an account and send a message to it.
          hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test", "SampleBody");
 
          // Check that the message exists
          string message = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
@@ -220,7 +220,7 @@ namespace UnitTest.API
          // Add an account and send a message to it.
          hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test", "SampleBody");
 
          // Check that the message exists
          string message = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
@@ -246,7 +246,7 @@ namespace UnitTest.API
          scripting.Reload();
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
 
          // Wait for the message to be delivered.
          POP3Simulator.AssertGetFirstMessageText(account.Address, "test");
@@ -277,7 +277,7 @@ namespace UnitTest.API
          // Add an account and send a message to it.
          hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test", "SampleBody");
 
          // Check that the message exists
          string message = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
@@ -306,7 +306,7 @@ namespace UnitTest.API
 
          // Add an account and send a message to it.
          hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         SMTPSimulator.StaticSend(oAccount1.Address, "user@some-non-existant-domain.abc", "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(oAccount1.Address, "user@some-non-existant-domain.abc", "Test", "SampleBody");
 
          // Make sure that the message is deliverd and bounced.
          Utilities.AssertRecipientsInDeliveryQueue(0);
@@ -340,7 +340,7 @@ namespace UnitTest.API
 
          // Add an account and send a message to it.
          hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         SMTPSimulator.StaticSend(oAccount1.Address, "user@some-non-existant-domain.abc", "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(oAccount1.Address, "user@some-non-existant-domain.abc", "Test", "SampleBody");
 
          // Make sure that the message is deliverd and bounced.
          Utilities.AssertRecipientsInDeliveryQueue(0);

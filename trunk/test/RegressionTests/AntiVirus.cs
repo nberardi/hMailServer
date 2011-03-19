@@ -47,7 +47,7 @@ namespace UnitTest.AntiVirus
                                 "\r\n" +
                                 "--------------050908050500020808050006--\r\n";
 
-         SMTPSimulator.StaticSendRaw("test@test.com", "test@test.com", messageText);
+         SMTPClientSimulator.StaticSendRaw("test@test.com", "test@test.com", messageText);
 
          hMailServer.Message message = Utilities.AssertRetrieveFirstMessage(account1.IMAPFolders.get_ItemByName("INBOX"));
          Assert.AreEqual(1, message.Attachments.Count);

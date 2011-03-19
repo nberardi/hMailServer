@@ -267,7 +267,7 @@ namespace UnitTest.Persistence
       {
          hMailServer.Account testAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "lowercase@test.com", "test");
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          string upperCase = testAccount.Address.ToUpper();
          Assert.IsTrue(oSMTP.Send("someone@dummy-example.com", upperCase, "test mail", "test body"));
 
@@ -280,7 +280,7 @@ namespace UnitTest.Persistence
          hMailServer.Account testAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "lowercase@test.com", "test");
          hMailServer.Alias testAlias = SingletonProvider<Utilities>.Instance.AddAlias(_domain, "sometext@test.com", "LowerCase@test.com");
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          string upperCase = testAlias.Name.ToUpper();
          Assert.IsTrue(oSMTP.Send("someone@dummy-example.com", upperCase, "test mail", "test body"));
 
@@ -297,7 +297,7 @@ namespace UnitTest.Persistence
 
          hMailServer.DistributionList list = SingletonProvider<Utilities>.Instance.AddDistributionList(_domain, "myList@test.com", recipients);
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          string upperCase = list.Address.ToUpper();
          Assert.IsTrue(oSMTP.Send("someone@dummy-example.com", upperCase, "test mail", "test body"));
 
@@ -458,7 +458,7 @@ namespace UnitTest.Persistence
          account.Save();
 
          string messageBody = Guid.NewGuid().ToString();
-         SMTPSimulator.StaticSend(account.Address, account.Address, "Subj", messageBody);
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "Subj", messageBody);
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
          _domain.Name = "example.com";
@@ -474,7 +474,7 @@ namespace UnitTest.Persistence
          var account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "account1@test.com", "test");
 
          string messageBody = Guid.NewGuid().ToString();
-         SMTPSimulator.StaticSend(account.Address, account.Address, "Subj", messageBody);
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "Subj", messageBody);
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
          account.Address = "account2@test.com";
@@ -488,7 +488,7 @@ namespace UnitTest.Persistence
       public void TestRenameAccountOrDomainWithMessagesWithFullPath()
       {
          var account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         SMTPSimulator.StaticSend(account.Address, account.Address, "Test message", "Test body");
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test message", "Test body");
 
          hMailServer.IMAPFolder folder = account.IMAPFolders.get_ItemByName("Inbox");
          Utilities.AssertMessageExistsInFolder(folder, 1);

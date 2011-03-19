@@ -30,7 +30,7 @@ namespace UnitTest.Delivery
          _settings.AddDeliveredToHeader = true;
 
          // Send 5 messages to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          for (int i = 0; i < 5; i++)
             oSMTP.Send("test@test.com", "mirror@test.com", "INBOX", "Mirror test message");
 
@@ -58,7 +58,7 @@ namespace UnitTest.Delivery
          _settings.AddDeliveredToHeader = true;
 
          // Send 5 messages to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send("test@test.com", new List<string>() {oAccount1.Address, oAccount2.Address, oAccount3.Address}, "INBOX", "Mirror test message");
 
          POP3Simulator.AssertMessageCount(mirrorAccount.Address, "test", 1);
@@ -90,7 +90,7 @@ namespace UnitTest.Delivery
          _settings.AddDeliveredToHeader = true;
 
          // Send 5 messages to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send("test@test.com", recipients, "INBOX", "Mirror test message");
 
          POP3Simulator.AssertMessageCount(mirrorAccount.Address, "test", 1);
@@ -113,7 +113,7 @@ namespace UnitTest.Delivery
          // Add aliases
          SingletonProvider<Utilities>.Instance.AddAlias(_domain, "alias1@test.com", "test2@test.com");
          SingletonProvider<Utilities>.Instance.AddAlias(_domain, "alias2@test.com", "test2@test.com");
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("test@test.com", "test2@test.com", "Mail 1", "Mail 1");

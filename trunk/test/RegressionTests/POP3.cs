@@ -40,7 +40,7 @@ namespace UnitTest.Protocols.POP3
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "pop3user@test.com", "test");
 
          // Send 5 messages to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          for (int i = 0; i < 5; i++)
             oSMTP.Send("test@test.com", "pop3user@test.com", "INBOX", "POP3 test message");
 
@@ -53,13 +53,13 @@ namespace UnitTest.Protocols.POP3
       {
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody1");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody1");
           POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody2");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody2");
           POP3Simulator.AssertMessageCount(account.Address, "test", 2);
 
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody3");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody3");
           POP3Simulator.AssertMessageCount(account.Address, "test", 3);
 
           POP3Simulator sim = new POP3Simulator();
@@ -82,9 +82,9 @@ namespace UnitTest.Protocols.POP3
       {
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody1");
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody2");
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody3");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody1");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody2");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody3");
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 3);
 
@@ -105,7 +105,7 @@ namespace UnitTest.Protocols.POP3
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
           for (int i = 1; i <= 10; i++)
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 10);
 
@@ -128,7 +128,7 @@ namespace UnitTest.Protocols.POP3
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
           for (int i = 1; i <= 10; i++)
-              SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
+              SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 10);
 
@@ -151,7 +151,7 @@ namespace UnitTest.Protocols.POP3
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
           for (int i = 1; i <= 10; i++)
-              SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
+              SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 10);
 
@@ -171,7 +171,7 @@ namespace UnitTest.Protocols.POP3
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
           for (int i = 1; i <= 10; i++)
-              SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
+              SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 10);
 
@@ -191,7 +191,7 @@ namespace UnitTest.Protocols.POP3
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
           for (int i = 1; i <= 10; i++)
-              SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
+              SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 10);
 
@@ -208,9 +208,9 @@ namespace UnitTest.Protocols.POP3
       {
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody1");
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody2");
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody3");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody1");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody2");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody3");
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 3);
 
@@ -230,9 +230,9 @@ namespace UnitTest.Protocols.POP3
       {
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody1");
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody2");
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody3");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody1");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody2");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody3");
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 3);
 
@@ -254,7 +254,7 @@ namespace UnitTest.Protocols.POP3
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
           for (int i = 1; i <= 10; i++)
-              SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
+              SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 10);
 
@@ -271,7 +271,7 @@ namespace UnitTest.Protocols.POP3
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
           for (int i = 1; i <= 10; i++)
-              SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
+              SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody" + i.ToString());
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 10);
 
@@ -289,7 +289,7 @@ namespace UnitTest.Protocols.POP3
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
           for (int i = 1; i <= 10; i++)
-              SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "Line1\r\nLine2\r\nLine3\r\nLine4\r\nLine\r\n");
+              SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "Line1\r\nLine2\r\nLine3\r\nLine4\r\nLine\r\n");
 
           POP3Simulator.AssertMessageCount(account.Address, "test", 10);
 
@@ -313,7 +313,7 @@ namespace UnitTest.Protocols.POP3
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
          for (int i = 1; i <= 3; i++)
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "Line1\r\nLine2\r\nLine3\r\nLine4\r\nLine\r\n");
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "Line1\r\nLine2\r\nLine3\r\nLine4\r\nLine\r\n");
 
          // Mark the second message as deleted using IMAP.
          POP3Simulator.AssertMessageCount(account.Address, "test", 3);
@@ -350,7 +350,7 @@ namespace UnitTest.Protocols.POP3
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         Assert.IsTrue(SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody"));
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
          POP3Simulator sim = new POP3Simulator();
@@ -364,7 +364,7 @@ namespace UnitTest.Protocols.POP3
          Assert.IsTrue(imapSimulator.Expunge());
          Assert.AreEqual(0, imapSimulator.GetMessageCount("Inbox"));
 
-         Assert.IsTrue(SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody"));
          IMAPSimulator.AssertMessageCount(account.Address, "test", "Inbox", 1);
          
          // This deletion should not have any effect, since the POP3 connection is referencing an old message.

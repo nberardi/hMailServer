@@ -355,7 +355,7 @@ namespace UnitTest.Protocols.IMAP
 
          string folderName = "#Public.Share1";
 
-         SMTPSimulator.StaticSend("test@test.com", account1.Address, "TestMessage", "Body");
+         SMTPClientSimulator.StaticSend("test@test.com", account1.Address, "TestMessage", "Body");
 
          Utilities.AssertMessageExistsInFolder(account1.IMAPFolders.get_ItemByName("INBOX"), 1);
          Utilities.AssertMessageExistsInFolder(folder, 0);
@@ -398,7 +398,7 @@ namespace UnitTest.Protocols.IMAP
          permission.Save();
 
          string folderName = "#Public.Share1";
-         SMTPSimulator.StaticSend("test@test.com", account1.Address, "TestMessage", "Body");
+         SMTPClientSimulator.StaticSend("test@test.com", account1.Address, "TestMessage", "Body");
          Utilities.AssertMessageExistsInFolder(account1.IMAPFolders.get_ItemByName("INBOX"), 1);
          Utilities.AssertMessageExistsInFolder(folder, 0);
 
@@ -442,7 +442,7 @@ namespace UnitTest.Protocols.IMAP
          permission.Save();
 
          string folderName = "#Public.Share1";
-         SMTPSimulator.StaticSend("test@test.com", account1.Address, "TestMessage", "Body");
+         SMTPClientSimulator.StaticSend("test@test.com", account1.Address, "TestMessage", "Body");
          Utilities.AssertMessageExistsInFolder(account1.IMAPFolders.get_ItemByName("INBOX"), 1);
          Utilities.AssertMessageExistsInFolder(folder, 0);
 

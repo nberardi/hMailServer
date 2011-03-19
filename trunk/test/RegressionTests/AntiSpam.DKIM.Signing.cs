@@ -195,7 +195,7 @@ namespace UnitTest.AntiSpam.DKIM
            Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
            deliveryResults["test@example.com"] = 250;
 
-           SMTPServer server = new SMTPServer(1, 250);
+           SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
            server.AddRecipientResult(deliveryResults);
            server.StartListen();
 
@@ -203,7 +203,7 @@ namespace UnitTest.AntiSpam.DKIM
            AddRoutePointingAtLocalhost(5, 250);
 
            // Send message to this route.
-           SMTPSimulator smtp = new SMTPSimulator();
+           SMTPClientSimulator smtp = new SMTPClientSimulator();
            List<string> recipients = new List<string>();
            recipients.Add("test@example.com");
            Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", body));

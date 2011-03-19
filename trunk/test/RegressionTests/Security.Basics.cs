@@ -26,7 +26,7 @@ namespace UnitTest.Security
          Assert.IsFalse(simIMAP.ConnectAndLogon(account1.Address, "", out message));
          Assert.AreEqual("A01 NO Invalid user name or password.\r\n", message);
          
-         SMTPSimulator simSMTP = new SMTPSimulator();
+         SMTPClientSimulator simSMTP = new SMTPClientSimulator();
          Assert.IsFalse(simSMTP.ConnectAndLogon(25, "dGVzdEB0ZXN0LmNvbQ==", "", out message));
          Assert.AreEqual("535 Authentication failed. Restarting authentication process.\r\n", message);
          

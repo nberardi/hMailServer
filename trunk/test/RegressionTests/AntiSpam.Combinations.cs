@@ -48,7 +48,7 @@ namespace UnitTest.AntiSpam
 
          // Send a messages to this account, containing both incorrect MX records an SURBL-hits.
          // We should only detect one of these two:
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          _settings.Logging.LogSMTP = true;
          _settings.Logging.LogDebug = true;
@@ -100,7 +100,7 @@ namespace UnitTest.AntiSpam
 
          // Send a messages to this account, containing both incorrect MX records an SURBL-hits.
          // We should only detect one of these two:
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Should not be possible to send this email since it's results in a spam
          // score over the delete threshold.
@@ -140,7 +140,7 @@ namespace UnitTest.AntiSpam
 
          // Send a messages to this account, containing both incorrect MX records an SURBL-hits.
          // We should only detect one of these two:
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Should not be possible to send this email since it's results in a spam
          // score over the delete threshold.

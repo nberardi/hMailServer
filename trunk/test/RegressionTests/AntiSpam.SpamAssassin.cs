@@ -49,7 +49,7 @@ namespace UnitTest.AntiSpam
         public void TestBasic()
         {
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             Assert.IsTrue(oSMTP.Send(account.Address, account.Address, "SA test", "This is a test message."));
             string sMessageContents = POP3Simulator.AssertGetFirstMessageText(account.Address, "test");
@@ -75,7 +75,7 @@ namespace UnitTest.AntiSpam
 
 
            // Send a messages to this account.
-           SMTPSimulator oSMTP = new SMTPSimulator();
+           SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
            Assert.IsTrue(oSMTP.Send(account.Address, account.Address, "SA test", "This is a test message."));
            string sMessageContents = POP3Simulator.AssertGetFirstMessageText(account.Address, "test");
@@ -86,7 +86,7 @@ namespace UnitTest.AntiSpam
         [Test]
         public void TestIncorrectHost()
         {
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             _settings.AntiSpam.SpamAssassinEnabled = true;
             _settings.AntiSpam.SpamAssassinHost = "localholst";// <- mispelled
@@ -104,7 +104,7 @@ namespace UnitTest.AntiSpam
         [Test]
         public void TestDisabled()
         {
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             _settings.AntiSpam.SpamAssassinEnabled = false;
             _settings.AntiSpam.SpamAssassinHost = "localhost";
@@ -122,7 +122,7 @@ namespace UnitTest.AntiSpam
         public void TestSpamMessage()
         {
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             
             oSMTP.Send(account.Address, account.Address, "SA test", "This is a test message with spam.\r\n XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X.");
 
@@ -146,7 +146,7 @@ namespace UnitTest.AntiSpam
         public void TestMessageScore()
         {
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             oSMTP.Send(account.Address, account.Address, "SA test", "This is a test message with spam.\r\n XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X.");
 
@@ -166,7 +166,7 @@ namespace UnitTest.AntiSpam
         public void TestMessageScoreNotMerged()
         {
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             POP3Simulator oPOP3 = new POP3Simulator();
 
             oSMTP.Send(account.Address, account.Address, "SA test", "This is a test message with spam.\r\n XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X.");
@@ -191,7 +191,7 @@ namespace UnitTest.AntiSpam
             _settings.AntiSpam.SpamAssassinMergeScore = true;
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             oSMTP.Send(account.Address, account.Address, "SA test", "This is a test message with spam.\r\n XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X.");
 
@@ -234,7 +234,7 @@ namespace UnitTest.AntiSpam
 
 
           // Send a messages to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("test-sender@test.com", account.Address, "SA test", "This is a test message with spam.\r\n XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X.");
 
           string sMessageContents = POP3Simulator.AssertGetFirstMessageText(account.Address, "test");

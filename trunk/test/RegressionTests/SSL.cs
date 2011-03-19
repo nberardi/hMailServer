@@ -110,7 +110,7 @@ namespace UnitTest.SSL
           {
               try
               {
-                  SMTPSimulator smtpSim = new SMTPSimulator(true, 250);
+                  SMTPClientSimulator smtpSim = new SMTPClientSimulator(true, 250);
                   Assert.IsTrue(smtpSim.Send("test@test.com", account.Address, "Test", "MyBody"));
 
                   break;
@@ -135,7 +135,7 @@ namespace UnitTest.SSL
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "pop3-ssl@test.com", "test");
 
-         SMTPSimulator smtpSim = new SMTPSimulator();
+         SMTPClientSimulator smtpSim = new SMTPClientSimulator();
          Assert.IsTrue(smtpSim.Send("test@test.com", account.Address, "Test", "MyBody"));
 
           for (int i = 0; i < 10;i++)

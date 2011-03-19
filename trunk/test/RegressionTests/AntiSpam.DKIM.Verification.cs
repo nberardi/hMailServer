@@ -57,7 +57,7 @@ namespace UnitTest.AntiSpam.DKIM
                                     "" + "\r\n";
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            Assert.IsTrue(SMTPSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
+            Assert.IsTrue(SMTPClientSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
             string text = POP3Simulator.AssertGetFirstMessageText(account1.Address, "test");
         }
 
@@ -96,7 +96,7 @@ namespace UnitTest.AntiSpam.DKIM
                                     "" + "\r\n";
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            Assert.IsFalse(SMTPSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
+            Assert.IsFalse(SMTPClientSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
         }
 
         [Test]
@@ -134,7 +134,7 @@ namespace UnitTest.AntiSpam.DKIM
                                     "" + "\r\n";
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            Assert.IsFalse(SMTPSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
+            Assert.IsFalse(SMTPClientSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
         }
 
         [Test]
@@ -168,7 +168,7 @@ namespace UnitTest.AntiSpam.DKIM
                                     "The quick brown fox jumped over the lazy dog." + "\r\n";
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            Assert.IsTrue(SMTPSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
+            Assert.IsTrue(SMTPClientSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
             string text = POP3Simulator.AssertGetFirstMessageText(account1.Address, "test");
         }
 
@@ -209,7 +209,7 @@ namespace UnitTest.AntiSpam.DKIM
                                     "" + "\r\n";
 
             hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            Assert.IsTrue(SMTPSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
+            Assert.IsTrue(SMTPClientSimulator.StaticSendRaw(account1.Address, account1.Address, messageText));
             string text = POP3Simulator.AssertGetFirstMessageText(account1.Address, "test");
 
             Assert.IsTrue(text.Contains("Rejected by DKIM. - (Score: 6)"));

@@ -19,7 +19,7 @@ namespace UnitTest.Protocols.IMAP
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "se'arch@test.com", "test");
 
          // Send a message to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send(oAccount.Address, oAccount.Address, "Search test", "This is a test of IMAP Search");
 
          IMAPSimulator.AssertMessageCount(oAccount.Address, "test", "INBOX", 1);
@@ -128,7 +128,7 @@ namespace UnitTest.Protocols.IMAP
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
          // Send a message to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send("search@test.com", "search@test.com", "Search test", "This is a test of IMAP Search");
          IMAPSimulator.AssertMessageCount("search@test.com", "test", "INBOX", 1);
 
@@ -163,7 +163,7 @@ namespace UnitTest.Protocols.IMAP
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
          // Send a message to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send("search@test.com", "search@test.com", "Search test", "This is a test of IMAP Search");
          IMAPSimulator.AssertMessageCount("search@test.com", "test", "INBOX", 1);
 
@@ -205,7 +205,7 @@ namespace UnitTest.Protocols.IMAP
           hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
           // Send a message to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("search@test.com", "search@test.com", "Search test", "This is a test of IMAP Search");
           IMAPSimulator.AssertMessageCount("search@test.com", "test", "INBOX", 1);
           oSMTP.Send("search@test.com", "search@test.com", "Search test", "This is a test of IMAP Search");
@@ -234,7 +234,7 @@ namespace UnitTest.Protocols.IMAP
          hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
          // Send a message to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send("search@test.com", "search@test.com", "Search test", "This is a test of IMAP Search");
 
          IMAPSimulator.AssertMessageCount(oAccount.Address, "test", "Inbox",1);
@@ -261,7 +261,7 @@ namespace UnitTest.Protocols.IMAP
           hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
           // Send a message to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("search@test.com", "search@test.com", "Test1", "This is a test of IMAP Search");
           IMAPSimulator.AssertMessageCount("search@test.com", "test", "INBOX", 1);
           oSMTP.Send("search@test.com", "search@test.com", "Test2", "This is a test of IMAP Search");
@@ -293,7 +293,7 @@ namespace UnitTest.Protocols.IMAP
           hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
           // Send a message to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("search@test.com", "search@test.com", "Test1", "This is a test of IMAP Search");
           IMAPSimulator.AssertMessageCount("search@test.com", "test", "INBOX", 1);
           oSMTP.Send("search@test.com", "search@test.com", "Test2", "This is a test of IMAP Search");
@@ -322,7 +322,7 @@ namespace UnitTest.Protocols.IMAP
           hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
           // Send a message to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("search@test.com", "search@test.com", "Test1", "This is a test of IMAP Search");
           IMAPSimulator.AssertMessageCount("search@test.com", "test", "INBOX", 1);
           oSMTP.Send("search@test.com", "search@test.com", "Test2", "This is a test of IMAP Search");
@@ -350,7 +350,7 @@ namespace UnitTest.Protocols.IMAP
           hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
           // Send a message to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("search@test.com", "search@test.com", "Test1", "This is a test of IMAP Search");
           IMAPSimulator.AssertMessageCount("search@test.com", "test", "INBOX", 1);
           oSMTP.Send("search@test.com", "search@test.com", "Test2", "This is a test of IMAP Search");
@@ -378,7 +378,7 @@ namespace UnitTest.Protocols.IMAP
           hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
           // Send a message to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("search@test.com", "search@test.com", "Test1", "This is a test of IMAP Search");
           IMAPSimulator.AssertMessageCount("search@test.com", "test", "INBOX", 1);
           oSMTP.Send("search@test.com", "search@test.com", "Test2", "This is a test of IMAP Search");
@@ -406,7 +406,7 @@ namespace UnitTest.Protocols.IMAP
           hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
           // Send a message to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("search@test.com", "search@test.com", "Test1", "This is a test of IMAP Search");
           IMAPSimulator.AssertMessageCount("search@test.com", "test", "INBOX", 1);
           oSMTP.Send("search@test.com", "search@test.com", "Test2", "This is a test of IMAP Search");
@@ -434,7 +434,7 @@ namespace UnitTest.Protocols.IMAP
           hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
           // Send a message to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("search@test.com", "search@test.com", "Search test", "This is a test of IMAP Search");
 
           IMAPSimulator.AssertMessageCount(oAccount.Address, "test", "Inbox", 1);
@@ -464,7 +464,7 @@ namespace UnitTest.Protocols.IMAP
           hMailServer.Account oAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
           // Send a message to this account.
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           for (int i = 0; i <5 ; i++)
             oSMTP.Send("search@test.com", "search@test.com", "Test1", "This is a test of IMAP Search");
 
@@ -501,7 +501,7 @@ namespace UnitTest.Protocols.IMAP
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
          // Send a message to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          for (int i = 0; i < 3; i++)
             oSMTP.Send("search@test.com", "search@test.com", "Test1", "This is a test of IMAP Search");
 
@@ -544,7 +544,7 @@ namespace UnitTest.Protocols.IMAP
 
          string body = Utilities.GetResource("Messages.MessageContainingGreekAndJapanese.txt");
 
-         SMTPSimulator.StaticSendRaw(account.Address, account.Address, body);
+         SMTPClientSimulator.StaticSendRaw(account.Address, account.Address, body);
 
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
@@ -583,7 +583,7 @@ namespace UnitTest.Protocols.IMAP
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
          string body = Utilities.GetResource("Messages.MessageContainingGreekSubject.txt");
-         SMTPSimulator.StaticSendRaw(account.Address, account.Address, body);
+         SMTPClientSimulator.StaticSendRaw(account.Address, account.Address, body);
 
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
@@ -610,7 +610,7 @@ namespace UnitTest.Protocols.IMAP
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
-         SMTPSimulator.StaticSend(account.Address, account.Address, "MySubject", "MyBody");
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "MySubject", "MyBody");
 
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
@@ -630,7 +630,7 @@ namespace UnitTest.Protocols.IMAP
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
 
-         SMTPSimulator.StaticSend(account.Address, account.Address, "MySubject", "MyBody");
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "MySubject", "MyBody");
 
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 

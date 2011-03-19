@@ -101,7 +101,7 @@ namespace UnitTest.API
                "WhatTest\r\n";
 
            hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-           Assert.IsTrue(SMTPSimulator.StaticSend(account.Address, account.Address, "First message", "Test message"));
+           Assert.IsTrue(SMTPClientSimulator.StaticSend(account.Address, account.Address, "First message", "Test message"));
            POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
            // Create another message on disk and import it.
@@ -132,7 +132,7 @@ namespace UnitTest.API
 
         private static void SendMessageToTest()
         {
-            SMTPSimulator smtp = new SMTPSimulator();
+            SMTPClientSimulator smtp = new SMTPClientSimulator();
             List<string> recipients = new List<string>();
             recipients.Add("test@test.com");
             smtp.Send("test@test.com", recipients, "Test", "Test message");
@@ -230,7 +230,7 @@ namespace UnitTest.API
                                    "\r\n" +
                                    "--------------050908050500020808050006--\r\n";
 
-            SMTPSimulator.StaticSendRaw("test@test.com", "test@test.com", messageText);
+            SMTPClientSimulator.StaticSendRaw("test@test.com", "test@test.com", messageText);
 
             hMailServer.Message message = Utilities.AssertRetrieveFirstMessage(account1.IMAPFolders.get_ItemByName("INBOX"));
             Assert.AreEqual(1, message.Attachments.Count);
@@ -314,7 +314,7 @@ namespace UnitTest.API
             // Add an account and send a message to it.
             hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-            SMTPSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test", "SampleBody");
+            SMTPClientSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test", "SampleBody");
 
             POP3Simulator.AssertMessageCount(oAccount1.Address, "test",1);
             string text = Utilities.ReadExistingTextFile(_settings.Logging.CurrentEventLog);
@@ -379,7 +379,7 @@ namespace UnitTest.API
            // Add an account and send a message to it.
            hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-           SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+           SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
            POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
            hMailServer.Message message = account.IMAPFolders.get_ItemByName("INBOX").Messages[0];
@@ -403,13 +403,13 @@ namespace UnitTest.API
            // Add an account and send a message to it.
            hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-           SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+           SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
            POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
            string liveLog = logging.LiveLog;
            Assert.IsTrue(liveLog.Length > 0, liveLog);
 
-           SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+           SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
            POP3Simulator.AssertMessageCount(account.Address, "test", 2);
 
            logging.EnableLiveLogging(true);
@@ -439,7 +439,7 @@ namespace UnitTest.API
 
               POP3Simulator.AssertMessageCount(account.Address, "test", ((i + 1) * 2)-1);
 
-              SMTPSimulator.StaticSend("test@example.com", account.Address, "Test", "Test");
+              SMTPClientSimulator.StaticSend("test@example.com", account.Address, "Test", "Test");
               POP3Simulator.AssertMessageCount(account.Address, "test", (i+1) * 2);
            }
 
@@ -504,7 +504,7 @@ namespace UnitTest.API
               message.Copy(someOtherFolder.ID);
            }
 
-           SMTPSimulator.StaticSend("test@example.com", account.Address, "Test", "Test");
+           SMTPClientSimulator.StaticSend("test@example.com", account.Address, "Test", "Test");
            
            // Copy back to inbox.
            for (int i = 0; i < 3; i ++ )

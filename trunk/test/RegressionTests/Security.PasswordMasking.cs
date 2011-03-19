@@ -70,7 +70,7 @@ namespace UnitTest.Security
         public void TestSMTPServerAuthLogin()
         {
 
-            SMTPSimulator sim = new SMTPSimulator();
+            SMTPClientSimulator sim = new SMTPClientSimulator();
             string errorMsg;
             sim.ConnectAndLogon(25, GetUsername(), GetPassword(), out errorMsg);
             EnsureNoPassword();
@@ -129,7 +129,7 @@ namespace UnitTest.Security
             Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
             deliveryResults["test@dummy-example.com"] = 550;
 
-            SMTPServer server = new SMTPServer(1, 250);
+            SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
             server.AddRecipientResult(deliveryResults);
             server.StartListen();
 
@@ -137,7 +137,7 @@ namespace UnitTest.Security
             AddRoutePointingAtLocalhostWithAuth(0, 250);
 
             // Send message to this route.
-            SMTPSimulator smtp = new SMTPSimulator();
+            SMTPClientSimulator smtp = new SMTPClientSimulator();
             Assert.IsTrue(smtp.Send("test@test.com", "test@dummy-example.com", "Test", "Test message"));
 
             Utilities.AssertRecipientsInDeliveryQueue(0);

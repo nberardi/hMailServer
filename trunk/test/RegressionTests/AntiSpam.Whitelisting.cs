@@ -51,12 +51,12 @@ namespace UnitTest.AntiSpam
          oSURBLServer.Save();
 
          // Send a messages to this account.
-         Assert.IsTrue(SMTPSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
 
          obAddresses.DeleteByDBID(obAddress.ID);
 
          // Check that it's detected as spam again.
-         Assert.IsFalse(SMTPSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
 
          POP3Simulator.AssertMessageCount("whitelist@test.com", "test", 1);
       }
@@ -89,7 +89,7 @@ namespace UnitTest.AntiSpam
          oSURBLServer.Save();
 
          // Send a messages to this account.
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          Assert.IsTrue(oSMTP.Send("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
 
@@ -121,10 +121,10 @@ namespace UnitTest.AntiSpam
          oSURBLServer.Save();
 
          // Send a messages to this account.
-         Assert.IsTrue(SMTPSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsFalse(SMTPSimulator.StaticSend("blacklist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsTrue(SMTPSimulator.StaticSend("whitesomething@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsFalse(SMTPSimulator.StaticSend("blacksomething@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("blacklist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("whitesomething@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("blacksomething@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
 
          POP3Simulator.AssertMessageCount("whitelist@test.com", "test", 2);
       }
@@ -151,10 +151,10 @@ namespace UnitTest.AntiSpam
          oSURBLServer.Save();
 
          // Send a messages to this account.
-         Assert.IsTrue(SMTPSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsFalse(SMTPSimulator.StaticSend("whitelist@icrosoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsTrue(SMTPSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsFalse(SMTPSimulator.StaticSend("whitelist@icrosoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("whitelist@icrosoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("whitelist@icrosoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
 
          POP3Simulator.AssertMessageCount("whitelist@test.com", "test", 2);
       }
@@ -179,9 +179,9 @@ namespace UnitTest.AntiSpam
          oSURBLServer.Save();
 
          // Send a messages to this account.
-         Assert.IsTrue(SMTPSimulator.StaticSend("white%list@micro_soft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsFalse(SMTPSimulator.StaticSend("whiteAlist@micro_soft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsFalse(SMTPSimulator.StaticSend("whiteAlist@microEsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("white%list@micro_soft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("whiteAlist@micro_soft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("whiteAlist@microEsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
 
          POP3Simulator.AssertMessageCount("whitelist@test.com", "test", 1);
       }
@@ -207,8 +207,8 @@ namespace UnitTest.AntiSpam
          oSURBLServer.Save();
 
          // Send a messages to this account.
-         Assert.IsTrue(SMTPSimulator.StaticSend("white'list@micro_soft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsFalse(SMTPSimulator.StaticSend("whitelist@micro_soft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("white'list@micro_soft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("whitelist@micro_soft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
 
          POP3Simulator.AssertMessageCount("whitelist@test.com", "test", 1);
       }
@@ -233,8 +233,8 @@ namespace UnitTest.AntiSpam
          oSURBLServer.Save();
 
          // Send a messages to this account.
-         Assert.IsTrue(SMTPSimulator.StaticSend("white/list@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
-         Assert.IsFalse(SMTPSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("white/list@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "This is a test message with a SURBL url: -> http://surbl-org-permanent-test-point.com/ <-"));
 
          POP3Simulator.AssertMessageCount("whitelist@test.com", "test", 1);
       }

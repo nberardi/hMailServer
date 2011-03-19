@@ -35,7 +35,7 @@ namespace UnitTest.BusinessObjects
 
          // Send a message
          for (int i = 0; i < 30; i++)
-            SMTPSimulator.StaticSend("test@test.com", "test@test.com", "Test message", "123456789012345678901234567890123456789012345678901234567890");
+            SMTPClientSimulator.StaticSend("test@test.com", "test@test.com", "Test message", "123456789012345678901234567890123456789012345678901234567890");
 
          IMAPSimulator.AssertMessageCount("test@test.com", "test", "Inbox", 30);
 

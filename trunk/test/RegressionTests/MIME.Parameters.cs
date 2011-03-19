@@ -17,7 +17,7 @@ namespace UnitTest.MIME
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSendRaw(account.Address, account.Address,
+         SMTPClientSimulator.StaticSendRaw(account.Address, account.Address,
             "From: test@test.com\r\n" +
             "Content-Type: text/plain; charset = \"iso-8859-1\"\r\n" +
             "\r\n" +
@@ -38,7 +38,7 @@ namespace UnitTest.MIME
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSendRaw(account.Address, account.Address,
+         SMTPClientSimulator.StaticSendRaw(account.Address, account.Address,
             "From: test@test.com\r\n" +
             "Content-Type: text/plain; charset =\"iso-8859-1\"\r\n" +
             "\r\n" +
@@ -59,7 +59,7 @@ namespace UnitTest.MIME
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSendRaw(account.Address, account.Address,
+         SMTPClientSimulator.StaticSendRaw(account.Address, account.Address,
             "From: test@test.com\r\n" +
             "Content-Type: text/plain; charset =\"iso-8859-1\" \r\n" +
             "\r\n" +
@@ -80,7 +80,7 @@ namespace UnitTest.MIME
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSendRaw(account.Address, account.Address,
+         SMTPClientSimulator.StaticSendRaw(account.Address, account.Address,
             "From: test@test.com\r\n" +
             "Content-Type: text/plain; charset = iso-8859-1 \r\n" +
             "\r\n" +
@@ -101,7 +101,7 @@ namespace UnitTest.MIME
       {
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSendRaw(account.Address, account.Address,
+         SMTPClientSimulator.StaticSendRaw(account.Address, account.Address,
             "From: test@test.com\r\n" +
             "Content-Type: text/plain; charset=iso-8859-1 \r\n" +
             "\r\n" +

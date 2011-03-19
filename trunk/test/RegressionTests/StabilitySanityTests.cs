@@ -21,7 +21,7 @@ namespace UnitTest.Stability
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
 
          hMailServer.IMAPFolder inbox = account.IMAPFolders.get_ItemByName("Inbox"); ;
 
@@ -45,7 +45,7 @@ namespace UnitTest.Stability
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
 
          hMailServer.IMAPFolder inbox = account.IMAPFolders.get_ItemByName("Inbox"); ;
 
@@ -71,7 +71,7 @@ namespace UnitTest.Stability
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+         SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
 
          hMailServer.IMAPFolder inbox = account.IMAPFolders.get_ItemByName("Inbox"); ;
 
@@ -98,7 +98,7 @@ namespace UnitTest.Stability
           hMailServer.Application application = SingletonProvider<Utilities>.Instance.GetApp();
           string deletedMessageText = _settings.ServerMessages.get_ItemByName("MESSAGE_FILE_MISSING").Text;
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-          SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
+          SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody");
           hMailServer.IMAPFolder inbox = account.IMAPFolders.get_ItemByName("Inbox"); ;
           Utilities.AssertMessageExistsInFolder(inbox, 1);
 

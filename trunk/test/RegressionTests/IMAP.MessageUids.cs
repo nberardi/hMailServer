@@ -20,7 +20,7 @@ namespace UnitTest.Protocols.IMAP
       {
          hMailServer.Account testAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "Test'Account@test.com", "test");
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 1);
 
          hMailServer.IMAPFolder inboxFolder = testAccount.IMAPFolders[0];
@@ -28,13 +28,13 @@ namespace UnitTest.Protocols.IMAP
          Assert.AreEqual(1, inboxFolder.CurrentUID);
          Assert.AreEqual(1, inboxFolder.Messages[0].UID);
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 2);
 
          Assert.AreEqual(2, inboxFolder.CurrentUID);
          Assert.AreEqual(2, inboxFolder.Messages[1].UID);
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 3);
 
          Assert.AreEqual(3, inboxFolder.CurrentUID);
@@ -49,7 +49,7 @@ namespace UnitTest.Protocols.IMAP
       {
          hMailServer.Account testAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "Test'Account@test.com", "test");
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 1);
 
          hMailServer.IMAPFolder inboxFolder = testAccount.IMAPFolders[0];
@@ -58,7 +58,7 @@ namespace UnitTest.Protocols.IMAP
          Assert.AreEqual(1, inboxFolder.Messages[0].UID);
          POP3Simulator.AssertGetFirstMessageText(testAccount.Address, "test");
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 1);
 
          Assert.AreEqual(2, inboxFolder.CurrentUID);
@@ -66,7 +66,7 @@ namespace UnitTest.Protocols.IMAP
          POP3Simulator.AssertGetFirstMessageText(testAccount.Address, "test");
          
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 1);
 
          Assert.AreEqual(3, inboxFolder.CurrentUID);
@@ -83,13 +83,13 @@ namespace UnitTest.Protocols.IMAP
          hMailServer.Account testAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "Test'Account@test.com", "test");
 
          // First deliver two messages to the inbox.
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 1);
          hMailServer.IMAPFolder inboxFolder = testAccount.IMAPFolders[0];
          Assert.AreEqual(1, inboxFolder.CurrentUID);
          Assert.AreEqual(1, inboxFolder.Messages[0].UID);
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 2);
          Assert.AreEqual(2, inboxFolder.CurrentUID);
          Assert.AreEqual(2, inboxFolder.Messages[1].UID);
@@ -97,7 +97,7 @@ namespace UnitTest.Protocols.IMAP
          CreateMoveRule(testAccount.Rules, "TestFolder");
 
          // This message will be moved into the test folder.
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          
          // Wait for the message to arrive.
          Utilities.AssertFolderExists(testAccount.IMAPFolders, "TestFolder");
@@ -117,13 +117,13 @@ namespace UnitTest.Protocols.IMAP
          hMailServer.Account testAccount = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "Test'Account@test.com", "test");
 
          // First deliver two messages to the inbox.
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 1);
          hMailServer.IMAPFolder inboxFolder = testAccount.IMAPFolders[0];
          Assert.AreEqual(1, inboxFolder.CurrentUID);
          Assert.AreEqual(1, inboxFolder.Messages[0].UID);
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 2);
          Assert.AreEqual(2, inboxFolder.CurrentUID);
          Assert.AreEqual(2, inboxFolder.Messages[1].UID);
@@ -131,7 +131,7 @@ namespace UnitTest.Protocols.IMAP
          CreateMoveRule(_application.Rules, "TestFolder");
 
          // This message will be moved into the test folder.
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
 
          // Wait for the message to arrive.
          Utilities.AssertFolderExists(testAccount.IMAPFolders, "TestFolder");
@@ -159,14 +159,14 @@ namespace UnitTest.Protocols.IMAP
          Assert.IsTrue(sim.ConnectAndLogon(testAccount.Address, "test"));
 
          // First deliver two messages to the inbox.
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 1);
          hMailServer.IMAPFolder inboxFolder = testAccount.IMAPFolders[0];
          Assert.AreEqual(1, inboxFolder.CurrentUID);
          Assert.AreEqual(1, inboxFolder.Messages[0].UID);
          Assert.IsTrue(sim.Status("INBOX", "UIDNEXT").Contains("UIDNEXT 2"));
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 2);
          Assert.IsTrue(sim.Status("INBOX", "UIDNEXT").Contains("UIDNEXT 3"));
          Assert.AreEqual(2, inboxFolder.CurrentUID);
@@ -176,7 +176,7 @@ namespace UnitTest.Protocols.IMAP
          CreateMoveRule(testAccount.Rules, "TestFolder");
 
          // This message will be moved into the test folder.
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
 
          // Wait for the message to arrive.
          Utilities.AssertFolderExists(testAccount.IMAPFolders, "TestFolder");
@@ -207,14 +207,14 @@ namespace UnitTest.Protocols.IMAP
          Assert.IsTrue(sim.ConnectAndLogon(testAccount.Address, "test"));
 
          // First deliver two messages to the inbox.
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 1);
          hMailServer.IMAPFolder inboxFolder = testAccount.IMAPFolders[0];
          Assert.AreEqual(1, inboxFolder.CurrentUID);
          Assert.AreEqual(1, inboxFolder.Messages[0].UID);
          Assert.IsTrue(sim.Status("INBOX", "UIDNEXT").Contains("UIDNEXT 2"));
 
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
          POP3Simulator.AssertMessageCount(testAccount.Address, "test", 2);
          Assert.AreEqual(2, inboxFolder.CurrentUID);
          Assert.AreEqual(2, inboxFolder.Messages[1].UID);
@@ -225,7 +225,7 @@ namespace UnitTest.Protocols.IMAP
 
 
          // This message will be moved into the test folder.
-         SMTPSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
+         SMTPClientSimulator.StaticSend(testAccount.Address, testAccount.Address, "Test", "Test");
 
          // Wait for the message to arrive.
          Utilities.AssertFolderExists(testAccount.IMAPFolders, "TestFolder");

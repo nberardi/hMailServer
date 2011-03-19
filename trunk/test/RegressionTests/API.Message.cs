@@ -43,7 +43,7 @@ namespace UnitTest.API
          // Send the message.
          List<string> recipients = new List<string>();
          recipients.Add("test@test.com");
-         SMTPSimulator.StaticSend("test@test.com", recipients, "Hej", "Välkommen till verkligheten");
+         SMTPClientSimulator.StaticSend("test@test.com", recipients, "Hej", "Välkommen till verkligheten");
 
          // Check that the message exists
          string message = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
@@ -327,7 +327,7 @@ namespace UnitTest.API
          
 
 
-         SMTPSimulator.StaticSendRaw("encode@test.com", "encode@test.com", body);
+         SMTPClientSimulator.StaticSendRaw("encode@test.com", "encode@test.com", body);
 
          POP3Simulator.AssertMessageCount(account.Address, "test",1 );
 

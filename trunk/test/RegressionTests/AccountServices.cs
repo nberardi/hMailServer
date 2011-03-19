@@ -30,7 +30,7 @@ namespace UnitTest.Services
             oAccount2.Save();
 
             // Send 2 messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             oSMTP.Send(oAccount1.Address, oAccount2.Address, "Test message", "This is the body");
 
             POP3Simulator oPOP3 = new POP3Simulator();
@@ -84,7 +84,7 @@ namespace UnitTest.Services
             oAccount2.Save();
 
             // Send a message...
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             oSMTP.Send(oAccount1.Address, oAccount2.Address, "Test message", "This is the body");
 
             SingletonProvider<Utilities>.Instance.GetApp().SubmitEMail();
@@ -113,7 +113,7 @@ namespace UnitTest.Services
             oAccount2.Save();
 
             // Send 1 message to this account
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             oSMTP.Send(oAccount1.Address, oAccount2.Address, "Test message", "This is the body");
 
             // Wait a second to be sure that the message
@@ -146,7 +146,7 @@ namespace UnitTest.Services
             oAccount2.Save();
 
             // Send 1 message to this account
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             oSMTP.Send(oAccount1.Address, oAccount2.Address, "Test message", "This is the body");
 
             string s = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
@@ -174,7 +174,7 @@ namespace UnitTest.Services
             oAccount1.Save();
 
             // Send 2 messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             for (int i = 0; i < 2; i++)
                 oSMTP.Send("Forward1@test.com", "Forward1@test.com", "INBOX", "POP3 test message");
 
@@ -199,7 +199,7 @@ namespace UnitTest.Services
             hMailServer.Account oAccount2 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "Account2123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890@test.com", "test");
 
             // Send 5 messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             for (int i = 0; i < 5; i++)
                 oSMTP.Send(oAccount1.Address, oAccount2.Address, "INBOX", "POP3 test message");
 
@@ -220,7 +220,7 @@ namespace UnitTest.Services
             SingletonProvider<Utilities>.Instance.AddAlias(_domain, "alias2'quoted@test.com", "Addr'ess2@test.com");
 
             // Send 5 messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             for (int i = 0; i < 5; i++)
                 oSMTP.Send(oAccount1.Address, "alias2'quoted@test.com", "INBOX", "Quoted message test message");
 
@@ -242,7 +242,7 @@ namespace UnitTest.Services
             SingletonProvider<Utilities>.Instance.AddAlias(_domain, "alias2'quoted@test.com", "Addr'ess2@test.com");
 
             // Send 5 messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             for (int i = 0; i < 5; i++)
                 oSMTP.Send(oAccount1.Address, "alias2'quoted@test.com", "INBOX", "Quoted message test message");
 
@@ -266,7 +266,7 @@ namespace UnitTest.Services
             oAccount2.ForwardKeepOriginal = true;
             oAccount2.Save();
 
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             Assert.IsTrue(oSMTP.Send(oAccount1.Address, oAccount2.Address, "Test message", "This is the body"));
 
             // Make sure that that a forward is made if no rule is set up.
@@ -321,7 +321,7 @@ namespace UnitTest.Services
             oAccount1.Save();
 
             // Send a message...
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             oSMTP.Send("original-address@test.com", oAccount1.Address, "Test message", "This is the body");
 
             Utilities.AssertRecipientsInDeliveryQueue(0);
@@ -368,7 +368,7 @@ namespace UnitTest.Services
             oRule.Save();
 
             // Make sure that that a forward is made if no rule is set up.
-            SMTPSimulator.StaticSend("external@test.com", oAccount1.Address, "Test message", "This is the body");
+            SMTPClientSimulator.StaticSend("external@test.com", oAccount1.Address, "Test message", "This is the body");
             POP3Simulator.AssertMessageCount(oAccount1.Address, "test", 1);
             _application.SubmitEMail();
             
@@ -398,7 +398,7 @@ namespace UnitTest.Services
             oAccount1.Save();
 
             // Send 2 messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             oSMTP.Send("Forward1@test.com", "Forward1@test.com", "INBOX", "POP3 test message");
             Utilities.AssertRecipientsInDeliveryQueue(0);
             POP3Simulator.AssertMessageCount(oAccount2.Address, "test", 1);

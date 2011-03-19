@@ -205,7 +205,7 @@ namespace UnitTest.API
         public void TestReplaceFullPathWithPartialPath()
         {
             hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test message", "Test body");
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test message", "Test body");
 
             hMailServer.IMAPFolder folder = account.IMAPFolders.get_ItemByName("Inbox");
             Utilities.AssertMessageExistsInFolder(folder, 1);
@@ -244,7 +244,7 @@ namespace UnitTest.API
         public void TestReplaceInvalidPathWithCorrectPath()
         {
             hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test message", "Test body");
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test message", "Test body");
 
             hMailServer.IMAPFolder folder = account.IMAPFolders.get_ItemByName("Inbox");
             Utilities.AssertMessageExistsInFolder(folder, 1);

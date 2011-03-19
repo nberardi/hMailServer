@@ -17,13 +17,13 @@ namespace UnitTest.Protocols.IMAP
         {
             hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody1");
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody1");
             IMAPSimulator.AssertMessageCount(account.Address, "test", "Inbox", 1);
 
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody2");
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody2");
             IMAPSimulator.AssertMessageCount(account.Address, "test", "Inbox", 2);
 
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody3");
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody3");
             IMAPSimulator.AssertMessageCount(account.Address, "test", "Inbox", 3);
 
 
@@ -42,9 +42,9 @@ namespace UnitTest.Protocols.IMAP
         public void TestFetchInvalid()
         {
             hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody1");
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody2");
-            SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody3");
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody1");
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody2");
+            SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "SampleBody3");
 
             IMAPSimulator.AssertMessageCount(account.Address, "test", "Inbox", 3);
 
@@ -72,7 +72,7 @@ namespace UnitTest.Protocols.IMAP
                              Environment.NewLine +
                              "Hello" + Environment.NewLine;
 
-            SMTPSimulator smtpSimulator = new SMTPSimulator();
+            SMTPClientSimulator smtpSimulator = new SMTPClientSimulator();
             smtpSimulator.SendRaw(account.Address, account.Address, message);
 
             POP3Simulator.AssertMessageCount(account.Address, "test", 1);
@@ -133,7 +133,7 @@ namespace UnitTest.Protocols.IMAP
                              Environment.NewLine +
                              "Hello" + Environment.NewLine;
 
-            SMTPSimulator smtpSimulator = new SMTPSimulator();
+            SMTPClientSimulator smtpSimulator = new SMTPClientSimulator();
             Assert.IsTrue(smtpSimulator.SendRaw(account.Address, account.Address, message));
 
             POP3Simulator.AssertMessageCount(account.Address, "test", 1);
@@ -167,7 +167,7 @@ namespace UnitTest.Protocols.IMAP
                              Environment.NewLine +
                              "Hello" + Environment.NewLine;
 
-            SMTPSimulator smtpSimulator = new SMTPSimulator();
+            SMTPClientSimulator smtpSimulator = new SMTPClientSimulator();
             Assert.IsTrue(smtpSimulator.SendRaw(account.Address, account.Address, message));
 
             POP3Simulator.AssertMessageCount(account.Address, "test", 1);

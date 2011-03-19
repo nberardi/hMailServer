@@ -453,13 +453,13 @@ namespace UnitTest
             hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(domain, "test@test.com", "test");
 
             // Make sure the inbox contains two messages which should be backed up.
-            Assert.IsTrue(SMTPSimulator.StaticSend(account.Address, account.Address, "Message 1 Subject", "Message 1 Body"));
+            Assert.IsTrue(SMTPClientSimulator.StaticSend(account.Address, account.Address, "Message 1 Subject", "Message 1 Body"));
             POP3Simulator.AssertMessageCount(account.Address, "test", 1);
            
-            Assert.IsTrue(SMTPSimulator.StaticSend(account.Address, account.Address, "Message 2 Subject", "Message 2 Body"));
+            Assert.IsTrue(SMTPClientSimulator.StaticSend(account.Address, account.Address, "Message 2 Subject", "Message 2 Body"));
             POP3Simulator.AssertMessageCount(account.Address, "test", 2);
 
-            Assert.IsTrue(SMTPSimulator.StaticSend(account.Address, account.Address, "Message 3 Subject", "Message 3 Body"));
+            Assert.IsTrue(SMTPClientSimulator.StaticSend(account.Address, account.Address, "Message 3 Subject", "Message 3 Body"));
             POP3Simulator.AssertMessageCount(account.Address, "test", 3);
 
             IMAPSimulator sim = new IMAPSimulator();

@@ -27,7 +27,7 @@ namespace UnitTest.AntiSpam
 
          hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "grey@test.com", "test");
 
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
          recipients.Add(oAccount1.Address);
          bool result = smtp.Send("test@test.com", recipients, "Test", "Body");
@@ -55,11 +55,11 @@ namespace UnitTest.AntiSpam
 
          _antiSpam.GreyListingEnabled = true;
 
-         Assert.IsFalse(SMTPSimulator.StaticSend("test@localhost.hmailserver.com", oAccount1.Address, "Test", "Body"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("test@localhost.hmailserver.com", oAccount1.Address, "Test", "Body"));
 
          _antiSpam.BypassGreylistingOnMailFromMX = true;
 
-         Assert.IsTrue(SMTPSimulator.StaticSend("test@localhost.hmailserver.com", oAccount1.Address, "Test", "Body"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("test@localhost.hmailserver.com", oAccount1.Address, "Test", "Body"));
 
          POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
       }
@@ -71,7 +71,7 @@ namespace UnitTest.AntiSpam
 
          hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "grey@test.com", "test");
 
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
          recipients.Add(oAccount1.Address);
          bool result = smtp.Send("test@test.com", recipients, "Test", "Body");
@@ -120,12 +120,12 @@ namespace UnitTest.AntiSpam
          whiteAddress.IPAddress = "127.0.0.5";
          whiteAddress.Save();
 
-         Assert.IsFalse(SMTPSimulator.StaticSend("external@example.com", account.Address, "Test", "Test"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("external@example.com", account.Address, "Test", "Test"));
 
          whiteAddress.IPAddress = "*";
          whiteAddress.Save();
 
-         Assert.IsTrue(SMTPSimulator.StaticSend("external@example.com", account.Address, "Test", "Test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("external@example.com", account.Address, "Test", "Test"));
 
          POP3Simulator.AssertGetFirstMessageText(account.Address, "test");
       }

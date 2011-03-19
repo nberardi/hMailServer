@@ -845,12 +845,12 @@ namespace UnitTest.Protocols.POP3
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["external@dummy-example.com"] = 250;
 
-         SMTPServer smtpServer = new SMTPServer(1, 250);
+         SMTPServerSimulator smtpServer = new SMTPServerSimulator(1, 250);
          smtpServer.AddRecipientResult(deliveryResults);
          smtpServer.StartListen();
 
          // Add a route so we can connect to localhost.
-         hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, false);
+         hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, false);
          route.TreatSecurityAsLocalDomain = true;
          route.Save();
 
@@ -913,7 +913,7 @@ namespace UnitTest.Protocols.POP3
          pop3Server.StartListen();
 
          // Add a route so we can connect to localhost.
-         hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(5, 250, false);
+         hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(5, 250, false);
          route.TreatSecurityAsLocalDomain = false;
          route.Save();
 

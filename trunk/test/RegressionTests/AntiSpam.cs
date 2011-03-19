@@ -33,7 +33,7 @@ namespace UnitTest.AntiSpam
 
             // Send a messages to this account.
 
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             if (!oSMTP.Send("SpamProtectionLineEndings@test.com", "SpamProtectionLineEndings@test.com", "INBOX", "This is a test message\r\n consisting of correct lines"))
                 throw new Exception("ERROR - Was not able to send correct email.");
 
@@ -69,7 +69,7 @@ namespace UnitTest.AntiSpam
             _antiSpam.UseMXChecksScore = 2;
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             if (!oSMTP.Send("test@microsoft.com", "missingmxrecords@test.com", "INBOX", "This is a test message."))
                 throw new Exception("ERROR - Was not able to send correct email.");
@@ -108,7 +108,7 @@ namespace UnitTest.AntiSpam
             oSURBLServer.Save();
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
 
             oSMTP.Send("surbltest@test.com", "surbltest@test.com", "SURBL-No-Match", "This is a test message without a SURBL url.");
@@ -153,7 +153,7 @@ namespace UnitTest.AntiSpam
            oSURBLServer.Save();
 
            // Send a messages to this account.
-           Assert.IsTrue(SMTPSimulator.StaticSend("surbltest@test.com", "surbltest@test.com", "SURBL-Match", "This is a test message without a SURBL url: -> http://www.youtube.com/ <-"));
+           Assert.IsTrue(SMTPClientSimulator.StaticSend("surbltest@test.com", "surbltest@test.com", "SURBL-Match", "This is a test message without a SURBL url: -> http://www.youtube.com/ <-"));
 
            string sMessageContents = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
            if (sMessageContents.Contains("X-hMailServer-Spam"))
@@ -192,7 +192,7 @@ namespace UnitTest.AntiSpam
             oSURBLServer.Save();
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             oSMTP.Send("surbltest@test.com", "surbltest@test.com", "SURBL-No-Match", "This is a test message without a SURBL url.");
 
@@ -241,7 +241,7 @@ namespace UnitTest.AntiSpam
             _antiSpam.UseSPFScore = 5;
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             oSMTP.Send("spftest@openspf.org", oAccount1.Address, "SPF test", "This is a test message.");
 
@@ -284,7 +284,7 @@ namespace UnitTest.AntiSpam
             oSURBLServer.Save();
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             StringBuilder sb = new StringBuilder();
             int iterations = ((40 * 1024) / 100) + 1;
@@ -330,7 +330,7 @@ namespace UnitTest.AntiSpam
             oSURBLServer.Save();
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             StringBuilder sb = new StringBuilder();
             int iterations = ((40 * 1024) / 100) + 1;
@@ -375,7 +375,7 @@ namespace UnitTest.AntiSpam
             oSURBLServer.Save();
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             oSMTP.Send("surbltest@test.com", "surbltest@test.com", "SURBL-Match",
                "Wrapped URL - <a href=3D\"http://surbl-org-perma=\r\nnent-test-point.com\">Test</a>");
@@ -413,7 +413,7 @@ namespace UnitTest.AntiSpam
             _antiSpam.UseSPFScore = 12;
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             oSMTP.Send("spftest@openspf.org", oAccount1.Address, "SPF test", "This is a test message.");
 
@@ -443,7 +443,7 @@ namespace UnitTest.AntiSpam
             _antiSpam.CheckHostInHeloScore = 125;
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             Assert.IsFalse(oSMTP.Send("whitelist@microsoft.com", "whitelist@test.com", "SURBL-Match", "Test"));
         }
@@ -477,7 +477,7 @@ namespace UnitTest.AntiSpam
     
 
             // Send a messages to this account.
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             oSMTP.SendRaw("spftest@openspf.org", oAccount1.Address, message);
             string sMessageContents = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
@@ -543,7 +543,7 @@ namespace UnitTest.AntiSpam
 
            Utilities.DeleteCurrentDefaultLog();
 
-           SMTPSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody");
+           SMTPClientSimulator.StaticSend(account.Address, account.Address, "Test", "TestBody");
            POP3Simulator.AssertGetFirstMessageText(account.Address, "test");
 
            string result = Utilities.ReadCurrentDefaultLog();

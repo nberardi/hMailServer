@@ -40,7 +40,7 @@ namespace UnitTest.Delivery
          SingletonProvider<Utilities>.Instance.AddCorporateRule(oAccount);
          SingletonProvider<Utilities>.Instance.AddExactMatchRule(oAccount);
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
 
          // Spam folder
@@ -109,7 +109,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "Exact wildcard", "Detta ska hamna i mappen Inbox\\Wildcard");
@@ -144,7 +144,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "Exact Test Match", "Detta ska hamna i mappen Inbox\\Wildcard");
@@ -180,7 +180,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("CriteriaWildcardNoCase@test.com", "CriteriaWildcardNoCase@test.com", "exact Test match", "Detta ska hamna i mappen Inbox\\Wildcard");
@@ -217,7 +217,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "TestString", "Detta ska hamna i mappen Inbox\\Wildcard");
@@ -257,7 +257,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "TestString", "Detta ska hamna i mappen Inbox\\Wildcard");
@@ -298,7 +298,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "abc", "Detta ska hamna i mappen Inbox\\Wildcard");
@@ -337,7 +337,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "0", "Detta ska inte hamna i mappen Inbox");
@@ -378,7 +378,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "0", "Detta ska hamna i mappen Inbox\\LessThan");
@@ -416,7 +416,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "SomeString", "Detta ska inte hamna i mappen Inbox\\NotEquals");
@@ -454,7 +454,7 @@ namespace UnitTest.Delivery
           // Save the rule in the database
           oRule.Save();
 
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
           string message = "From: Someone <Someone@example.org>" + Environment.NewLine +
                            "Content-Type: text/html; charset=\"Windows-1251\"" + Environment.NewLine +
@@ -495,7 +495,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "SomeString", "Detta ska inte hamna i mappen Inbox\\NotEquals");
@@ -532,7 +532,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ActionGlobalMoveToIMAPFolder@test.com", "ActionGlobalMoveToIMAPFolder@test.com", "SomeString", "Detta ska inte hamna i mappen Inbox\\NotEquals");
@@ -587,7 +587,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oAccountRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
@@ -624,7 +624,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "TestString", "Test 1");
@@ -675,7 +675,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "TestString", "Test 1");
@@ -694,7 +694,7 @@ namespace UnitTest.Delivery
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
          // Add a route so we can conenct to localhost.
-         hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(5, 250, false);
+         hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(5, 250, false);
 
          // Add a global send-using-route rule
          hMailServer.Rule oRule = _application.Rules.Add();
@@ -717,7 +717,7 @@ namespace UnitTest.Delivery
          oRule.Save();
 
          // Send message and confirm that the route does not affect it.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
          recipients.Add("test@test.com");
          if (!smtp.Send("test@test.com", recipients, "Test", "Test message"))
@@ -728,7 +728,7 @@ namespace UnitTest.Delivery
          // Send a message and confirm that the rule affects it.
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["test@nonexistantdomain.com"] = 550;
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
          
@@ -789,7 +789,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "SomeString", "Detta ska hamna i public folder.");
@@ -823,7 +823,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          Assert.IsTrue(oSMTP.Send("ruletest@test.com", "ruletest@test.com", "SomeString", "Detta ska hamna i public folder."));
@@ -891,7 +891,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "SomeString", "This should end up in the inbox since user lacks right.");
@@ -939,7 +939,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          Assert.IsTrue(oSMTP.Send("ruletest@test.com", "ruletest@test.com", "SomeString", "Detta ska hamna i public folder."));
@@ -987,7 +987,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "ruletest@test.com", "SomeString", "This should end up in the inbox since user lacks right.");
@@ -1035,7 +1035,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "account1@test.com", "SomeString", "This should end up in the #public.share1.sub since user lacks right.");
@@ -1084,7 +1084,7 @@ namespace UnitTest.Delivery
           // Save the rule in the database
           oRule.Save();
 
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
           // Spam folder
           oSMTP.Send("ruletest@test.com", "ruletest@test.com", "SomeString", "Detta ska hamna i public folder.");
@@ -1127,7 +1127,7 @@ namespace UnitTest.Delivery
           // Save the rule in the database
           oRule.Save();
 
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
           // Test to send the messge to account 1.
           oSMTP.Send(account1.Address, account1.Address, "Test", "Test message.");
@@ -1177,7 +1177,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Test to send the message to account 1. Make sure a copy is created by this rule.
          oSMTP.Send(account1.Address, account1.Address, "Test", "Test message.");
@@ -1253,7 +1253,7 @@ namespace UnitTest.Delivery
          // Save the rule in the database
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Test to send the message to account 1. Make sure a copy is created by this rule.
          oSMTP.Send(account1.Address, new List<string>() {account1.Address, account2.Address}, "Test", "Test message.");
@@ -1334,14 +1334,14 @@ namespace UnitTest.Delivery
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["ahem@dummy-example.com"] = 452;
 
-         SMTPServer smtpServer = new SMTPServer(1, 250);
+         SMTPServerSimulator smtpServer = new SMTPServerSimulator(1, 250);
          smtpServer.AddRecipientResult(deliveryResults);
          smtpServer.StartListen();
 
          // Add a route so we can connect to localhost.
-         SMTPClient.AddRoutePointingAtLocalhost(2, 250, false);
+         SMTPClientTests.AddRoutePointingAtLocalhost(2, 250, false);
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Test to send the message to account 1. Make sure a copy is created by this rule.
          oSMTP.Send(account.Address, new List<string>() { "ahem@dummy-example.com" }, "Test", "Test message.");
@@ -1384,7 +1384,7 @@ namespace UnitTest.Delivery
          oRuleAction.Save();
          oRule.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          // Spam folder
          oSMTP.Send("ruletest@test.com", "bindtoaddress@example.com", "SomeString", "This mail should not be delivered.");
@@ -1408,7 +1408,7 @@ namespace UnitTest.Delivery
 
          CreatePrintRecipientCountRule(account1.Rules);
 
-         SMTPSimulator.StaticSend(account1.Address, account1.Address, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
+         SMTPClientSimulator.StaticSend(account1.Address, account1.Address, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
          Utilities.AssertRecipientsInDeliveryQueue(0);
          // This should print a single recipient.
          string eventLogText = Utilities.ReadExistingTextFile(Utilities.GetEventLogFileName());
@@ -1416,7 +1416,7 @@ namespace UnitTest.Delivery
          Assert.IsTrue(eventLogText.Contains("\"1\""), eventLogText);
 
          // Send message to two recipients. Recipient should still be one, since it's an account-level rule.
-         SMTPSimulator.StaticSend(account1.Address, new List<string>() {account1.Address, account2.Address}, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
+         SMTPClientSimulator.StaticSend(account1.Address, new List<string>() {account1.Address, account2.Address}, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
 
          Utilities.AssertRecipientsInDeliveryQueue(0);
          // This should print a single recipient.
@@ -1437,7 +1437,7 @@ namespace UnitTest.Delivery
 
          CreatePrintRecipientCountRule(_application.Rules);
 
-         SMTPSimulator.StaticSend(account1.Address, account1.Address, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
+         SMTPClientSimulator.StaticSend(account1.Address, account1.Address, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
          Utilities.AssertRecipientsInDeliveryQueue(0);
          // This should print a single recipient.
          string eventLogText = Utilities.ReadExistingTextFile(Utilities.GetEventLogFileName());
@@ -1445,7 +1445,7 @@ namespace UnitTest.Delivery
          Assert.IsTrue(eventLogText.Contains("\"1\""), eventLogText);
 
          // Send message to two recipients. 
-         SMTPSimulator.StaticSend(account1.Address, new List<string>() { account1.Address, account2.Address }, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
+         SMTPClientSimulator.StaticSend(account1.Address, new List<string>() { account1.Address, account2.Address }, "SomeString", "Detta ska inte hamna i mappen Inbox.Overriden.Test");
 
          Utilities.AssertRecipientsInDeliveryQueue(0);
          // This should print a two recipients. Global rule is affected before message reaches recipients.

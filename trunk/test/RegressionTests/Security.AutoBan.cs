@@ -102,7 +102,7 @@ namespace UnitTest.Security
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator sim = new SMTPSimulator();
+         SMTPClientSimulator sim = new SMTPClientSimulator();
 
          //test@test.com / test
          string errorMessage;

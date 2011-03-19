@@ -46,7 +46,7 @@ namespace UnitTest.Stability
                 sb.Append("1234567890");
             }
 
-            SMTPSimulator sim = new SMTPSimulator();
+            SMTPClientSimulator sim = new SMTPClientSimulator();
             Assert.IsFalse(sim.SendRaw("test@test.com", "test@test.com", sb.ToString()));
         }
 
@@ -201,7 +201,7 @@ namespace UnitTest.Stability
             // Save the rule in the database
             oRule.Save();
 
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
             // Spam folder
             oSMTP.SendRaw("mimetest@test.com", "mimetest@test.com", content);

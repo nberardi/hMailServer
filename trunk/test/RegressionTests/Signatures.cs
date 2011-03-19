@@ -31,7 +31,7 @@ namespace UnitTest.Features
          hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(domain, "signature@test.com", "test");
 
          oAccount1.SignatureEnabled = true;
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send(oAccount1.Address, oAccount1.Address, "Test of signature, 1", "Test of signature - Body");
 
          string sMessageData = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
@@ -74,7 +74,7 @@ namespace UnitTest.Features
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(domain, "recipient@test.com", "test");
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send("nonexistant@" + domain.Name, account.Address, "SignatureTest", "SignaturerTestBody");
 
          string messageData = POP3Simulator.AssertGetFirstMessageText(account.Address, "test");
@@ -96,7 +96,7 @@ namespace UnitTest.Features
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(domain, "recipient@test.com", "test");
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send("nonexistant@dummy-example.com", account.Address, "SignatureTest", "SignaturerTestBody");
 
          string messageData = POP3Simulator.AssertGetFirstMessageText(account.Address, "test");
@@ -122,7 +122,7 @@ namespace UnitTest.Features
          oAccount1.Save();
 
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Send(oAccount1.Address, oAccount1.Address, "Test of signature, 1", "Test of signature - Body");
 
          string sMessageContents = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
@@ -212,7 +212,7 @@ namespace UnitTest.Features
           oAccount1.SignaturePlainText = "Regards %User.FirstName% %User.Lastname%";
           oAccount1.Save();
 
-          SMTPSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test of signature, 2", "Test of signature - Body");
+          SMTPClientSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test of signature, 2", "Test of signature - Body");
 
           string sMessageData = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
 
@@ -234,7 +234,7 @@ namespace UnitTest.Features
           oAccount1.PersonLastName = "Knafve";
           oAccount1.Save();
 
-          SMTPSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test of signature, 2", "Test of signature - Body");
+          SMTPClientSimulator.StaticSend(oAccount1.Address, oAccount1.Address, "Test of signature, 2", "Test of signature - Body");
 
           string sMessageData = POP3Simulator.AssertGetFirstMessageText(oAccount1.Address, "test");
 
@@ -257,7 +257,7 @@ namespace UnitTest.Features
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(domain, "recipient@test.com", "test");
           account.PersonFirstName = "Martin";
 
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Send("nonexistant@" + domain.Name, account.Address, "SignatureTest", "SignaturerTestBody");
 
           string messageData = POP3Simulator.AssertGetFirstMessageText(account.Address, "test");

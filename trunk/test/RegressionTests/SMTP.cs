@@ -40,7 +40,7 @@ namespace UnitTest.Protocols.SMTP
          // Add alias pointing at the distribution list.
          SingletonProvider<Utilities>.Instance.AddAlias(_domain, "listalias@test.com", "list1@test.com");
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          Assert.IsTrue(oSMTP.Send("test@test.com", "list1@test.com", "Mail 1", "Mail 1"));
          Assert.IsTrue(oSMTP.Send("test@test.com", "listalias@test.com", "Mail 2", "Mail 2"));
@@ -131,7 +131,7 @@ namespace UnitTest.Protocols.SMTP
           SingletonProvider<Utilities>.Instance.AddAccount(_domain, "recipient3@test.com", "test");
           SingletonProvider<Utilities>.Instance.AddAccount(_domain, "recipient4@test.com", "test");
 
-          Assert.IsTrue(SMTPSimulator.StaticSend("test@test.com", "list1@test.com", "Mail 1", "Mail 1"));
+          Assert.IsTrue(SMTPClientSimulator.StaticSend("test@test.com", "list1@test.com", "Mail 1", "Mail 1"));
 
           IMAPSimulator.AssertMessageCount("recipient1@test.com", "test", "Inbox", 1);
           IMAPSimulator.AssertMessageCount("recipient2@test.com", "test", "Inbox", 1);
@@ -143,7 +143,7 @@ namespace UnitTest.Protocols.SMTP
       public void TestDistributionListsMembershipDomainAliases()
       {
          IMAPSimulator oIMAP = new IMAPSimulator();
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          hMailServer.Application application = SingletonProvider<Utilities>.Instance.GetApp();
          ;
@@ -201,7 +201,7 @@ namespace UnitTest.Protocols.SMTP
          
          range.Save();
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          Assert.IsTrue(oSMTP.Send("test@sdag532sdfagdsa12fsdafdsa1.com", "test2@dsatwvbsdagdasfds423sdavsagasddas.com", "Mail 1", "Mail 1"));
       }
 
@@ -209,7 +209,7 @@ namespace UnitTest.Protocols.SMTP
       public void TestDistributionListAnnouncementFromDomainAlias()
       {
          IMAPSimulator oIMAP = new IMAPSimulator();
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          hMailServer.Application application = SingletonProvider<Utilities>.Instance.GetApp();
          ;
@@ -247,7 +247,7 @@ namespace UnitTest.Protocols.SMTP
       {
 
 
-         SMTPSimulator oSimulator = new SMTPSimulator();
+         SMTPClientSimulator oSimulator = new SMTPClientSimulator();
 
          oSimulator.Connect(25);
 
@@ -303,7 +303,7 @@ namespace UnitTest.Protocols.SMTP
          hMailServer.Application application = SingletonProvider<Utilities>.Instance.GetApp();
          _settings.WelcomeSMTP = "HOWDYHO";
 
-         SMTPSimulator oSimulator = new SMTPSimulator();
+         SMTPClientSimulator oSimulator = new SMTPClientSimulator();
 
          string sWelcomeMessage = oSimulator.GetWelcomeMessage();
 
@@ -323,7 +323,7 @@ namespace UnitTest.Protocols.SMTP
          hMailServer.Account oAccount2 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "multi2@test.com", "test");
          hMailServer.Account oAccount3 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "multi3@test.com", "test");
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
          List<string> lstRecipients = new List<string>();
          lstRecipients.Add("multi1@test.com");
@@ -366,7 +366,7 @@ namespace UnitTest.Protocols.SMTP
          hMailServer.Account oAccount1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
          IPAddress localAddress = Utilities.GetLocalIPAddress();
-         SMTPSimulator oSMTP = new SMTPSimulator(false, 25, localAddress);
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator(false, 25, localAddress);
 
          // Delivery from external to local.
          Assert.IsTrue(oSMTP.Send("test@external.com", "test@test.com", "Mail 1", "Mail 1"));
@@ -393,7 +393,7 @@ namespace UnitTest.Protocols.SMTP
 
          SingletonProvider<Utilities>.Instance.AddAccount(_domain, "bigaccount@test.com", "test");
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
 
 
          ArrayList oThreads = new ArrayList();
@@ -420,7 +420,7 @@ namespace UnitTest.Protocols.SMTP
       {
          for (int i = 0; i < 50; i++)
          {
-            SMTPSimulator oSMTP = new SMTPSimulator();
+            SMTPClientSimulator oSMTP = new SMTPClientSimulator();
             oSMTP.Send("test@test.com", "bigaccount@test.com", "Big account email", "Body av email");
          }
       }
@@ -440,7 +440,7 @@ namespace UnitTest.Protocols.SMTP
 
           hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-          SMTPSimulator oSMTP = new SMTPSimulator();
+          SMTPClientSimulator oSMTP = new SMTPClientSimulator();
           oSMTP.Connect(25);
           Assert.IsTrue(oSMTP.Receive().StartsWith("220"));
           oSMTP.Send("HELO test\r\n");
@@ -463,7 +463,7 @@ namespace UnitTest.Protocols.SMTP
       {
          var account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Connect(25);
          
          Assert.IsTrue(oSMTP.Receive().StartsWith("220"));
@@ -506,7 +506,7 @@ namespace UnitTest.Protocols.SMTP
       {
          hMailServer.Account account1 = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
 
-         SMTPSimulator oSMTP = new SMTPSimulator();
+         SMTPClientSimulator oSMTP = new SMTPClientSimulator();
          oSMTP.Connect(25);
 
          Assert.IsTrue(oSMTP.Receive().StartsWith("220"));
@@ -551,7 +551,7 @@ namespace UnitTest.Protocols.SMTP
           settings.DisconnectInvalidClients = true;
           settings.MaxNumberOfInvalidCommands = 3;
 
-          SMTPSimulator sim = new SMTPSimulator();
+          SMTPClientSimulator sim = new SMTPClientSimulator();
           sim.Connect(25);
 
           for (int i = 1; i <= 6; i++)
@@ -576,7 +576,7 @@ namespace UnitTest.Protocols.SMTP
           settings.DisconnectInvalidClients = true;
           settings.MaxNumberOfInvalidCommands = 3;
 
-          SMTPSimulator sim = new SMTPSimulator();
+          SMTPClientSimulator sim = new SMTPClientSimulator();
           sim.Connect(25);
           sim.Send("EHLO test.com\r\n");
 
@@ -636,7 +636,7 @@ namespace UnitTest.Protocols.SMTP
 
          settings.AntiSpam.GreyListingEnabled = true;
 
-         SMTPSimulator sim = new SMTPSimulator();
+         SMTPClientSimulator sim = new SMTPClientSimulator();
          sim.Connect(25);
          string res = sim.Receive();
          sim.Send("EHLO test.com\r\n");
@@ -669,7 +669,7 @@ namespace UnitTest.Protocols.SMTP
                           "" + Environment.NewLine +
                           "Test";
 
-         SMTPSimulator.StaticSendRaw("test@test.com", "test@test.com", content);
+         SMTPClientSimulator.StaticSendRaw("test@test.com", "test@test.com", content);
 
          string test = POP3Simulator.AssertGetFirstMessageText("test@test.com", "test");
 
@@ -689,8 +689,8 @@ namespace UnitTest.Protocols.SMTP
           recipientAccount.Save();
 
           // Make sure we can send several messages.
-          Assert.IsTrue(SMTPSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "Test", "Test"));
-          Assert.IsTrue(SMTPSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "Test", "Test"));
+          Assert.IsTrue(SMTPClientSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "Test", "Test"));
+          Assert.IsTrue(SMTPClientSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "Test", "Test"));
           
           POP3Simulator.AssertMessageCount(recipientAccount.Address, "test", 2);
       }
@@ -707,7 +707,7 @@ namespace UnitTest.Protocols.SMTP
          recipientAccount.Save();
 
          // Make sure that no bounce is sent.
-         SMTPSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "MySubject", "Test");
+         SMTPClientSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "MySubject", "Test");
          POP3Simulator.AssertGetFirstMessageText(recipientAccount.Address, "test");
          
          // Build a 2MB string.
@@ -718,7 +718,7 @@ namespace UnitTest.Protocols.SMTP
          }
          string text = builder.ToString();
 
-         SMTPSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "MySubject", text);
+         SMTPClientSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "MySubject", text);
 
          // Make sure the recipient did not receive it.
          Utilities.AssertRecipientsInDeliveryQueue(0);
@@ -742,7 +742,7 @@ namespace UnitTest.Protocols.SMTP
          recipientAccount.Save();
 
          // Make sure that no bounce is sent.
-         SMTPSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "MySubject", "Test");
+         SMTPClientSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "MySubject", "Test");
          POP3Simulator.AssertGetFirstMessageText(recipientAccount.Address, "test");
 
          // Build a 2MB string.
@@ -753,7 +753,7 @@ namespace UnitTest.Protocols.SMTP
          }
          string text = builder.ToString();
 
-         SMTPSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "Test subject", text);
+         SMTPClientSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "Test subject", text);
 
          // Make sure the recipient did not receive it.
          Utilities.AssertRecipientsInDeliveryQueue(0);
@@ -789,7 +789,7 @@ namespace UnitTest.Protocols.SMTP
 
             string result = "";
 
-            SMTPSimulator sim = new SMTPSimulator();
+            SMTPClientSimulator sim = new SMTPClientSimulator();
             sim.Send(senderAccount.Address, recipientAccount.Address, "MySubject", "Test", out result);
 
             Assert.IsTrue(result.StartsWith("4"), "Expected temporary error, but was: " + result);
@@ -819,12 +819,12 @@ namespace UnitTest.Protocols.SMTP
          // Set up a server listening on port 250 which accepts email for test@otherdomain.com
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["test@dummy-example.com"] = 250;
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
 
 
-         hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhost(1, 250, true);
+         hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhost(1, 250, true);
 
          // Now send a message from test@test.com to test@otherdomain.com.
          // Error scenario:
@@ -835,7 +835,7 @@ namespace UnitTest.Protocols.SMTP
          // This should not happen. Otherdomain.com is an alias for test.com,
          // but we shouldn't actually modify the recipient address just because
          // of this?
-         SMTPSimulator smtpClient = new SMTPSimulator();
+         SMTPClientSimulator smtpClient = new SMTPClientSimulator();
          Assert.IsTrue(smtpClient.Send(account.Address, "test@dummy-example.com", "Test", "Test message"));
 
          Utilities.AssertRecipientsInDeliveryQueue(0);
@@ -856,7 +856,7 @@ namespace UnitTest.Protocols.SMTP
           // Set up a server listening on port 250 which accepts email for test@otherdomain.com
           Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
           deliveryResults["user@test.com"] = 250;
-          SMTPServer server = new SMTPServer(1, 250);
+          SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
           server.AddRecipientResult(deliveryResults);
           server.StartListen();
 
@@ -879,7 +879,7 @@ namespace UnitTest.Protocols.SMTP
 
           SingletonProvider<Utilities>.Instance.AddAlias(_domain, "users@test.com", "user@test.com");
 
-          SMTPSimulator smtpClient = new SMTPSimulator();
+          SMTPClientSimulator smtpClient = new SMTPClientSimulator();
           Assert.IsTrue(smtpClient.Send("example@example.com", "users@test.com", "Test", "Test message"));
           Utilities.AssertRecipientsInDeliveryQueue(0);
 
@@ -898,7 +898,7 @@ namespace UnitTest.Protocols.SMTP
          
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "user@test.com", "test");
           
-         SMTPSimulator.StaticSend("user@test.com", "user@test.com", "Test", "Test");
+         SMTPClientSimulator.StaticSend("user@test.com", "user@test.com", "Test", "Test");
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
          hMailServer.Message message = account.IMAPFolders.get_ItemByName("INBOX").Messages[0];
@@ -909,7 +909,7 @@ namespace UnitTest.Protocols.SMTP
       public void TestSendToAddressWithQuote()
       {
           hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "us'er@test.com", "test");
-          SMTPSimulator.StaticSend("someone@test.com", "us'er@test.com", "Test", "Test");
+          SMTPClientSimulator.StaticSend("someone@test.com", "us'er@test.com", "Test", "Test");
           POP3Simulator.AssertMessageCount(account.Address, "test", 1);
       }
 
@@ -930,7 +930,7 @@ namespace UnitTest.Protocols.SMTP
 
          string text = builder.ToString();
 
-         SMTPSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "", text);
+         SMTPClientSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "", text);
 
          // Make sure the recipient did not receive it.
          Utilities.AssertRecipientsInDeliveryQueue(0);
@@ -963,7 +963,7 @@ namespace UnitTest.Protocols.SMTP
 
          string text = builder.ToString();
 
-         SMTPSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "", text);
+         SMTPClientSimulator.StaticSend(senderAccount.Address, recipientAccount.Address, "", text);
 
          // Make sure the recipient did not receive it.
          Utilities.AssertRecipientsInDeliveryQueue(0);
@@ -986,7 +986,7 @@ namespace UnitTest.Protocols.SMTP
          _domain.Save();
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         Assert.IsTrue(SMTPSimulator.StaticSend("someone@example.com", "someone@test.com", "Test", "Test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("someone@example.com", "someone@test.com", "Test", "Test"));
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
       }
 
@@ -1002,7 +1002,7 @@ namespace UnitTest.Protocols.SMTP
          _domain.Save();
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         Assert.IsTrue(SMTPSimulator.StaticSend("someone@example.com", "someone@test.com", "Test", "Test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("someone@example.com", "someone@test.com", "Test", "Test"));
 
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
       }
@@ -1014,7 +1014,7 @@ namespace UnitTest.Protocols.SMTP
          _domain.Save();
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         Assert.IsFalse(SMTPSimulator.StaticSend("someone@example.com", "someone@test.com", "Test", "Test"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("someone@example.com", "someone@test.com", "Test", "Test"));
       }
 
       [Test]
@@ -1026,7 +1026,7 @@ namespace UnitTest.Protocols.SMTP
          hMailServer.Alias alias = SingletonProvider<Utilities>.Instance.AddAlias(_domain, "alias@test.com", "test@test.com");
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         Assert.IsTrue(SMTPSimulator.StaticSend("someone@example.com", "someone@test.com", "Test", "Test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("someone@example.com", "someone@test.com", "Test", "Test"));
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
       }
 
@@ -1039,7 +1039,7 @@ namespace UnitTest.Protocols.SMTP
          SingletonProvider<Utilities>.Instance.AddAccount(_domain, "sender@test.com", "test");
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         Assert.IsTrue(SMTPSimulator.StaticSend("sender@test.com", "someone@test.com", "Test", "Test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("sender@test.com", "someone@test.com", "Test", "Test"));
 
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
       }
@@ -1054,7 +1054,7 @@ namespace UnitTest.Protocols.SMTP
          SingletonProvider<Utilities>.Instance.AddAccount(_domain, "sender@test.com", "test");
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "test@test.com", "test");
-         Assert.IsFalse(SMTPSimulator.StaticSend("sender@example.com", "someone@example.com", "Test", "Test"));
+         Assert.IsFalse(SMTPClientSimulator.StaticSend("sender@example.com", "someone@example.com", "Test", "Test"));
       }
 
       [Test]
@@ -1066,7 +1066,7 @@ namespace UnitTest.Protocols.SMTP
          hMailServer.Domain otherDomain = SingletonProvider<Utilities>.Instance.AddDomain(SingletonProvider<Utilities>.Instance.GetApp().Domains, "otherDomain.com");
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(otherDomain, "test@otherDomain.com", "test");
-         Assert.IsTrue(SMTPSimulator.StaticSend("sender@test.com", "someone@test.com", "Test", "Test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("sender@test.com", "someone@test.com", "Test", "Test"));
 
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
       }
@@ -1083,7 +1083,7 @@ namespace UnitTest.Protocols.SMTP
          _domain.Save();
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(otherDomain, "test@otherDomain.com", "test");
-         Assert.IsTrue(SMTPSimulator.StaticSend("sender@test.com", "someone@test.com", "Test", "Test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("sender@test.com", "someone@test.com", "Test", "Test"));
 
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
       }
@@ -1099,7 +1099,7 @@ namespace UnitTest.Protocols.SMTP
          otherDomain.Save();
 
          hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(otherDomain, "account@otherDomain.com", "test");
-         Assert.IsTrue(SMTPSimulator.StaticSend("sender@test.com", "someone@test.com", "Test", "Test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("sender@test.com", "someone@test.com", "Test", "Test"));
 
          POP3Simulator.AssertMessageCount(account.Address, "test", 1);
       }
@@ -1113,20 +1113,20 @@ namespace UnitTest.Protocols.SMTP
          Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
          deliveryResults["user1@dummy-example.com"] = 250;
 
-         SMTPServer server = new SMTPServer(1, 250);
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
          server.AddRecipientResult(deliveryResults);
          server.StartListen();
 
          // Add a route so we can connect to localhost.
-         hMailServer.Route route = SMTPClient.AddRoutePointingAtLocalhostMultipleHosts(2);
+         hMailServer.Route route = SMTPClientTests.AddRoutePointingAtLocalhostMultipleHosts(2);
 
          // Send message to this route.
-         SMTPSimulator smtp = new SMTPSimulator();
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
          List<string> recipients = new List<string>();
 
          recipients.Add("user1@dummy-example.com");
 
-         Assert.IsTrue(SMTPSimulator.StaticSend("test@test.com", "user1@dummy-example.com", "Test", "Test"));
+         Assert.IsTrue(SMTPClientSimulator.StaticSend("test@test.com", "user1@dummy-example.com", "Test", "Test"));
 
          // Wait for the client to disconnect.
          server.WaitForCompletion();
@@ -1143,7 +1143,7 @@ namespace UnitTest.Protocols.SMTP
          DateTime lastLogonTimeBefore = Convert.ToDateTime(account.LastLogonTime);
 
          System.Threading.Thread.Sleep(1000);
-         SMTPSimulator.StaticSend("someone@test.com", "us'er@test.com", "Test", "Test");
+         SMTPClientSimulator.StaticSend("someone@test.com", "us'er@test.com", "Test", "Test");
 
          Utilities.AssertRecipientsInDeliveryQueue(0);
          DateTime lastLogonTimeAfter = Convert.ToDateTime(SingletonProvider<Utilities>.Instance.GetApp().Domains[0].Accounts[0].LastLogonTime);
