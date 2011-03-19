@@ -14,7 +14,7 @@ namespace UnitTest.MIME
         {
             hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(_domain, "search@test.com", "test");
             string body = Utilities.GetResource("Messages.MultipartMessageWithNoMainBodyText.txt");
-            SMTPSimulator.StaticSendRaw(account.Address, account.Address, body);
+            SMTPClientSimulator.StaticSendRaw(account.Address, account.Address, body);
 
             POP3Simulator.AssertMessageCount(account.Address, "test", 1);
 
