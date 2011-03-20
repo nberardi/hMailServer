@@ -12,11 +12,13 @@ namespace UnitTest
    {
       None,
       DisconnectAfterSessionStart,
+      Sleep15MinutesAfterSessionStart,
       DisconnectAfterWelcomeBannerSent,
       ForceAuthenticationFailure,
       DisconnectAfterDeliveryStarted,
       DisconnectWithoutReplyOnQuit,
       DisconnectAfterMessageAccept
+      
    }
 
    class SMTPServerSimulator : ServerSocket
@@ -97,6 +99,9 @@ namespace UnitTest
       {
          if (SimulatedError == SimulatedErrorType.DisconnectAfterSessionStart)
             return;
+         if (SimulatedError == SimulatedErrorType.Sleep15MinutesAfterSessionStart)
+            System.Threading.Thread.Sleep(TimeSpan.FromMinutes(15));
+
 
          Send("220 ESMTP Test Server\r\n");
 

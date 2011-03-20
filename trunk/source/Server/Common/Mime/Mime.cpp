@@ -1336,7 +1336,7 @@ namespace HM
 	   int nBoundSize = (int)strBoundary.size() + 6;
 	   for (BodyList::const_iterator it=m_listBodies.begin(); it!=m_listBodies.end(); it++)
 	   {
-		   // If the initial body ends with \r\n, remove them. We add new ones below.if (m_listBodies.begin() == it && output.size() >= 2 && 
+		   // If the initial body ends with \r\n, remove them. We add new ones below.
 		   if (m_listBodies.begin() == it && output.size() >= 2 && 
 			   output[output.size()-2] == '\r' && output[output.size()-1] == '\n')
 		   {

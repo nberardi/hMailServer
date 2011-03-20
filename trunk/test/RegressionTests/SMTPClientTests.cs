@@ -887,5 +887,40 @@ namespace UnitTest.Protocols.SMTP
          Assert.IsFalse(messageText.Contains("MySecretPassword"));
          Assert.IsTrue(messageText.Contains("<Password removed>"));
       }
+
+      [Test]
+      [Description("Tests that the SMTP client times out after 10 minutes.")]
+      [Ignore]
+      public void TestSMTPClientTimeout()
+      {
+         Assert.AreEqual(0, _status.UndeliveredMessages.Length);
+
+         // No valid recipients...
+         Dictionary<string, int> deliveryResults = new Dictionary<string, int>();
+         deliveryResults["test@dummy-example.com"] = 250;
+
+         SMTPServerSimulator server = new SMTPServerSimulator(1, 250);
+         server.AddRecipientResult(deliveryResults);
+         server.SimulatedError = SimulatedErrorType.Sleep15MinutesAfterSessionStart;
+         server.SecondsToWaitBeforeTerminate = 20 * 60;
+         server.StartListen();
+
+         // Add a route so we can connect to localhost.
+         hMailServer.Route route = AddRoutePointingAtLocalhost(5, 250, false);
+         route.RelayerRequiresAuth = true;
+         route.RelayerAuthUsername = "user@example.com";
+         route.SetRelayerAuthPassword("MySecretPassword");
+
+         // Send message to this route.
+         SMTPClientSimulator smtp = new SMTPClientSimulator();
+         List<string> recipients = new List<string>();
+         recipients.Add("test@dummy-example.com");
+         Assert.IsTrue(smtp.Send("test@test.com", recipients, "Test", "Test message"));
+
+         // Wait for the client to disconnect.
+         server.WaitForCompletion();
+
+         Utilities.AssertRecipientsInDeliveryQueue(0);
+      }
    }
 }

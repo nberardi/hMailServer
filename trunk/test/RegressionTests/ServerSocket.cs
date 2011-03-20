@@ -22,11 +22,13 @@ namespace UnitTest
       private AutoResetEvent _isListening = new AutoResetEvent(false);
 
       private int _numberOfConnections = 0;
+      public int SecondsToWaitBeforeTerminate {get;set;}
 
       public ServerSocket(int maxNumberOfConnections, int port)
       {
          _maxNumberOfConnections = maxNumberOfConnections;
          _port = port;
+         SecondsToWaitBeforeTerminate = 15;
       }
 
       public AutoResetEvent GetIsListeningEvent()
@@ -101,7 +103,7 @@ namespace UnitTest
 
       public void WaitForCompletion()
       {
-         for (int i = 0; i < 15; i++)
+         for (int i = 0; i < SecondsToWaitBeforeTerminate; i++)
          {
             if (_exitThreadEvent.WaitOne(1000, true))
             {

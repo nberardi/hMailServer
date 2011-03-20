@@ -477,13 +477,15 @@ namespace HM
       // Get our random #
       rnd_err = (rand_s(&tmp_rnd));
 
+      LOG_DEBUG("Calculating retry time.");
+
       // If error getting random # or Randomness disabled set to 0 otherwise use it
       if (rnd_err != 0 || m_iQueueRandomnessMinutes <= 0)
          iRandomAdjust = 0; 
       else
          iRandomAdjust = (unsigned int) ((double)tmp_rnd / (double) UINT_MAX * m_iQueueRandomnessMinutes) + 1;
 
-      // _GetRetryOptions returns true if Route HOLD placed
+      LOG_DEBUG("Retrieving retry options.");
       if (_GetRetryOptions(mapFailedDueToNonFatalError, iMaxNoOfRetries, lMinutesBewteen))
       {
          // so return now since no need for retry at this time
@@ -498,6 +500,7 @@ namespace HM
       if (iCurNoOfRetries < iMaxNoOfRetries)
       {
          // We should try at least once more - reschedule the message.
+         LOG_DEBUG("Starting rescheduling.");
 
          // First few retries should be quicker for greylisting IF enabled
          if (iCurNoOfRetries < m_iQuickRetries) 
@@ -513,7 +516,7 @@ namespace HM
          }
          else
          {
-            LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery in " + StringParser::IntToString(lMinutesBewteen + iRandomAdjust) + " minutes.nn");
+            LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Scheduling it for later delivery in " + StringParser::IntToString(lMinutesBewteen + iRandomAdjust) + " minutes.");
             PersistentMessage::SetNextTryTime(_originalMessage->GetID(), true, lMinutesBewteen + iRandomAdjust);
          
             // Unlock the message now so that a future delivery thread can pick it up.
@@ -525,6 +528,8 @@ namespace HM
       }
       else
       {
+         LOG_DEBUG("Aborting delivery.");
+
          // We are finished trying. Let's give up!
          LOG_APPLICATION("SMTPDeliverer - Message " + StringParser::IntToString(_originalMessage->GetID()) + ": Message could not be delivered. Returning error log to sender.");
 
