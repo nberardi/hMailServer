@@ -89,16 +89,7 @@ namespace HM
             // encoded-text = 1*<Any printable ASCII character other than "?" or <SPACE>
                
             if (s < 33 || s > 126)
-            {
                return false;
-            }
-
-            // This is a printable character
-            if (s == ' ')
-            {
-               // ? and space is not permitted
-               return false;
-            }
 
             continue;
          }
