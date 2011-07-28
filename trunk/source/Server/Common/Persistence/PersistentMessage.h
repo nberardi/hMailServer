@@ -39,7 +39,6 @@ namespace HM
       static bool DeleteFile(shared_ptr<const Account> account, shared_ptr<Message> pMessage);
 
       static bool GetMessageID(const String &fileName, __int64 &messageID, bool &isPartialFilename);
-      static bool FileExistsAsMessage(const String &sFilename, bool &isPartialFilename);
       static bool ReadObject(shared_ptr<DALRecordset> pRS, shared_ptr<Message> pMessage, bool bReadRecipients = true);
       static bool ReadObject(shared_ptr<Message> pMessage, __int64 ObjectID);
       static bool ReadObject(shared_ptr<Message> pMessage, const SQLCommand &command);
@@ -76,6 +75,8 @@ namespace HM
 
       static bool SaveFlags(shared_ptr<Message> message);
 
+
+      static bool IsPartialPath(const String &path);
    private:
       
       static shared_ptr<Message> _CreateCopy(shared_ptr<Message> sourceMessage, int destinationAccountID);

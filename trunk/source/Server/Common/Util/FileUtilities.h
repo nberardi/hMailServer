@@ -11,6 +11,8 @@ namespace HM
       FileUtilities(void);
       ~FileUtilities(void);
 
+      static const String PathSeparator;
+
       static String GetFilePath(const String &FileName);
       static String GetFileNameFromFullPath(const String & sFullPath);
 

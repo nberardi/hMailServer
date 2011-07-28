@@ -17,6 +17,8 @@
 
 namespace HM
 {
+   const String FileUtilities::PathSeparator = _T("\\");
+
    FileUtilities::FileUtilities(void)
    {
    }

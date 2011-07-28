@@ -5,6 +5,7 @@
 #include "ServerStatus.h"
 
 #include "../Application/SessionManager.h"
+#include "../Persistence/PersistentMessage.h"
 
 #ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
@@ -43,6 +44,7 @@ namespace HM
       __int64 lMessageID;
       int lNoOfTries;
       bool bLocked;
+      String dataDirectory = IniFileSettings::Instance()->GetDataDirectory();
 
       while (!pRS->IsEOF())
       {
@@ -56,6 +58,10 @@ namespace HM
          bLocked = pRS->GetLongValue("messagelocked") == 1;
          sTo = ""; // reset between every recipient
          
+         // Construct a full path to the file if it's partial.
+         if (PersistentMessage::IsPartialPath(sFileName))
+            sFileName = FileUtilities::Combine(dataDirectory, sFileName);
+
          SQLCommand selectCommand("select recipientaddress from hm_messagerecipients where recipientmessageid = @MESSAGEID");
          selectCommand.AddParameter("@MESSAGEID", lMessageID);
 

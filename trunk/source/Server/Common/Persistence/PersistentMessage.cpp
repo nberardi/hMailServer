@@ -108,19 +108,6 @@ namespace HM
    }
 
    bool
-   PersistentMessage::FileExistsAsMessage(const String &sFilename, bool &isPartialFilename)
-   {
-      __int64 messageID = 0;
-      if (GetMessageID(sFilename, messageID, isPartialFilename))
-      {
-         if (messageID > 0)
-            return true;
-      }
-
-      return false;
-   }
-
-   bool
    PersistentMessage::GetMessageID(const String &fileName, __int64 &messageID, bool &isPartialFilename)
    {
       messageID = 0;
@@ -1222,7 +1209,7 @@ namespace HM
          // Trim it away.
          filePath = filePath.Mid(publicFolderName.GetLength() + 1);
 
-         int guidSlashPos = filePath.Find(_T("\\"));
+         int guidSlashPos = filePath.Find(FileUtilities::PathSeparator);
          if (guidSlashPos <= 0)
             return false;
 
@@ -1240,15 +1227,15 @@ namespace HM
       else
       {
          // Is the file located in a sub directory? (In a domain folder).
-         int domainSlashPos = filePath.Find(_T("\\"));
+         int domainSlashPos = filePath.Find(FileUtilities::PathSeparator);
          if (domainSlashPos >= 0)
          {
             // Yes, we need to trim it away. 
-            int accountSlashPos = filePath.Find(_T("\\"), domainSlashPos+1);
+            int accountSlashPos = filePath.Find(FileUtilities::PathSeparator, domainSlashPos+1);
             if (accountSlashPos <= 0)
                return false;
 
-            int guidSlashPos = filePath.Find(_T("\\"), accountSlashPos+1);
+            int guidSlashPos = filePath.Find(FileUtilities::PathSeparator, accountSlashPos+1);
             if (guidSlashPos <= 0)
                return false;
 
@@ -1282,5 +1269,11 @@ namespace HM
       sqlCommand.AddParameter("@MESSAGEID", message->GetID());
 
       return Application::Instance()->GetDBManager()->Execute(sqlCommand);
+   }
+
+   bool 
+   PersistentMessage::IsPartialPath(const String &path)
+   {
+      return !path.Contains(FileUtilities::PathSeparator);
    }
 }
