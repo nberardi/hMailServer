@@ -17,6 +17,7 @@ namespace HM
       static String ComputerName();
       static String GetExecutableDirectory();
       static String GetWin32TempDirectory();
+      static String GetUniqueTempDirectory();
          
       static String GetIPAddress (SOCKADDR_IN addr);
 

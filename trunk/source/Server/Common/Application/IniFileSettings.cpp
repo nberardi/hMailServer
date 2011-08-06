@@ -526,6 +526,11 @@ namespace HM
       _WriteIniSetting("Database", "Internal", m_bIsInternalDatabase ? 1 : 0);
    }
 
+   String 
+   IniFileSettings::GetBinDirectory()
+   {
+      return FileUtilities::Combine(m_AppDirectory, "Bin");
+   }
 }
 
 

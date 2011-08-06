@@ -42,6 +42,7 @@ namespace HM
       String GetAdministratorPassword();
       static String GetLogDirectory();
 
+      String GetBinDirectory();
       String GetProgramDirectory() const { return m_AppDirectory; }
       String GetDataDirectory() const { return m_DataDirectory; }
       String GetTempDirectory() const { return m_sTempDirectory; }

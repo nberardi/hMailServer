@@ -312,7 +312,7 @@ namespace hMailServer.Administrator
            // 
            // openFileDialog
            // 
-           this.openFileDialog.Filter = "hMailServer Backup File (HMBackup*.zip)|HMBackup*.zip";
+           this.openFileDialog.Filter = "hMailServer Backup File (HMBackup*.7z)|HMBackup*.7z";
            // 
            // labelAutomate
            // 

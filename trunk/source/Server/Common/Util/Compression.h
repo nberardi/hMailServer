@@ -2,31 +2,25 @@
 // http://www.hmailserver.com
 
 #pragma once
-#include "ZZip.h"
-#include "ZUnZip.h"
 
 namespace HM
 {
    class Compression
    {
    public:
-      Compression(String sResultFile, String sBaseDir, bool bCompress);
+      Compression();
       ~Compression(void);
 
-      bool AddDirectory(String sDirectory);
-      bool AddFile(String sFile);
-      bool Close();
+      bool AddDirectory(const String &zipFile, const String &directoryToAdd);
+      bool AddFile(const String &zipFile, const String &fileToAdd);
 
-      bool Uncompress();
-      bool UncompressFile(const String &sFilename);
+      bool Uncompress(const String &zipFile, const String &targetDirectory);
+      bool Uncompress(const String &zipFile, const String &targetDirectory, const String &wildCard);
 
    private:
+ 
+      bool _LaunchCommand(const String &commandLine);
+      String _GetExecutableFullPath();
 
-      String m_sResultFile;
-      String m_sBaseDir;
-
-      HZIP m_hZip;
-
-      bool _open;
    };
 }

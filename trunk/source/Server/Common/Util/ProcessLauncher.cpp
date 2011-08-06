@@ -4,6 +4,7 @@
 #include "StdAfx.h"
 
 #include "ProcessLauncher.h"
+#include "Utilities.h"
 
 #ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
@@ -17,6 +18,13 @@ namespace HM
       _workingDirectory(workingDirectory),
       _errorLogTimeout(0)
    {
+   }
+
+   ProcessLauncher::ProcessLauncher(const String &commandLine) :
+      _commandLine(commandLine),
+      _errorLogTimeout(0)
+   {
+      _workingDirectory = Utilities::GetWin32TempDirectory();
    }
 
    ProcessLauncher::~ProcessLauncher(void)

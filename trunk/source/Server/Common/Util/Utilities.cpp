@@ -60,6 +60,13 @@ namespace HM
    }
 
    String 
+   Utilities::GetUniqueTempDirectory()
+   {
+      return FileUtilities::Combine(GetWin32TempDirectory(), GUIDCreator::GetGUID());
+   }
+
+
+   String 
    Utilities::ComputerName()
    {
 

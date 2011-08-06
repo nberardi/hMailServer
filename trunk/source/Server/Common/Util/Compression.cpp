@@ -4,6 +4,7 @@
 #include "StdAfx.h"
 
 #include "Compression.h"
+#include "ProcessLauncher.h"
 
 #ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
@@ -12,143 +13,72 @@
 
 namespace HM
 {
-   Compression::Compression(String sResultFile, String sBaseDir, bool bCompress) :
-      m_sResultFile (sResultFile),
-      m_sBaseDir (sBaseDir),
-      _open(true)
+
+   Compression::Compression()
    {
-
-      if (bCompress)
-         m_hZip = CreateZip(m_sResultFile.GetBuffer(0), 0);
-      else
-      {
-         ::CreateDirectory(m_sBaseDir, 0);
-
-         m_hZip = OpenZip(m_sResultFile.GetBuffer(0), 0);
-
-         SetUnzipBaseDir(m_hZip, m_sBaseDir);
-      }
       
    }
 
    Compression::~Compression(void)
    {
-      Close();
+
    }
 
    bool
-   Compression::AddDirectory(String sDirectory)
+   Compression::AddDirectory(const String &zipFile, const String &directoryToAdd)
    {
-      String sDirName = sDirectory;
-     
-      // Remove base dir.
-      sDirName.Replace(m_sBaseDir, _T(""));
-      
-      if (!sDirName.IsEmpty())
-         ZRESULT zr = ZipAddFolder(m_hZip, sDirName);
+      String commandLine = Formatter::Format("\"{0}\" a \"{1}\" \"{2}\" -r", 
+         _GetExecutableFullPath(), zipFile, directoryToAdd);
 
-      if (sDirectory.Right(1) != _T("\\"))
-         sDirectory += _T("\\");
-
-      String sWildCard = sDirectory + _T("*.*");
-
-      // Locate first match
-      WIN32_FIND_DATA ffData;
-      HANDLE hFileFound = FindFirstFile(sWildCard, &ffData);
-
-      if (hFileFound == INVALID_HANDLE_VALUE)
-         return FALSE;
-
-      while (hFileFound && FindNextFile(hFileFound, &ffData))
-      {
-         String sFullPath = sDirectory + ffData.cFileName;
-
-         if (ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) 
-         {
-            if( (_tcscmp(ffData.cFileName, _T(".")) != 0) &&
-               (_tcscmp(ffData.cFileName, _T("..")) != 0) ) 
-            {
-               if( !AddDirectory(sFullPath) )
-                  return false;
-            }
-
-         }
-         else
-         { 
-            if (!AddFile(sFullPath))
-               return false;
-         }
-      }
-
-      FindClose(hFileFound);
-
-      return true;
+      return _LaunchCommand(commandLine);
    }
 
    bool
-   Compression::AddFile(String sFile)
+   Compression::AddFile(const String &zipFile, const String &fileToAdd)
    {
-      String sFilename = sFile;
-      sFilename.Replace(m_sBaseDir, _T(""));
+      String commandLine = Formatter::Format("\"{0}\" a \"{1}\" \"{2}\"", 
+         _GetExecutableFullPath(), zipFile, fileToAdd);
 
-      ZRESULT zr = ZipAdd(m_hZip, sFilename, sFile.GetBuffer(0));
+      return _LaunchCommand(commandLine);
+   }
 
-      if (zr == ZR_OK)
-         return true;
-      else
+   bool
+   Compression::Uncompress(const String &zipFile, const String &targetDirectory)
+   {
+      return Uncompress(zipFile, targetDirectory, "*");
+   }
+
+   bool
+   Compression::Uncompress(const String &zipFile, const String &targetDirectory, const String &wildCard)
+   {
+      String commandLine = Formatter::Format("\"{0}\" x \"{1}\" \"{2}\" -o\"{3}\" -y", 
+         _GetExecutableFullPath(), zipFile, wildCard, targetDirectory);
+
+      return _LaunchCommand(commandLine);
+   }
+
+   bool 
+   Compression::_LaunchCommand(const String &commandLine)
+   {
+      unsigned int exitCode = 0;
+      ProcessLauncher processLauncher(commandLine);
+
+      if (!processLauncher.Launch(exitCode))
          return false;
-   }
 
-   bool
-   Compression::Close()
-   {
-      if (!_open)
-         return true;
-
-      CloseZip(m_hZip);  
-      _open = false;
-      return true;
-   }
-
-   bool
-   Compression::Uncompress()
-   {
-      ZIPENTRY ze; 
-      GetZipItem(m_hZip,-1,&ze); 
-
-      int iNoOfItems=ze.index;
-
-      for (int i=0; i<iNoOfItems; i++)
-      { 
-         GetZipItem(m_hZip,i,&ze);
-         if (UnzipItem(m_hZip,i,ze.name) != ZR_OK)
-            return false;
-      }
+      if (exitCode != 0 && exitCode != 1)
+         return false;
 
       return true;
    }
 
-   bool
-   Compression::UncompressFile(const String &sFilename)
+   String 
+   Compression::_GetExecutableFullPath()
    {
-      ZIPENTRY ze; 
-      GetZipItem(m_hZip,-1,&ze); 
+      const String ZipExecutable = "7za.exe";
 
-      int iNoOfItems=ze.index;
+      String binDir = IniFileSettings::Instance()->GetBinDirectory();
 
-      for (int i=0; i<iNoOfItems; i++)
-      { 
-         GetZipItem(m_hZip,i,&ze);
-
-         if (ze.name == sFilename)
-         {
-            if (UnzipItem(m_hZip,i,ze.name) != ZR_OK)
-               return false;
-
-            return true;
-         }
-      }
-
-      return false;
+      return FileUtilities::Combine(binDir, ZipExecutable);
    }
 }

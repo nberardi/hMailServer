@@ -194,7 +194,7 @@ namespace HM
       sFilename.Replace(IniFileSettings::Instance()->GetDataDirectory() + _T("\\"), _T(""));
 
       pNode->AppendAttr(_T("CreateTime"), String(m_sCreateTime));
-      pNode->AppendAttr(_T("Filename"), String(sFilename));
+      pNode->AppendAttr(_T("Filename"), FileUtilities::GetFileNameFromFullPath(sFilename));
       pNode->AppendAttr(_T("FromAddress"), String(m_sFromAddress));
       pNode->AppendAttr(_T("State"), StringParser::IntToString(m_iMessageState));
       pNode->AppendAttr(_T("Size"), StringParser::IntToString(m_iMessageSize));

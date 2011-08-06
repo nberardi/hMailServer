@@ -108,9 +108,8 @@ namespace HM
       String sTempDir = IniFileSettings::Instance()->GetTempDirectory();
       String sXMLFile = sTempDir + "\\hMailServerBackup.xml";
       FileUtilities::DeleteFile(sXMLFile);
-      Compression oComp(sZipFile, sTempDir, false);
-      oComp.UncompressFile("hMailServerBackup.xml");
-      oComp.Close();
+      Compression oComp;
+      oComp.Uncompress(sZipFile, sTempDir, "hMailServerBackup.xml");
 
       // Load the XML document
       String sXMLBuffer = FileUtilities::ReadCompleteTextFile(sXMLFile);

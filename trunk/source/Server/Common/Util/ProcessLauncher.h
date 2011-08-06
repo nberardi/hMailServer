@@ -9,6 +9,7 @@ namespace HM
    {
    public:
       ProcessLauncher(const String &commandLine, const String &workingDirectory);
+      ProcessLauncher(const String &commandLine);
       ~ProcessLauncher(void);
 
       bool Launch(unsigned int &exitCode);

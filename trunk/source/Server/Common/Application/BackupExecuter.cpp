@@ -6,6 +6,7 @@
 #include "BackupExecuter.h"
 #include "Backup.h"
 
+#include "..\Util\Utilities.h"
 #include "..\Util\Time.h"
 #include "..\BO\Domains.h"
 #include "..\BO\Domain.h"
@@ -88,7 +89,7 @@ namespace HM
       // Generate name for zip file. We always create zip
       // file
       String sZipFile;
-      sZipFile.Format(_T("%s\\HMBackup %s.zip"), m_sDestination, sTime);
+      sZipFile.Format(_T("%s\\HMBackup %s.7z"), m_sDestination, sTime);
 
       String sXMLFile;
       sXMLFile.Format(_T("%s\\hMailServerBackup.xml"), m_sDestination);
@@ -139,7 +140,7 @@ namespace HM
 
          if (m_iBackupMode & Backup::BOCompression)
          {
-            pMessageFile->AppendAttr(_T("Format"), _T("Zip"));
+            pMessageFile->AppendAttr(_T("Format"), _T("7z"));
             pMessageFile->AppendAttr(_T("Size"), StringParser::IntToString(FileUtilities::FileSize(sZipFile)));
          }
          else
@@ -165,9 +166,12 @@ namespace HM
       }
 
       // Compress the XML file
-      Compression oComp(sZipFile, m_sDestination + "\\", true);
-      oComp.AddFile(sXMLFile);
-      
+      Compression oComp;
+      oComp.AddFile(sZipFile, sXMLFile);
+
+      // Delete the XML file
+      FileUtilities::DeleteFile(sXMLFile);
+
       // Should we compress the message files?
       if (m_iBackupMode & Backup::BOMessages && 
           m_iBackupMode & Backup::BOCompression)
@@ -175,17 +179,8 @@ namespace HM
          Logger::Instance()->LogBackup("Compressing message files...");
          
          if (m_iBackupMode & Backup::BOMessages)
-            oComp.AddDirectory(sDataBackupDir + "\\");
-      }
+            oComp.AddDirectory(sZipFile, sDataBackupDir + "\\");
 
-      oComp.Close();
-
-      // Delete the XML file
-      FileUtilities::DeleteFile(sXMLFile);
-
-      if (m_iBackupMode & Backup::BOMessages && 
-         m_iBackupMode & Backup::BOCompression)
-      {
          // Since the files are now compressed, we can deleted
          // the data backup directory
          if (!FileUtilities::DeleteDirectory(sDataBackupDir))
@@ -244,14 +239,13 @@ namespace HM
       String sXMLFile = sTempDir + "\\hMailServerBackup.xml";
       FileUtilities::DeleteFile(sXMLFile);
 
-      Compression oComp(sZipFile, sTempDir, false);
-      if (!oComp.UncompressFile("hMailServerBackup.xml"))
+      Compression oComp;
+      if (!oComp.Uncompress(sZipFile, sTempDir, "hMailServerBackup.xml"))
       {
          String sErrorMessage = Formatter::Format("Unable to uncompress hMailServerBackup.xml from {0} to {1}. Please confirm that hMailServer has permissions to {0} and {1}.", sZipFile, sTempDir);
          Application::Instance()->GetBackupManager()->OnBackupFailed(sErrorMessage);
          return false;
       }
-      oComp.Close();
 
       String sXMLData = FileUtilities::ReadCompleteTextFile(sXMLFile);
       if (sXMLData.IsEmpty())
@@ -355,17 +349,15 @@ namespace HM
       String sDataFileFormat = pBackupInfoNode->GetChildAttr(_T("DataFiles"), _T("Format"))->value;
       
       String sExtractedFilesDirectory;
-      if (sDataFileFormat.CompareNoCase(_T("Zip")) == 0)
+      if (sDataFileFormat.CompareNoCase(_T("7Z")) == 0)
       {
-         // Create the path to the directory that will contain the 
-         // extracted files. This directory is temporary and will
-         // be removed when we're done.
-         sExtractedFilesDirectory = sPath + "\\RestoreTemp";
+         // Create the path to the directory that will contain the extracted files. 
+         //  This directory is temporary and will be removed when we're done.
+         sExtractedFilesDirectory = Utilities::GetUniqueTempDirectory();
 
          // Extract the files to this directory.
-         Compression oComp(sBackupFile, sExtractedFilesDirectory, false);
-         oComp.Uncompress();
-         oComp.Close();
+         Compression oComp;
+         oComp.Uncompress(sBackupFile, sExtractedFilesDirectory);
 
          // The data files in the zip file are stored in
          // a directory called DataBackup.
@@ -389,7 +381,7 @@ namespace HM
       String errorMessage;
       FileUtilities::CopyDirectory(sDirContainingDataFiles, sDataDirectory, errorMessage);
 
-      if (sDataFileFormat.CompareNoCase(_T("Zip")) == 0)
+      if (sDataFileFormat.CompareNoCase(_T("7z")) == 0)
       {
          // The temporary directory we created while
          // unzipping should be deleted now.

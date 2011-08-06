@@ -192,16 +192,20 @@ namespace HM
 
    String
    FileUtilities::GetFileNameFromFullPath(const String & sFullPath)
-      //---------------------------------------------------------------------------()
-      // DESCRIPTION:
-      // Returns the filename in the full path.
-      //---------------------------------------------------------------------------()
-
+   //---------------------------------------------------------------------------()
+   // DESCRIPTION:
+   // Returns the filename in the full path.
+   //---------------------------------------------------------------------------()
    {
       int iLastSlash = sFullPath.ReverseFind(_T("\\"));
-      String sName = sFullPath.Mid(iLastSlash + 1);
 
-      return sName;
+      if (iLastSlash == -1)
+      {
+         // Path is relative.
+         return sFullPath;
+      }
+
+      return sFullPath.Mid(iLastSlash + 1);
    }
 
    bool

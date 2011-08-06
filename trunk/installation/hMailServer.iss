@@ -73,6 +73,7 @@ Source: "License.rtf"; DestDir: "{app}\Bin"; Flags: ignoreversion; Components: s
 Source: "System files\dnsapi.dll"; DestDir: "{sys}"; Flags: uninsneveruninstall onlyifdoesntexist; Components: admintools; OnlyBelowVersion: 0,6;
 Source: "System files\ATL\atl70.dll"; DestDir: "{sys}";  Components: server;
 Source: "SQLCE\SSCERuntime-ENU.msi"; Flags: deleteafterinstall ; Excludes: ".svn"; DestDir: "{tmp}"; Components: server;
+Source: "..\source\installation\Extras\7za.exe"; DestDir: "{app}\Bin"; Flags: ignoreversion; Components: server;
 
 ; Main server
 Source: "..\source\server\hMailServer\Release\hMailServer.exe"; DestDir: "{app}\Bin"; Flags: ignoreversion; Components: server admintools;
