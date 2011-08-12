@@ -1143,5 +1143,14 @@ namespace UnitTest
           string publicDir = Path.Combine(dataDir, _settings.PublicFolderDiskName);
           return publicDir;
       }
+
+      public static string CreateLargeDummyMailBody()
+      {
+         var sb = new StringBuilder();
+         for (int i = 0; i < 10000; i++)
+            sb.AppendLine("0123456789012345678901234567890123456789012345678901234567890123456789");
+
+         return sb.ToString();
+      }
    }
 }

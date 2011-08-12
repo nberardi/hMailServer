@@ -39,10 +39,33 @@ namespace UnitTest.BusinessObjects
 
          IMAPSimulator.AssertMessageCount("test@test.com", "test", "Inbox", 30);
 
-         if (account.Size == 0)
+         var size = account.Size;
+         if (size == 0)
             throw new Exception("Account is empty");
       }
 
+      [Test]
+      [Category("Accounts")]
+      [Description("Ensure that account size is increased when a message is received.")]
+      public void SizeIncreasedWhenMessageReceived()
+      {
+         hMailServer.Domain domain = SingletonProvider<Utilities>.Instance.AddTestDomain();
+         hMailServer.Account account = SingletonProvider<Utilities>.Instance.AddAccount(domain, "test@test.com", "test");
 
+         string body = Utilities.CreateLargeDummyMailBody();
+
+         // Send a message
+         SMTPClientSimulator.StaticSend("test@test.com", "test@test.com", "Test message", body);
+         IMAPSimulator.AssertMessageCount("test@test.com", "test", "Inbox", 1);
+
+         float sizeBefore = account.Size;
+
+         SMTPClientSimulator.StaticSend("test@test.com", "test@test.com", "Test message", body);
+         IMAPSimulator.AssertMessageCount("test@test.com", "test", "Inbox", 2);
+
+         float sizeAfter = account.Size;
+
+         Assert.Greater(sizeAfter, sizeBefore);
+      }
    }
 }

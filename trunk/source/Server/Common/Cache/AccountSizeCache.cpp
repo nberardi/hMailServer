@@ -39,7 +39,7 @@ namespace HM
       else
          currentSize -= iSize;
 
-      _accountSizes[accountID] = iSize;
+      _accountSizes[accountID] = currentSize;
    }
    
    void
