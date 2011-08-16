@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceRuleCriterias.h"
 
 #include "InterfaceRuleCriteria.h"
@@ -17,88 +18,158 @@ InterfaceRuleCriterias::Attach(shared_ptr<HM::RuleCriterias> pCriterias)
 
 STDMETHODIMP InterfaceRuleCriterias::get_ItemByDBID(long lDBID, IInterfaceRuleCriteria** pVal)
 {
-   CComObject<InterfaceRuleCriteria>* pInterfaceRuleCriteria = new CComObject<InterfaceRuleCriteria>();
-   pInterfaceRuleCriteria->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pRuleCriterias)
+         return GetAccessDenied();
 
-   shared_ptr<HM::RuleCriteria> pRule = m_pRuleCriterias->GetItemByDBID(lDBID);
-   if (!pRule)
-      return DISP_E_BADINDEX;
-
-   pInterfaceRuleCriteria->AttachItem(pRule);
-   pInterfaceRuleCriteria->AttachParent(m_pRuleCriterias, true);
-   pInterfaceRuleCriteria->AddRef();
-   *pVal = pInterfaceRuleCriteria;   
-
-   return S_OK;
+      CComObject<InterfaceRuleCriteria>* pInterfaceRuleCriteria = new CComObject<InterfaceRuleCriteria>();
+      pInterfaceRuleCriteria->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::RuleCriteria> pRule = m_pRuleCriterias->GetItemByDBID(lDBID);
+      if (!pRule)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceRuleCriteria->AttachItem(pRule);
+      pInterfaceRuleCriteria->AttachParent(m_pRuleCriterias, true);
+      pInterfaceRuleCriteria->AddRef();
+      *pVal = pInterfaceRuleCriteria;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleCriterias::get_Item(long lIndex, IInterfaceRuleCriteria** pVal)
 {
-   CComObject<InterfaceRuleCriteria>* pInterfaceRuleCriteria = new CComObject<InterfaceRuleCriteria>();
-   pInterfaceRuleCriteria->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pRuleCriterias)
+         return GetAccessDenied();
 
-   shared_ptr<HM::RuleCriteria> pRule = m_pRuleCriterias->GetItem(lIndex);
-   if (!pRule)
-      return DISP_E_BADINDEX;
-
-   pInterfaceRuleCriteria->AttachItem(pRule);
-   pInterfaceRuleCriteria->AttachParent(m_pRuleCriterias, true);
-
-   pInterfaceRuleCriteria->AddRef();
-   *pVal = pInterfaceRuleCriteria;   
-
-   return S_OK;
+      CComObject<InterfaceRuleCriteria>* pInterfaceRuleCriteria = new CComObject<InterfaceRuleCriteria>();
+      pInterfaceRuleCriteria->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::RuleCriteria> pRule = m_pRuleCriterias->GetItem(lIndex);
+      if (!pRule)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceRuleCriteria->AttachItem(pRule);
+      pInterfaceRuleCriteria->AttachParent(m_pRuleCriterias, true);
+   
+      pInterfaceRuleCriteria->AddRef();
+      *pVal = pInterfaceRuleCriteria;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleCriterias::get_Count(LONG* pVal)
 {
-   *pVal = m_pRuleCriterias->GetCount();
+   try
+   {
+      if (!m_pRuleCriterias)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pRuleCriterias->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleCriterias::Add(IInterfaceRuleCriteria** pVal)
 {
-   if (!m_pRuleCriterias)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pRuleCriterias)
+         return GetAccessDenied();
 
-   CComObject<InterfaceRuleCriteria>* pIntDA = new CComObject<InterfaceRuleCriteria>();
-   pIntDA->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::RuleCriteria> pDA = shared_ptr<HM::RuleCriteria>(new HM::RuleCriteria);
-
-   pDA->SetRuleID(m_pRuleCriterias->GetRuleID());
-
-   pIntDA->AttachItem(pDA);
-   pIntDA->AttachParent(m_pRuleCriterias, false);
-   pIntDA->AddRef();
-
-   *pVal = pIntDA;
-
-   return S_OK;   
-
-   return S_OK;
+      if (!m_pRuleCriterias)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceRuleCriteria>* pIntDA = new CComObject<InterfaceRuleCriteria>();
+      pIntDA->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::RuleCriteria> pDA = shared_ptr<HM::RuleCriteria>(new HM::RuleCriteria);
+   
+      pDA->SetRuleID(m_pRuleCriterias->GetRuleID());
+   
+      pIntDA->AttachItem(pDA);
+      pIntDA->AttachParent(m_pRuleCriterias, false);
+      pIntDA->AddRef();
+   
+      *pVal = pIntDA;
+   
+      return S_OK;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleCriterias::DeleteByDBID(LONG DBID)
 {
-   m_pRuleCriterias->DeleteItemByDBID(DBID);
+   try
+   {
+      if (!m_pRuleCriterias)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRuleCriterias->DeleteItemByDBID(DBID);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleCriterias::Delete(LONG DBID)
 {
-   m_pRuleCriterias->DeleteItem(DBID);
+   try
+   {
+      if (!m_pRuleCriterias)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRuleCriterias->DeleteItem(DBID);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleCriterias::Refresh(void)
 {
-   m_pRuleCriterias->Refresh();
+   try
+   {
+      if (!m_pRuleCriterias)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRuleCriterias->Refresh();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 

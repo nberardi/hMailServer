@@ -9,5 +9,6 @@ public:
    COMError(void);
    ~COMError(void);
 
+   static HRESULT GenerateGenericMessage();
    static HRESULT GenerateError(HM::String sDescription);
 };

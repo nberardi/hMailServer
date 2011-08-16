@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceSecurityRanges.h"
 
 #include "../Common/Persistence/PersistentSecurityRange.h"
@@ -24,126 +25,215 @@ InterfaceSecurityRanges::LoadSettings()
 STDMETHODIMP 
 InterfaceSecurityRanges::get_Count(long *pVal)
 {
-   *pVal = m_pSecurityRanges->GetCount();
-   return S_OK;
+   try
+   {
+      if (!m_pSecurityRanges)
+         return GetAccessDenied();
+
+      *pVal = m_pSecurityRanges->GetCount();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSecurityRanges::Delete(long Index)
 {
-   m_pSecurityRanges->DeleteItem(Index);
-   return S_OK;
+   try
+   {
+      if (!m_pSecurityRanges)
+         return GetAccessDenied();
+
+      m_pSecurityRanges->DeleteItem(Index);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSecurityRanges::DeleteByDBID(long DBID)
 {
-   m_pSecurityRanges->DeleteItemByDBID(DBID);
-   return S_OK;
-}
+   try
+   {
+      if (!m_pSecurityRanges)
+         return GetAccessDenied();
 
+      m_pSecurityRanges->DeleteItemByDBID(DBID);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
 
 STDMETHODIMP InterfaceSecurityRanges::Refresh()
 {
-   m_pSecurityRanges->Refresh();
-   return S_OK;
+   try
+   {
+      if (!m_pSecurityRanges)
+         return GetAccessDenied();
+
+      m_pSecurityRanges->Refresh();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceSecurityRanges::get_Item(long Index, IInterfaceSecurityRange **pVal)
 {
-   CComObject<InterfaceSecurityRange>* pRangeInt = new CComObject<InterfaceSecurityRange>();
-   pRangeInt->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItem(Index);
-
-   if (pRange)
+   try
    {
-      pRangeInt->AttachItem(pRange);
-      pRangeInt->AttachParent(m_pSecurityRanges, true);
-      pRangeInt->AddRef();
-      *pVal = pRangeInt;
+      if (!m_pSecurityRanges)
+         return GetAccessDenied();
+
+      CComObject<InterfaceSecurityRange>* pRangeInt = new CComObject<InterfaceSecurityRange>();
+      pRangeInt->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItem(Index);
+   
+      if (pRange)
+      {
+         pRangeInt->AttachItem(pRange);
+         pRangeInt->AttachParent(m_pSecurityRanges, true);
+         pRangeInt->AddRef();
+         *pVal = pRangeInt;
+      }
+      else
+      {
+         return DISP_E_BADINDEX;  
+      }
+   
+   
+   
+      return S_OK;
    }
-   else
+   catch (...)
    {
-      return DISP_E_BADINDEX;  
+      return COMError::GenerateGenericMessage();
    }
-
-
-
-   return S_OK;
 }
 
 STDMETHODIMP InterfaceSecurityRanges::get_ItemByDBID(long DBID, IInterfaceSecurityRange **pVal)
 {
-   CComObject<InterfaceSecurityRange>* pRangeInt = new CComObject<InterfaceSecurityRange>();
-   pRangeInt->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItemByDBID(DBID);
-
-   if (pRange)
+   try
    {
-      pRangeInt->AttachItem(pRange);
-      pRangeInt->AttachParent(m_pSecurityRanges, true);
-      pRangeInt->AddRef();
-      *pVal = pRangeInt;
-   }
-   else
-   {
-      return DISP_E_BADINDEX;  
-   }
+      if (!m_pSecurityRanges)
+         return GetAccessDenied();
 
-   return S_OK;
+      CComObject<InterfaceSecurityRange>* pRangeInt = new CComObject<InterfaceSecurityRange>();
+      pRangeInt->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItemByDBID(DBID);
+   
+      if (pRange)
+      {
+         pRangeInt->AttachItem(pRange);
+         pRangeInt->AttachParent(m_pSecurityRanges, true);
+         pRangeInt->AddRef();
+         *pVal = pRangeInt;
+      }
+      else
+      {
+         return DISP_E_BADINDEX;  
+      }
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceSecurityRanges::Add(IInterfaceSecurityRange **pVal)
 {
-   if (!m_pSecurityRanges)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pSecurityRanges)
+         return GetAccessDenied();
 
-   CComObject<InterfaceSecurityRange>* pInterfaceRange = new CComObject<InterfaceSecurityRange>();
-   pInterfaceRange->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::SecurityRange> pRange = shared_ptr<HM::SecurityRange>(new HM::SecurityRange); 
-
-   pInterfaceRange->AttachItem(pRange);
-   pInterfaceRange->AttachParent(m_pSecurityRanges, false);
-
-   pInterfaceRange->AddRef();
-   *pVal = pInterfaceRange;
-
-   return S_OK;
+      if (!m_pSecurityRanges)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceSecurityRange>* pInterfaceRange = new CComObject<InterfaceSecurityRange>();
+      pInterfaceRange->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SecurityRange> pRange = shared_ptr<HM::SecurityRange>(new HM::SecurityRange); 
+   
+      pInterfaceRange->AttachItem(pRange);
+      pInterfaceRange->AttachParent(m_pSecurityRanges, false);
+   
+      pInterfaceRange->AddRef();
+      *pVal = pInterfaceRange;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceSecurityRanges::get_ItemByName(BSTR sName, IInterfaceSecurityRange **pVal)
 {
-   CComObject<InterfaceSecurityRange>* pRangeInt = new CComObject<InterfaceSecurityRange>();
-   pRangeInt->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItemByName(sName);
-
-   if (pRange)
+   try
    {
-      pRangeInt->AttachItem(pRange);
-      pRangeInt->AttachParent(m_pSecurityRanges, true);
-      pRangeInt->AddRef();
-      *pVal = pRangeInt;
-   }
-   else
-   {
-      return DISP_E_BADINDEX;  
-   }
+      if (!m_pSecurityRanges)
+         return GetAccessDenied();
 
-   return S_OK;
+      CComObject<InterfaceSecurityRange>* pRangeInt = new CComObject<InterfaceSecurityRange>();
+      pRangeInt->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItemByName(sName);
+   
+      if (pRange)
+      {
+         pRangeInt->AttachItem(pRange);
+         pRangeInt->AttachParent(m_pSecurityRanges, true);
+         pRangeInt->AddRef();
+         *pVal = pRangeInt;
+      }
+      else
+      {
+         return DISP_E_BADINDEX;  
+      }
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceSecurityRanges::SetDefault()
 {
-   if (!m_pSecurityRanges)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pSecurityRanges)
+         return GetAccessDenied();
 
-   m_pSecurityRanges->SetDefault();
-
-   return S_OK;
+      if (!m_pSecurityRanges)
+         return m_pAuthentication->GetAccessDenied();
+   
+      m_pSecurityRanges->SetDefault();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
 

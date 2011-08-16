@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceWhiteListAddresses.h"
 
 
@@ -14,123 +15,203 @@
 void 
 InterfaceWhiteListAddresses::Attach(shared_ptr<HM::WhiteListAddresses> pBA) 
 { 
-   m_pWhiteListAddresses = pBA; 
+   m_pObject = pBA; 
 }
 
 STDMETHODIMP 
 InterfaceWhiteListAddresses::Refresh()
 {
-   if (!m_pWhiteListAddresses)
-      return S_FALSE;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   m_pWhiteListAddresses->Refresh();
-
-   return S_OK;
+      if (!m_pObject)
+         return S_FALSE;
+   
+      m_pObject->Refresh();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceWhiteListAddresses::Clear()
 {
-   if (!m_pWhiteListAddresses)
-      return S_FALSE;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   m_pWhiteListAddresses->DeleteAll();
-
-   return S_OK;
+      if (!m_pObject)
+         return S_FALSE;
+   
+      m_pObject->DeleteAll();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
-
 
 STDMETHODIMP InterfaceWhiteListAddresses::get_Count(long *pVal)
 {
-   *pVal = m_pWhiteListAddresses->GetCount();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pObject->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceWhiteListAddresses::get_Item(long Index, IInterfaceWhiteListAddress **pVal)
 {
-   CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
-   pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   shared_ptr<HM::WhiteListAddress> pBA = m_pWhiteListAddresses->GetItem(Index);
-
-   if (!pBA)
-      return DISP_E_BADINDEX;
-
-   pInterfaceWhiteListAddress->AttachItem(pBA);
-   pInterfaceWhiteListAddress->AttachParent(m_pWhiteListAddresses, true);
-   pInterfaceWhiteListAddress->AddRef();
-   *pVal = pInterfaceWhiteListAddress;
-
-   return S_OK;
+      CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
+      pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::WhiteListAddress> pBA = m_pObject->GetItem(Index);
+   
+      if (!pBA)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceWhiteListAddress->AttachItem(pBA);
+      pInterfaceWhiteListAddress->AttachParent(m_pObject, true);
+      pInterfaceWhiteListAddress->AddRef();
+      *pVal = pInterfaceWhiteListAddress;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceWhiteListAddresses::DeleteByDBID(long DBID)
 {
-   m_pWhiteListAddresses->DeleteItemByDBID(DBID);
-   return S_OK;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      m_pObject->DeleteItemByDBID(DBID);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceWhiteListAddresses::get_ItemByDBID(long lDBID, IInterfaceWhiteListAddress **pVal)
 {
-   CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
-   pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   shared_ptr<HM::WhiteListAddress> pBA = m_pWhiteListAddresses->GetItemByDBID(lDBID);
-
-   if (!pBA)
-      return DISP_E_BADINDEX;
-
-   pInterfaceWhiteListAddress->AttachItem(pBA);
-   pInterfaceWhiteListAddress->AttachParent(m_pWhiteListAddresses, true);
-   pInterfaceWhiteListAddress->AddRef();
-
-   *pVal = pInterfaceWhiteListAddress;
-
-   return S_OK;
+      CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
+      pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::WhiteListAddress> pBA = m_pObject->GetItemByDBID(lDBID);
+   
+      if (!pBA)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceWhiteListAddress->AttachItem(pBA);
+      pInterfaceWhiteListAddress->AttachParent(m_pObject, true);
+      pInterfaceWhiteListAddress->AddRef();
+   
+      *pVal = pInterfaceWhiteListAddress;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceWhiteListAddresses::get_ItemByName(BSTR sName, IInterfaceWhiteListAddress **pVal)
 {
-   CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
-   pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   shared_ptr<HM::WhiteListAddress> pBA = m_pWhiteListAddresses->GetItemByName(sName);
-
-   if (!pBA)
-      return DISP_E_BADINDEX;
-
-   pInterfaceWhiteListAddress->AttachItem(pBA);
-   pInterfaceWhiteListAddress->AttachParent(m_pWhiteListAddresses, true);
-   pInterfaceWhiteListAddress->AddRef();
-
-   *pVal = pInterfaceWhiteListAddress;
-
-   return S_OK;
+      CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
+      pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::WhiteListAddress> pBA = m_pObject->GetItemByName(sName);
+   
+      if (!pBA)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceWhiteListAddress->AttachItem(pBA);
+      pInterfaceWhiteListAddress->AttachParent(m_pObject, true);
+      pInterfaceWhiteListAddress->AddRef();
+   
+      *pVal = pInterfaceWhiteListAddress;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceWhiteListAddresses::Add(IInterfaceWhiteListAddress **pVal)
 {
-   if (!m_pWhiteListAddresses)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
-   pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::WhiteListAddress> pBA = shared_ptr<HM::WhiteListAddress>(new HM::WhiteListAddress);
-
-   pInterfaceWhiteListAddress->AttachItem(pBA);
-   pInterfaceWhiteListAddress->AttachParent(m_pWhiteListAddresses, false);
-
-   pInterfaceWhiteListAddress->AddRef();
-
-   *pVal = pInterfaceWhiteListAddress;
-
-   return S_OK;
+      if (!m_pObject)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
+      pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::WhiteListAddress> pBA = shared_ptr<HM::WhiteListAddress>(new HM::WhiteListAddress);
+   
+      pInterfaceWhiteListAddress->AttachItem(pBA);
+      pInterfaceWhiteListAddress->AttachParent(m_pObject, false);
+   
+      pInterfaceWhiteListAddress->AddRef();
+   
+      *pVal = pInterfaceWhiteListAddress;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

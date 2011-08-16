@@ -1,3 +1,4 @@
+
 // Copyright (c) 2010 Martin Knafve / hMailServer.com.  
 // http://www.hmailserver.com
 
@@ -11,6 +12,12 @@ COMError::COMError(void)
 
 COMError::~COMError(void)
 {
+}
+
+HRESULT
+COMError::GenerateGenericMessage()
+{
+   return GenerateError("An error occured processing the request.");
 }
 
 HRESULT

@@ -15,8 +15,6 @@ class ATL_NO_VTABLE InterfaceAntiVirus :
 public:
 	InterfaceAntiVirus();
 
-   bool LoadSettings();
-
 DECLARE_REGISTRY_RESOURCEID(IDR_INTERFACEANTIVIRUS)
 
 

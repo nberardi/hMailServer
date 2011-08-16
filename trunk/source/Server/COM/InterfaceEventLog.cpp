@@ -2,13 +2,23 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceEventLog.h"
 
 
 STDMETHODIMP 
 InterfaceEventLog::Write(BSTR sMessage)
 {
-   HM::Logger::Instance()->LogEvent(sMessage);
-
-   return S_OK;
+   try
+   {
+      HM::Logger::Instance()->LogEvent(sMessage);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

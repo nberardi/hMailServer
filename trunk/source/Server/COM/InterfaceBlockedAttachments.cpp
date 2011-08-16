@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "..\COM\InterfaceBlockedAttachments.h"
 
 #include "..\Common\BO\BlockedAttachment.h"
@@ -16,90 +17,137 @@ InterfaceBlockedAttachments::Attach(shared_ptr<HM::BlockedAttachments> pBA)
 STDMETHODIMP 
 InterfaceBlockedAttachments::Refresh()
 {
-   if (!m_pBlockedAttachments)
-      return S_FALSE;
-
-   m_pBlockedAttachments->Refresh();
-
-   return S_OK;
+   try
+   {
+      if (!m_pBlockedAttachments)
+         return S_FALSE;
+   
+      m_pBlockedAttachments->Refresh();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceBlockedAttachments::get_Count(long *pVal)
 {
-   *pVal = m_pBlockedAttachments->GetCount();
-
-   return S_OK;
+   try
+   {
+      *pVal = m_pBlockedAttachments->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceBlockedAttachments::get_Item(long Index, IInterfaceBlockedAttachment **pVal)
 {
-   CComObject<InterfaceBlockedAttachment>* pInterfaceBlockedAttachment = new CComObject<InterfaceBlockedAttachment>();
-   pInterfaceBlockedAttachment->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::BlockedAttachment> pBA = m_pBlockedAttachments->GetItem(Index);
-
-   if (!pBA)
-      return DISP_E_BADINDEX;
-
-   pInterfaceBlockedAttachment->AttachItem(pBA);
-   pInterfaceBlockedAttachment->AttachParent(m_pBlockedAttachments, true);
-   pInterfaceBlockedAttachment->AddRef();
-   *pVal = pInterfaceBlockedAttachment;
-
-   return S_OK;
+   try
+   {
+      CComObject<InterfaceBlockedAttachment>* pInterfaceBlockedAttachment = new CComObject<InterfaceBlockedAttachment>();
+      pInterfaceBlockedAttachment->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::BlockedAttachment> pBA = m_pBlockedAttachments->GetItem(Index);
+   
+      if (!pBA)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceBlockedAttachment->AttachItem(pBA);
+      pInterfaceBlockedAttachment->AttachParent(m_pBlockedAttachments, true);
+      pInterfaceBlockedAttachment->AddRef();
+      *pVal = pInterfaceBlockedAttachment;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceBlockedAttachments::DeleteByDBID(long DBID)
 {
-   m_pBlockedAttachments->DeleteItemByDBID(DBID);
-   return S_OK;
+   try
+   {
+      if (!m_pBlockedAttachments)
+         return GetAccessDenied();
+
+      m_pBlockedAttachments->DeleteItemByDBID(DBID);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceBlockedAttachments::get_ItemByDBID(long lDBID, IInterfaceBlockedAttachment **pVal)
 {
-   CComObject<InterfaceBlockedAttachment>* pInterfaceBlockedAttachment = new CComObject<InterfaceBlockedAttachment>();
-   pInterfaceBlockedAttachment->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pBlockedAttachments)
+         return GetAccessDenied();
 
-   shared_ptr<HM::BlockedAttachment> pBA = m_pBlockedAttachments->GetItemByDBID(lDBID);
-
-   if (!pBA)
-      return DISP_E_BADINDEX;
-
-   pInterfaceBlockedAttachment->AttachItem(pBA);
-   pInterfaceBlockedAttachment->AttachParent(m_pBlockedAttachments, true);
-   pInterfaceBlockedAttachment->AddRef();
-
-   *pVal = pInterfaceBlockedAttachment;
-
-   return S_OK;
+      CComObject<InterfaceBlockedAttachment>* pInterfaceBlockedAttachment = new CComObject<InterfaceBlockedAttachment>();
+      pInterfaceBlockedAttachment->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::BlockedAttachment> pBA = m_pBlockedAttachments->GetItemByDBID(lDBID);
+   
+      if (!pBA)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceBlockedAttachment->AttachItem(pBA);
+      pInterfaceBlockedAttachment->AttachParent(m_pBlockedAttachments, true);
+      pInterfaceBlockedAttachment->AddRef();
+   
+      *pVal = pInterfaceBlockedAttachment;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceBlockedAttachments::Add(IInterfaceBlockedAttachment **pVal)
 {
-   if (!m_pBlockedAttachments)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pBlockedAttachments)
+         return GetAccessDenied();
 
-   CComObject<InterfaceBlockedAttachment>* pInterfaceBlockedAttachment = new CComObject<InterfaceBlockedAttachment>();
-   pInterfaceBlockedAttachment->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::BlockedAttachment> pBA = shared_ptr<HM::BlockedAttachment>(new HM::BlockedAttachment);
-
-   pInterfaceBlockedAttachment->AttachItem(pBA);
-   pInterfaceBlockedAttachment->AttachParent(m_pBlockedAttachments, false);
-
-   pInterfaceBlockedAttachment->AddRef();
-
-   *pVal = pInterfaceBlockedAttachment;
-
-   return S_OK;
+      if (!m_pBlockedAttachments)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceBlockedAttachment>* pInterfaceBlockedAttachment = new CComObject<InterfaceBlockedAttachment>();
+      pInterfaceBlockedAttachment->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::BlockedAttachment> pBA = shared_ptr<HM::BlockedAttachment>(new HM::BlockedAttachment);
+   
+      pInterfaceBlockedAttachment->AttachItem(pBA);
+      pInterfaceBlockedAttachment->AttachParent(m_pBlockedAttachments, false);
+   
+      pInterfaceBlockedAttachment->AddRef();
+   
+      *pVal = pInterfaceBlockedAttachment;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
-
-
 
 

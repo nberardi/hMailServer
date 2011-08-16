@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceDomainAliases.h"
 
 #include "InterfaceDomainAlias.h"
@@ -17,84 +18,156 @@ InterfaceDomainAliases::Attach(shared_ptr<HM::DomainAliases> pDomainAliases)
 
 STDMETHODIMP InterfaceDomainAliases::get_ItemByDBID(long lDBID, IInterfaceDomainAlias** pVal)
 {
-   CComObject<InterfaceDomainAlias>* pInterfaceDA = new CComObject<InterfaceDomainAlias>();
-   pInterfaceDA->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pDomainAliases)
+         return GetAccessDenied();
 
-   shared_ptr<HM::DomainAlias> pDomainAlias = m_pDomainAliases->GetItemByDBID(lDBID);
-   if (!pDomainAlias)
-      return DISP_E_BADINDEX;
-
-   pInterfaceDA->AttachItem(pDomainAlias);
-   pInterfaceDA->AttachParent(m_pDomainAliases, true);
-   pInterfaceDA->AddRef();
-   *pVal = pInterfaceDA;   
-
-   return S_OK;
+      CComObject<InterfaceDomainAlias>* pInterfaceDA = new CComObject<InterfaceDomainAlias>();
+      pInterfaceDA->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::DomainAlias> pDomainAlias = m_pDomainAliases->GetItemByDBID(lDBID);
+      if (!pDomainAlias)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceDA->AttachItem(pDomainAlias);
+      pInterfaceDA->AttachParent(m_pDomainAliases, true);
+      pInterfaceDA->AddRef();
+      *pVal = pInterfaceDA;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAliases::get_Item(long lIndex, IInterfaceDomainAlias** pVal)
 {
-   CComObject<InterfaceDomainAlias>* pInterfaceAccount = new CComObject<InterfaceDomainAlias>();
-   pInterfaceAccount->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pDomainAliases)
+         return GetAccessDenied();
 
-   shared_ptr<HM::DomainAlias> pDomainAlias = m_pDomainAliases->GetItem(lIndex);
-   if (!pDomainAlias)
-      return DISP_E_BADINDEX;
-
-   pInterfaceAccount->AttachItem(pDomainAlias);
-   pInterfaceAccount->AttachParent(m_pDomainAliases, true);
-   pInterfaceAccount->AddRef();
-   *pVal = pInterfaceAccount;   
-
-   return S_OK;
+      CComObject<InterfaceDomainAlias>* pInterfaceAccount = new CComObject<InterfaceDomainAlias>();
+      pInterfaceAccount->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::DomainAlias> pDomainAlias = m_pDomainAliases->GetItem(lIndex);
+      if (!pDomainAlias)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceAccount->AttachItem(pDomainAlias);
+      pInterfaceAccount->AttachParent(m_pDomainAliases, true);
+      pInterfaceAccount->AddRef();
+      *pVal = pInterfaceAccount;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAliases::Add(IInterfaceDomainAlias **pVal)
 {
-   if (!m_pDomainAliases)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pDomainAliases)
+         return GetAccessDenied();
 
-   CComObject<InterfaceDomainAlias>* pIntDA = new CComObject<InterfaceDomainAlias>();
-   pIntDA->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::DomainAlias> pDA = shared_ptr<HM::DomainAlias>(new HM::DomainAlias);
-
-   pDA->SetDomainID(m_pDomainAliases->GetDomainID());
-
-   pIntDA->AttachItem(pDA);
-   pIntDA->AttachParent(m_pDomainAliases, false);
-
-   pIntDA->AddRef();
-
-   *pVal = pIntDA;
-
-   return S_OK;
+      if (!m_pDomainAliases)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceDomainAlias>* pIntDA = new CComObject<InterfaceDomainAlias>();
+      pIntDA->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::DomainAlias> pDA = shared_ptr<HM::DomainAlias>(new HM::DomainAlias);
+   
+      pDA->SetDomainID(m_pDomainAliases->GetDomainID());
+   
+      pIntDA->AttachItem(pDA);
+      pIntDA->AttachParent(m_pDomainAliases, false);
+   
+      pIntDA->AddRef();
+   
+      *pVal = pIntDA;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAliases::Refresh(void)
 {
-   m_pDomainAliases->Refresh();
+   try
+   {
+      if (!m_pDomainAliases)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pDomainAliases->Refresh();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAliases::Delete(LONG Index)
 {
-   m_pDomainAliases->DeleteItem(Index);
+   try
+   {
+      if (!m_pDomainAliases)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pDomainAliases->DeleteItem(Index);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAliases::DeleteByDBID(LONG DBID)
 {
-   m_pDomainAliases->DeleteItemByDBID(DBID);
+   try
+   {
+      if (!m_pDomainAliases)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pDomainAliases->DeleteItemByDBID(DBID);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAliases::get_Count(long *pVal)
 {
-   *pVal = m_pDomainAliases->GetCount();
+   try
+   {
+      if (!m_pDomainAliases)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pDomainAliases->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

@@ -11,36 +11,77 @@
 
 STDMETHODIMP InterfaceIPHome::Save()
 {
-   if (!m_pAuthentication->GetIsServerAdmin())
-      return m_pAuthentication->GetAccessDenied();
-
-   if (HM::PersistentIPHome::SaveObject(m_pObject))
+   try
    {
-      // Add to parent collection
-      AddToParentCollection();
+      if (!m_pObject)
+         return GetAccessDenied();
 
-      return S_OK;
+      if (!m_pAuthentication->GetIsServerAdmin())
+         return m_pAuthentication->GetAccessDenied();
+   
+      if (HM::PersistentIPHome::SaveObject(m_pObject))
+      {
+         // Add to parent collection
+         AddToParentCollection();
+   
+         return S_OK;
+      }
+   
+      return COMError::GenerateError("Failed to save object. See hMailServer error log.");
    }
-
-   return COMError::GenerateError("Failed to save object. See hMailServer error log.");
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceIPHome::get_ID(long *pVal)
 {
-   *pVal = (long) m_pObject->GetID();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = (long) m_pObject->GetID();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceIPHome::get_IPAddress(BSTR *pVal)
 {
-   *pVal = m_pObject->GetIPAddressString().AllocSysString();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pObject->GetIPAddressString().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceIPHome::put_IPAddress(BSTR newVal)
 {
-   m_pObject->SetIPAddressString(newVal);
-   return S_OK;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      m_pObject->SetIPAddressString(newVal);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+

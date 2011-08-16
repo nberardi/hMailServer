@@ -18,93 +18,196 @@ long InterfaceAlias::counter = 0;
 
 STDMETHODIMP InterfaceAlias::InterfaceSupportsErrorInfo(REFIID riid)
 {
-   static const IID* arr[] = 
+   try
    {
-      &IID_IInterfaceAlias,
-   };
-
-   for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
-   {
-      if (InlineIsEqualGUID(*arr[i],riid))
-         return S_OK;
+      static const IID* arr[] = 
+      {
+         &IID_IInterfaceAlias,
+      };
+   
+      for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
+      {
+         if (InlineIsEqualGUID(*arr[i],riid))
+            return S_OK;
+      }
+      return S_FALSE;
    }
-   return S_FALSE;
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceAlias::get_Active(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pObject->GetIsActive() ? VARIANT_TRUE : VARIANT_FALSE;
-   return S_OK;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      *pVal = m_pObject->GetIsActive() ? VARIANT_TRUE : VARIANT_FALSE;
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAlias::put_Active(VARIANT_BOOL newVal)
 {
-   m_pObject->SetIsActive(newVal == VARIANT_TRUE);
-   return S_OK;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      m_pObject->SetIsActive(newVal == VARIANT_TRUE);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAlias::get_DomainID(long *pVal)
 {
-   *pVal = (long) m_pObject->GetDomainID();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = (long) m_pObject->GetDomainID();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAlias::put_DomainID(LONG newVal)
 {
-   // Only here for backwards compatibility (4.x)
-   return S_OK;
-}
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
+      // Only here for backwards compatibility (4.x)
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
 
 STDMETHODIMP InterfaceAlias::get_Name(BSTR *pVal)
 {
-   *pVal = m_pObject->GetName().AllocSysString();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pObject->GetName().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAlias::put_Name(BSTR newVal)
 {
-   m_pObject->SetName(newVal);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pObject->SetName(newVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceAlias::get_Value(BSTR *pVal)
 {
-   *pVal = m_pObject->GetValue().AllocSysString();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pObject->GetValue().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAlias::put_Value(BSTR newVal)
 {
-   m_pObject->SetValue(newVal);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pObject->SetValue(newVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAlias::Delete()
 {
-   HM::PersistentAlias::DeleteObject(m_pObject);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      HM::PersistentAlias::DeleteObject(m_pObject);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAlias::Save()
 {
-   HM::String sErrorMessage;
-   if (HM::PersistentAlias::SaveObject(m_pObject, sErrorMessage))
+   try
    {
-      // Add to parent collection
-      AddToParentCollection();
-      return S_OK;
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      HM::String sErrorMessage;
+      if (HM::PersistentAlias::SaveObject(m_pObject, sErrorMessage))
+      {
+         // Add to parent collection
+         AddToParentCollection();
+         return S_OK;
+      }
+   
+      return COMError::GenerateError("Failed to save object. " +  sErrorMessage);
    }
-
-   return COMError::GenerateError("Failed to save object. " +  sErrorMessage);
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 

@@ -28,7 +28,6 @@ InterfaceIMAPFolders::InterfaceSupportsErrorInfo(REFIID riid)
    return S_FALSE;
 }
 
-
 void
 InterfaceIMAPFolders::Attach(shared_ptr<HM::IMAPFolders> pFolders)
 {
@@ -38,118 +37,179 @@ InterfaceIMAPFolders::Attach(shared_ptr<HM::IMAPFolders> pFolders)
 STDMETHODIMP 
 InterfaceIMAPFolders::get_Count(long *pVal)
 {
-   *pVal = m_pObject->GetCount();
-   return S_OK;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      *pVal = m_pObject->GetCount();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceIMAPFolders::get_Item(long Index, IInterfaceIMAPFolder **pVal)
 {
-   CComObject<InterfaceIMAPFolder>* pIMAPFolderInt = new CComObject<InterfaceIMAPFolder>();
-   pIMAPFolderInt->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   shared_ptr<HM::IMAPFolder> pIMAPFolder = m_pObject->GetItem(Index);
-
-   if (!pIMAPFolder)
-      return DISP_E_BADINDEX;  
-
-   pIMAPFolderInt->Attach(pIMAPFolder);
-   pIMAPFolderInt->AttachParent(m_pObject, true);
-   pIMAPFolderInt->AddRef();
-   *pVal = pIMAPFolderInt;
-
-   return S_OK;
+      CComObject<InterfaceIMAPFolder>* pIMAPFolderInt = new CComObject<InterfaceIMAPFolder>();
+      pIMAPFolderInt->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::IMAPFolder> pIMAPFolder = m_pObject->GetItem(Index);
+   
+      if (!pIMAPFolder)
+         return DISP_E_BADINDEX;  
+   
+      pIMAPFolderInt->Attach(pIMAPFolder);
+      pIMAPFolderInt->AttachParent(m_pObject, true);
+      pIMAPFolderInt->AddRef();
+      *pVal = pIMAPFolderInt;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceIMAPFolders::get_ItemByDBID(long DBID, IInterfaceIMAPFolder **pVal)
 {
-   CComObject<InterfaceIMAPFolder>* pIMAPFolderInt = new CComObject<InterfaceIMAPFolder>();
-   pIMAPFolderInt->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   shared_ptr<HM::IMAPFolder> pIMAPFolder = m_pObject->GetItemByDBID(DBID);
-
-   if (!pIMAPFolder)
-      return DISP_E_BADINDEX;  
-
-   pIMAPFolderInt->Attach(pIMAPFolder);
-   pIMAPFolderInt->AttachParent(m_pObject, true);
-   pIMAPFolderInt->AddRef();
-   *pVal = pIMAPFolderInt;
-
-   return S_OK;
+      CComObject<InterfaceIMAPFolder>* pIMAPFolderInt = new CComObject<InterfaceIMAPFolder>();
+      pIMAPFolderInt->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::IMAPFolder> pIMAPFolder = m_pObject->GetItemByDBID(DBID);
+   
+      if (!pIMAPFolder)
+         return DISP_E_BADINDEX;  
+   
+      pIMAPFolderInt->Attach(pIMAPFolder);
+      pIMAPFolderInt->AttachParent(m_pObject, true);
+      pIMAPFolderInt->AddRef();
+      *pVal = pIMAPFolderInt;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceIMAPFolders::get_ItemByName(BSTR sName, IInterfaceIMAPFolder **pVal)
 {
-   CComObject<InterfaceIMAPFolder>* pIMAPFolderInt = new CComObject<InterfaceIMAPFolder>();
-   pIMAPFolderInt->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   HM::String sUnicode (sName);
-   HM::AnsiString sFolderName = HM::ModifiedUTF7::Encode(sUnicode);
-
-   shared_ptr<HM::IMAPFolder> pIMAPFolder = m_pObject->GetFolderByName(sFolderName);
-
-   if (!pIMAPFolder)
-      return DISP_E_BADINDEX;
-
-   pIMAPFolderInt->Attach(pIMAPFolder);
-   pIMAPFolderInt->AttachParent(m_pObject, true);
-   pIMAPFolderInt->AddRef();
-   *pVal = pIMAPFolderInt;
-
-   return S_OK;
+      CComObject<InterfaceIMAPFolder>* pIMAPFolderInt = new CComObject<InterfaceIMAPFolder>();
+      pIMAPFolderInt->SetAuthentication(m_pAuthentication);
+   
+      HM::String sUnicode (sName);
+      HM::AnsiString sFolderName = HM::ModifiedUTF7::Encode(sUnicode);
+   
+      shared_ptr<HM::IMAPFolder> pIMAPFolder = m_pObject->GetFolderByName(sFolderName);
+   
+      if (!pIMAPFolder)
+         return DISP_E_BADINDEX;
+   
+      pIMAPFolderInt->Attach(pIMAPFolder);
+      pIMAPFolderInt->AttachParent(m_pObject, true);
+      pIMAPFolderInt->AddRef();
+      *pVal = pIMAPFolderInt;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceIMAPFolders::DeleteByDBID(long lDBID)
 {
-   // Check that it does not exist.
-   if (!m_pObject->DeleteItemByDBID(lDBID))
-      return DISP_E_BADINDEX;
-   
-   return S_OK;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      // Check that it does not exist.
+      if (!m_pObject->DeleteItemByDBID(lDBID))
+         return DISP_E_BADINDEX;
+      
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceIMAPFolders::Add(BSTR sName, IInterfaceIMAPFolder **pVal)
 {
-   // Convert the modified UTF7 string into unicode.
-   // Since hMailServer core don't know unicode, we
-   // have to do it out here in the interface.
-   HM::String sUnicode (sName);
-   HM::AnsiString sFolderName = HM::ModifiedUTF7::Encode(sUnicode);
-
-   CComObject<InterfaceIMAPFolder>* pIMAPFolderInt = new CComObject<InterfaceIMAPFolder>();
-   pIMAPFolderInt->SetAuthentication(m_pAuthentication);
-
-   // Check that it does not exist.
-   shared_ptr<HM::IMAPFolder> pIMAPFolder = m_pObject->GetFolderByName(sFolderName);
-
-   if (pIMAPFolder)
-      return COMError::GenerateError("Folder with specified name already exists");
-
-   pIMAPFolder = shared_ptr<HM::IMAPFolder>(new HM::IMAPFolder(m_pObject->GetAccountID(), m_pObject->GetParentID()));
-   pIMAPFolder->SetFolderName(sFolderName);
-
-   // We auto-subscribe to public folders.
-   if (m_pObject->GetAccountID() == 0)
-      pIMAPFolder->SetIsSubscribed(true);
-
-   if (!HM::PersistentIMAPFolder::SaveObject(pIMAPFolder))
+   try
    {
-      return COMError::GenerateError("Folder could not be saved.");
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      // Convert the modified UTF7 string into unicode.
+      // Since hMailServer core don't know unicode, we
+      // have to do it out here in the interface.
+      HM::String sUnicode (sName);
+      HM::AnsiString sFolderName = HM::ModifiedUTF7::Encode(sUnicode);
+   
+      CComObject<InterfaceIMAPFolder>* pIMAPFolderInt = new CComObject<InterfaceIMAPFolder>();
+      pIMAPFolderInt->SetAuthentication(m_pAuthentication);
+   
+      // Check that it does not exist.
+      shared_ptr<HM::IMAPFolder> pIMAPFolder = m_pObject->GetFolderByName(sFolderName);
+   
+      if (pIMAPFolder)
+         return COMError::GenerateError("Folder with specified name already exists");
+   
+      pIMAPFolder = shared_ptr<HM::IMAPFolder>(new HM::IMAPFolder(m_pObject->GetAccountID(), m_pObject->GetParentID()));
+      pIMAPFolder->SetFolderName(sFolderName);
+   
+      // We auto-subscribe to public folders.
+      if (m_pObject->GetAccountID() == 0)
+         pIMAPFolder->SetIsSubscribed(true);
+   
+      if (!HM::PersistentIMAPFolder::SaveObject(pIMAPFolder))
+      {
+         return COMError::GenerateError("Folder could not be saved.");
+      }
+   
+      // Add the folder ot the collection.
+      m_pObject->AddItem(pIMAPFolder);
+   
+      pIMAPFolderInt->AttachParent(m_pObject, true);
+      pIMAPFolderInt->Attach(pIMAPFolder);
+      pIMAPFolderInt->AddRef();
+   
+      *pVal = pIMAPFolderInt;
+   
+      return S_OK;
    }
-
-   // Add the folder ot the collection.
-   m_pObject->AddItem(pIMAPFolder);
-
-   pIMAPFolderInt->AttachParent(m_pObject, true);
-   pIMAPFolderInt->Attach(pIMAPFolder);
-   pIMAPFolderInt->AddRef();
-
-   *pVal = pIMAPFolderInt;
-
-   return S_OK;
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+

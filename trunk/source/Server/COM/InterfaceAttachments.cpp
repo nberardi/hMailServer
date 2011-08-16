@@ -10,20 +10,27 @@
 
 STDMETHODIMP InterfaceAttachments::InterfaceSupportsErrorInfo(REFIID riid)
 {
-   static const IID* arr[] = 
+   try
    {
-      &IID_IInterfaceAttachments,
-   };
-
-   for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
-   {
-      if (InlineIsEqualGUID(*arr[i],riid))
-         return S_OK;
+      static const IID* arr[] = 
+      {
+         &IID_IInterfaceAttachments,
+      };
+   
+      for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
+      {
+         if (InlineIsEqualGUID(*arr[i],riid))
+            return S_OK;
+      }
+      return S_FALSE;
    }
-   return S_FALSE;
-}
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 
-
+}   
+   
 void
 InterfaceAttachments::Attach(shared_ptr<HM::Attachments> pAttachments)
 {
@@ -32,43 +39,82 @@ InterfaceAttachments::Attach(shared_ptr<HM::Attachments> pAttachments)
 
 STDMETHODIMP InterfaceAttachments::get_Count(long *pVal)
 {
-   *pVal = (int) m_pAttachments->GetCount();
-   return S_OK;
+   try
+   {
+      if (!m_pAttachments)
+         return GetAccessDenied();
+
+      *pVal = (int) m_pAttachments->GetCount();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAttachments::get_Item(long Index, IInterfaceAttachment **pVal)
 {
-   CComObject<InterfaceAttachment>* pInterfaceAttachment = new CComObject<InterfaceAttachment>();
-   pInterfaceAttachment->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pAttachments)
+         return GetAccessDenied();
 
-   shared_ptr<HM::Attachment> pAttachment = m_pAttachments->GetItem(Index);
-
-   if (!pAttachment)
-      return DISP_E_BADINDEX;  
-
-   pInterfaceAttachment->Attach(pAttachment);
-   pInterfaceAttachment->AddRef();
-   *pVal = pInterfaceAttachment;
-
-   return S_OK;
+      CComObject<InterfaceAttachment>* pInterfaceAttachment = new CComObject<InterfaceAttachment>();
+      pInterfaceAttachment->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::Attachment> pAttachment = m_pAttachments->GetItem(Index);
+   
+      if (!pAttachment)
+         return DISP_E_BADINDEX;  
+   
+      pInterfaceAttachment->Attach(pAttachment);
+      pInterfaceAttachment->AddRef();
+      *pVal = pInterfaceAttachment;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP 
 InterfaceAttachments::Clear()
 {
-   m_pAttachments->Clear();
-   return S_OK;
+   try
+   {
+      if (!m_pAttachments)
+         return GetAccessDenied();
+
+      m_pAttachments->Clear();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceAttachments::Add(BSTR sFilename)
 {
-   if (!m_pAttachments->Add(sFilename))
+   try
    {
-      return COMError::GenerateError("Failed to attach file.");
-   }
+      if (!m_pAttachments)
+         return GetAccessDenied();
 
-   return S_OK;
+      if (!m_pAttachments->Add(sFilename))
+      {
+         return COMError::GenerateError("Failed to attach file.");
+      }
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 

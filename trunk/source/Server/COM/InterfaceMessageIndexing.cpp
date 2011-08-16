@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceMessageIndexing.h"
 
 #include "../Common/Persistence/PersistentMessage.h"
@@ -23,60 +24,110 @@ InterfaceMessageIndexing::LoadSettings()
 
 STDMETHODIMP InterfaceMessageIndexing::get_Enabled(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetMessageIndexing() ? VARIANT_TRUE : VARIANT_FALSE;
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pConfig->GetMessageIndexing() ? VARIANT_TRUE : VARIANT_FALSE;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceMessageIndexing::put_Enabled(VARIANT_BOOL newVal)
 {
-   m_pConfig->SetMessageIndexing(newVal == VARIANT_TRUE);
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pConfig->SetMessageIndexing(newVal == VARIANT_TRUE);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceMessageIndexing::get_TotalMessageCount(long *pVal)
 {
-   if (!GetIsServerAdmin())
-      return false;
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
 
-   *pVal = HM::PersistentMessage::GetTotalMessageCountDelivered();
-
-   return S_OK;
+      if (!GetIsServerAdmin())
+         return false;
+   
+      *pVal = HM::PersistentMessage::GetTotalMessageCountDelivered();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceMessageIndexing::get_TotalIndexedCount(long *pVal)
 {
-   if (!GetIsServerAdmin())
-      return false;
-
-   HM::PersistentMessageMetaData md;
-   *pVal = md.GetTotalMessageCount();
-
-   return S_OK;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return false;
+   
+      HM::PersistentMessageMetaData md;
+      *pVal = md.GetTotalMessageCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
-
 
 STDMETHODIMP InterfaceMessageIndexing::Clear()
 {
-   if (!GetIsServerAdmin())
-      return false;
-
-   HM::PersistentMessageMetaData md;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return false;
    
-   md.Clear();
-
-   return S_OK;
+      HM::PersistentMessageMetaData md;
+      
+      md.Clear();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceMessageIndexing::Index()
 {
-   if (!GetIsServerAdmin())
-      return false;
-
-   HM::MessageIndexer::IndexNow();
-
-   return S_OK;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return false;
+   
+      HM::MessageIndexer::IndexNow();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

@@ -14,78 +14,154 @@
 
 STDMETHODIMP InterfaceDomainAlias::InterfaceSupportsErrorInfo(REFIID riid)
 {
-   static const IID* arr[] = 
+   try
    {
-      &IID_IInterfaceDomainAlias,
-   };
-
-   for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
-   {
-      if (InlineIsEqualGUID(*arr[i],riid))
-         return S_OK;
+      static const IID* arr[] = 
+      {
+         &IID_IInterfaceDomainAlias,
+      };
+   
+      for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
+      {
+         if (InlineIsEqualGUID(*arr[i],riid))
+            return S_OK;
+      }
+      return S_FALSE;
    }
-   return S_FALSE;
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAlias::get_ID(LONG* pVal)
 {
-   *pVal = (long) m_pObject->GetID();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = (long) m_pObject->GetID();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAlias::get_DomainID(LONG* pVal)
 {
-   *pVal = (long) m_pObject->GetDomainID();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = (long) m_pObject->GetDomainID();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAlias::get_AliasName(BSTR* pVal)
 {
-   *pVal = m_pObject->GetAlias().AllocSysString();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pObject->GetAlias().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAlias::put_AliasName(BSTR newVal)
 {
-   m_pObject->SetAlias(newVal);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pObject->SetAlias(newVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceDomainAlias::Save()
 {
-   HM::String sErrorMessage;
-   if (HM::PersistentDomainAlias::SaveObject(m_pObject, sErrorMessage))
+   try
    {
-      // Add to parent collection
-      AddToParentCollection();
+      if (!m_pObject)
+         return GetAccessDenied();
 
-      return S_OK;
+      HM::String sErrorMessage;
+      if (HM::PersistentDomainAlias::SaveObject(m_pObject, sErrorMessage))
+      {
+         // Add to parent collection
+         AddToParentCollection();
+   
+         return S_OK;
+      }
+   
+      return COMError::GenerateError("Failed to save object. " +  sErrorMessage);
    }
-
-   return COMError::GenerateError("Failed to save object. " +  sErrorMessage);
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDomainAlias::put_DomainID(LONG newVal)
 {
-   // Only here for backwards compatibility (4.x)
-   return S_OK;
-}
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
+      // Only here for backwards compatibility (4.x)
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
 
 STDMETHODIMP InterfaceDomainAlias::Delete()
 {
-   if (!m_pAuthentication->GetIsDomainAdmin())
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   if (!m_pParentCollection)
-      return HM::PersistentDomainAlias::DeleteObject(m_pObject) ? S_OK : S_FALSE;
-
-   m_pParentCollection->DeleteItemByDBID(m_pObject->GetID());
-
-   return S_OK;
+      if (!m_pAuthentication->GetIsDomainAdmin())
+         return m_pAuthentication->GetAccessDenied();
+   
+      if (!m_pParentCollection)
+         return HM::PersistentDomainAlias::DeleteObject(m_pObject) ? S_OK : S_FALSE;
+   
+      m_pParentCollection->DeleteItemByDBID(m_pObject->GetID());
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+

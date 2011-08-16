@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceMessageHeader.h"
 
 #include "../Common/Mime/Mime.h"
@@ -17,37 +18,73 @@ InterfaceMessageHeader::AttachItem (shared_ptr<HM::MimeHeader> pHeader, HM::Mime
 STDMETHODIMP 
 InterfaceMessageHeader::Delete()
 {
-   m_pHeader->DeleteField(m_pObject);
-   return S_OK;
+   try
+   {
+      m_pHeader->DeleteField(m_pObject);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceMessageHeader::put_Name(BSTR newVal)
 {
-   HM::AnsiString sName = newVal;
-   m_pObject->SetName(sName);
-
-   return S_OK;
+   try
+   {
+      HM::AnsiString sName = newVal;
+      m_pObject->SetName(sName);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceMessageHeader::get_Name(BSTR *pVal)
 {
-   HM::String sName = m_pObject->GetName();
-   *pVal = sName.AllocSysString();
-   return S_OK;
+   try
+   {
+      HM::String sName = m_pObject->GetName();
+      *pVal = sName.AllocSysString();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceMessageHeader::put_Value(BSTR newVal)
 {
-   HM::AnsiString sValue = newVal;
-   m_pObject->SetValue(sValue);
-   return S_OK;
+   try
+   {
+      HM::AnsiString sValue = newVal;
+      m_pObject->SetValue(sValue);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceMessageHeader::get_Value(BSTR *pVal)
 {
-   HM::String sValue = m_pObject->GetValue();
-   *pVal = sValue.AllocSysString();
-
-   return S_OK;
+   try
+   {
+      HM::String sValue = m_pObject->GetValue();
+      *pVal = sValue.AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

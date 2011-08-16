@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceBackupSettings.h"
 
 #include "../common/Application/IniFileSettings.h"
@@ -20,85 +21,195 @@ InterfaceBackupSettings::LoadSettings()
 
 STDMETHODIMP InterfaceBackupSettings::get_Destination(BSTR *pVal)
 {
-   *pVal = m_pConfig->GetBackupDestination().AllocSysString();
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pConfig->GetBackupDestination().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceBackupSettings::put_Destination(BSTR newVal)
 {
-   m_pConfig->SetBackupDestination(newVal);
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pConfig->SetBackupDestination(newVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceBackupSettings::get_LogFile(BSTR *pVal)
 {
-   HM::String sLogDir = m_pIniFileSettings->GetLogDirectory();
-   if (sLogDir.Right(1) != _T("\\"))
-      sLogDir += "\\";
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
 
-   sLogDir += "hmailserver_backup.log";
-
-   *pVal = sLogDir.AllocSysString();
+      HM::String sLogDir = m_pIniFileSettings->GetLogDirectory();
+      if (sLogDir.Right(1) != _T("\\"))
+         sLogDir += "\\";
    
-   return S_OK;
+      sLogDir += "hmailserver_backup.log";
+   
+      *pVal = sLogDir.AllocSysString();
+      
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP
 InterfaceBackupSettings::get_BackupSettings(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetBackupOption(HM::Backup::BOSettings) ? VARIANT_TRUE : VARIANT_FALSE;
-   return S_OK;
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
+
+      *pVal = m_pConfig->GetBackupOption(HM::Backup::BOSettings) ? VARIANT_TRUE : VARIANT_FALSE;
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP
 InterfaceBackupSettings::put_BackupSettings(VARIANT_BOOL newVal)
 {
-   m_pConfig->SetBackupOption(HM::Backup::BOSettings, newVal == VARIANT_TRUE);
-   return S_OK;
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
+
+      m_pConfig->SetBackupOption(HM::Backup::BOSettings, newVal == VARIANT_TRUE);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP
 InterfaceBackupSettings::get_BackupDomains(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetBackupOption(HM::Backup::BODomains) ? VARIANT_TRUE : VARIANT_FALSE;
-   return S_OK;
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
+
+      *pVal = m_pConfig->GetBackupOption(HM::Backup::BODomains) ? VARIANT_TRUE : VARIANT_FALSE;
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP
 InterfaceBackupSettings::put_BackupDomains(VARIANT_BOOL newVal)
 {
-   m_pConfig->SetBackupOption(HM::Backup::BODomains, newVal == VARIANT_TRUE);
-   return S_OK;
-}
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
 
+      m_pConfig->SetBackupOption(HM::Backup::BODomains, newVal == VARIANT_TRUE);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
 
 STDMETHODIMP
 InterfaceBackupSettings::get_BackupMessages(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetBackupOption(HM::Backup::BOMessages) ? VARIANT_TRUE : VARIANT_FALSE;
-   return S_OK;
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
+
+      *pVal = m_pConfig->GetBackupOption(HM::Backup::BOMessages) ? VARIANT_TRUE : VARIANT_FALSE;
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP
 InterfaceBackupSettings::put_BackupMessages(VARIANT_BOOL newVal)
 {
-   m_pConfig->SetBackupOption(HM::Backup::BOMessages, newVal == VARIANT_TRUE);
-   return S_OK;
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
+
+      m_pConfig->SetBackupOption(HM::Backup::BOMessages, newVal == VARIANT_TRUE);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP
 InterfaceBackupSettings::get_CompressDestinationFiles(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pConfig->GetBackupOption(HM::Backup::BOCompression) ? VARIANT_TRUE : VARIANT_FALSE;
-   return S_OK;
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
+
+      *pVal = m_pConfig->GetBackupOption(HM::Backup::BOCompression) ? VARIANT_TRUE : VARIANT_FALSE;
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP
 InterfaceBackupSettings::put_CompressDestinationFiles(VARIANT_BOOL newVal)
 {
-   m_pConfig->SetBackupOption(HM::Backup::BOCompression, newVal == VARIANT_TRUE);
-   return S_OK;
+   try
+   {
+      if (!m_pConfig)
+         return GetAccessDenied();
+
+      m_pConfig->SetBackupOption(HM::Backup::BOCompression, newVal == VARIANT_TRUE);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

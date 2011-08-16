@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceGroupMember.h"
 #include "InterfaceAccount.h"
 
@@ -16,78 +17,159 @@
 STDMETHODIMP 
 InterfaceGroupMember::Save()
 {
-   if (HM::PersistentGroupMember::SaveObject(m_pObject))
+   try
    {
-      // Add to parent collection
-      AddToParentCollection();
-   }
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      if (HM::PersistentGroupMember::SaveObject(m_pObject))
+      {
+         // Add to parent collection
+         AddToParentCollection();
+      }
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceGroupMember::get_ID(long *pVal)
 {
-   *pVal = (long) m_pObject->GetID();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = (long) m_pObject->GetID();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceGroupMember::get_GroupID(long *pVal)
 {
-   *pVal = (long) m_pObject->GetGroupID();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = (long) m_pObject->GetGroupID();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceGroupMember::put_GroupID(long iVal)
 {
-   m_pObject->SetGroupID(iVal);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pObject->SetGroupID(iVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceGroupMember::get_AccountID(long *pVal)
 {
-   *pVal = (long) m_pObject->GetAccountID();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = (long) m_pObject->GetAccountID();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceGroupMember::put_AccountID(long iVal)
 {
-   m_pObject->SetAccountID(iVal);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pObject->SetAccountID(iVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceGroupMember::get_Account(IInterfaceAccount **pVal)
 {
-   CComObject<InterfaceAccount>* pInterfaceAccount = new CComObject<InterfaceAccount>();
-   pInterfaceAccount->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   shared_ptr<HM::Account> pAccount = shared_ptr<HM::Account>(new HM::Account);
-      
-   if (!HM::PersistentAccount::ReadObject(pAccount, (__int64) m_pObject->GetAccountID()))
-      return DISP_E_BADINDEX;
-
-   pInterfaceAccount->AttachItem(pAccount);
-   pInterfaceAccount->AddRef();
-   *pVal = pInterfaceAccount;
-
-   return S_OK;
+      CComObject<InterfaceAccount>* pInterfaceAccount = new CComObject<InterfaceAccount>();
+      pInterfaceAccount->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::Account> pAccount = shared_ptr<HM::Account>(new HM::Account);
+         
+      if (!HM::PersistentAccount::ReadObject(pAccount, (__int64) m_pObject->GetAccountID()))
+         return DISP_E_BADINDEX;
+   
+      pInterfaceAccount->AttachItem(pAccount);
+      pInterfaceAccount->AddRef();
+      *pVal = pInterfaceAccount;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceGroupMember::Delete()
 {
-   if (!m_pAuthentication->GetIsDomainAdmin())
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   if (!m_pParentCollection)
-      return HM::PersistentGroupMember::DeleteObject(m_pObject) ? S_OK : S_FALSE;
-
-   m_pParentCollection->DeleteItemByDBID(m_pObject->GetID());
-
-   return S_OK;
+      if (!m_pAuthentication->GetIsDomainAdmin())
+         return m_pAuthentication->GetAccessDenied();
+   
+      if (!m_pParentCollection)
+         return HM::PersistentGroupMember::DeleteObject(m_pObject) ? S_OK : S_FALSE;
+   
+      m_pParentCollection->DeleteItemByDBID(m_pObject->GetID());
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

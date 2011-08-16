@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "..\COM\InterfaceClient.h"
 
 #include "../Common/Application/ClientInfo.h"
@@ -16,19 +17,41 @@ InterfaceClient::AttachItem(shared_ptr<HM::ClientInfo> pClientInfo)
 
 STDMETHODIMP InterfaceClient::get_Port(long *pVal)
 {
-   *pVal = m_pClientInfo->GetPort();
-   return S_OK;
+   try
+   {
+      *pVal = m_pClientInfo->GetPort();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceClient::get_IPAddress(BSTR *pVal)
 {
-   *pVal = m_pClientInfo->GetIPAddress().AllocSysString();
-   return S_OK;
+   try
+   {
+      *pVal = m_pClientInfo->GetIPAddress().AllocSysString();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceClient::get_Username(BSTR *pVal)
 {
-   *pVal = m_pClientInfo->GetUsername().AllocSysString();
-   return S_OK;
+   try
+   {
+      *pVal = m_pClientInfo->GetUsername().AllocSysString();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
 

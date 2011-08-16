@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceRecipients.h"
 #include "InterfaceRecipient.h"
 
@@ -21,30 +22,50 @@ InterfaceRecipients::Attach(shared_ptr<HM::Message> pMessage)
 STDMETHODIMP 
 InterfaceRecipients::get_Count(long *pVal)
 {
-   std::vector<shared_ptr<HM::MessageRecipient> > vecRecipients = m_pMessage->GetRecipients()->GetVector();
+   try
+   {
+      if (!m_pMessage)
+         return GetAccessDenied();
 
-   *pVal = (int) vecRecipients.size();
-   return S_OK;
+      std::vector<shared_ptr<HM::MessageRecipient> > vecRecipients = m_pMessage->GetRecipients()->GetVector();
+   
+      *pVal = (int) vecRecipients.size();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceRecipients::get_Item(long Index, IInterfaceRecipient **pVal)
 {
-   CComObject<InterfaceRecipient>* pInterfaceRecipient = new CComObject<InterfaceRecipient>();
-   pInterfaceRecipient->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pMessage)
+         return GetAccessDenied();
 
-   std::vector<shared_ptr<HM::MessageRecipient> > vecRecipients = m_pMessage->GetRecipients()->GetVector();
-
-   if (Index >= (long) vecRecipients.size())
-      return DISP_E_BADINDEX;
-
-   shared_ptr<HM::MessageRecipient> pRecipient = vecRecipients[Index];
-
-   pInterfaceRecipient->AttachItem(pRecipient);
-   pInterfaceRecipient->AddRef();
-   *pVal = pInterfaceRecipient;
-
-   return S_OK;
+      CComObject<InterfaceRecipient>* pInterfaceRecipient = new CComObject<InterfaceRecipient>();
+      pInterfaceRecipient->SetAuthentication(m_pAuthentication);
+   
+      std::vector<shared_ptr<HM::MessageRecipient> > vecRecipients = m_pMessage->GetRecipients()->GetVector();
+   
+      if (Index >= (long) vecRecipients.size())
+         return DISP_E_BADINDEX;
+   
+      shared_ptr<HM::MessageRecipient> pRecipient = vecRecipients[Index];
+   
+      pInterfaceRecipient->AttachItem(pRecipient);
+      pInterfaceRecipient->AddRef();
+      *pVal = pInterfaceRecipient;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 

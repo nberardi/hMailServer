@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 
 #include "InterfaceRuleActions.h"
 
@@ -20,86 +21,156 @@ InterfaceRuleActions::Attach(shared_ptr<HM::RuleActions> pActions)
 
 STDMETHODIMP InterfaceRuleActions::get_ItemByDBID(long lDBID, IInterfaceRuleAction** pVal)
 {
-   CComObject<InterfaceRuleAction>* pInterfaceRuleAction = new CComObject<InterfaceRuleAction>();
-   pInterfaceRuleAction->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pRuleActions)
+         return GetAccessDenied();
 
-   shared_ptr<HM::RuleAction> pRule = m_pRuleActions->GetItemByDBID(lDBID);
-   if (!pRule)
-      return DISP_E_BADINDEX;
-
-   pInterfaceRuleAction->AttachItem(pRule);
-   pInterfaceRuleAction->AttachParent(m_pRuleActions, true);
-   pInterfaceRuleAction->AddRef();
-   *pVal = pInterfaceRuleAction;   
-
-   return S_OK;
+      CComObject<InterfaceRuleAction>* pInterfaceRuleAction = new CComObject<InterfaceRuleAction>();
+      pInterfaceRuleAction->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::RuleAction> pRule = m_pRuleActions->GetItemByDBID(lDBID);
+      if (!pRule)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceRuleAction->AttachItem(pRule);
+      pInterfaceRuleAction->AttachParent(m_pRuleActions, true);
+      pInterfaceRuleAction->AddRef();
+      *pVal = pInterfaceRuleAction;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleActions::get_Item(long lIndex, IInterfaceRuleAction** pVal)
 {
-   CComObject<InterfaceRuleAction>* pInterfaceRuleAction = new CComObject<InterfaceRuleAction>();
-   pInterfaceRuleAction->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pRuleActions)
+         return GetAccessDenied();
 
-   shared_ptr<HM::RuleAction> pRule = m_pRuleActions->GetItem(lIndex);
-   if (!pRule)
-      return DISP_E_BADINDEX;
-
-   pInterfaceRuleAction->AttachItem(pRule);
-   pInterfaceRuleAction->AttachParent(m_pRuleActions, true);
-   pInterfaceRuleAction->AddRef();
-   *pVal = pInterfaceRuleAction;   
-
-   return S_OK;
+      CComObject<InterfaceRuleAction>* pInterfaceRuleAction = new CComObject<InterfaceRuleAction>();
+      pInterfaceRuleAction->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::RuleAction> pRule = m_pRuleActions->GetItem(lIndex);
+      if (!pRule)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceRuleAction->AttachItem(pRule);
+      pInterfaceRuleAction->AttachParent(m_pRuleActions, true);
+      pInterfaceRuleAction->AddRef();
+      *pVal = pInterfaceRuleAction;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleActions::get_Count(LONG* pVal)
 {
-   *pVal = m_pRuleActions->GetCount();
+   try
+   {
+      if (!m_pRuleActions)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pRuleActions->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleActions::Add(IInterfaceRuleAction** pVal)
 {
-   if (!m_pRuleActions)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pRuleActions)
+         return GetAccessDenied();
 
-   CComObject<InterfaceRuleAction>* pIntRA = new CComObject<InterfaceRuleAction>();
-   pIntRA->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::RuleAction> pRuleAction = shared_ptr<HM::RuleAction>(new HM::RuleAction);
-
-   pRuleAction->SetRuleID(m_pRuleActions->GetRuleID());
-
-   pIntRA->AttachItem(pRuleAction);
-   pIntRA->AttachParent(m_pRuleActions, false);
-   pIntRA->AddRef();
-
-   *pVal = pIntRA;
-
-   return S_OK;   
-
+      if (!m_pRuleActions)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceRuleAction>* pIntRA = new CComObject<InterfaceRuleAction>();
+      pIntRA->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::RuleAction> pRuleAction = shared_ptr<HM::RuleAction>(new HM::RuleAction);
+   
+      pRuleAction->SetRuleID(m_pRuleActions->GetRuleID());
+   
+      pIntRA->AttachItem(pRuleAction);
+      pIntRA->AttachParent(m_pRuleActions, false);
+      pIntRA->AddRef();
+   
+      *pVal = pIntRA;
+   
+      return S_OK;   
+   
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleActions::DeleteByDBID(LONG DBID)
 {
-   m_pRuleActions->DeleteItemByDBID(DBID);
+   try
+   {
+      if (!m_pRuleActions)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRuleActions->DeleteItemByDBID(DBID);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleActions::Delete(LONG DBID)
 {
-   m_pRuleActions->DeleteItem(DBID);
+   try
+   {
+      if (!m_pRuleActions)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRuleActions->DeleteItem(DBID);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRuleActions::Refresh(void)
 {
-   m_pRuleActions->Refresh();
+   try
+   {
+      if (!m_pRuleActions)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRuleActions->Refresh();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 

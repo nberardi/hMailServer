@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 
 #include "InterfaceAntiVirus.h"
 #include "InterfaceBlockedAttachments.h"
@@ -16,278 +17,582 @@ InterfaceAntiVirus::InterfaceAntiVirus() :
    
 }
 
-bool 
-InterfaceAntiVirus::LoadSettings()
-{
-   if (!GetIsServerAdmin())
-      return false;
-   return true;
-}
-
-
 STDMETHODIMP InterfaceAntiVirus::get_ClamWinEnabled(VARIANT_BOOL *pVal)
 {
-   *pVal = antiVirusConfiguration_.ClamWinEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.ClamWinEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_ClamWinEnabled(VARIANT_BOOL newVal)
 {
-   antiVirusConfiguration_.ClamWinEnabled (newVal == VARIANT_TRUE ? true : false);
-   return S_OK;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
+
+      antiVirusConfiguration_.ClamWinEnabled (newVal == VARIANT_TRUE ? true : false);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_ClamWinExecutable(BSTR *pVal)
 {
-   *pVal = antiVirusConfiguration_.ClamWinExecutable().AllocSysString();
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.ClamWinExecutable().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_ClamWinExecutable(BSTR newVal)
 {
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   antiVirusConfiguration_.ClamWinExecutable(newVal);
-
-   return S_OK;
+      antiVirusConfiguration_.ClamWinExecutable(newVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_ClamWinDBFolder(BSTR *pVal)
 {
-   *pVal = antiVirusConfiguration_.ClamWinDatabase().AllocSysString();
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.ClamWinDatabase().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_ClamWinDBFolder(BSTR newVal)
 {
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   antiVirusConfiguration_.ClamWinDatabase(newVal);
-
-   return S_OK;
+      antiVirusConfiguration_.ClamWinDatabase(newVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_CustomScannerEnabled(VARIANT_BOOL *pVal)
 {
-   *pVal = antiVirusConfiguration_.GetCustomScannerEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.GetCustomScannerEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_CustomScannerEnabled(VARIANT_BOOL newVal)
 {
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   antiVirusConfiguration_.SetCustomScannerEnabled (newVal == VARIANT_TRUE ? true : false);
-
-   return S_OK;
+      antiVirusConfiguration_.SetCustomScannerEnabled (newVal == VARIANT_TRUE ? true : false);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_CustomScannerExecutable(BSTR *pVal)
 {
-   *pVal = antiVirusConfiguration_.GetCustomScannerExecutable().AllocSysString();
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.GetCustomScannerExecutable().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_CustomScannerExecutable(BSTR newVal)
 {
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   antiVirusConfiguration_.SetCustomScannerExecutable(newVal);
-
-   return S_OK;
+      antiVirusConfiguration_.SetCustomScannerExecutable(newVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_CustomScannerReturnValue(long *pVal)
 {
-   *pVal = antiVirusConfiguration_.GetCustomScannerReturnValue();
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.GetCustomScannerReturnValue();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_CustomScannerReturnValue(long  newVal)
 {
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   antiVirusConfiguration_.SetCustomScannerReturnValue(newVal);
-
-   return S_OK;
+      antiVirusConfiguration_.SetCustomScannerReturnValue(newVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_Action(eAntivirusAction *pVal)
 {
-   switch (antiVirusConfiguration_.AVAction())
+   try
    {
-   case HM::AntiVirusConfiguration::ActionDelete:
-      *pVal = hDeleteEmail;
-      break;
-   case HM::AntiVirusConfiguration::ActionStripAttachments:
-      *pVal = hDeleteAttachments;
-      break;
-   }
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      switch (antiVirusConfiguration_.AVAction())
+      {
+      case HM::AntiVirusConfiguration::ActionDelete:
+         *pVal = hDeleteEmail;
+         break;
+      case HM::AntiVirusConfiguration::ActionStripAttachments:
+         *pVal = hDeleteAttachments;
+         break;
+      }
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_Action(eAntivirusAction newVal)
 {
-
-   HM::AntiVirusConfiguration::eAVAction iAction;
-   switch (newVal)
+   try
    {
-   case hDeleteEmail:
-      iAction = HM::AntiVirusConfiguration::ActionDelete;
-      break;
-   case hDeleteAttachments:
-      iAction = HM::AntiVirusConfiguration::ActionStripAttachments;
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
+
+      HM::AntiVirusConfiguration::eAVAction iAction;
+      switch (newVal)
+      {
+      case hDeleteEmail:
+         iAction = HM::AntiVirusConfiguration::ActionDelete;
+         break;
+      case hDeleteAttachments:
+         iAction = HM::AntiVirusConfiguration::ActionStripAttachments;
+      }
+   
+      antiVirusConfiguration_.AVAction (iAction);
+   
+      return S_OK;
    }
-
-   antiVirusConfiguration_.AVAction (iAction);
-
-   return S_OK;
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_NotifySender(VARIANT_BOOL *pVal)
 {
-   *pVal = antiVirusConfiguration_.AVNotifySender() ? VARIANT_TRUE : VARIANT_FALSE;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.AVNotifySender() ? VARIANT_TRUE : VARIANT_FALSE;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_NotifySender(VARIANT_BOOL newVal)
 {
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   antiVirusConfiguration_.AVNotifySender(newVal == VARIANT_TRUE ? true : false);
-
-   return S_OK;
+      antiVirusConfiguration_.AVNotifySender(newVal == VARIANT_TRUE ? true : false);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_NotifyReceiver(VARIANT_BOOL *pVal)
 {
-   *pVal = antiVirusConfiguration_.AVNotifyReceiver() ? VARIANT_TRUE : VARIANT_FALSE;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.AVNotifyReceiver() ? VARIANT_TRUE : VARIANT_FALSE;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_NotifyReceiver(VARIANT_BOOL newVal)
 {
-   antiVirusConfiguration_.AVNotifyReceiver(newVal == VARIANT_TRUE ? true : false);
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      antiVirusConfiguration_.AVNotifyReceiver(newVal == VARIANT_TRUE ? true : false);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_MaximumMessageSize(long *pVal)
 {
-   *pVal = antiVirusConfiguration_.GetVirusScanMaxSize();
-   return S_OK;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
+
+      *pVal = antiVirusConfiguration_.GetVirusScanMaxSize();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_MaximumMessageSize(long  newVal)
 {
-   antiVirusConfiguration_.SetVirusScanMaxSize(newVal);
-   return S_OK;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
+
+      antiVirusConfiguration_.SetVirusScanMaxSize(newVal);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_BlockedAttachments(IInterfaceBlockedAttachments **pVal)
 {
-   CComObject<InterfaceBlockedAttachments>* pInterface = new CComObject<InterfaceBlockedAttachments>;
-   pInterface->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   shared_ptr<HM::BlockedAttachments> pBlockedAttachments = HM::Configuration::Instance()->GetBlockedAttachments();
-
-   pInterface->Attach(pBlockedAttachments);
-   pInterface->AddRef();
-
-   *pVal = pInterface;
-
-   return S_OK;
+      CComObject<InterfaceBlockedAttachments>* pInterface = new CComObject<InterfaceBlockedAttachments>;
+      pInterface->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::BlockedAttachments> pBlockedAttachments = HM::Configuration::Instance()->GetBlockedAttachments();
+   
+      pInterface->Attach(pBlockedAttachments);
+      pInterface->AddRef();
+   
+      *pVal = pInterface;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_EnableAttachmentBlocking(VARIANT_BOOL newVal)
 {
-
-   antiVirusConfiguration_.SetEnableAttachmentBlocking(newVal == VARIANT_TRUE ? true : false);
-
-   return S_OK;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
+   
+      antiVirusConfiguration_.SetEnableAttachmentBlocking(newVal == VARIANT_TRUE ? true : false);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_EnableAttachmentBlocking(VARIANT_BOOL *pVal)
 {
-   *pVal = antiVirusConfiguration_.GetEnableAttachmentBlocking() ? VARIANT_TRUE : VARIANT_FALSE;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.GetEnableAttachmentBlocking() ? VARIANT_TRUE : VARIANT_FALSE;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_ClamAVEnabled(VARIANT_BOOL *pVal)
 {
-   *pVal = antiVirusConfiguration_.GetClamAVEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.GetClamAVEnabled() ? VARIANT_TRUE : VARIANT_FALSE;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_ClamAVEnabled(VARIANT_BOOL newVal)
 {
-   antiVirusConfiguration_.SetClamAVEnabled (newVal == VARIANT_TRUE ? true : false);
-   return S_OK;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
+
+      antiVirusConfiguration_.SetClamAVEnabled (newVal == VARIANT_TRUE ? true : false);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_ClamAVHost(BSTR *pVal)
 {
-   *pVal = antiVirusConfiguration_.GetClamAVHost().AllocSysString();
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.GetClamAVHost().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_ClamAVHost(BSTR host)
 {
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   antiVirusConfiguration_.SetClamAVHost(host);
-
-   return S_OK;
+   
+      antiVirusConfiguration_.SetClamAVHost(host);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::get_ClamAVPort(long *pVal)
 {
-   *pVal = antiVirusConfiguration_.GetClamAVPort();
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = antiVirusConfiguration_.GetClamAVPort();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::put_ClamAVPort(long newVal)
 {
-   antiVirusConfiguration_.SetClamAVPort(newVal);
-   return S_OK;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
+
+      antiVirusConfiguration_.SetClamAVPort(newVal);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::TestCustomerScanner(BSTR hostname, long port, BSTR *messageText, VARIANT_BOOL *pResult)
 {
-   HM::VirusScannerTester testClient;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   HM::String text;
-   *pResult = testClient.TestCustomVirusScanner(hostname, port, text) ? VARIANT_TRUE : VARIANT_FALSE;
-   *messageText = text.AllocSysString();
-
-   return S_OK;
+      HM::VirusScannerTester testClient;
+   
+      HM::String text;
+      *pResult = testClient.TestCustomVirusScanner(hostname, port, text) ? VARIANT_TRUE : VARIANT_FALSE;
+      *messageText = text.AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceAntiVirus::TestClamWinScanner(BSTR clamWinExecutable, BSTR clamWinDatabase, BSTR *messageText, VARIANT_BOOL *pResult)
 {
-   HM::VirusScannerTester testClient;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   HM::String text;
-   *pResult = testClient.TestClamWinVirusScanner(clamWinExecutable, clamWinDatabase, text) ? VARIANT_TRUE : VARIANT_FALSE;
-   *messageText = text.AllocSysString();
-
-   return S_OK;
+      HM::VirusScannerTester testClient;
+   
+      HM::String text;
+      *pResult = testClient.TestClamWinVirusScanner(clamWinExecutable, clamWinDatabase, text) ? VARIANT_TRUE : VARIANT_FALSE;
+      *messageText = text.AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceAntiVirus::TestClamAVScanner(BSTR hostname, long port, BSTR *messageText, VARIANT_BOOL *pResult)
 {
-   HM::VirusScannerTester testClient;
+   try
+   {
+      if (!GetIsServerAdmin())
+         return GetAccessDenied();
 
-   HM::String text;
-   *pResult = testClient.TestClamAVConnect(hostname, port, text) ? VARIANT_TRUE : VARIANT_FALSE;
-   *messageText = text.AllocSysString();
-
-   return S_OK;
+      HM::VirusScannerTester testClient;
+   
+      HM::String text;
+      *pResult = testClient.TestClamAVConnect(hostname, port, text) ? VARIANT_TRUE : VARIANT_FALSE;
+      *messageText = text.AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

@@ -12,47 +12,108 @@
 STDMETHODIMP 
 InterfaceServerMessage::Save()
 {
-   if (HM::PersistentServerMessage::SaveObject(m_pObject))
+   try
    {
-      // Add to parent collection
-      AddToParentCollection();
+      if (!m_pObject)
+         return GetAccessDenied();
 
-      return S_OK;
-   }
-
-   return COMError::GenerateError("Failed to save object. See hMailServer error log.");
+      if (HM::PersistentServerMessage::SaveObject(m_pObject))
+      {
+         // Add to parent collection
+         AddToParentCollection();
    
+         return S_OK;
+      }
+   
+      return COMError::GenerateError("Failed to save object. See hMailServer error log.");
+      
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceServerMessage::get_ID(long *pVal)
 {
-   *pVal = (long) m_pObject->GetID();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = (long) m_pObject->GetID();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceServerMessage::put_Name(BSTR newVal)
 {
-   m_pObject->SetName(newVal);
-   return S_OK;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      m_pObject->SetName(newVal);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceServerMessage::get_Name(BSTR *pVal)
 {
-   *pVal = m_pObject->GetName().AllocSysString();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pObject->GetName().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceServerMessage::put_Text(BSTR newVal)
 {
-   m_pObject->SetText(newVal);
-   return S_OK;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
+
+      m_pObject->SetText(newVal);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceServerMessage::get_Text(BSTR *pVal)
 {
-   *pVal = m_pObject->GetText().AllocSysString();
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pObject->GetText().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+

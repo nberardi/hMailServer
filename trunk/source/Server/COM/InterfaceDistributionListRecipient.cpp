@@ -12,80 +12,147 @@
 
 STDMETHODIMP InterfaceDistributionListRecipient::InterfaceSupportsErrorInfo(REFIID riid)
 {
-   static const IID* arr[] = 
+   try
    {
-      &IID_IInterfaceDistributionListRecipient,
-   };
-
-   for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
-   {
-      if (InlineIsEqualGUID(*arr[i],riid))
-         return S_OK;
+      static const IID* arr[] = 
+      {
+         &IID_IInterfaceDistributionListRecipient,
+      };
+   
+      for (int i=0;i<sizeof(arr)/sizeof(arr[0]);i++)
+      {
+         if (InlineIsEqualGUID(*arr[i],riid))
+            return S_OK;
+      }
+      return S_FALSE;
    }
-   return S_FALSE;
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDistributionListRecipient::get_ID(long *pVal)
 {
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-
-   *pVal = (long) m_pObject->GetID();
-
-   return S_OK;
+   
+   
+      *pVal = (long) m_pObject->GetID();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDistributionListRecipient::put_ID(long newVal)
 {
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-
-   m_pObject->SetID(newVal);
-
-   return S_OK;
+   
+   
+      m_pObject->SetID(newVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceDistributionListRecipient::get_RecipientAddress(BSTR *pVal)
 {
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-
-   HM::String sVal = m_pObject->GetAddress();
-   *pVal = sVal.AllocSysString();
-
-   return S_OK;
+   
+   
+      HM::String sVal = m_pObject->GetAddress();
+      *pVal = sVal.AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDistributionListRecipient::put_RecipientAddress(BSTR newVal)
 {
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-
-   HM::String sNewVal = newVal;
-   m_pObject->SetAddress(sNewVal);
-
-   return S_OK;
+   
+   
+      HM::String sNewVal = newVal;
+      m_pObject->SetAddress(sNewVal);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDistributionListRecipient::Delete()
 {
-   if (!m_pObject)
-      return S_FALSE;
+   try
+   {
+      if (!m_pObject)
+         return GetAccessDenied();
 
-   m_pParentCollection->DeleteItemByDBID(m_pObject->GetID());
-
-   return S_OK;
+      if (!m_pObject)
+         return S_FALSE;
+   
+      m_pParentCollection->DeleteItemByDBID(m_pObject->GetID());
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDistributionListRecipient::Save()
 {
-   if (!m_pObject)
-      return S_FALSE;
-
-   HM::String sErrorMessage;
-   if (HM::PersistentDistributionListRecipient::SaveObject(m_pObject, sErrorMessage))
+   try
    {
-      AddToParentCollection();
+      if (!m_pObject)
+         return GetAccessDenied();
 
-      return S_OK;
+      if (!m_pObject)
+         return S_FALSE;
+   
+      HM::String sErrorMessage;
+      if (HM::PersistentDistributionListRecipient::SaveObject(m_pObject, sErrorMessage))
+      {
+         AddToParentCollection();
+   
+         return S_OK;
+      }
+   
+      return COMError::GenerateError(sErrorMessage);
    }
-
-   return COMError::GenerateError(sErrorMessage);
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+

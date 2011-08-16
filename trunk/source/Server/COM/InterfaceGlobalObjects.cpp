@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceGlobalObjects.h"
 #include "InterfaceDeliveryQueue.h"
 #include "InterfaceLanguages.h"
@@ -30,27 +31,48 @@ InterfaceGlobalObjects::SetAuthentication(shared_ptr<HM::COMAuthentication> pAut
    m_pAuthentication = pAuthentication;
 }
 
-
 STDMETHODIMP InterfaceGlobalObjects::get_DeliveryQueue(IInterfaceDeliveryQueue **pVal)
 {
-   if (!m_pAuthentication->GetIsServerAdmin())
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pAuthentication)
+         return GetAccessDenied();
 
-   CComObject<InterfaceDeliveryQueue>* pInterfaceDeliveryQueue = new CComObject<InterfaceDeliveryQueue>;
-   pInterfaceDeliveryQueue->SetAuthentication(m_pAuthentication);
-
-   pInterfaceDeliveryQueue->AddRef();
-   *pVal = pInterfaceDeliveryQueue;
-
-   return S_OK;
+      if (!m_pAuthentication->GetIsServerAdmin())
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceDeliveryQueue>* pInterfaceDeliveryQueue = new CComObject<InterfaceDeliveryQueue>;
+      pInterfaceDeliveryQueue->SetAuthentication(m_pAuthentication);
+   
+      pInterfaceDeliveryQueue->AddRef();
+      *pVal = pInterfaceDeliveryQueue;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceGlobalObjects::get_Languages(IInterfaceLanguages **pVal)
 {
-   CComObject<InterfaceLanguages>* pLanguageInt = new CComObject<InterfaceLanguages>();
+   try
+   {
+      if (!m_pAuthentication)
+         return GetAccessDenied();
 
-   pLanguageInt->AddRef();
-   *pVal = pLanguageInt;
-
-   return S_OK;
+      CComObject<InterfaceLanguages>* pLanguageInt = new CComObject<InterfaceLanguages>();
+   
+      pLanguageInt->AddRef();
+      *pVal = pLanguageInt;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

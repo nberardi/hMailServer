@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceRoutes.h"
 
 #include "InterfaceRoute.h"
@@ -23,111 +24,181 @@ InterfaceRoutes::LoadSettings()
 
 STDMETHODIMP InterfaceRoutes::get_Count(long *pVal)
 {
-   *pVal = m_pRoutes->GetCount();
+   try
+   {
+      if (!m_pRoutes)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pRoutes->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRoutes::get_Item(long Index, IInterfaceRoute **pVal)
 {
-   CComObject<InterfaceRoute>* pInterfaceRoute = new CComObject<InterfaceRoute>();
-   pInterfaceRoute->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::Route> pRoute = m_pRoutes->GetItem(Index);
-
-   if (!pRoute)
-      return S_FALSE;
-
-   if (pRoute)
+   try
    {
-      pInterfaceRoute->AttachItem(pRoute);
-      pInterfaceRoute->AttachParent(m_pRoutes, true);
-      pInterfaceRoute->AddRef();
-      *pVal = pInterfaceRoute;
+      if (!m_pRoutes)
+         return GetAccessDenied();
+
+      CComObject<InterfaceRoute>* pInterfaceRoute = new CComObject<InterfaceRoute>();
+      pInterfaceRoute->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::Route> pRoute = m_pRoutes->GetItem(Index);
+   
+      if (!pRoute)
+         return S_FALSE;
+   
+      if (pRoute)
+      {
+         pInterfaceRoute->AttachItem(pRoute);
+         pInterfaceRoute->AttachParent(m_pRoutes, true);
+         pInterfaceRoute->AddRef();
+         *pVal = pInterfaceRoute;
+      }
+      else
+      {
+         return DISP_E_BADINDEX;  
+      }
+   
+   
+      return S_OK;
    }
-   else
+   catch (...)
    {
-      return DISP_E_BADINDEX;  
+      return COMError::GenerateGenericMessage();
    }
-
-
-   return S_OK;
 }
 
 STDMETHODIMP InterfaceRoutes::DeleteByDBID(long DBID)
 {
-   m_pRoutes->DeleteItemByDBID(DBID);
+   try
+   {
+      if (!m_pRoutes)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRoutes->DeleteItemByDBID(DBID);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRoutes::Add(IInterfaceRoute **pVal)
 {
-   if (!m_pRoutes)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pRoutes)
+         return GetAccessDenied();
 
-   CComObject<InterfaceRoute>* pRouteInterface = new CComObject<InterfaceRoute>();
-   pRouteInterface->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::Route> pRoute = shared_ptr<HM::Route>(new HM::Route);
-
-   pRouteInterface->AttachItem(pRoute);
-   pRouteInterface->AttachParent(m_pRoutes, false);
-
-   pRouteInterface->AddRef();
-   *pVal = pRouteInterface;
-
-   return S_OK;
+      if (!m_pRoutes)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceRoute>* pRouteInterface = new CComObject<InterfaceRoute>();
+      pRouteInterface->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::Route> pRoute = shared_ptr<HM::Route>(new HM::Route);
+   
+      pRouteInterface->AttachItem(pRoute);
+      pRouteInterface->AttachParent(m_pRoutes, false);
+   
+      pRouteInterface->AddRef();
+      *pVal = pRouteInterface;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceRoutes::get_ItemByName(BSTR ItemName, IInterfaceRoute **pVal)
 {
+   try
+   {
+      if (!m_pRoutes)
+         return GetAccessDenied();
 
-   CComObject<InterfaceRoute>* pRouteInterface = new CComObject<InterfaceRoute>();
-   pRouteInterface->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::Route> pRoute = m_pRoutes->GetItemByName(ItemName);
-   if (!pRoute)
-      return S_FALSE;
-
-   pRouteInterface->AttachItem(pRoute);
-   pRouteInterface->AttachParent(m_pRoutes, true);
-
-   pRouteInterface->AddRef();
-   *pVal = pRouteInterface;
-
-   return S_OK;
+   
+      CComObject<InterfaceRoute>* pRouteInterface = new CComObject<InterfaceRoute>();
+      pRouteInterface->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::Route> pRoute = m_pRoutes->GetItemByName(ItemName);
+      if (!pRoute)
+         return S_FALSE;
+   
+      pRouteInterface->AttachItem(pRoute);
+      pRouteInterface->AttachParent(m_pRoutes, true);
+   
+      pRouteInterface->AddRef();
+      *pVal = pRouteInterface;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceRoutes::get_ItemByDBID(long lDBID, IInterfaceRoute **pVal)
 {
-   CComObject<InterfaceRoute>* pRouteInterface = new CComObject<InterfaceRoute>();
-   pRouteInterface->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pRoutes)
+         return GetAccessDenied();
 
-   shared_ptr<HM::Route> pRoute = m_pRoutes->GetItemByDBID(lDBID);
-   if (!pRoute)
-      return S_FALSE;
-
-   pRouteInterface->AttachItem(pRoute);
-   pRouteInterface->AttachParent(m_pRoutes, true);
-
-   pRouteInterface->AddRef();
-   *pVal = pRouteInterface;
-
-   return S_OK;
+      CComObject<InterfaceRoute>* pRouteInterface = new CComObject<InterfaceRoute>();
+      pRouteInterface->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::Route> pRoute = m_pRoutes->GetItemByDBID(lDBID);
+      if (!pRoute)
+         return S_FALSE;
+   
+      pRouteInterface->AttachItem(pRoute);
+      pRouteInterface->AttachParent(m_pRoutes, true);
+   
+      pRouteInterface->AddRef();
+      *pVal = pRouteInterface;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceRoutes::Refresh()
 {
-   if (m_pRoutes)
-      m_pRoutes->Refresh();
-   else
-      return S_FALSE;
+   try
+   {
+      if (!m_pRoutes)
+         return GetAccessDenied();
 
-   return S_OK;
+      if (m_pRoutes)
+         m_pRoutes->Refresh();
+      else
+         return S_FALSE;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 

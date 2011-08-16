@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceRouteAddresses.h"
 #include "InterfaceRouteAddress.h"
 
@@ -14,92 +15,152 @@ InterfaceRouteAddresses::Attach(shared_ptr<HM::RouteAddresses> pRouteAddresses)
 STDMETHODIMP 
 InterfaceRouteAddresses::get_Count(long *pVal)
 {
-   *pVal = m_pRouteAddresses->GetCount();
+   try
+   {
+      if (!m_pRouteAddresses)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pRouteAddresses->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceRouteAddresses::get_Item(long Index, IInterfaceRouteAddress **pVal)
 {
-   CComObject<InterfaceRouteAddress>* pInterfaceRouteAddress = new CComObject<InterfaceRouteAddress>();
-   pInterfaceRouteAddress->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pRouteAddresses)
+         return GetAccessDenied();
 
-   shared_ptr<HM::RouteAddress> pRouteAddress = m_pRouteAddresses->GetItem(Index);
-
-   if (!pRouteAddress)
-      return DISP_E_BADINDEX;  
-
-   pInterfaceRouteAddress->AttachItem(pRouteAddress);
-   pInterfaceRouteAddress->AttachParent(m_pRouteAddresses, true);
-   pInterfaceRouteAddress->AddRef();
-   *pVal = pInterfaceRouteAddress;
-
-   return S_OK;
+      CComObject<InterfaceRouteAddress>* pInterfaceRouteAddress = new CComObject<InterfaceRouteAddress>();
+      pInterfaceRouteAddress->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::RouteAddress> pRouteAddress = m_pRouteAddresses->GetItem(Index);
+   
+      if (!pRouteAddress)
+         return DISP_E_BADINDEX;  
+   
+      pInterfaceRouteAddress->AttachItem(pRouteAddress);
+      pInterfaceRouteAddress->AttachParent(m_pRouteAddresses, true);
+      pInterfaceRouteAddress->AddRef();
+      *pVal = pInterfaceRouteAddress;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceRouteAddresses::DeleteByDBID(long DBID)
 {
-   m_pRouteAddresses->DeleteItemByDBID(DBID);
+   try
+   {
+      if (!m_pRouteAddresses)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRouteAddresses->DeleteItemByDBID(DBID);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceRouteAddresses::DeleteByAddress(BSTR bstrAddress)
 {
-   HM::String sAddress = bstrAddress;
-   m_pRouteAddresses->DeleteByAddress(sAddress);
+   try
+   {
+      if (!m_pRouteAddresses)
+         return GetAccessDenied();
 
-   return S_OK;
+      HM::String sAddress = bstrAddress;
+      m_pRouteAddresses->DeleteByAddress(sAddress);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP 
 InterfaceRouteAddresses::Add(IInterfaceRouteAddress **pVal)
 {
-   if (!m_pRouteAddresses)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pRouteAddresses)
+         return GetAccessDenied();
 
-   CComObject<InterfaceRouteAddress>* pRouteAddressInterface = new CComObject<InterfaceRouteAddress>();
-   pRouteAddressInterface->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::RouteAddress> pRouteAddress = shared_ptr<HM::RouteAddress>(new HM::RouteAddress);
-
-   // Set the ID of the new route.
-   pRouteAddress->SetRouteID(m_pRouteAddresses->GetRouteID());
-
-   pRouteAddressInterface->AttachParent(m_pRouteAddresses, false);
-   pRouteAddressInterface->AttachItem(pRouteAddress);
-
-   pRouteAddressInterface->AddRef();
-   *pVal = pRouteAddressInterface;
-
-   return S_OK;
+      if (!m_pRouteAddresses)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceRouteAddress>* pRouteAddressInterface = new CComObject<InterfaceRouteAddress>();
+      pRouteAddressInterface->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::RouteAddress> pRouteAddress = shared_ptr<HM::RouteAddress>(new HM::RouteAddress);
+   
+      // Set the ID of the new route.
+      pRouteAddress->SetRouteID(m_pRouteAddresses->GetRouteID());
+   
+      pRouteAddressInterface->AttachParent(m_pRouteAddresses, false);
+      pRouteAddressInterface->AttachItem(pRouteAddress);
+   
+      pRouteAddressInterface->AddRef();
+      *pVal = pRouteAddressInterface;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceRouteAddresses::get_ItemByDBID(long lDBID, IInterfaceRouteAddress **pVal)
 {
-   CComObject<InterfaceRouteAddress>* pInterfaceRouteAddress = new CComObject<InterfaceRouteAddress>();
-   pInterfaceRouteAddress->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::RouteAddress> pRouteAddress = m_pRouteAddresses->GetItemByDBID(lDBID);
-
-   if (pRouteAddress)
+   try
    {
-      pInterfaceRouteAddress->AttachItem(pRouteAddress);
-      pInterfaceRouteAddress->AttachParent(m_pRouteAddresses, true);
-      pInterfaceRouteAddress->AddRef();
-      *pVal = pInterfaceRouteAddress;
+      if (!m_pRouteAddresses)
+         return GetAccessDenied();
+
+      CComObject<InterfaceRouteAddress>* pInterfaceRouteAddress = new CComObject<InterfaceRouteAddress>();
+      pInterfaceRouteAddress->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::RouteAddress> pRouteAddress = m_pRouteAddresses->GetItemByDBID(lDBID);
+   
+      if (pRouteAddress)
+      {
+         pInterfaceRouteAddress->AttachItem(pRouteAddress);
+         pInterfaceRouteAddress->AttachParent(m_pRouteAddresses, true);
+         pInterfaceRouteAddress->AddRef();
+         *pVal = pInterfaceRouteAddress;
+      }
+      else
+      {
+         return DISP_E_BADINDEX;  
+      }
+   
+      return S_OK;
+   
    }
-   else
+   catch (...)
    {
-      return DISP_E_BADINDEX;  
+      return COMError::GenerateGenericMessage();
    }
-
-   return S_OK;
-
 }
+
 

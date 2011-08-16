@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 
 #include "InterfaceSURBLServers.h"
 #include "InterfaceSURBLServer.h"
@@ -22,108 +23,172 @@ InterfaceSURBLServers::LoadSettings()
 STDMETHODIMP 
 InterfaceSURBLServers::Refresh()
 {
-   if (!m_pSURBLServers)
-      return S_FALSE;
+   try
+   {
+      if (!m_pSURBLServers)
+         return GetAccessDenied();
 
-   m_pSURBLServers->Refresh();
-
-   return S_OK;
+      m_pSURBLServers->Refresh();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceSURBLServers::get_Count(long *pVal)
 {
-   *pVal = m_pSURBLServers->GetCount();
+   try
+   {
+      if (!m_pSURBLServers)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pSURBLServers->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSURBLServers::get_Item(long Index, IInterfaceSURBLServer **pVal)
 {
-   CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
-   pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pSURBLServers)
+         return GetAccessDenied();
 
-   shared_ptr<HM::SURBLServer> pDNSBlackList = m_pSURBLServers->GetItem(Index);
-
-   if (!pDNSBlackList)
-      return DISP_E_BADINDEX;
-
-   pInterfaceSURBLServer->AttachItem(pDNSBlackList);
-   pInterfaceSURBLServer->AttachParent(m_pSURBLServers, true);
-   pInterfaceSURBLServer->AddRef();
-   *pVal = pInterfaceSURBLServer;
-
-   return S_OK;
+      CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
+      pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SURBLServer> pDNSBlackList = m_pSURBLServers->GetItem(Index);
+   
+      if (!pDNSBlackList)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceSURBLServer->AttachItem(pDNSBlackList);
+      pInterfaceSURBLServer->AttachParent(m_pSURBLServers, true);
+      pInterfaceSURBLServer->AddRef();
+      *pVal = pInterfaceSURBLServer;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSURBLServers::DeleteByDBID(long DBID)
 {
-   m_pSURBLServers->DeleteItemByDBID(DBID);
-   return S_OK;
+   try
+   {
+      if (!m_pSURBLServers)
+         return GetAccessDenied();
+
+      m_pSURBLServers->DeleteItemByDBID(DBID);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSURBLServers::get_ItemByDBID(long lDBID, IInterfaceSURBLServer **pVal)
 {
-   CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
-   pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pSURBLServers)
+         return GetAccessDenied();
 
-   shared_ptr<HM::SURBLServer> pDNSBlackList = m_pSURBLServers->GetItemByDBID(lDBID);
-
-   if (!pDNSBlackList)
-      return DISP_E_BADINDEX;
-
-   pInterfaceSURBLServer->AttachItem(pDNSBlackList);
-   pInterfaceSURBLServer->AttachParent(m_pSURBLServers, true);
-   pInterfaceSURBLServer->AddRef();
-
-   *pVal = pInterfaceSURBLServer;
-
-   return S_OK;
+      CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
+      pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SURBLServer> pDNSBlackList = m_pSURBLServers->GetItemByDBID(lDBID);
+   
+      if (!pDNSBlackList)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceSURBLServer->AttachItem(pDNSBlackList);
+      pInterfaceSURBLServer->AttachParent(m_pSURBLServers, true);
+      pInterfaceSURBLServer->AddRef();
+   
+      *pVal = pInterfaceSURBLServer;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSURBLServers::Add(IInterfaceSURBLServer **pVal)
 {
-   if (!m_pSURBLServers)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pSURBLServers)
+         return GetAccessDenied();
 
-   CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
-   pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::SURBLServer> pDNSBL = shared_ptr<HM::SURBLServer>(new HM::SURBLServer);
-
-   pInterfaceSURBLServer->AttachItem(pDNSBL);
-   pInterfaceSURBLServer->AttachParent(m_pSURBLServers, false);
-
-   pInterfaceSURBLServer->AddRef();
-
-   *pVal = pInterfaceSURBLServer;
-
-   return S_OK;
+      if (!m_pSURBLServers)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
+      pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SURBLServer> pDNSBL = shared_ptr<HM::SURBLServer>(new HM::SURBLServer);
+   
+      pInterfaceSURBLServer->AttachItem(pDNSBL);
+      pInterfaceSURBLServer->AttachParent(m_pSURBLServers, false);
+   
+      pInterfaceSURBLServer->AddRef();
+   
+      *pVal = pInterfaceSURBLServer;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSURBLServers::get_ItemByDNSHost(BSTR ItemName, IInterfaceSURBLServer **pVal)
 {
-   CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
-   pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pSURBLServers)
+         return GetAccessDenied();
 
-   shared_ptr<HM::SURBLServer> pDNSBL = m_pSURBLServers->GetItemByName(ItemName);
-   if (!pDNSBL)
-      return S_FALSE;
-
-   pInterfaceSURBLServer->AttachItem(pDNSBL);
-   pInterfaceSURBLServer->AttachParent(m_pSURBLServers, true);
-   pInterfaceSURBLServer->AddRef();
-
-   *pVal = pInterfaceSURBLServer;
-
-   return S_OK;
+      CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
+      pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SURBLServer> pDNSBL = m_pSURBLServers->GetItemByName(ItemName);
+      if (!pDNSBL)
+         return S_FALSE;
+   
+      pInterfaceSURBLServer->AttachItem(pDNSBL);
+      pInterfaceSURBLServer->AttachParent(m_pSURBLServers, true);
+      pInterfaceSURBLServer->AddRef();
+   
+      *pVal = pInterfaceSURBLServer;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
-
 
 

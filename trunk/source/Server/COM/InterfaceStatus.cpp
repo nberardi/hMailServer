@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceStatus.h"
 
 #include "../Common/Util/ServerStatus.h"
@@ -22,49 +23,106 @@ InterfaceStatus::LoadSettings()
 STDMETHODIMP 
 InterfaceStatus::get_UndeliveredMessages(BSTR *pVal)
 {
-   HM::String sRetVal = m_pStatus->GetUnsortedMessageStatus();
-   *pVal = sRetVal.AllocSysString();
+   try
+   {
+      if (!m_pStatus)
+         return GetAccessDenied();
 
-   return S_OK;
+      HM::String sRetVal = m_pStatus->GetUnsortedMessageStatus();
+      *pVal = sRetVal.AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceStatus::get_StartTime(BSTR *pVal)
 {
-   HM::String sRetVal = m_pApplication->GetStartTime();
-   *pVal = sRetVal.AllocSysString();
-   return S_OK;
-}
+   try
+   {
+      if (!m_pStatus)
+         return GetAccessDenied();
 
+      HM::String sRetVal = m_pApplication->GetStartTime();
+      *pVal = sRetVal.AllocSysString();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
 
 STDMETHODIMP 
 InterfaceStatus::get_ProcessedMessages(long *pVal)
 {
-   *pVal = m_pStatus->GetNumberOfProcessedMessages();
-   return S_OK;
-}
+   try
+   {
+      if (!m_pStatus)
+         return GetAccessDenied();
 
+      *pVal = m_pStatus->GetNumberOfProcessedMessages();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
 
 STDMETHODIMP 
 InterfaceStatus::get_RemovedViruses(long *pVal)
 {
-   *pVal = m_pStatus->GetNumberOfRemovedViruses();
-   return S_OK;
+   try
+   {
+      if (!m_pStatus)
+         return GetAccessDenied();
+
+      *pVal = m_pStatus->GetNumberOfRemovedViruses();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
-
 
 STDMETHODIMP 
 InterfaceStatus::get_RemovedSpamMessages(long *pVal)
 {
-   *pVal = m_pStatus->GetNumberOfDetectedSpamMessages();
-   return S_OK;
+   try
+   {
+      if (!m_pStatus)
+         return GetAccessDenied();
+
+      *pVal = m_pStatus->GetNumberOfDetectedSpamMessages();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceStatus::get_SessionCount(eSessionType iType, long *pVal)
 {
-   *pVal = m_pStatus->GetNumberOfSessions(iType);
-   return S_OK;
+   try
+   {
+      if (!m_pStatus)
+         return GetAccessDenied();
+
+      *pVal = m_pStatus->GetNumberOfSessions(iType);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
 

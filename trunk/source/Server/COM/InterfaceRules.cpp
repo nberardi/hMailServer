@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceRules.h"
 
 #include "InterfaceRule.h"
@@ -17,81 +18,143 @@ InterfaceRules::Attach(shared_ptr<HM::Rules> pRules)
 
 STDMETHODIMP InterfaceRules::get_ItemByDBID(long lDBID, IInterfaceRule** pVal)
 {
-   CComObject<InterfaceRule>* pInterfaceRule = new CComObject<InterfaceRule>();
-   pInterfaceRule->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pRules)
+         return GetAccessDenied();
 
-
-   shared_ptr<HM::Rule> pRule = m_pRules->GetItemByDBID(lDBID);
-   if (!pRule)
-      return DISP_E_BADINDEX;
-
-   pInterfaceRule->AttachParent(m_pRules, true);
-   pInterfaceRule->AttachItem(pRule);
-   pInterfaceRule->AddRef();
-   *pVal = pInterfaceRule;   
-
-   return S_OK;
+      CComObject<InterfaceRule>* pInterfaceRule = new CComObject<InterfaceRule>();
+      pInterfaceRule->SetAuthentication(m_pAuthentication);
+   
+   
+      shared_ptr<HM::Rule> pRule = m_pRules->GetItemByDBID(lDBID);
+      if (!pRule)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceRule->AttachParent(m_pRules, true);
+      pInterfaceRule->AttachItem(pRule);
+      pInterfaceRule->AddRef();
+      *pVal = pInterfaceRule;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRules::get_Item(long lIndex, IInterfaceRule** pVal)
 {
-   CComObject<InterfaceRule>* pInterfaceRule = new CComObject<InterfaceRule>();
-   pInterfaceRule->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pRules)
+         return GetAccessDenied();
 
-   shared_ptr<HM::Rule> pRule = m_pRules->GetItem(lIndex);
-   if (!pRule)
-      return DISP_E_BADINDEX;
-
-   pInterfaceRule->AttachParent(m_pRules, true);
-   pInterfaceRule->AttachItem(pRule);
-   pInterfaceRule->AddRef();
-   *pVal = pInterfaceRule;   
-
-   return S_OK;
+      CComObject<InterfaceRule>* pInterfaceRule = new CComObject<InterfaceRule>();
+      pInterfaceRule->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::Rule> pRule = m_pRules->GetItem(lIndex);
+      if (!pRule)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceRule->AttachParent(m_pRules, true);
+      pInterfaceRule->AttachItem(pRule);
+      pInterfaceRule->AddRef();
+      *pVal = pInterfaceRule;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRules::get_Count(LONG* pVal)
 {
-   *pVal = m_pRules->GetCount();
+   try
+   {
+      if (!m_pRules)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pRules->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRules::Add(IInterfaceRule** pVal)
 {
-   if (!m_pRules)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pRules)
+         return GetAccessDenied();
 
-   CComObject<InterfaceRule>* pIntDA = new CComObject<InterfaceRule>();
-   pIntDA->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::Rule> pDA = shared_ptr<HM::Rule>(new HM::Rule);
-
-   // Make sure that the new rule is
-   // added to the right account.
-   pDA->SetAccountID(m_pRules->GetAccountID());
-
-   pIntDA->AttachItem(pDA);
-   pIntDA->AttachParent(m_pRules, false);
-   pIntDA->AddRef();
-
-   *pVal = pIntDA;
-
-   return S_OK;   
-
-   return S_OK;
+      if (!m_pRules)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceRule>* pIntDA = new CComObject<InterfaceRule>();
+      pIntDA->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::Rule> pDA = shared_ptr<HM::Rule>(new HM::Rule);
+   
+      // Make sure that the new rule is
+      // added to the right account.
+      pDA->SetAccountID(m_pRules->GetAccountID());
+   
+      pIntDA->AttachItem(pDA);
+      pIntDA->AttachParent(m_pRules, false);
+      pIntDA->AddRef();
+   
+      *pVal = pIntDA;
+   
+      return S_OK;   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRules::DeleteByDBID(LONG DBID)
 {
-   m_pRules->DeleteItemByDBID(DBID);
+   try
+   {
+      if (!m_pRules)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRules->DeleteItemByDBID(DBID);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceRules::Refresh(void)
 {
-   m_pRules->Refresh();
+   try
+   {
+      if (!m_pRules)
+         return GetAccessDenied();
 
-   return S_OK;
+      m_pRules->Refresh();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

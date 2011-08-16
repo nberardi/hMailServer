@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceDiagnostics.h"
 #include "InterfaceDiagnosticResults.h"
 
@@ -10,39 +11,71 @@
 
 STDMETHODIMP InterfaceDiagnostics::PerformTests(IInterfaceDiagnosticResults **pVal)
 {
-   if (!m_pAuthentication->GetIsServerAdmin())
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pAuthentication)
+         return GetAccessDenied();
 
-   HM::String str;
+      if (!m_pAuthentication->GetIsServerAdmin())
+         return m_pAuthentication->GetAccessDenied();
    
-   vector<HM::DiagnosticResult> results = _diagnostics.PerformTests();
+      HM::String str;
+      
+      vector<HM::DiagnosticResult> results = _diagnostics.PerformTests();
+      
+      CComObject<InterfaceDiagnosticResults>* pResult = new CComObject<InterfaceDiagnosticResults>();
+      pResult->SetAuthentication(m_pAuthentication);
+      pResult->AttachResults(results);
+      pResult->AddRef();
+      *pVal = pResult;
    
-   CComObject<InterfaceDiagnosticResults>* pResult = new CComObject<InterfaceDiagnosticResults>();
-   pResult->SetAuthentication(m_pAuthentication);
-   pResult->AttachResults(results);
-   pResult->AddRef();
-   *pVal = pResult;
-
-   return S_OK;
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDiagnostics::get_LocalDomainName(BSTR *pVal)
 {
-   if (!m_pAuthentication->GetIsServerAdmin())
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pAuthentication)
+         return GetAccessDenied();
 
-   *pVal = _diagnostics.GetLocalDomain().AllocSysString();
-
-   return S_OK;
+      if (!m_pAuthentication->GetIsServerAdmin())
+         return m_pAuthentication->GetAccessDenied();
+   
+      *pVal = _diagnostics.GetLocalDomain().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceDiagnostics::put_LocalDomainName(BSTR newVal)
 {
-   if (!m_pAuthentication->GetIsServerAdmin())
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pAuthentication)
+         return GetAccessDenied();
 
-   HM::String localDomainName = newVal;
-   _diagnostics.SetLocalDomain(localDomainName);
-
-   return S_OK;
+      if (!m_pAuthentication->GetIsServerAdmin())
+         return m_pAuthentication->GetAccessDenied();
+   
+      HM::String localDomainName = newVal;
+      _diagnostics.SetLocalDomain(localDomainName);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

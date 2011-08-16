@@ -24,9 +24,10 @@ STDMETHODIMP InterfaceSSLCertificates::InterfaceSupportsErrorInfo(REFIID riid)
       if (InlineIsEqualGUID(*arr[i],riid))
          return S_OK;
    }
+
    return S_FALSE;
 }
-
+   
 void 
 InterfaceSSLCertificates::Attach(shared_ptr<HM::SSLCertificates> pBA) 
 { 
@@ -36,101 +37,161 @@ InterfaceSSLCertificates::Attach(shared_ptr<HM::SSLCertificates> pBA)
 STDMETHODIMP 
 InterfaceSSLCertificates::Refresh()
 {
-   if (!m_pSSLCertificates)
-      return S_FALSE;
-
-   m_pSSLCertificates->Refresh();
-
-   return S_OK;
+   try
+   {
+      if (!m_pSSLCertificates)
+         return GetAccessDenied();
+   
+      m_pSSLCertificates->Refresh();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSSLCertificates::Clear()
 {
-   if (!m_pSSLCertificates)
-      return S_FALSE;
-
-   if (!m_pSSLCertificates->DeleteAll())
-      return COMError::GenerateError("Clearing of SSL certificates failed");
-
-
-   return S_OK;
+   try
+   {
+      if (!m_pSSLCertificates)
+         return GetAccessDenied();
+   
+      if (!m_pSSLCertificates->DeleteAll())
+         return COMError::GenerateError("Clearing of SSL certificates failed");
+   
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceSSLCertificates::get_Count(long *pVal)
 {
-   *pVal = m_pSSLCertificates->GetCount();
+   try
+   {
+      if (!m_pSSLCertificates)
+         return GetAccessDenied();
 
-   return S_OK;
+      *pVal = m_pSSLCertificates->GetCount();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSSLCertificates::get_Item(long Index, IInterfaceSSLCertificate **pVal)
 {
-   CComObject<InterfaceSSLCertificate>* pInterfaceSSLCertificate = new CComObject<InterfaceSSLCertificate>();
-   pInterfaceSSLCertificate->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pSSLCertificates)
+         return GetAccessDenied();
 
-   shared_ptr<HM::SSLCertificate> pBA = m_pSSLCertificates->GetItem(Index);
-
-   if (!pBA)
-      return DISP_E_BADINDEX;
-
-   pInterfaceSSLCertificate->AttachItem(pBA);
-   pInterfaceSSLCertificate->AttachParent(m_pSSLCertificates, true);
-   pInterfaceSSLCertificate->AddRef();
-   *pVal = pInterfaceSSLCertificate;
-
-   return S_OK;
+      CComObject<InterfaceSSLCertificate>* pInterfaceSSLCertificate = new CComObject<InterfaceSSLCertificate>();
+      pInterfaceSSLCertificate->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SSLCertificate> pBA = m_pSSLCertificates->GetItem(Index);
+   
+      if (!pBA)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceSSLCertificate->AttachItem(pBA);
+      pInterfaceSSLCertificate->AttachParent(m_pSSLCertificates, true);
+      pInterfaceSSLCertificate->AddRef();
+      *pVal = pInterfaceSSLCertificate;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSSLCertificates::DeleteByDBID(long DBID)
 {
-   m_pSSLCertificates->DeleteItemByDBID(DBID);
-   return S_OK;
+   try
+   {
+      if (!m_pSSLCertificates)
+         return GetAccessDenied();
+
+      m_pSSLCertificates->DeleteItemByDBID(DBID);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSSLCertificates::get_ItemByDBID(long lDBID, IInterfaceSSLCertificate **pVal)
 {
-   CComObject<InterfaceSSLCertificate>* pInterfaceSSLCertificate = new CComObject<InterfaceSSLCertificate>();
-   pInterfaceSSLCertificate->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pSSLCertificates)
+         return GetAccessDenied();
 
-   shared_ptr<HM::SSLCertificate> pBA = m_pSSLCertificates->GetItemByDBID(lDBID);
-
-   if (!pBA)
-      return DISP_E_BADINDEX;
-
-   pInterfaceSSLCertificate->AttachItem(pBA);
-   pInterfaceSSLCertificate->AttachParent(m_pSSLCertificates, true);
-   pInterfaceSSLCertificate->AddRef();
-
-   *pVal = pInterfaceSSLCertificate;
-
-   return S_OK;
+      CComObject<InterfaceSSLCertificate>* pInterfaceSSLCertificate = new CComObject<InterfaceSSLCertificate>();
+      pInterfaceSSLCertificate->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SSLCertificate> pBA = m_pSSLCertificates->GetItemByDBID(lDBID);
+   
+      if (!pBA)
+         return DISP_E_BADINDEX;
+   
+      pInterfaceSSLCertificate->AttachItem(pBA);
+      pInterfaceSSLCertificate->AttachParent(m_pSSLCertificates, true);
+      pInterfaceSSLCertificate->AddRef();
+   
+      *pVal = pInterfaceSSLCertificate;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceSSLCertificates::Add(IInterfaceSSLCertificate **pVal)
 {
-   if (!m_pSSLCertificates)
-      return m_pAuthentication->GetAccessDenied();
+   try
+   {
+      if (!m_pSSLCertificates)
+         return GetAccessDenied();
 
-   CComObject<InterfaceSSLCertificate>* pInterfaceSSLCertificate = new CComObject<InterfaceSSLCertificate>();
-   pInterfaceSSLCertificate->SetAuthentication(m_pAuthentication);
-
-   shared_ptr<HM::SSLCertificate> pBA = shared_ptr<HM::SSLCertificate>(new HM::SSLCertificate);
-
-   pInterfaceSSLCertificate->AttachItem(pBA);
-   pInterfaceSSLCertificate->AttachParent(m_pSSLCertificates, false);
-   pInterfaceSSLCertificate->AddRef();
-
-   *pVal = pInterfaceSSLCertificate;
-
-   return S_OK;
+      if (!m_pSSLCertificates)
+         return m_pAuthentication->GetAccessDenied();
+   
+      CComObject<InterfaceSSLCertificate>* pInterfaceSSLCertificate = new CComObject<InterfaceSSLCertificate>();
+      pInterfaceSSLCertificate->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::SSLCertificate> pBA = shared_ptr<HM::SSLCertificate>(new HM::SSLCertificate);
+   
+      pInterfaceSSLCertificate->AttachItem(pBA);
+      pInterfaceSSLCertificate->AttachParent(m_pSSLCertificates, false);
+      pInterfaceSSLCertificate->AddRef();
+   
+      *pVal = pInterfaceSSLCertificate;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
-
-
-
 

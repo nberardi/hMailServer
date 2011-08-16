@@ -2,6 +2,7 @@
 // http://www.hmailserver.com
 
 #include "stdafx.h"
+#include "COMError.h"
 #include "InterfaceCache.h"
 
 #include "..\Common\Cache\Cache.h"
@@ -39,128 +40,276 @@ InterfaceCache::LoadSettings()
 STDMETHODIMP
 InterfaceCache::get_Enabled(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pCacheConfig->GetUseCache() ? VARIANT_TRUE : VARIANT_FALSE;
-   return S_OK;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
+
+      *pVal = m_pCacheConfig->GetUseCache() ? VARIANT_TRUE : VARIANT_FALSE;
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP
 InterfaceCache::put_Enabled(VARIANT_BOOL newVal)
 {
-   m_pCacheConfig->SetUseCache(newVal == VARIANT_TRUE);
-   return S_OK;
-}
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
 
+      m_pCacheConfig->SetUseCache(newVal == VARIANT_TRUE);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
 
 STDMETHODIMP 
 InterfaceCache::get_DomainCacheTTL(long *pVal)
 {
-   *pVal = m_pCacheConfig->GetDomainCacheTTL();
-   return S_OK;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
+
+      *pVal = m_pCacheConfig->GetDomainCacheTTL();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceCache::put_DomainCacheTTL(long newVal)
 {
-   m_pCacheConfig->SetDomainCacheTTL(newVal);
-   return S_OK;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
+
+      m_pCacheConfig->SetDomainCacheTTL(newVal);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceCache::get_DomainHitRate(long *pVal)
 {
-   if (!GetIsServerAdmin())
-      return false;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
 
-   *pVal = HM::Cache<HM::Domain, HM::PersistentDomain>::Instance()->GetHitRate();
-
-   return S_OK;
+      if (!GetIsServerAdmin())
+         return false;
+   
+      *pVal = HM::Cache<HM::Domain, HM::PersistentDomain>::Instance()->GetHitRate();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceCache::get_AccountCacheTTL(long *pVal)
 {
-   *pVal = m_pCacheConfig->GetAccountCacheTTL();
-   return S_OK;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
+
+      *pVal = m_pCacheConfig->GetAccountCacheTTL();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceCache::put_AccountCacheTTL(long newVal)
 {
-   m_pCacheConfig->SetAccountCacheTTL(newVal);
-   return S_OK;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
+
+      m_pCacheConfig->SetAccountCacheTTL(newVal);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceCache::get_AccountHitRate(long *pVal)
 {
-   if (!GetIsServerAdmin())
-      return false;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
 
-   *pVal = HM::Cache<HM::Account, HM::PersistentAccount>::Instance()->GetHitRate();
-   return S_OK;
+      if (!GetIsServerAdmin())
+         return false;
+   
+      *pVal = HM::Cache<HM::Account, HM::PersistentAccount>::Instance()->GetHitRate();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP 
 InterfaceCache::get_AliasCacheTTL(long *pVal)
 {
-   *pVal = m_pCacheConfig->GetAliasCacheTTL();
-   return S_OK;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
+
+      *pVal = m_pCacheConfig->GetAliasCacheTTL();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceCache::put_AliasCacheTTL(long newVal)
 {
-   m_pCacheConfig->SetAliasCacheTTL(newVal);
-   return S_OK;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
+
+      m_pCacheConfig->SetAliasCacheTTL(newVal);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceCache::get_AliasHitRate(long *pVal)
 {
-   if (!GetIsServerAdmin())
-      return false;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
 
-   *pVal = HM::Cache<HM::Alias, HM::PersistentAlias>::Instance()->GetHitRate();
-   return S_OK;
+      if (!GetIsServerAdmin())
+         return false;
+   
+      *pVal = HM::Cache<HM::Alias, HM::PersistentAlias>::Instance()->GetHitRate();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP 
 InterfaceCache::get_DistributionListCacheTTL(long *pVal)
 {
-   *pVal = m_pCacheConfig->GetDistributionListCacheTTL();
-   return S_OK;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
+
+      *pVal = m_pCacheConfig->GetDistributionListCacheTTL();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceCache::put_DistributionListCacheTTL(long newVal)
 {
-   m_pCacheConfig->SetDistributionListCacheTTL(newVal);
-   return S_OK;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
+
+      m_pCacheConfig->SetDistributionListCacheTTL(newVal);
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceCache::get_DistributionListHitRate(long *pVal)
 {
-   if (!GetIsServerAdmin())
-      return false;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
 
-   *pVal = HM::Cache<HM::DistributionList, HM::PersistentDistributionList>::Instance()->GetHitRate();
-   return S_OK;
+      if (!GetIsServerAdmin())
+         return false;
+   
+      *pVal = HM::Cache<HM::DistributionList, HM::PersistentDistributionList>::Instance()->GetHitRate();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP 
 InterfaceCache::Clear()
 {
-   if (!GetIsServerAdmin())
-      return false;
+   try
+   {
+      if (!m_pCacheConfig)
+         return GetAccessDenied();
 
-   HM::Cache<HM::Account, HM::PersistentAccount>::Instance()->Clear();
-   HM::Cache<HM::Domain, HM::PersistentDomain>::Instance()->Clear();
-   HM::Cache<HM::Alias, HM::PersistentAlias>::Instance()->Clear();
-   HM::Cache<HM::DistributionList, HM::PersistentDistributionList>::Instance()->Clear();
-
-   return S_OK;
+      if (!GetIsServerAdmin())
+         return false;
+   
+      HM::Cache<HM::Account, HM::PersistentAccount>::Instance()->Clear();
+      HM::Cache<HM::Domain, HM::PersistentDomain>::Instance()->Clear();
+      HM::Cache<HM::Alias, HM::PersistentAlias>::Instance()->Clear();
+      HM::Cache<HM::DistributionList, HM::PersistentDistributionList>::Instance()->Clear();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
+

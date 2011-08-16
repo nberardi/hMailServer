@@ -67,7 +67,7 @@ public:
 
 public:
 
-   shared_ptr<HM::WhiteListAddresses> m_pWhiteListAddresses;
+   shared_ptr<HM::WhiteListAddresses> m_pObject;
 
 };
 

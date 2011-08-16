@@ -14,31 +14,70 @@ InterfaceLanguage::Attach(shared_ptr<HM::Language> pLanguage)
 
 STDMETHODIMP InterfaceLanguage::get_Name(BSTR *pVal)
 {
-   HM::String sName = m_pLanguage->GetName();
-   *pVal = sName.AllocSysString();
+   try
+   {
+      if (!m_pLanguage)
+         return GetAccessDenied();
 
-   return S_OK;
+      HM::String sName = m_pLanguage->GetName();
+      *pVal = sName.AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceLanguage::get_String(BSTR EnglishString, BSTR *pVal)
 {
-   HM::String sText = m_pLanguage->GetString(EnglishString);
-   *pVal = sText.AllocSysString();
+   try
+   {
+      if (!m_pLanguage)
+         return GetAccessDenied();
 
-   return S_OK;
+      HM::String sText = m_pLanguage->GetString(EnglishString);
+      *pVal = sText.AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
-
 
 STDMETHODIMP InterfaceLanguage::get_IsDownloaded(VARIANT_BOOL *pVal)
 {
-   *pVal = m_pLanguage->GetIsDownloded() ? VARIANT_TRUE : VARIANT_FALSE;
-   return S_OK;
+   try
+   {
+      if (!m_pLanguage)
+         return GetAccessDenied();
+
+      *pVal = m_pLanguage->GetIsDownloded() ? VARIANT_TRUE : VARIANT_FALSE;
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP InterfaceLanguage::Download()
 {
-   // m_pLanguage->Download();   
+   try
+   {
+      if (!m_pLanguage)
+         return GetAccessDenied();
 
-   return COMError::GenerateError("Not implemented.");
+      // m_pLanguage->Download();   
+   
+      return COMError::GenerateError("Not implemented.");
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+

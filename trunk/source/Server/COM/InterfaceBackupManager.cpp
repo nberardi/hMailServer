@@ -26,24 +26,45 @@ InterfaceBackupManager::LoadSettings()
 STDMETHODIMP 
 InterfaceBackupManager::StartBackup()
 {
-   m_pBackupManager->StartBackup();
-   return S_OK;
+   try
+   {
+      if (!m_pBackupManager)
+         return GetAccessDenied();
+
+      m_pBackupManager->StartBackup();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
 
 STDMETHODIMP 
 InterfaceBackupManager::LoadBackup(BSTR sXMLFile, IInterfaceBackup **pVal)
 {
-   CComObject<InterfaceBackup>* pBackupInt = new CComObject<InterfaceBackup>();
-   pBackupInt->SetAuthentication(m_pAuthentication);
+   try
+   {
+      if (!m_pBackupManager)
+         return GetAccessDenied();
 
-   shared_ptr<HM::Backup> pBackup = m_pBackupManager->LoadBackup(sXMLFile);
-
-   if (!pBackup)
-      return DISP_E_BADINDEX;
-
-   pBackupInt->Attach(pBackup);
-   pBackupInt->AddRef();
-   *pVal = pBackupInt;
-
-   return S_OK;
+      CComObject<InterfaceBackup>* pBackupInt = new CComObject<InterfaceBackup>();
+      pBackupInt->SetAuthentication(m_pAuthentication);
+   
+      shared_ptr<HM::Backup> pBackup = m_pBackupManager->LoadBackup(sXMLFile);
+   
+      if (!pBackup)
+         return DISP_E_BADINDEX;
+   
+      pBackupInt->Attach(pBackup);
+      pBackupInt->AddRef();
+      *pVal = pBackupInt;
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
 }
+
