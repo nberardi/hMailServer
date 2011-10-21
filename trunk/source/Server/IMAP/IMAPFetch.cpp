@@ -412,10 +412,18 @@ namespace HM
          // Martin: All sub-bodies in raw format, except for the current header
          AnsiString body;
          pBodyPart->Store(body, false);
-         body = body.Mid(iByteStart);
+
+
+         //  Does this do anything since start is always 0 at this point?
+         //  Assume this should be removed..
+         //  body = body.Mid(iByteStart);
 
          _GetBytesToSend(body.GetLength(), oPart, iByteStart, iByteCount);
-         pOutBuf->Add((BYTE*) body.GetBuffer(), iByteCount);
+
+	 // Fix for Apple Mail BODY PEEK with start + size issue
+	 // Start was being ignored before as it was never used
+	 // Changed to mimic 4.4.4 method since iByteStart is set in _GetBytesToSend
+         pOutBuf->Add((BYTE*) body.GetBuffer() + iByteStart, iByteCount);
       }
       else if (oPart.GetShowBodyFull())
       {
