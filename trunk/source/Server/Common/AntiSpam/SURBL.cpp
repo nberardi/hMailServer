@@ -45,7 +45,19 @@ namespace HM
       // We stop processing URL's if:
       // - 15 or more URLss have been processed.
       // - More than 10 seconds have passed.
-      const int maxURLsToProcess = 15;
+      //
+	  // NEED FOR FIX NOTE: URL's are reduced down & we end up with many duplicates so the list should
+	  // be consolidated before checking or wasteful & likely miss later unique URL's after 15 limit
+	  // ACTUAL EXAMPLE:
+	  // "DEBUG"	3288	"2011-10-21 07:15:21.281"	"SURBL:: Found URL: www.e-rewards.com"
+	  // "DEBUG"	3288	"2011-10-21 07:15:21.281"	"SURBL:: Lookup: e-rewards.com.multi.surbl.org"
+	  // "DEBUG"	3288	"2011-10-21 07:15:21.296"	"SURBL:: Found URL: www.e-rewards.com"
+	  // "DEBUG"	3288	"2011-10-21 07:15:21.296"	"SURBL:: Lookup: e-rewards.com.multi.surbl.org"
+      // There were 15 of those for the same lookup and URL's later in email were skipped & never checked.
+
+	  // NEED FOR IMPROVEMENT: max URL's & time should be user-adjustable even if just by INI
+
+	  const int maxURLsToProcess = 15;
 
       for (int i = 0; i < maxURLsToProcess; i++)
       {
@@ -110,6 +122,7 @@ namespace HM
       for (int i = iURLStart; i < sBody.GetLength(); i++)
       {
          // Space added as fix to no test on plain-text emails without end slash
+         // cr and lf added as well for same reason
          // Might be best to look for 1st non-allowed domain char instead..
          wchar_t c = sBody.GetAt(i);
          if (c == '<' || 
@@ -117,6 +130,8 @@ namespace HM
              c == '\\' || 
              c == '>' ||
              c == ' ' ||
+             c == '\r' ||
+             c == '\n' ||
              c == '"')
              return i;
       }
@@ -156,6 +171,9 @@ namespace HM
    SURBL::_CleanURL(String &url) const
    {
       url.Replace(_T("=\r\n"), _T(""));
+      // We need to replace them individually as well just in case..
+      url.Replace(_T("=\r"), _T(""));
+      url.Replace(_T("=\n"), _T(""));
    }
 
    bool
