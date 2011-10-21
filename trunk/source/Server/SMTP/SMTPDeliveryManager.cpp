@@ -171,7 +171,12 @@ namespace HM
    {
       HM::DatabaseSettings::SQLDBType DBType = IniFileSettings::Instance()->GetDatabaseType();
 
-      String sql = Formatter::Format("select * from hm_messages where messagetype = 1 and messagelocked = 0 and messagenexttrytime <= {0} order by messageid asc", SQLStatement::GetCurrentTimestamp());
+      // Tweak to prioritize small & newer emails in queue delivery order
+      // Assumption is that large emails will take longer to deliver tying up queue
+      // vs just getting rid of smaller emails 1st and messages with high # of
+      // tries are not likely to go anyway so why tie up newer emails in queue
+      String sql = Formatter::Format("select * from hm_messages where messagetype = 1 and messagelocked = 0 and messagenexttrytime <= {0} order by messagesize, messagecurnooftries, messageid asc", SQLStatement::GetCurrentTimestamp());
+      // String sql = Formatter::Format("select * from hm_messages where messagetype = 1 and messagelocked = 0 and messagenexttrytime <= {0} order by messageid asc", SQLStatement::GetCurrentTimestamp());
       SQLCommand command(sql);
 
       m_pPendingMessages = Application::Instance()->GetDBManager()->OpenRecordset(command);
