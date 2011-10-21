@@ -271,7 +271,11 @@ namespace HM
 
       sErrMsg.Replace(_T("%MACRO_SENT%"), pMsgData->GetSentTime());
       sErrMsg.Replace(_T("%MACRO_SUBJECT%"), pMsgData->GetSubject());
-      
+
+      // Ability to include original headers in undeliverable message
+      // http://www.hmailserver.com/forum/viewtopic.php?f=2&t=19635
+      sErrMsg.Replace(_T("%MACRO_ORIGINAL_HEADER%"), pMsgData->GetHeader());      
+
       String sCollectedErrors;
       for (unsigned int i=0;i<saErrorMessages.size();i++)
          sCollectedErrors += saErrorMessages[i];
