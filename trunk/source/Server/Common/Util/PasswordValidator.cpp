@@ -99,8 +99,16 @@ namespace HM
       if (iPasswordEncryption == 0)
       {
          // Do plain text comparision
-         sComparePassword.MakeLower();
 
+         // POTENTIAL TO BREAK BACKWARD COMPATIBILITY
+         // Unencrypted passwords are not case sensitive so these changes WOULD fix that
+         // but could cause problems for people who've been relying on them not being
+         // case sensitive. Perhaps this needs to be optional before implementing.
+         // 
+         // if (sPassword.Compare(sComparePassword) != 0)
+         //   return false;
+         //
+         sComparePassword.MakeLower();
          if (sPassword.CompareNoCase(sComparePassword) != 0)
             return false;
       }
