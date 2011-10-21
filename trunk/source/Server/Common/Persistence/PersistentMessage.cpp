@@ -867,6 +867,12 @@ namespace HM
          iSize = (__int64) pRS->GetInt64Value("mailboxsize");;
          break;
 
+	  // Untested fix: 1.5GB backup limit was being ignored for MSSQL CE
+	  // Believed quotes & size reported in admin were wrong due to this missing too
+	  case DatabaseSettings::TypeMSSQLCompactEdition:
+         iSize = (__int64) pRS->GetInt64Value("mailboxsize");;
+         break;
+
       case DatabaseSettings::TypeUnknown:
          assert(0);
       }
