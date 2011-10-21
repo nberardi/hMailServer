@@ -409,11 +409,17 @@ namespace HM
          // Only one person can send to list. Check if it's the correct. Before we do the
          // comparision, we resolve any domain name aliases.
 
+	 // Let's log here since working with lists can be a bear
+	 // NEED FOR IMPROVEMENT: Should only be shown for DEBUG logging
+         ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4381, "RecipientParser::_UserCanSendToList", "DistributionList::LMAnnouncement");
+
          String sFormattedSender = pDA->ApplyAliasesOnAddress(sSender);
          String sFormattedRequiredSender = pDA->ApplyAliasesOnAddress(pList->GetRequireAddress());
          if (sFormattedSender.CompareNoCase(sFormattedRequiredSender) != 0)
          {
-            sErrMsg = "550 Not authorized.";
+	    // Let's adjust reason to better explain sender is not seen as OWNER
+	    // and differentiate from SENDER like list member etc
+            sErrMsg = "550 Not authorized owner.";
             return DP_PermissionDenied;
          }
 
@@ -422,6 +428,10 @@ namespace HM
       else if (lm == DistributionList::LMPublic)
       {
          // Anyone can send. OK
+
+	 // Let's log here since working with lists can be a bear
+	 // NEED FOR IMPROVEMENT: Should only be shown for DEBUG logging
+         ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4381, "RecipientParser::_UserCanSendToList", "DistributionList::LMPublic");
       }
       else if (lm == DistributionList::LMMembership)
       {
@@ -429,6 +439,10 @@ namespace HM
          // Check if the sender is a member of the list.
          std::vector<shared_ptr<DistributionListRecipient> > vecRecipients = pList->GetMembers()->GetVector();
          std::vector<shared_ptr<DistributionListRecipient> >::iterator iterRecipient = vecRecipients.begin();
+
+	 // Let's log here since working with lists can be a bear
+	 // NEED FOR IMPROVEMENT: Should only be shown for DEBUG logging
+         ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4381, "RecipientParser::_UserCanSendToList", "DistributionList::LMMembership");
 
          for (; iterRecipient != vecRecipients.end(); iterRecipient++)
          {
@@ -446,7 +460,8 @@ namespace HM
          // didn't find the recipient.
          if (iterRecipient == vecRecipients.end())
          {
-            sErrMsg = "550 Not authorized.";
+	    // Let's adjust reason to better explain sender is not seen as allowed SENDER
+            sErrMsg = "550 Not authorized sender.";
             return DP_PermissionDenied;
          }
       }
@@ -466,8 +481,12 @@ namespace HM
 
          DeliveryPossibility dp = CheckDeliveryPossibility(bSenderIsAuthenticated, sSender, (*iterRecipient)->GetAddress(), sErrMsg, bTreatSecurityAsLocal, iRecursionLevel);
          if (dp == DP_PermissionDenied)
+         {
+            // Log the reason the message to the list is rejected which helps a ton with lists on lists
+            // NEED FOR IMPROVEMENT: Should only be shown for DEBUG logging?
+            ErrorManager::Instance()->ReportError(ErrorManager::Medium, 4381, "RecipientParser::_UserCanSendToList::PermissionDENIED:", (*iterRecipient)->GetAddress());
             return DP_PermissionDenied;
-
+         }
          iterRecipient++;
       }
 
