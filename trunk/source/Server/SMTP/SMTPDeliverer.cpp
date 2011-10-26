@@ -266,7 +266,8 @@ namespace HM
 
       String sMailerDaemonAddress = MailerDaemonAddressDeterminer::GetMailerDaemonAddress(pOrigMessage);
       
-      String sMessageUndeliverable = Configuration::Instance()->GetServerMessages()->GetMessage("MESSAGE_UNDELIVERABLE");
+      String sMessageUndeliverable;
+      sMessageUndeliverable.Format(_T("%s"),Configuration::Instance()->GetServerMessages()->GetMessage("MESSAGE_UNDELIVERABLE"));
       String sErrMsg = Configuration::Instance()->GetServerMessages()->GetMessage("SEND_FAILED_NOTIFICATION");
 
       sErrMsg.Replace(_T("%MACRO_SENT%"), pMsgData->GetSentTime());
@@ -300,7 +301,7 @@ namespace HM
       // Optional headers
       pNewMsgData->SetFrom(sMailerDaemonAddress);
       pNewMsgData->SetTo(pOrigMessage->GetFromAddress());
-      pNewMsgData->SetSubject("Undeliverable: " + pMsgData->GetSubject());
+      pNewMsgData->SetSubject(sMessageUndeliverable + ": " + pMsgData->GetSubject());
       pNewMsgData->SetBody(sErrMsg);
       pNewMsgData->SetRuleLoopCount(iRuleLoopCount + 1);
 
