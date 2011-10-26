@@ -311,17 +311,20 @@ namespace HM
          if (isSpecificRelayServer)
             bounceMessageText = _T("   Error Type: SMTP\r\n   Error Description: The host specified as SMTP relay server could not be found. Please contact your server administrator.\r\n\r\n");
          else
-            bounceMessageText = _T("   Error Type: SMTP\r\n   Error Description: No mail servers appear to exists for the recipients address.\r\n   Additional information: Please check that you have not misspelled the recipients email address.\r\n\r\n");
+            bounceMessageText = _T("   Error Type: SMTP\r\n   Error Description: No mail servers appear to exists for the recipient's address.\r\n   Additional information: Please check that you have not misspelled the recipient's email address.\r\n\r\n");
       }
       else
       {
-         bounceMessageText = _T("   Error Type: SMTP\r\n   Error Description: Unable to find the recipients email server. The DNS query has failed.\r\n\r\n");
+         bounceMessageText = _T("   Error Type: SMTP\r\n   Error Description: Unable to find the recipient's email server. The DNS query has failed.\r\n\r\n");
       }
 
       // Update the recipients with the bounce message text and delivery result.
       boost_foreach(shared_ptr<MessageRecipient> recipient, vecRecipients)
       {
-         recipient->SetDeliveryResult(bDNSQueryOK ? MessageRecipient::ResultFatalError : MessageRecipient::ResultNonFatalError);
+         // Temp change to force non fatal no matter DNS result
+         // Messages bouncing immediately due to no mail servers due to DNS issue
+         recipient->SetDeliveryResult(MessageRecipient::ResultNonFatalError);
+         // recipient->SetDeliveryResult(bDNSQueryOK ? MessageRecipient::ResultFatalError : MessageRecipient::ResultNonFatalError);
          recipient->SetErrorMessage(bounceMessageText);
       }  
    }
@@ -471,19 +474,22 @@ namespace HM
 
       // Variables used to generate randomness value for retry delay
       errno_t rnd_err;
-      unsigned int tmp_rnd;
+      unsigned int tmp_rnd = 0;
       int iRandomAdjust = 0;
 
-      // Get our random #
-      rnd_err = (rand_s(&tmp_rnd));
+      // See if randomness is enabled to work around Win2k compatability issue
+      // plus saves work if not enabled which is default
+      if (m_iQueueRandomnessMinutes > 0)
+      {
 
-      LOG_DEBUG("Calculating retry time.");
+         // Get our random #
+         // LOG_DEBUG("Windows 2000 does not support rand_s & pukes here");
+         rnd_err = (rand_s(&tmp_rnd));
 
-      // If error getting random # or Randomness disabled set to 0 otherwise use it
-      if (rnd_err != 0 || m_iQueueRandomnessMinutes <= 0)
-         iRandomAdjust = 0; 
-      else
-         iRandomAdjust = (unsigned int) ((double)tmp_rnd / (double) UINT_MAX * m_iQueueRandomnessMinutes) + 1;
+         // If no error getting random # use it
+         if (rnd_err == 0)
+            iRandomAdjust = (unsigned int) ((double)tmp_rnd / (double) UINT_MAX * m_iQueueRandomnessMinutes) + 1;
+      }
 
       LOG_DEBUG("Retrieving retry options.");
       if (_GetRetryOptions(mapFailedDueToNonFatalError, iMaxNoOfRetries, lMinutesBewteen))
