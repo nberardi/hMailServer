@@ -156,11 +156,6 @@ namespace HM
          if (parameterName.CompareNoCase(pszAttr) != 0)
             continue;
 
-         char characterAfterName = value[nameEndPos];
-   
-         if (characterAfterName == '*')
-            encodedParameter = true;
-
          // Locate start of parameter value.
          int valuePos = 0;
          for (valuePos = nameEndPos; valuePos < value.GetLength(); valuePos++)
@@ -171,7 +166,15 @@ namespace HM
                break;
          }
 
-         // Skip pass the equal sign.
+         // We want the char before = NOT char after param name
+         // to detect encoding per RFC 2231 4.1
+         // http://www.hmailserver.com/forum/viewtopic.php?f=10&t=21417
+         char characterBeforeEquals = value[valuePos - 1];
+
+         if (characterBeforeEquals == '*')
+            encodedParameter = true;
+
+         // Skip past the equal sign.
          valuePos++;
 
          // Locate the start of the actual value. May be enclosed with quotes.
