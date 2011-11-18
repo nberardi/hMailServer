@@ -392,6 +392,7 @@ namespace HM
                pClientInfo->SetUsername(m_sUsername);
                pClientInfo->SetIPAddress(GetIPAddressString());
                pClientInfo->SetPort(GetLocalPort());
+               pClientInfo->SetHELO(m_sHeloHost);
 
                pContainer->AddObject("HMAILSERVER_MESSAGE", m_pCurrentMessage, ScriptObject::OTMessage);
                pContainer->AddObject("HMAILSERVER_CLIENT", pClientInfo, ScriptObject::OTClient);
@@ -1335,6 +1336,7 @@ namespace HM
          pClientInfo->SetUsername(m_sUsername);
          pClientInfo->SetIPAddress(GetIPAddressString());
          pClientInfo->SetPort(GetLocalPort());
+         pClientInfo->SetHELO(m_sHeloHost);
 
          pContainer->AddObject("HMAILSERVER_MESSAGE", m_pCurrentMessage, ScriptObject::OTMessage);
          pContainer->AddObject("HMAILSERVER_CLIENT", pClientInfo, ScriptObject::OTClient);

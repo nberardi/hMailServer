@@ -54,4 +54,16 @@ STDMETHODIMP InterfaceClient::get_Username(BSTR *pVal)
    }
 }
 
+STDMETHODIMP InterfaceClient::get_HELO(BSTR *pVal)
+{
+   try
+   {
+      *pVal = m_pClientInfo->GetHELO().AllocSysString();
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
 

@@ -21,10 +21,14 @@ namespace HM
       long GetPort() const {return m_lPort; }
       void SetPort(long lNewVal) {m_lPort = lNewVal; }
 
+      void SetHELO(const String &HELO) { m_sHELO = HELO; }
+      String GetHELO() const { return m_sHELO; }
+
    private:
 
       String IPAddress;
       long m_lPort;
       String m_sUsername;
+      String m_sHELO;
    };
 }

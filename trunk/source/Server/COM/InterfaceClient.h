@@ -51,6 +51,7 @@ public:
    STDMETHOD(get_Port)(LONG* pVal);
    STDMETHOD(get_IPAddress)(BSTR* pVal);
    STDMETHOD(get_Username)(BSTR* pVal);
+   STDMETHOD(get_HELO)(BSTR* pVal);
 
 private:
 

@@ -1533,6 +1533,7 @@ interface IInterfaceClient : IDispatch{
    [propget, id(1), helpstring("The TCP/IP port the client is connected to.")] HRESULT Port([out, retval] LONG* pVal);
    [propget, id(2), helpstring("The TCP/IP address the client is connected to.")] HRESULT IPAddress([out, retval] BSTR* pVal);
    [propget, id(3), helpstring("The username of the client.")] HRESULT Username([out, retval] BSTR* pVal);
+   [propget, id(4), helpstring("The HELO sent by client.")] HRESULT HELO([out, retval] BSTR* pVal);
 };
 [
 	object,
@@ -2691,7 +2692,10 @@ interface IInterfaceDiagnostics : IDispatch
 {
    [id(1), helpstring("Performs diagnostics.")] HRESULT PerformTests([out, retval] IInterfaceDiagnosticResults **pVal);
    [propget, id(2), helpstring("Gets or sets the local domain name to perform tests on.")] HRESULT LocalDomainName([out, retval] BSTR *pVal);
-	[propput, id(2), helpstring("Gets or sets the local domain name to perform tests on.")] HRESULT LocalDomainName([in] BSTR newVal);
+   [propput, id(2), helpstring("Gets or sets the local domain name to perform tests on.")] HRESULT LocalDomainName([in] BSTR newVal);
+   [propget, id(3), helpstring("Gets or sets the test domain name to perform tests on.")] HRESULT TestDomainName([out, retval] BSTR *pVal);
+   [propput, id(3), helpstring("Gets or sets the test domain name to perform tests on.")] HRESULT TestDomainName([in] BSTR newVal);
+
 };
 
 [
