@@ -156,13 +156,25 @@ namespace HM
    void 
    MessageIndexer::_IndexMessages()
    {
+      // Default is 720
+      int iIndexerFullMin = IniFileSettings::Instance()->GetIndexerFullMinutes();
+
       PersistentMessageMetaData persistentMetaData;
+      // set quickIndex here so the loop will allow loading of an incomplete index
+      bool bDoQuickIndex = true;
+      if ((iIndexRunCount > iIndexerFullMin) || (iIndexRunCount == 0)){
+        bDoQuickIndex = false;
+        iIndexRunCount = 1;
+      }
+
       while (true)
       {
-         set<shared_ptr<PersistentMessageMetaData::MessageInfo> > messagesToIndex = persistentMetaData.GetMessagesToIndex();
-
+         // added the boolean quickIndex to tell the funciton to use the quick index or the full index
+         set<shared_ptr<PersistentMessageMetaData::MessageInfo> > messagesToIndex = persistentMetaData.GetMessagesToIndex(bDoQuickIndex);
          if (messagesToIndex.size() == 0)
          {
+            LOG_DEBUG("No messages to index.");
+            iIndexRunCount++;  //JDR
             // No messages to index found.
             return;
          }
@@ -200,11 +212,12 @@ namespace HM
 
             if (!persistentMetaData.SaveObject(metaData))
             {
+               LOG_DEBUG("Error saving the index.")
                // Error saving. Abort now...
                return;
             }
          }
       }
+      iIndexRunCount++;
    }
-
 }

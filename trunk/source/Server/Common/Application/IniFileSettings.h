@@ -99,6 +99,9 @@ namespace HM
       int GetClamMaxTimeout () {return m_iClamMaxTimeout; }
       bool GetSAMoveVsCopy() const { return m_bSAMoveVsCopy; }
       String GetAuthUserReplacementIP() const { return m_sAuthUserReplacementIP; }
+      int GetIndexerFullMinutes () {return m_iIndexerFullMinutes; }
+      int GetIndexerFullLimit () {return m_iIndexerFullLimit; }
+      int GetIndexerQuickLimit () {return m_iIndexerQuickLimit; }
 
       bool GetUseSSLVerifyPeer() {return _useSSLVerifyPeer;}
       
@@ -169,5 +172,8 @@ namespace HM
       int m_iClamMaxTimeout;
       bool m_bSAMoveVsCopy;
       String m_sAuthUserReplacementIP;
+      int m_iIndexerFullMinutes;
+      int m_iIndexerFullLimit;
+      int m_iIndexerQuickLimit;
    };
 }

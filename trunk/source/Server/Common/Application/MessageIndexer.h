@@ -33,6 +33,7 @@ namespace HM
       Event _indexNow;
 
       static CriticalSection _starterLock; 
+	  int iIndexRunCount;
 
    };
 }

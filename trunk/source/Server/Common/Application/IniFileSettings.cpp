@@ -159,6 +159,9 @@ namespace HM
       m_iClamMaxTimeout =  _ReadIniSettingInteger("Settings", "ClamMaxTimeout",90);
       m_bSAMoveVsCopy = _ReadIniSettingInteger("Settings", "SAMoveVsCopy", 0) == 1;
       m_sAuthUserReplacementIP = _ReadIniSettingString("Settings", "AuthUserReplacementIP", "");
+      m_iIndexerFullMinutes =  _ReadIniSettingInteger("Settings", "IndexerFullMinutes",720);
+      m_iIndexerFullLimit =  _ReadIniSettingInteger("Settings", "IndexerFullLimit",25000);
+      m_iIndexerQuickLimit =  _ReadIniSettingInteger("Settings", "IndexerQuickLimit",1000);
       //Probably need some more sanity checks on these settings but for now we assume user has some sense
 
       // check if we should validate peer's.

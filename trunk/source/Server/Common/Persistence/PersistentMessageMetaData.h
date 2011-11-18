@@ -25,7 +25,8 @@ namespace HM
       PersistentMessageMetaData(void);
       ~PersistentMessageMetaData(void);
 
-      set<shared_ptr<MessageInfo> > GetMessagesToIndex();
+      // quickIndex param added to choose new faster/limiting option
+      set<shared_ptr<MessageInfo> > GetMessagesToIndex(bool quickIndex);
 
       bool DeleteForMessage(shared_ptr<Message> message);
       void GetMetaData(int accountID, int folderID, const String &headerField, map<__int64, String > &result);
