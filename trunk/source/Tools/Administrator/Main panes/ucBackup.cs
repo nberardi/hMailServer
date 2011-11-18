@@ -166,18 +166,23 @@ namespace hMailServer.Administrator
 
         private void buttonStartRestore_Click(object sender, EventArgs e)
         {
-            if (_backup != null)
-            {
-               if (checkRestoreSettings.Enabled ||
-                   checkRestoreDomains.Enabled ||
-                   checkRestoreMessages.Enabled)
-               {
-                  _backup.RestoreDomains = checkRestoreDomains.Checked;
-                  _backup.RestoreMessages = checkRestoreMessages.Checked;
-                  _backup.RestoreSettings = checkRestoreSettings.Checked;
+            string message = "WARNING! All settings will be cleared & ALL MESSAGES DELETED prior to restore. Are you sure?";
 
-                  _backup.StartRestore();
-               }
+            if (MessageBox.Show(Strings.Localize(message), EnumStrings.hMailServerAdministrator, MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (_backup != null)
+                {
+                    if (checkRestoreSettings.Enabled ||
+                        checkRestoreDomains.Enabled ||
+                        checkRestoreMessages.Enabled)
+                    {
+                        _backup.RestoreDomains = checkRestoreDomains.Checked;
+                        _backup.RestoreMessages = checkRestoreMessages.Checked;
+                        _backup.RestoreSettings = checkRestoreSettings.Checked;
+
+                        _backup.StartRestore();
+                    }
+                }
             }
         }
 
