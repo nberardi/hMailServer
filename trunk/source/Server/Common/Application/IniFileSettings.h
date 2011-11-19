@@ -104,6 +104,7 @@ namespace HM
       int GetIndexerQuickLimit () {return m_iIndexerQuickLimit; }
       int GetLoadHeaderReadSize () {return m_iLoadHeaderReadSize; }
       int GetLoadBodyReadSize () {return m_iLoadBodyReadSize; }
+      int GetBlockedIPHoldSeconds () {return m_iBlockedIPHoldSeconds; }
 
       bool GetUseSSLVerifyPeer() {return _useSSLVerifyPeer;}
       
@@ -179,5 +180,6 @@ namespace HM
       int m_iIndexerQuickLimit;
       int m_iLoadHeaderReadSize;
       int m_iLoadBodyReadSize;
+      int m_iBlockedIPHoldSeconds;
    };
 }
