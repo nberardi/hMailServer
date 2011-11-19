@@ -119,11 +119,11 @@ namespace hMailServer.Administrator
             switch (_application.ServerState)
             {
                 case eServerState.hStateRunning:
-                    buttonStartStop.Text = Strings.Localize("Stop");
+                    buttonStartStop.Text = Strings.Localize("Pause");
                     buttonStartStop.Enabled = true;
                     break;
                 case eServerState.hStateStopped:
-                    buttonStartStop.Text = Strings.Localize("Start");
+                    buttonStartStop.Text = Strings.Localize("Resume");
                     buttonStartStop.Enabled = true;
                     break;
                 default:
@@ -486,17 +486,21 @@ namespace hMailServer.Administrator
 
         private void menuItemDelete_Click(object sender, EventArgs e)
         {
-            WaitCursor waitCursor = new WaitCursor();
-
-            hMailServer.DeliveryQueue deliveryQueue = GetDeliveryQueue();
-            foreach (ListViewItem item in listDeliveryQueue.SelectedItems)
+            string message = "Are you sure you want to delete selected message(s) from queue?";
+            if (MessageBox.Show(Strings.Localize(message), EnumStrings.hMailServerAdministrator, MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                string messageID = (string)item.Tag;
+                WaitCursor waitCursor = new WaitCursor();
 
-                deliveryQueue.Remove(Convert.ToInt64(messageID));
+                hMailServer.DeliveryQueue deliveryQueue = GetDeliveryQueue();
+                foreach (ListViewItem item in listDeliveryQueue.SelectedItems)
+                {
+                    string messageID = (string)item.Tag;
+
+                    deliveryQueue.Remove(Convert.ToInt64(messageID));
+                }
+
+                Marshal.ReleaseComObject(deliveryQueue);
             }
-
-            Marshal.ReleaseComObject(deliveryQueue);
 
             RefreshDeliveryQueue();
         }
