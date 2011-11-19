@@ -315,7 +315,9 @@ namespace HM
          }
 
          // Update message ID in memory.
-         pRecipient->SetMessageID(pMessage->GetID());
+         // ONLY if not already set or dupe emails issue
+         // http://www.hmailserver.com/forum/viewtopic.php?f=10&t=21404
+         if (pRecipient->GetMessageID() == 0) pRecipient->SetMessageID(pMessage->GetID());
 
          // Do the saving
          SQLStatement oStatement;
@@ -677,8 +679,10 @@ namespace HM
       if (bUpdateNoOfTries)
          sUpdateSQL += " , messagecurnooftries = messagecurnooftries + 1 ";
    
-      // To prevent already delivered messages from being updated>
-      String sWhereClause = _T("where messageid = @MESSAGEID and messagetype = 1 or messagetype = 3");
+      // To prevent already delivered messages from being updated
+      // () needed around messagetypes to fix order of evaluation
+      // otherwise all HOLD's mistakenly queued & ID not reset to 0
+      String sWhereClause = _T("where messageid = @MESSAGEID and (messagetype = 1 or messagetype = 3)");
 
       sUpdateSQL += sWhereClause;
 
@@ -962,7 +966,13 @@ namespace HM
    // Reads the entire message from the disk.
    //---------------------------------------------------------------------------()
    {
+      // 50000 seems inefficient to read in headers especially since default cluster is 4096
+      // Let's allow user to define READ size but keep buffer hard-coded
+      int iHeaderReadSize = IniFileSettings::Instance()->GetLoadHeaderReadSize();
       const int iReadBufferSize = 50000;
+
+      // We need to take care not to overflow buffer
+      if (iHeaderReadSize > iReadBufferSize) iHeaderReadSize = iReadBufferSize;
 
       String sHeaderData; 
 
@@ -997,7 +1007,8 @@ namespace HM
 
       while (bMoreData)
       {
-         ReadFile(handleFile,buf,iReadBufferSize, &nbytes, NULL);
+         // We're using defined read size vs buffer size (read will always be <= buffer due to test above)
+         ReadFile(handleFile,buf,iHeaderReadSize, &nbytes, NULL);
 
          if (nbytes) 
          {
@@ -1031,7 +1042,13 @@ namespace HM
    // Reads the entire message from the disk.
    //---------------------------------------------------------------------------()
    {
-      const int iReadBufferSize = 10000;
+      // 10000 seems inefficient since default cluster is 4096
+      // Let's allow user to define READ size but keep buffer hard-coded
+      int iBodyReadSize = IniFileSettings::Instance()->GetLoadBodyReadSize();
+      const int iReadBufferSize = 50000;
+
+      // We need to take care not to overflow buffer
+      if (iBodyReadSize > iReadBufferSize) iBodyReadSize = iReadBufferSize;
 
       HANDLE handleFile = CreateFile(fileName, 
          GENERIC_READ, 
@@ -1060,7 +1077,8 @@ namespace HM
 
       while (true)
       {
-         ReadFile(handleFile,buf,iReadBufferSize, &nbytes, NULL);
+         // We're using defined read size vs buffer size (read will always be <= buffer due to test above)
+         ReadFile(handleFile,buf,iBodyReadSize, &nbytes, NULL);
 
          if (!nbytes) 
             break;
