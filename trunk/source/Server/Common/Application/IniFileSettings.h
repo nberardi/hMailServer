@@ -102,6 +102,8 @@ namespace HM
       int GetIndexerFullMinutes () {return m_iIndexerFullMinutes; }
       int GetIndexerFullLimit () {return m_iIndexerFullLimit; }
       int GetIndexerQuickLimit () {return m_iIndexerQuickLimit; }
+      int GetLoadHeaderReadSize () {return m_iLoadHeaderReadSize; }
+      int GetLoadBodyReadSize () {return m_iLoadBodyReadSize; }
 
       bool GetUseSSLVerifyPeer() {return _useSSLVerifyPeer;}
       
@@ -175,5 +177,7 @@ namespace HM
       int m_iIndexerFullMinutes;
       int m_iIndexerFullLimit;
       int m_iIndexerQuickLimit;
+      int m_iLoadHeaderReadSize;
+      int m_iLoadBodyReadSize;
    };
 }

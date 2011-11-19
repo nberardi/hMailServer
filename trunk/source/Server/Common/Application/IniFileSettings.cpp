@@ -162,6 +162,8 @@ namespace HM
       m_iIndexerFullMinutes =  _ReadIniSettingInteger("Settings", "IndexerFullMinutes",720);
       m_iIndexerFullLimit =  _ReadIniSettingInteger("Settings", "IndexerFullLimit",25000);
       m_iIndexerQuickLimit =  _ReadIniSettingInteger("Settings", "IndexerQuickLimit",1000);
+      m_iLoadHeaderReadSize =  _ReadIniSettingInteger("Settings", "LoadHeaderReadSize",4000);
+      m_iLoadBodyReadSize =  _ReadIniSettingInteger("Settings", "LoadBodyReadSize",4000);
       //Probably need some more sanity checks on these settings but for now we assume user has some sense
 
       // check if we should validate peer's.
