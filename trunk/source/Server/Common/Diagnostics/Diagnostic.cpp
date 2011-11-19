@@ -42,6 +42,18 @@ namespace HM
       return _localDomainName;
    }
 
+   void
+   Diagnostic::SetTestDomain(String &sTestDomainName)
+   {
+      _localTestDomainName = sTestDomainName;
+   }
+
+   String
+   Diagnostic::GetTestDomain() const
+   {
+      return _localTestDomainName;
+   }
+
    vector<DiagnosticResult>
    Diagnostic::PerformTests()
    {
@@ -53,9 +65,12 @@ namespace HM
       TestIPv6 ipv6Test; 
       results.push_back(ipv6Test.PerformTest());
 
-      TestOutboundPort outboundPortTest;
+      if (_localTestDomainName.GetLength() > 0)
+      {
+      TestOutboundPort outboundPortTest(_localTestDomainName);
       results.push_back(outboundPortTest.PerformTest());
-
+      }
+      
       TestBackupDirectory backupDirectoryTest;
       results.push_back(backupDirectoryTest.PerformTest());
 

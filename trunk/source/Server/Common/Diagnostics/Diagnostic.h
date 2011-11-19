@@ -15,13 +15,16 @@ namespace HM
 	   virtual ~Diagnostic();
   
       void SetLocalDomain(String &sDomainName);
+      void SetTestDomain(String &sTestDomainName);
       String GetLocalDomain() const;
+      String GetTestDomain() const;
 
       vector<DiagnosticResult> PerformTests();
 
    private:
 
       String _localDomainName;
+      String _localTestDomainName;
    };
 
 

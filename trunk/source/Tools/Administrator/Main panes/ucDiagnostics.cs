@@ -78,11 +78,11 @@ namespace hMailServer.Administrator
             hMailServer.Diagnostics diagnostics = APICreator.Application.Diagnostics;
 
             diagnostics.LocalDomainName = comboLocalDomain.Text;
+            diagnostics.TestDomainName = textboxTestDomain.Text;
 
             hMailServer.DiagnosticResults results = diagnostics.PerformTests();
 
             DisplayResults(results);
-           
 
             Marshal.ReleaseComObject(results);
             Marshal.ReleaseComObject(diagnostics);

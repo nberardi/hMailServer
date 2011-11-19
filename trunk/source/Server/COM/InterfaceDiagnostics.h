@@ -55,6 +55,9 @@ public:
    STDMETHOD(get_LocalDomainName)(/*[out, retval]*/ BSTR *pVal);
    STDMETHOD(put_LocalDomainName)(/*[in]*/ BSTR newVal);
 
+   STDMETHOD(get_TestDomainName)(/*[out, retval]*/ BSTR *pVal);
+   STDMETHOD(put_TestDomainName)(/*[in]*/ BSTR newVal);
+
    HM::Diagnostic _diagnostics;
 };
 

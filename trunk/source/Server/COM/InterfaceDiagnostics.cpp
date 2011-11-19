@@ -78,4 +78,44 @@ STDMETHODIMP InterfaceDiagnostics::put_LocalDomainName(BSTR newVal)
    }
 }
 
+STDMETHODIMP InterfaceDiagnostics::get_TestDomainName(BSTR *pVal)
+{
+   try
+   {
+      if (!m_pAuthentication)
+         return GetAccessDenied();
+
+      if (!m_pAuthentication->GetIsServerAdmin())
+         return m_pAuthentication->GetAccessDenied();
+   
+      *pVal = _diagnostics.GetTestDomain().AllocSysString();
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
+
+STDMETHODIMP InterfaceDiagnostics::put_TestDomainName(BSTR newVal)
+{
+   try
+   {
+      if (!m_pAuthentication)
+         return GetAccessDenied();
+
+      if (!m_pAuthentication->GetIsServerAdmin())
+         return m_pAuthentication->GetAccessDenied();
+   
+      HM::String TestDomainName = newVal;
+      _diagnostics.SetTestDomain(TestDomainName);
+   
+      return S_OK;
+   }
+   catch (...)
+   {
+      return COMError::GenerateGenericMessage();
+   }
+}
 

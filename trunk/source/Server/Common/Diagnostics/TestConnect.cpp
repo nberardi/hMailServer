@@ -92,6 +92,15 @@ namespace HM
          return false;
       }
 
+      // Read the response status line.
+      boost::asio::streambuf response;
+      boost::asio::read_until(socket, response, "\r\n");
+
+      std::string s;
+      std::istream is(&response);
+      std::getline(is, s, '\r');
+      result.append(Formatter::Format("Received: {0}.\r\n", String(s)));
+
       // Close the socket again.
       socket.close();
 
