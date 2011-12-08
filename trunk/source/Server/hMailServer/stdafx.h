@@ -7,47 +7,19 @@
 
 #pragma once
 
+// Set min version of Windows platform to Windows 2003
+#define _WIN32_WINNT _WIN32_WINNT_WS03
+#define NTDDI_VERSION NTDDI_WS03
+
 #pragma warning( disable : 4180 )
 
 // START: CRT + standard library settings.
 	#define _CRT_SECURE_NO_DEPRECATE
-	#define _SECURE_STL 0
-	#define _SECURE_SCL_DEPRECATE 0
 	#define _CRT_NON_CONFORMING_SWPRINTFS
-
-	// Defines whether Checked Iterators are enabled. If defined as 1, unsafe iterator
-	// use causes a runtime error. If defined as 0, checked iterators are disabled.
-	#define _SECURE_SCL 1
-
-	// If defined as 1, an out of range iterator use causes an exception at runtime. 
-	// If defined as 0, the program is terminated by calling invalid_parameter. 
-	// The default value for _SECURE_SCL_THROWS is 0, meaning the program will be 
-	// terminated by default. Requires _SECURE_SCL to also be defined.
-   #define _SECURE_SCL_THROWS 1
 // END: Standard library settings
-
-
 
 #define STRICT
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
-
-// Modify the following defines if you have to target a platform prior to the ones specified below.
-// Refer to MSDN for the latest info on corresponding values for different platforms.
-#ifndef WINVER				// Allow use of features specific to Windows 95 and Windows NT 4 or later.
-	#define WINVER 0x0400		// Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
-#endif
-
-#ifndef _WIN32_WINNT		// Allow use of features specific to Windows NT 4 or later.
-	#define _WIN32_WINNT 0x0500	// Change this to the appropriate value to target Windows 2000 or later.
-#endif						
-
-#ifndef _WIN32_WINDOWS		// Allow use of features specific to Windows 98 or later.
-	#define _WIN32_WINDOWS 0x0410 // Change this to the appropriate value to target Windows Me or later.
-#endif
-
-#ifndef _WIN32_IE			// Allow use of features specific to IE 4.0 or later.
-	#define _WIN32_IE 0x0400	// Change this to the appropriate value to target IE 5.0 or later.
-#endif
 
 // START: ATL settings
 	#define _ATL_FREE_THREADEDLPCWSTR
