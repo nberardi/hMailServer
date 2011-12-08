@@ -17,11 +17,11 @@ namespace HM
    class POP3ClientConnection : public ProtocolParser, public boost::enable_shared_from_this<POP3ClientConnection>
    {
    public:
-      POP3ClientConnection(shared_ptr<FetchAccount> pAccount);
+      POP3ClientConnection(boost::shared_ptr<FetchAccount> pAccount);
       ~POP3ClientConnection(void);
 
       virtual void ParseData(const AnsiString &Request);
-      virtual void ParseData(shared_ptr<ByteBuffer> pBuf);
+      virtual void ParseData(boost::shared_ptr<ByteBuffer> pBuf);
 
       
       virtual AnsiString GetCommandSeparator() const;
@@ -42,13 +42,13 @@ namespace HM
    private:
 
       int _GetDaysToKeep(const String &sUID);
-      void _FireOnExternalAccountDownload(shared_ptr<Message> message, const String &uid);
+      void _FireOnExternalAccountDownload(boost::shared_ptr<Message> message, const String &uid);
 
       void _HandlePOP3FinalizationTaskCompleted();
 
       void InternalParseData(const String &sRequest);
 
-      void _CreateRecipentList(shared_ptr<MimeHeader> pHeader);
+      void _CreateRecipentList(boost::shared_ptr<MimeHeader> pHeader);
 
       // Checks whether the POP3 command hMailServer sent
       // to the remote server was successful.
@@ -69,11 +69,11 @@ namespace HM
       void _ParseDELEResponse(const String &sData);
       bool _RequestNextMessage();
 
-      bool _ParseFirstBinary(shared_ptr<ByteBuffer> pBuf);
-      void _ProcessMIMERecipients(shared_ptr<MimeHeader> pHeader);
-      void _ProcessReceivedHeaders(shared_ptr<MimeHeader> pHeader);
+      bool _ParseFirstBinary(boost::shared_ptr<ByteBuffer> pBuf);
+      void _ProcessMIMERecipients(boost::shared_ptr<MimeHeader> pHeader);
+      void _ProcessReceivedHeaders(boost::shared_ptr<MimeHeader> pHeader);
 
-      void _RetrieveReceivedDate(shared_ptr<MimeHeader> pHeader);
+      void _RetrieveReceivedDate(boost::shared_ptr<MimeHeader> pHeader);
 
       void _PrependHeaders();
       // Adds headers to the beginning of the message.
@@ -82,7 +82,7 @@ namespace HM
       // Sends a QUIT message and switch over to
       // quit-state
 
-      shared_ptr<FetchAccountUIDList> _GetUIDList();
+      boost::shared_ptr<FetchAccountUIDList> _GetUIDList();
 
       void _MarkCurrentMessageAsRead();
       void _ParseMessageHeaders();
@@ -102,7 +102,7 @@ namespace HM
       // Deletes the UID's in the local database if 
       // the UID does not exist on the POP3 server.
 
-      shared_ptr<FetchAccount> m_pAccount;
+      boost::shared_ptr<FetchAccount> m_pAccount;
       // The current fetch account.
 
       void _RemoveInvalidRecipients();
@@ -135,17 +135,17 @@ namespace HM
 
       map<int ,String>::iterator m_iterCurMessage;
 
-      shared_ptr<Message> m_pCurrentMessage;
+      boost::shared_ptr<Message> m_pCurrentMessage;
 
       String m_sReceivingAccountAddress;
 
-      shared_ptr<TransparentTransmissionBuffer> m_pTransmissionBuffer;
+      boost::shared_ptr<TransparentTransmissionBuffer> m_pTransmissionBuffer;
 
       bool m_bPendingDisconnect;
 
-      map<String, shared_ptr<Result> > _eventResults;
+      map<String, boost::shared_ptr<Result> > _eventResults;
 
-      shared_ptr<FetchAccountUIDList> _fetchAccountUIDList;
+      boost::shared_ptr<FetchAccountUIDList> _fetchAccountUIDList;
 
   };
 }

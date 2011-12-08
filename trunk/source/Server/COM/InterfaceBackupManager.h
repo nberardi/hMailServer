@@ -47,7 +47,7 @@ public:
    STDMETHOD(LoadBackup)(/*[in]*/ BSTR sXMLFile, /*[out, retval]*/ IInterfaceBackup **pVal);
 
 private:
-   shared_ptr<HM::BackupManager> m_pBackupManager;
+   boost::shared_ptr<HM::BackupManager> m_pBackupManager;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(BackupManager), InterfaceBackupManager)

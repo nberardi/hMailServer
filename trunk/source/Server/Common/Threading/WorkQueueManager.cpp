@@ -31,7 +31,7 @@ namespace HM
    //---------------------------------------------------------------------------
    {
       // Create the work queue
-      shared_ptr<WorkQueue> pWorkQueue = shared_ptr<WorkQueue>(new WorkQueue(iMaxSimultaneous, qtType, sQueueName));
+      boost::shared_ptr<WorkQueue> pWorkQueue = boost::shared_ptr<WorkQueue>(new WorkQueue(iMaxSimultaneous, qtType, sQueueName));
       pWorkQueue->Start();
 
       CriticalSectionScope scope(m_csWorkQueues);
@@ -42,7 +42,7 @@ namespace HM
    }
 
    void 
-   WorkQueueManager::AddTask(int iQueueID, shared_ptr<Task> pTask)
+   WorkQueueManager::AddTask(int iQueueID, boost::shared_ptr<Task> pTask)
    //---------------------------------------------------------------------------
    // DESCRIPTION:
    // Adds a task to a worker queue.
@@ -51,7 +51,7 @@ namespace HM
       // Add the task to the work queue
       CriticalSectionScope scope(m_csWorkQueues);
 
-      std::map<int, shared_ptr<WorkQueue> >::iterator iterQueue = m_mapWorkQueues.find(iQueueID);
+      std::map<int, boost::shared_ptr<WorkQueue> >::iterator iterQueue = m_mapWorkQueues.find(iQueueID);
 
       if (iterQueue == m_mapWorkQueues.end())
       {
@@ -60,7 +60,7 @@ namespace HM
          assert(0);  
       }
 
-      shared_ptr<WorkQueue> pWorkQueue = (*iterQueue).second;
+      boost::shared_ptr<WorkQueue> pWorkQueue = (*iterQueue).second;
 
       pWorkQueue->AddTask(pTask);
    }
@@ -73,8 +73,8 @@ namespace HM
    //---------------------------------------------------------------------------
    {
       // Locate the work queue
-      shared_ptr<WorkQueue> pQueue;
-      std::map<int, shared_ptr<WorkQueue> >::iterator iterQueue;
+      boost::shared_ptr<WorkQueue> pQueue;
+      std::map<int, boost::shared_ptr<WorkQueue> >::iterator iterQueue;
 
       {
          CriticalSectionScope scope(m_csWorkQueues);
@@ -124,7 +124,7 @@ namespace HM
 
    }
 
-   shared_ptr<WorkQueue> 
+   boost::shared_ptr<WorkQueue> 
    WorkQueueManager::GetQueue(const String &sQueueName)
    //---------------------------------------------------------------------------
    // DESCRIPTION:
@@ -133,32 +133,32 @@ namespace HM
    {
       CriticalSectionScope scope(m_csWorkQueues);
 
-      std::map<int, shared_ptr<WorkQueue> >::iterator iterQueue = _GetQueueIterator(sQueueName);
+      std::map<int, boost::shared_ptr<WorkQueue> >::iterator iterQueue = _GetQueueIterator(sQueueName);
       if (iterQueue != m_mapWorkQueues.end())
       {
-         shared_ptr<WorkQueue> pQueue = (*iterQueue).second;
+         boost::shared_ptr<WorkQueue> pQueue = (*iterQueue).second;
          if (pQueue->GetName().CompareNoCase(sQueueName) == 0)
             return pQueue;
 
          iterQueue++;
       }
 
-      shared_ptr<WorkQueue> pEmpty;
+      boost::shared_ptr<WorkQueue> pEmpty;
       return pEmpty;
          
    }
 
-   std::map<int, shared_ptr<WorkQueue> >::iterator 
+   std::map<int, boost::shared_ptr<WorkQueue> >::iterator 
    WorkQueueManager::_GetQueueIterator(const String &sQueueName)
    //---------------------------------------------------------------------------
    // DESCRIPTION:
    // Returns a iterator to a queue with the specified name.
    //---------------------------------------------------------------------------
    {
-      std::map<int, shared_ptr<WorkQueue> >::iterator iterQueue = m_mapWorkQueues.begin();
+      std::map<int, boost::shared_ptr<WorkQueue> >::iterator iterQueue = m_mapWorkQueues.begin();
       while (iterQueue != m_mapWorkQueues.end())
       {
-         shared_ptr<WorkQueue> pQueue = (*iterQueue).second;
+         boost::shared_ptr<WorkQueue> pQueue = (*iterQueue).second;
          if (pQueue->GetName().CompareNoCase(sQueueName) == 0)
             return iterQueue;
 

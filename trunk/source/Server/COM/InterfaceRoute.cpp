@@ -308,7 +308,7 @@ STDMETHODIMP InterfaceRoute::get_Addresses(IInterfaceRouteAddresses **pVal)
       CComObject<InterfaceRouteAddresses>* pInterfaceAddresses = new CComObject<InterfaceRouteAddresses>;
       pInterfaceAddresses->SetAuthentication(m_pAuthentication);
       
-      shared_ptr<HM::RouteAddresses> pAdresses = m_pObject->GetAddresses();
+      boost::shared_ptr<HM::RouteAddresses> pAdresses = m_pObject->GetAddresses();
    
       pInterfaceAddresses->Attach(pAdresses);
       pInterfaceAddresses->AddRef();

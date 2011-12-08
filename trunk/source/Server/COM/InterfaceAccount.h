@@ -38,7 +38,7 @@ public:
 #endif
    }
 
-   void SetAuthentication(shared_ptr<HM::COMAuthentication> pAuthentication);
+   void SetAuthentication(boost::shared_ptr<HM::COMAuthentication> pAuthentication);
 
 DECLARE_REGISTRY_RESOURCEID(IDR_INTERFACEACCOUNT)
 
@@ -143,7 +143,7 @@ public:
 
 private:
 
-   shared_ptr<HM::COMAuthentication> m_pAuthentication;
+   boost::shared_ptr<HM::COMAuthentication> m_pAuthentication;
 
 #ifdef _DEBUG
    static long counter;

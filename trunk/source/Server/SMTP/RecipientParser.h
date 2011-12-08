@@ -23,13 +23,13 @@ namespace HM
       };
 
       DeliveryPossibility CheckDeliveryPossibility(bool bSenderIsAuthed, String sSender, const String &sOriginalRecipient, String &sErrMsg, bool &bTreatSecurityAsLocal, int iRecursionLevel);
-      void CreateMessageRecipientList(const String &sRecipientAddress, shared_ptr<MessageRecipients> pRecipients, bool &recipientOK);
+      void CreateMessageRecipientList(const String &sRecipientAddress, boost::shared_ptr<MessageRecipients> pRecipients, bool &recipientOK);
       
    private:
 
-      void _CreateMessageRecipientList(const String &recipientAddress, const String &sOriginalAddress, long lRecurse, shared_ptr<MessageRecipients> pRecipients, bool &recipientOK);
-      void _AddRecipient(shared_ptr<MessageRecipients> pRecipients, shared_ptr<MessageRecipient> pRecipient);
-      DeliveryPossibility _UserCanSendToList(const String &sSender, bool bSenderIsAuthenticated, shared_ptr<const DistributionList> pList, String &sErrMsg, int iRecursionLevel);
+      void _CreateMessageRecipientList(const String &recipientAddress, const String &sOriginalAddress, long lRecurse, boost::shared_ptr<MessageRecipients> pRecipients, bool &recipientOK);
+      void _AddRecipient(boost::shared_ptr<MessageRecipients> pRecipients, boost::shared_ptr<MessageRecipient> pRecipient);
+      DeliveryPossibility _UserCanSendToList(const String &sSender, bool bSenderIsAuthenticated, boost::shared_ptr<const DistributionList> pList, String &sErrMsg, int iRecursionLevel);
 
   };
 }

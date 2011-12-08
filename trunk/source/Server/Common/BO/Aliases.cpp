@@ -32,7 +32,7 @@ namespace HM
    }
 
    bool
-   Aliases::PreSaveObject(shared_ptr<Alias> pAlias, XNode *node)
+   Aliases::PreSaveObject(boost::shared_ptr<Alias> pAlias, XNode *node)
    {
       pAlias->SetDomainID(m_iDomainID);
 

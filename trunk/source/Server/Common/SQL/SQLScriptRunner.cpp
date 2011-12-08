@@ -21,7 +21,7 @@ namespace HM
    }
 
    bool
-   SQLScriptRunner::ExecuteScript(shared_ptr<DALConnection> connectionObject, const String &sFile, String &sErrorMessage)
+   SQLScriptRunner::ExecuteScript(boost::shared_ptr<DALConnection> connectionObject, const String &sFile, String &sErrorMessage)
    {
       SQLScriptParser oParser(connectionObject->GetSettings(), sFile);
       if (!oParser.Parse(sErrorMessage))
@@ -54,7 +54,7 @@ namespace HM
                return false;
             }
 
-            shared_ptr<IMacroExpander> macroExpander = connectionObject->CreateMacroExpander();
+            boost::shared_ptr<IMacroExpander> macroExpander = connectionObject->CreateMacroExpander();
             if (!macroExpander->ProcessMacro(connectionObject, macro, sErrorMessage))
                return false;
          }

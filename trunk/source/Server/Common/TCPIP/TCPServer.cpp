@@ -27,7 +27,7 @@ using boost::asio::ip::tcp;
 
 namespace HM
 {
-   TCPServer::TCPServer(boost::asio::io_service& io_service, const IPAddress &ipaddress, int port, SessionType sessionType, shared_ptr<SSLCertificate> certificate) :
+   TCPServer::TCPServer(boost::asio::io_service& io_service, const IPAddress &ipaddress, int port, SessionType sessionType, boost::shared_ptr<SSLCertificate> certificate) :
       _acceptor(io_service),
       _context(io_service, boost::asio::ssl::context::sslv23),
       _ipaddress(ipaddress),
@@ -221,7 +221,7 @@ namespace HM
       {
          bool useSSL = _certificate != 0;
          
-         shared_ptr<TCPConnection> pNewConnection = shared_ptr<TCPConnection> (new TCPConnection(useSSL, _acceptor.io_service(), _context));
+         boost::shared_ptr<TCPConnection> pNewConnection = boost::shared_ptr<TCPConnection> (new TCPConnection(useSSL, _acceptor.get_io_service(), _context));
 
          _acceptor.async_accept(pNewConnection->GetSocket(),
             boost::bind(&TCPServer::HandleAccept, this, pNewConnection,
@@ -237,7 +237,7 @@ namespace HM
 
 
    void 
-   TCPServer::HandleAccept(shared_ptr<TCPConnection> pConnection,
+   TCPServer::HandleAccept(boost::shared_ptr<TCPConnection> pConnection,
       const boost::system::error_code& error)
    {
       if (error.value() == 995)
@@ -267,7 +267,7 @@ namespace HM
          String sMessage = Formatter::Format("TCP - {0} connected to {1}:{2}.", remoteAddress.ToString(), localAddress.ToString(), _port);
          LOG_TCPIP(sMessage);
 
-         shared_ptr<SecurityRange> securityRange = PersistentSecurityRange::ReadMatchingIP(remoteAddress);
+         boost::shared_ptr<SecurityRange> securityRange = PersistentSecurityRange::ReadMatchingIP(remoteAddress);
 
          if (!securityRange)
          {
@@ -275,7 +275,7 @@ namespace HM
             return;
          }
 
-         shared_ptr<ProtocolParser> pProtocolParser = 
+         boost::shared_ptr<ProtocolParser> pProtocolParser = 
             SessionManager::Instance()->CreateConnection(_sessionType, securityRange);
 
          if (!pProtocolParser)
@@ -327,12 +327,12 @@ namespace HM
       if (!Configuration::Instance()->GetUseScriptServer())
          return true;
 
-      shared_ptr<ClientInfo> pCliInfo = shared_ptr<ClientInfo>(new ClientInfo);
+      boost::shared_ptr<ClientInfo> pCliInfo = boost::shared_ptr<ClientInfo>(new ClientInfo);
       pCliInfo->SetIPAddress(remoteAddress.ToString());
       pCliInfo->SetPort(port);
 
-      shared_ptr<ScriptObjectContainer> pContainer = shared_ptr<ScriptObjectContainer>(new ScriptObjectContainer);
-      shared_ptr<Result> pResult = shared_ptr<Result>(new Result);
+      boost::shared_ptr<ScriptObjectContainer> pContainer = boost::shared_ptr<ScriptObjectContainer>(new ScriptObjectContainer);
+      boost::shared_ptr<Result> pResult = boost::shared_ptr<Result>(new Result);
 
       pContainer->AddObject("Result", pResult, ScriptObject::OTResult);
       pContainer->AddObject("HMAILSERVER_CLIENT", pCliInfo, ScriptObject::OTClient);

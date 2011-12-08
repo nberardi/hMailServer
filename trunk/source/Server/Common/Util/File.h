@@ -35,7 +35,7 @@ namespace HM
       bool Write(const String &sWrite);
       bool Write(const AnsiString &sWrite);
       bool Write(const unsigned char *pBuf, int iBufLen, DWORD &dwNoOfBytesWritten);
-      bool Write(shared_ptr<ByteBuffer> pBuffer, DWORD &dwNoOfBytesWritten);
+      bool Write(boost::shared_ptr<ByteBuffer> pBuffer, DWORD &dwNoOfBytesWritten);
       bool Write(File &sourceFile);
       bool WriteBOF();
       bool MoveToEnd();
@@ -44,9 +44,9 @@ namespace HM
 
       int GetSize();
 
-      shared_ptr<ByteBuffer> ReadFile();
-      shared_ptr<ByteBuffer> ReadTextFile();
-      shared_ptr<ByteBuffer> ReadChunk(int iMaxSize);
+      boost::shared_ptr<ByteBuffer> ReadFile();
+      boost::shared_ptr<ByteBuffer> ReadTextFile();
+      boost::shared_ptr<ByteBuffer> ReadChunk(int iMaxSize);
 
       String GetName() const;
 

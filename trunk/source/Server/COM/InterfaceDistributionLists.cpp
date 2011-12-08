@@ -11,7 +11,7 @@
 #include "../common/persistence/PersistentDistributionList.h"
 
 void 
-InterfaceDistributionLists::Attach(shared_ptr<HM::DistributionLists> pDistributionLists)
+InterfaceDistributionLists::Attach(boost::shared_ptr<HM::DistributionLists> pDistributionLists)
 {
    m_pDistributionLists= pDistributionLists;
 }
@@ -65,7 +65,7 @@ STDMETHODIMP InterfaceDistributionLists::Add(IInterfaceDistributionList **pVal)
       CComObject<InterfaceDistributionList>* pList = new CComObject<InterfaceDistributionList>();
       pList->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::DistributionList> pPersList = shared_ptr<HM::DistributionList>(new HM::DistributionList);
+      boost::shared_ptr<HM::DistributionList> pPersList = boost::shared_ptr<HM::DistributionList>(new HM::DistributionList);
       pPersList->SetDomainID(m_iDomainID);
    
       pList->AttachItem(pPersList);
@@ -90,7 +90,7 @@ STDMETHODIMP InterfaceDistributionLists::Delete(long Index)
       if (!m_pDistributionLists)
          return GetAccessDenied();
 
-      shared_ptr<HM::DistributionList> pPersList = m_pDistributionLists->GetItem(Index);
+      boost::shared_ptr<HM::DistributionList> pPersList = m_pDistributionLists->GetItem(Index);
    
       HM::PersistentDistributionList::DeleteObject(pPersList);
    
@@ -112,7 +112,7 @@ STDMETHODIMP InterfaceDistributionLists::get_Item(long Index, IInterfaceDistribu
       CComObject<InterfaceDistributionList>* pList = new CComObject<InterfaceDistributionList>();
       pList->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::DistributionList> pPersList = m_pDistributionLists->GetItem(Index);
+      boost::shared_ptr<HM::DistributionList> pPersList = m_pDistributionLists->GetItem(Index);
    
       if (!pPersList)
          return DISP_E_BADINDEX;  
@@ -156,7 +156,7 @@ STDMETHODIMP InterfaceDistributionLists::get_ItemByDBID(long DBID, IInterfaceDis
       CComObject<InterfaceDistributionList>* pList = new CComObject<InterfaceDistributionList>();
       pList->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::DistributionList> pPersList = m_pDistributionLists->GetItemByDBID(DBID);
+      boost::shared_ptr<HM::DistributionList> pPersList = m_pDistributionLists->GetItemByDBID(DBID);
    
       if (!pPersList)
          return DISP_E_BADINDEX;  
@@ -184,7 +184,7 @@ STDMETHODIMP InterfaceDistributionLists::get_ItemByAddress(BSTR sAddress, IInter
       CComObject<InterfaceDistributionList>* pList = new CComObject<InterfaceDistributionList>();
       pList->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::DistributionList> pPersList = m_pDistributionLists->GetItemByAddress(sAddress);
+      boost::shared_ptr<HM::DistributionList> pPersList = m_pDistributionLists->GetItemByAddress(sAddress);
    
       if (!pPersList)
          return DISP_E_BADINDEX;  

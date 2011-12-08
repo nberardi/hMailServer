@@ -13,9 +13,9 @@ namespace HM
       PersistentServerMessage(void);
       ~PersistentServerMessage(void);
       
-      static bool DeleteObject(shared_ptr<ServerMessage> pObject);
-      static bool SaveObject(shared_ptr<ServerMessage> pObject);
-      static bool ReadObject(shared_ptr<ServerMessage> pObject, shared_ptr<DALRecordset> pRS);
+      static bool DeleteObject(boost::shared_ptr<ServerMessage> pObject);
+      static bool SaveObject(boost::shared_ptr<ServerMessage> pObject);
+      static bool ReadObject(boost::shared_ptr<ServerMessage> pObject, boost::shared_ptr<DALRecordset> pRS);
 
    };
 }

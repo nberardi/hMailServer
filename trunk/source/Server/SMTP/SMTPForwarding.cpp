@@ -24,7 +24,7 @@
 namespace HM
 {
    bool 
-   SMTPForwarding::PerformForwarding(shared_ptr<const Account> pRecipientAccount, shared_ptr<Message> pOriginalMessage)
+   SMTPForwarding::PerformForwarding(boost::shared_ptr<const Account> pRecipientAccount, boost::shared_ptr<Message> pOriginalMessage)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Apply forwarding for the message.
@@ -67,7 +67,7 @@ namespace HM
       String originalFileName = PersistentMessage::GetFileName(pRecipientAccount, pOriginalMessage);
 
       // Check that rule loop count is not yet reached.
-      shared_ptr<MessageData> pOldMsgData  = shared_ptr<MessageData>(new MessageData());
+      boost::shared_ptr<MessageData> pOldMsgData  = boost::shared_ptr<MessageData>(new MessageData());
       pOldMsgData->LoadFromMessage(originalFileName, pOriginalMessage);
 
       if (RuleApplier::RuleLoopCountReached(pOldMsgData))
@@ -80,12 +80,12 @@ namespace HM
       LOG_DEBUG(_T("Forwarding message"));
 
       // Create a copy of the message
-      shared_ptr<Message> pNewMessage = PersistentMessage::CopyToQueue(pRecipientAccount, pOriginalMessage);
+      boost::shared_ptr<Message> pNewMessage = PersistentMessage::CopyToQueue(pRecipientAccount, pOriginalMessage);
      
       pNewMessage->SetState(Message::Delivering);
       
       // Increase the number of rule-deliveries made.
-      shared_ptr<MessageData> pNewMsgData = shared_ptr<MessageData>(new MessageData());
+      boost::shared_ptr<MessageData> pNewMsgData = boost::shared_ptr<MessageData>(new MessageData());
       const String newFileName = PersistentMessage::GetFileName(pNewMessage);
       pNewMsgData->LoadFromMessage(newFileName, pNewMessage);
       pNewMsgData->IncreaseRuleLoopCount();

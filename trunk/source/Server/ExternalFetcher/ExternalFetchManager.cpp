@@ -59,26 +59,26 @@ namespace HM
 
       PersistentFetchAccount::UnlockAll();
 
-      m_pFetchAccounts = shared_ptr<FetchAccounts> (new FetchAccounts(0));
+      m_pFetchAccounts = boost::shared_ptr<FetchAccounts> (new FetchAccounts(0));
 
       while (1)
       {
          m_pFetchAccounts->RefreshPendingList();
 
-         vector<shared_ptr<FetchAccount> > &vecAccounts = m_pFetchAccounts->GetVector();
-         vector<shared_ptr<FetchAccount> >::iterator iterFA = vecAccounts.begin();
+         vector<boost::shared_ptr<FetchAccount> > &vecAccounts = m_pFetchAccounts->GetVector();
+         vector<boost::shared_ptr<FetchAccount> >::iterator iterFA = vecAccounts.begin();
 
          while (iterFA != vecAccounts.end())
          {
             // Create a fetch task that will do the actual work, and
             // add this task to the queue.
-            shared_ptr<FetchAccount> pFA = (*iterFA);
+            boost::shared_ptr<FetchAccount> pFA = (*iterFA);
 
             if (_FetchIsAllowed(pFA))
             {
                // We're allowed to fetch. Lock fetchaccount and start the fetcher.
                PersistentFetchAccount::Lock(pFA->GetID());
-               shared_ptr<ExternalFetchTask> pTask = shared_ptr<ExternalFetchTask>(new ExternalFetchTask(pFA));
+               boost::shared_ptr<ExternalFetchTask> pTask = boost::shared_ptr<ExternalFetchTask>(new ExternalFetchTask(pFA));
                WorkQueueManager::Instance()->AddTask(m_iQueueID, pTask);
             }
             else
@@ -121,7 +121,7 @@ namespace HM
    }
 
    bool 
-   ExternalFetchManager::_FetchIsAllowed(shared_ptr<FetchAccount> pFA)
+   ExternalFetchManager::_FetchIsAllowed(boost::shared_ptr<FetchAccount> pFA)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Checks whether hMailServer should fetch messages for this fetch account.
@@ -129,7 +129,7 @@ namespace HM
    {
       __int64 iAccountID = pFA->GetAccountID();
 
-      shared_ptr<const Account> pAccount = Cache<Account, PersistentAccount>::Instance()->GetObject(iAccountID);
+      boost::shared_ptr<const Account> pAccount = Cache<Account, PersistentAccount>::Instance()->GetObject(iAccountID);
 
       if (!pAccount || !pAccount->GetActive())
       {
@@ -140,7 +140,7 @@ namespace HM
 
       __int64 iDomainID = pAccount->GetDomainID();
 
-      shared_ptr<const Domain> pDomain = Cache<Domain, PersistentDomain>::Instance()->GetObject(iDomainID);
+      boost::shared_ptr<const Domain> pDomain = Cache<Domain, PersistentDomain>::Instance()->GetObject(iDomainID);
 
       if (!pDomain || !pDomain->GetIsActive())
       {

@@ -35,10 +35,10 @@ namespace HM
          return false;
    }
    
-   std::vector<shared_ptr<Address> > 
+   std::vector<boost::shared_ptr<Address> > 
    AddresslistParser::ParseList(const String &sList) const
    {
-      std::vector<shared_ptr<Address> > vecResult;
+      std::vector<boost::shared_ptr<Address> > vecResult;
 
       std::vector<String> vecCompounds;
       
@@ -98,7 +98,7 @@ namespace HM
 
          ExtractParts(compound, sFullName, sMailbox, sDomain);
 
-         shared_ptr<Address> pAddress = shared_ptr<Address> (new Address);
+         boost::shared_ptr<Address> pAddress = boost::shared_ptr<Address> (new Address);
          
          pAddress->sPersonalName = Charset::Encode(sFullName);
          
@@ -320,7 +320,7 @@ namespace HM
 
          AddresslistParser* pParser= new AddresslistParser();
 
-         std::vector<shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
+         std::vector<boost::shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
 
          if (vecResult.size() != 2)
          {
@@ -329,7 +329,7 @@ namespace HM
          }
          
          // Go to the second and check that it's right...
-         std::vector<shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
+         std::vector<boost::shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
          iterFirst++;
 
          if ((*iterFirst)->sPersonalName != _T("Test2 Testar"))
@@ -360,7 +360,7 @@ namespace HM
 
          AddresslistParser* pParser= new AddresslistParser();
 
-         std::vector<shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
+         std::vector<boost::shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
 
          if (vecResult.size() != 2)
          {
@@ -369,7 +369,7 @@ namespace HM
          }
          
          // Go to the second and check that it's right...
-         std::vector<shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
+         std::vector<boost::shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
          iterFirst++;
 
          if ((*iterFirst)->sPersonalName != _T("Test2 Testar"))
@@ -400,7 +400,7 @@ namespace HM
 
          AddresslistParser* pParser= new AddresslistParser();
 
-         std::vector<shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
+         std::vector<boost::shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
 
          if (vecResult.size() != 2)
          {
@@ -409,7 +409,7 @@ namespace HM
          }
          
          // Go to the second and check that it's right...
-         std::vector<shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
+         std::vector<boost::shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
 
          if ((*iterFirst)->sPersonalName != _T("Martin Knafve"))
          {
@@ -459,7 +459,7 @@ namespace HM
 
          AddresslistParser* pParser= new AddresslistParser();
 
-         std::vector<shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
+         std::vector<boost::shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
 
          if (vecResult.size() != 2)
          {
@@ -468,7 +468,7 @@ namespace HM
          }
          
          // Go to the second and check that it's right...
-         std::vector<shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
+         std::vector<boost::shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
 
          if ((*iterFirst)->sPersonalName != _T("MartinKnafve"))
          {
@@ -516,14 +516,14 @@ namespace HM
          String sTestStr = "The Honor Society of Phi Kappa Phi <webmaster@phiphi.org>";
          AddresslistParser* pParser= new AddresslistParser();
          
-         std::vector<shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
+         std::vector<boost::shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
          if (vecResult.size() != 1)
          {
             assert(0);
             throw;
          }
          
-         std::vector<shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
+         std::vector<boost::shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
 
          if ((*iterFirst)->sMailboxName != _T("webmaster"))
             throw;
@@ -541,7 +541,7 @@ namespace HM
 
          AddresslistParser* pParser= new AddresslistParser();
 
-         std::vector<shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
+         std::vector<boost::shared_ptr<Address> > vecResult = pParser->ParseList(sTestStr);
 
          if (vecResult.size() != 5)
          {
@@ -550,7 +550,7 @@ namespace HM
          }
          
          // Go to the second and check that it's right...
-         std::vector<shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
+         std::vector<boost::shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
 
          iterFirst++;
          iterFirst++;
@@ -586,7 +586,7 @@ namespace HM
    {
       AddresslistParser* pParser= new AddresslistParser();
 
-      std::vector<shared_ptr<Address> > vecResult = pParser->ParseList(sHeader);
+      std::vector<boost::shared_ptr<Address> > vecResult = pParser->ParseList(sHeader);
 
       if (vecResult.size() != 1)
       {
@@ -594,7 +594,7 @@ namespace HM
          throw;
       }
 
-      std::vector<shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
+      std::vector<boost::shared_ptr<Address> >::iterator iterFirst = vecResult.begin();
 
       if ((*iterFirst)->sPersonalName != sFullname)
       {

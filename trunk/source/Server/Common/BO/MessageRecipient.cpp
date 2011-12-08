@@ -22,7 +22,7 @@ namespace HM
    }
 
    void
-   MessageRecipient::CopyFrom(shared_ptr<MessageRecipient> pRecip)
+   MessageRecipient::CopyFrom(boost::shared_ptr<MessageRecipient> pRecip)
    {
       m_sAddress = pRecip->GetAddress();
       m_iLocalAccountID = pRecip->GetLocalAccountID();

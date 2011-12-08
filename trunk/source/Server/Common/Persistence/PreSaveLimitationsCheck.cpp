@@ -39,10 +39,10 @@ namespace HM
 
    }
 
-   shared_ptr<Domain> 
+   boost::shared_ptr<Domain> 
    PreSaveLimitationsCheck::GetDomain(__int64 id)
    {
-      shared_ptr<Domain> domain = shared_ptr<Domain>(new Domain);
+      boost::shared_ptr<Domain> domain = boost::shared_ptr<Domain>(new Domain);
 
       PersistentDomain::ReadObject(domain, id);
 
@@ -50,7 +50,7 @@ namespace HM
    }
 
    bool
-   PreSaveLimitationsCheck::CheckLimitations(shared_ptr<Account> account, String &resultDescription)
+   PreSaveLimitationsCheck::CheckLimitations(boost::shared_ptr<Account> account, String &resultDescription)
    {
       if (account->GetVacationMessage().GetLength() > 1000)
       {
@@ -65,7 +65,7 @@ namespace HM
       }
 
 
-      shared_ptr<Domain> domain = GetDomain(account->GetDomainID());
+      boost::shared_ptr<Domain> domain = GetDomain(account->GetDomainID());
 
       if (GetDuplicateExist(domain, TypeAccount, account->GetID(), account->GetAddress()))      
          return DuplicateError(resultDescription);
@@ -118,7 +118,7 @@ namespace HM
          }
          else
          {
-            shared_ptr<Account> currentAccountSettings = shared_ptr<Account>(new Account);
+            boost::shared_ptr<Account> currentAccountSettings = boost::shared_ptr<Account>(new Account);
             PersistentAccount::ReadObject(currentAccountSettings, account->GetID());
 
             if (currentSize - currentAccountSettings->GetAccountMaxSize() + account->GetAccountMaxSize() > domain->GetMaxSizeMB())
@@ -141,7 +141,7 @@ namespace HM
    }
 
    bool
-   PreSaveLimitationsCheck::CheckLimitations(shared_ptr<DistributionListRecipient> recipient, String &resultDescription)
+   PreSaveLimitationsCheck::CheckLimitations(boost::shared_ptr<DistributionListRecipient> recipient, String &resultDescription)
    {
       if (recipient->GetAddress().GetLength() == 0)
       {
@@ -153,9 +153,9 @@ namespace HM
    }
 
    bool
-   PreSaveLimitationsCheck::CheckLimitations(shared_ptr<Alias> alias, String &resultDescription)
+   PreSaveLimitationsCheck::CheckLimitations(boost::shared_ptr<Alias> alias, String &resultDescription)
    {
-      shared_ptr<Domain> domain = GetDomain(alias->GetDomainID());
+      boost::shared_ptr<Domain> domain = GetDomain(alias->GetDomainID());
 
       if (GetDuplicateExist(domain, TypeAlias, alias->GetID(), alias->GetName()))      
          return DuplicateError(resultDescription);
@@ -175,9 +175,9 @@ namespace HM
    }
 
    bool
-   PreSaveLimitationsCheck::CheckLimitations(shared_ptr<DistributionList> list, String &resultDescription)
+   PreSaveLimitationsCheck::CheckLimitations(boost::shared_ptr<DistributionList> list, String &resultDescription)
    {
-      shared_ptr<Domain> domain = GetDomain(list->GetDomainID());
+      boost::shared_ptr<Domain> domain = GetDomain(list->GetDomainID());
 
       if (GetDuplicateExist(domain, TypeList,list->GetID(), list->GetAddress()))      
          return DuplicateError(resultDescription);
@@ -196,9 +196,9 @@ namespace HM
    }
 
    bool
-   PreSaveLimitationsCheck::CheckLimitations(shared_ptr<Group> group, String &resultDescription)
+   PreSaveLimitationsCheck::CheckLimitations(boost::shared_ptr<Group> group, String &resultDescription)
    {
-      shared_ptr<Group> pGroup = Configuration::Instance()->GetIMAPConfiguration()->GetGroups()->GetItemByName(group->GetName());
+      boost::shared_ptr<Group> pGroup = Configuration::Instance()->GetIMAPConfiguration()->GetGroups()->GetItemByName(group->GetName());
 
       if (pGroup && (group->GetID() == 0 || group->GetID() != pGroup->GetID()))
       {
@@ -217,23 +217,23 @@ namespace HM
    }
 
    bool 
-   PreSaveLimitationsCheck::GetDuplicateExist(shared_ptr<Domain> domain, ObjectType objectType, __int64 objectID, const String &objectName)
+   PreSaveLimitationsCheck::GetDuplicateExist(boost::shared_ptr<Domain> domain, ObjectType objectType, __int64 objectID, const String &objectName)
    {
-      shared_ptr<Account> pAccount = shared_ptr<Account>(new Account);
+      boost::shared_ptr<Account> pAccount = boost::shared_ptr<Account>(new Account);
       if (PersistentAccount::ReadObject(pAccount, objectName))
       {
          if (pAccount && (pAccount->GetID() != objectID || objectType != TypeAccount) )
             return true;
       }
 
-      shared_ptr<Alias> pAlias = shared_ptr<Alias>(new Alias);
+      boost::shared_ptr<Alias> pAlias = boost::shared_ptr<Alias>(new Alias);
       if (PersistentAlias::ReadObject(pAlias, objectName))
       {
          if (pAlias && (pAlias->GetID() != objectID || objectType != TypeAlias))
             return true;
       }
 
-      shared_ptr<DistributionList> pList = shared_ptr<DistributionList>(new DistributionList);; 
+      boost::shared_ptr<DistributionList> pList = boost::shared_ptr<DistributionList>(new DistributionList);; 
       if (PersistentDistributionList::ReadObject(pList,objectName ))
       {
          if (pList && (pList->GetID() != objectID || objectType != TypeList))
@@ -244,9 +244,9 @@ namespace HM
    }
 
    bool
-   PreSaveLimitationsCheck::CheckLimitations(shared_ptr<Domain> domain, String &resultDescription)
+   PreSaveLimitationsCheck::CheckLimitations(boost::shared_ptr<Domain> domain, String &resultDescription)
    {
-      shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(domain->GetName());
+      boost::shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(domain->GetName());
 
       if (pDomain && (domain->GetID() == 0 || domain->GetID() != pDomain->GetID()))
       {
@@ -262,8 +262,8 @@ namespace HM
       }
 
       // Check if there's a domain alias with this name. If so, this domain would be a duplciate.
-      shared_ptr<DomainAliases> pDomainAliases = ObjectCache::Instance()->GetDomainAliases();
-      shared_ptr<DomainAlias> pDomainAlias = pDomainAliases->GetItemByName(domain->GetName());
+      boost::shared_ptr<DomainAliases> pDomainAliases = ObjectCache::Instance()->GetDomainAliases();
+      boost::shared_ptr<DomainAlias> pDomainAlias = pDomainAliases->GetItemByName(domain->GetName());
       if (pDomainAlias)
       {
          resultDescription = "A domain alias with this name already exists.";
@@ -274,9 +274,9 @@ namespace HM
    }
 
    bool
-   PreSaveLimitationsCheck::CheckLimitations(shared_ptr<DomainAlias> domainAlias, String &resultDescription)
+   PreSaveLimitationsCheck::CheckLimitations(boost::shared_ptr<DomainAlias> domainAlias, String &resultDescription)
    {
-      shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(domainAlias->GetName());
+      boost::shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(domainAlias->GetName());
 
       if (pDomain)
       {
@@ -285,8 +285,8 @@ namespace HM
       }
 
       // Check if there's a domain alias with this name. If so, this domain would be a duplciate.
-      shared_ptr<DomainAliases> pDomainAliases = ObjectCache::Instance()->GetDomainAliases();
-      shared_ptr<DomainAlias> pDomainAlias = pDomainAliases->GetItemByName(domainAlias->GetName());
+      boost::shared_ptr<DomainAliases> pDomainAliases = ObjectCache::Instance()->GetDomainAliases();
+      boost::shared_ptr<DomainAlias> pDomainAlias = pDomainAliases->GetItemByName(domainAlias->GetName());
       if (pDomainAlias && (domainAlias->GetID() == 0 || domainAlias->GetID() != pDomainAlias->GetID()))
       {
          resultDescription = "A domain alias with this name already exists.";
@@ -297,13 +297,13 @@ namespace HM
    }
 
    bool 
-   PreSaveLimitationsCheck::CheckLimitations(shared_ptr<Route> route, String &resultDescription)
+   PreSaveLimitationsCheck::CheckLimitations(boost::shared_ptr<Route> route, String &resultDescription)
    {
-      shared_ptr<Routes> pRoutes = Configuration::Instance()->GetSMTPConfiguration()->GetRoutes();
+      boost::shared_ptr<Routes> pRoutes = Configuration::Instance()->GetSMTPConfiguration()->GetRoutes();
 
-      vector<shared_ptr<Route> > vecRoutes = pRoutes->GetItemsByName(route->GetName());
+      vector<boost::shared_ptr<Route> > vecRoutes = pRoutes->GetItemsByName(route->GetName());
  
-      boost_foreach(shared_ptr<Route> pExistingRoute, vecRoutes)
+      boost_foreach(boost::shared_ptr<Route> pExistingRoute, vecRoutes)
       {
          if (route->GetID() == 0 || route->GetID() != pExistingRoute->GetID())
          {

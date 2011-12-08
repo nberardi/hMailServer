@@ -7,7 +7,7 @@
 #include "InterfaceRouteAddress.h"
 
 void
-InterfaceRouteAddresses::Attach(shared_ptr<HM::RouteAddresses> pRouteAddresses)
+InterfaceRouteAddresses::Attach(boost::shared_ptr<HM::RouteAddresses> pRouteAddresses)
 {
    m_pRouteAddresses = pRouteAddresses;
 } 
@@ -41,7 +41,7 @@ InterfaceRouteAddresses::get_Item(long Index, IInterfaceRouteAddress **pVal)
       CComObject<InterfaceRouteAddress>* pInterfaceRouteAddress = new CComObject<InterfaceRouteAddress>();
       pInterfaceRouteAddress->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::RouteAddress> pRouteAddress = m_pRouteAddresses->GetItem(Index);
+      boost::shared_ptr<HM::RouteAddress> pRouteAddress = m_pRouteAddresses->GetItem(Index);
    
       if (!pRouteAddress)
          return DISP_E_BADINDEX;  
@@ -110,7 +110,7 @@ InterfaceRouteAddresses::Add(IInterfaceRouteAddress **pVal)
       CComObject<InterfaceRouteAddress>* pRouteAddressInterface = new CComObject<InterfaceRouteAddress>();
       pRouteAddressInterface->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::RouteAddress> pRouteAddress = shared_ptr<HM::RouteAddress>(new HM::RouteAddress);
+      boost::shared_ptr<HM::RouteAddress> pRouteAddress = boost::shared_ptr<HM::RouteAddress>(new HM::RouteAddress);
    
       // Set the ID of the new route.
       pRouteAddress->SetRouteID(m_pRouteAddresses->GetRouteID());
@@ -140,7 +140,7 @@ InterfaceRouteAddresses::get_ItemByDBID(long lDBID, IInterfaceRouteAddress **pVa
       CComObject<InterfaceRouteAddress>* pInterfaceRouteAddress = new CComObject<InterfaceRouteAddress>();
       pInterfaceRouteAddress->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::RouteAddress> pRouteAddress = m_pRouteAddresses->GetItemByDBID(lDBID);
+      boost::shared_ptr<HM::RouteAddress> pRouteAddress = m_pRouteAddresses->GetItemByDBID(lDBID);
    
       if (pRouteAddress)
       {

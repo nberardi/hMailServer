@@ -16,11 +16,11 @@ namespace HM
       DistributionLists(__int64 iDomainID);
       ~DistributionLists(void);
 
-      shared_ptr<DistributionList> GetItemByAddress(const String & sAddress);
+      boost::shared_ptr<DistributionList> GetItemByAddress(const String & sAddress);
       void Refresh();
 
    protected:
-      virtual bool PreSaveObject(shared_ptr<DistributionList> pDistributionList, XNode *node);
+      virtual bool PreSaveObject(boost::shared_ptr<DistributionList> pDistributionList, XNode *node);
       virtual String GetCollectionName() const {return "DistributionLists"; }
    private:
 

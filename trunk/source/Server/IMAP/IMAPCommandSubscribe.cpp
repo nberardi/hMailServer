@@ -21,12 +21,12 @@
 namespace HM
 {
    IMAPResult
-   IMAPCommandSUBSCRIBE::ExecuteCommand(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandSUBSCRIBE::ExecuteCommand(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       if (!pConnection->IsAuthenticated())
          return IMAPResult(IMAPResult::ResultNo, "Authenticate first");
 
-      shared_ptr<IMAPSimpleCommandParser> pParser = shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
+      boost::shared_ptr<IMAPSimpleCommandParser> pParser = boost::shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
 
       pParser->Parse(pArgument);
 
@@ -46,7 +46,7 @@ namespace HM
          return IMAPResult();
       }
 
-      shared_ptr<IMAPFolder> pFolder = pConnection->GetFolderByFullPath(sFolderName);
+      boost::shared_ptr<IMAPFolder> pFolder = pConnection->GetFolderByFullPath(sFolderName);
       if (!pFolder)
          return IMAPResult(IMAPResult::ResultNo, "Folder could not be found.");
       

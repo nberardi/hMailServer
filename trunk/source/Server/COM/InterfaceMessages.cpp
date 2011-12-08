@@ -29,7 +29,7 @@ STDMETHODIMP InterfaceMessages::get_Count(long *pVal)
 }
 
 void 
-InterfaceMessages::Attach(shared_ptr<HM::Messages> pMessages) 
+InterfaceMessages::Attach(boost::shared_ptr<HM::Messages> pMessages) 
 {
    m_pMessages = pMessages; 
 }
@@ -44,7 +44,7 @@ STDMETHODIMP InterfaceMessages::get_Item(long Index, IInterfaceMessage **pVal)
       CComObject<InterfaceMessage>* pInterfaceMessage = new CComObject<InterfaceMessage>();
       pInterfaceMessage->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Message> pMsg = m_pMessages->GetItem(Index);
+      boost::shared_ptr<HM::Message> pMsg = m_pMessages->GetItem(Index);
    
       if (pMsg)
       {
@@ -77,7 +77,7 @@ STDMETHODIMP InterfaceMessages::get_ItemByDBID(hyper DBID, IInterfaceMessage **p
       CComObject<InterfaceMessage>* pInterfaceMessage = new CComObject<InterfaceMessage>();
       pInterfaceMessage->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Message> pMsg = m_pMessages->GetItemByDBID(DBID);
+      boost::shared_ptr<HM::Message> pMsg = m_pMessages->GetItemByDBID(DBID);
    
       if (pMsg)
       {
@@ -115,7 +115,7 @@ STDMETHODIMP InterfaceMessages::Add(IInterfaceMessage **pVal)
          return DISP_E_BADINDEX;
       }
       
-      shared_ptr<HM::Message> pNewMsg = shared_ptr<HM::Message>(new HM::Message);
+      boost::shared_ptr<HM::Message> pNewMsg = boost::shared_ptr<HM::Message>(new HM::Message);
       pNewMsg->SetAccountID(iAccountID);
       pNewMsg->SetFolderID(iFolderID);
       pNewMsg->SetState(HM::Message::Created);
@@ -143,7 +143,7 @@ STDMETHODIMP InterfaceMessages::DeleteByDBID(hyper lDBID)
       if (!m_pMessages)
          return GetAccessDenied();
 
-      shared_ptr<HM::Message> pMsg = m_pMessages->GetItemByDBID(lDBID);	
+      boost::shared_ptr<HM::Message> pMsg = m_pMessages->GetItemByDBID(lDBID);	
       
       if (!pMsg)
       {
@@ -178,8 +178,8 @@ STDMETHODIMP InterfaceMessages::DeleteByDBID(hyper lDBID)
          affectedMessages.push_back(lDBID);
    
          // Notify clients that the message has been dropped.
-         shared_ptr<HM::ChangeNotification> notification = 
-            shared_ptr<HM::ChangeNotification>(new HM::ChangeNotification(m_pMessages->GetAccountID(), m_pMessages->GetFolderID(), HM::ChangeNotification::NotificationMessageDeleted, affectedMessages));
+         boost::shared_ptr<HM::ChangeNotification> notification = 
+            boost::shared_ptr<HM::ChangeNotification>(new HM::ChangeNotification(m_pMessages->GetAccountID(), m_pMessages->GetFolderID(), HM::ChangeNotification::NotificationMessageDeleted, affectedMessages));
    
          HM::Application::Instance()->GetNotificationServer()->SendNotification(notification);
       }

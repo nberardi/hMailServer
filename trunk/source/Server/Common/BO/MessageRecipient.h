@@ -19,7 +19,7 @@ namespace HM
          ResultFatalError =3
       };
 
-      void CopyFrom(shared_ptr<MessageRecipient> pRecip);
+      void CopyFrom(boost::shared_ptr<MessageRecipient> pRecip);
 
       void SetAddress(const String & sNewVal) {m_sAddress = sNewVal; }
       String GetAddress() const {return m_sAddress;}

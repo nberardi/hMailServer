@@ -16,14 +16,14 @@ namespace HM
       MessageCache(void);
       ~MessageCache(void);
 
-      void AddMessage(shared_ptr<Message> pMessage);
-      shared_ptr<Message> GetMessage(__int64 iMessageID);
+      void AddMessage(boost::shared_ptr<Message> pMessage);
+      boost::shared_ptr<Message> GetMessage(__int64 iMessageID);
 
 
    private:
 
       CriticalSection m_csMessage;
-      std::map<__int64, shared_ptr<Message> > m_mapMessage;
+      std::map<__int64, boost::shared_ptr<Message> > m_mapMessage;
 
    };
 }

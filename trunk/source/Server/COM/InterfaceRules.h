@@ -47,7 +47,7 @@ END_COM_MAP()
 
 public:
 
-   void Attach(shared_ptr<HM::Rules> pRules);
+   void Attach(boost::shared_ptr<HM::Rules> pRules);
 
    STDMETHOD(get_ItemByDBID)(/*[in]*/ long DBID, /*[out, retval]*/ IInterfaceRule** pVal);
    STDMETHOD(get_Item)(/*[in]*/ long Index, /*[out, retval]*/ IInterfaceRule **pVal);
@@ -58,7 +58,7 @@ public:
 
 private:
 
-   shared_ptr<HM::Rules> m_pRules;
+   boost::shared_ptr<HM::Rules> m_pRules;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Rules), InterfaceRules)

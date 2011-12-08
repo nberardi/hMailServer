@@ -60,14 +60,14 @@ namespace HM
    bool
    DistributionList::XMLLoadSubItems(XNode *pNode, int iRestoreOptions)
    {
-      shared_ptr<DistributionListRecipients> pDistListRecipients = GetMembers();
+      boost::shared_ptr<DistributionListRecipients> pDistListRecipients = GetMembers();
       return pDistListRecipients->XMLLoad(pNode, iRestoreOptions);
    }
 
-   shared_ptr<DistributionListRecipients>
+   boost::shared_ptr<DistributionListRecipients>
    DistributionList::GetMembers() const
    {
-      shared_ptr<DistributionListRecipients> members = shared_ptr<DistributionListRecipients> (new DistributionListRecipients(m_iID)) ;
+      boost::shared_ptr<DistributionListRecipients> members = boost::shared_ptr<DistributionListRecipients> (new DistributionListRecipients(m_iID)) ;
       members->Refresh();
       return members;
    }

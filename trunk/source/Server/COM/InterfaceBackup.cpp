@@ -8,7 +8,7 @@
 #include "../Common/Application/BackupManager.h"
 
 void 
-InterfaceBackup::Attach(shared_ptr<HM::Backup> pBackup)
+InterfaceBackup::Attach(boost::shared_ptr<HM::Backup> pBackup)
 {
    m_pBackup = pBackup;
 }

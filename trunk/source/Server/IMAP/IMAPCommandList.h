@@ -14,7 +14,7 @@ namespace HM
 	   IMAPCommandLIST();
 	   virtual ~IMAPCommandLIST();
 
-      virtual IMAPResult ExecuteCommand(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument);
+      virtual IMAPResult ExecuteCommand(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument);
    };
 
 }

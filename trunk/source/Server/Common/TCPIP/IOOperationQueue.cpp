@@ -24,7 +24,7 @@ namespace HM
    }
 
    void
-   IOOperationQueue::Push(shared_ptr<IOOperation> operation)
+   IOOperationQueue::Push(boost::shared_ptr<IOOperation> operation)
    {
       CriticalSectionScope scope(_criticalSection);
 
@@ -42,12 +42,12 @@ namespace HM
          return;
       }
 
-      std::vector<shared_ptr<IOOperation >>::iterator iter = _ongoingOperations.begin();
-      std::vector<shared_ptr<IOOperation >>::iterator iterEnd = _ongoingOperations.end();
+      std::vector<boost::shared_ptr<IOOperation >>::iterator iter = _ongoingOperations.begin();
+      std::vector<boost::shared_ptr<IOOperation >>::iterator iterEnd = _ongoingOperations.end();
 
       for (; iter != iterEnd; iter++)
       {
-         shared_ptr<IOOperation> oper = (*iter);
+         boost::shared_ptr<IOOperation> oper = (*iter);
 
          if (oper->GetType() == type)
          {
@@ -68,7 +68,7 @@ namespace HM
       if (_queueOperations.empty())
          return false;
 
-      boost_foreach(shared_ptr<IOOperation> operation, _queueOperations)
+      boost_foreach(boost::shared_ptr<IOOperation> operation, _queueOperations)
       {
          if (operation->GetType() == IOOperation::BCTSend)
             return true;
@@ -77,7 +77,7 @@ namespace HM
       return false;
    }
 
-   shared_ptr<IOOperation>
+   boost::shared_ptr<IOOperation>
    IOOperationQueue::Front()
    {
       CriticalSectionScope scope(_criticalSection);
@@ -85,22 +85,22 @@ namespace HM
       // Do we have any items to process? If not, not much to do.
       if (_queueOperations.empty())
       {
-         shared_ptr<IOOperation> empty;
+         boost::shared_ptr<IOOperation> empty;
          return empty;
       }
 
-      shared_ptr<IOOperation> nextOperation = _queueOperations.front();
+      boost::shared_ptr<IOOperation> nextOperation = _queueOperations.front();
 
       if (_ongoingOperations.size() > 0)
       {
          IOOperation::OperationType pendingType = nextOperation->GetType();
 
-         std::vector<shared_ptr<IOOperation >>::iterator iter = _ongoingOperations.begin();
-         std::vector<shared_ptr<IOOperation >>::iterator iterEnd = _ongoingOperations.end();
+         std::vector<boost::shared_ptr<IOOperation >>::iterator iter = _ongoingOperations.begin();
+         std::vector<boost::shared_ptr<IOOperation >>::iterator iterEnd = _ongoingOperations.end();
 
          for (; iter != iterEnd; iter++)
          {
-            shared_ptr<IOOperation> ongoingOperation = (*iter);
+            boost::shared_ptr<IOOperation> ongoingOperation = (*iter);
 
             IOOperation::OperationType ongoingType = ongoingOperation->GetType();
 
@@ -114,7 +114,7 @@ namespace HM
                      delivery order is not guaranteed.
                */
 
-               shared_ptr<IOOperation> empty;
+               boost::shared_ptr<IOOperation> empty;
                return empty;         
             }
 
@@ -128,7 +128,7 @@ namespace HM
                      case IOOperation::BCTReceive:      // We can not start to process new incoming commands before old data has been sent.
                      case IOOperation::BCTDisconnect:   // We can't disconnect - we want timeout commands to be sent to client.
                      case IOOperation::BCTShutdownSend: // We can't disable send-mode while we're sending data. Makes no sense.
-                        shared_ptr<IOOperation> empty;
+                        boost::shared_ptr<IOOperation> empty;
                         return empty;  
 
                   }
@@ -143,7 +143,7 @@ namespace HM
                   case IOOperation::BCTShutdownSend: // It's OK to close the sending even thoug we're receiving data.
                      break;
                   case IOOperation::BCTReceive:      // We can not start new receives while we're already waiting for data. Does not make any sense.
-                     shared_ptr<IOOperation> empty;
+                     boost::shared_ptr<IOOperation> empty;
                      return empty;  
                   }
                   break;
@@ -151,13 +151,13 @@ namespace HM
             case IOOperation::BCTDisconnect:
                {
                   // If we're disconnecting we can't start any new operations.
-                  shared_ptr<IOOperation> empty;
+                  boost::shared_ptr<IOOperation> empty;
                   return empty;  
                }
             case IOOperation::BCTShutdownSend:
                {
                   // Shutting down Send isn't an async operation. We can wait for it to complete.
-                  shared_ptr<IOOperation> empty;
+                  boost::shared_ptr<IOOperation> empty;
                   return empty;  
                }
             }         

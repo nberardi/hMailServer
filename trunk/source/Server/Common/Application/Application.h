@@ -29,7 +29,7 @@ namespace HM
       static String GetExecutableName();
 
       // --- global 
-      shared_ptr<DatabaseConnectionManager> GetDBManager() { return m_pDBManager; }
+      boost::shared_ptr<DatabaseConnectionManager> GetDBManager() { return m_pDBManager; }
 
       // --- overridables
       virtual bool InitInstance(String &sErrorMessage);
@@ -50,18 +50,18 @@ namespace HM
       void StopServers();
       void SubmitPendingEmail();
 
-      shared_ptr<SMTPDeliveryManager> GetSMTPDeliveryManager() {return m_pSMTPDeliveryManager;} 
-      shared_ptr<ExternalFetchManager> GetExternalFetchManager() {return m_pExternalFetchManager;} 
+      boost::shared_ptr<SMTPDeliveryManager> GetSMTPDeliveryManager() {return m_pSMTPDeliveryManager;} 
+      boost::shared_ptr<ExternalFetchManager> GetExternalFetchManager() {return m_pExternalFetchManager;} 
 
-      shared_ptr<BackupManager> GetBackupManager() {return m_pBackupManager; }
+      boost::shared_ptr<BackupManager> GetBackupManager() {return m_pBackupManager; }
 
-      shared_ptr<WorkQueue> GetRandomWorkQueue();
-      shared_ptr<WorkQueue> GetAsyncWorkQueue();
-      shared_ptr<IOCPServer> GetIOCPServer() {return m_pIOCPServer; }
+      boost::shared_ptr<WorkQueue> GetRandomWorkQueue();
+      boost::shared_ptr<WorkQueue> GetAsyncWorkQueue();
+      boost::shared_ptr<IOCPServer> GetIOCPServer() {return m_pIOCPServer; }
       // The random work queue can run any task.
 
-      shared_ptr<NotificationServer> GetNotificationServer();
-      shared_ptr<FolderManager> GetFolderManager();
+      boost::shared_ptr<NotificationServer> GetNotificationServer();
+      boost::shared_ptr<FolderManager> GetFolderManager();
 
       String Reinitialize();
 
@@ -69,7 +69,7 @@ namespace HM
 
       void SetServerStartedEvent();
 
-      void OnPropertyChanged(shared_ptr<Property> pProperty);
+      void OnPropertyChanged(boost::shared_ptr<Property> pProperty);
 
    protected:
 
@@ -86,17 +86,17 @@ namespace HM
       
       String m_sLastConnectErrorMessage;
 
-      shared_ptr<DatabaseConnectionManager> m_pDBManager;
+      boost::shared_ptr<DatabaseConnectionManager> m_pDBManager;
    
       // the servers
-      shared_ptr<SMTPDeliveryManager> m_pSMTPDeliveryManager;
+      boost::shared_ptr<SMTPDeliveryManager> m_pSMTPDeliveryManager;
 
-      shared_ptr<ExternalFetchManager> m_pExternalFetchManager;
-      shared_ptr<BackupManager> m_pBackupManager;
-      shared_ptr<Scheduler> m_pScheduler;
-      shared_ptr<NotificationServer> m_pNotificationServer;
-      shared_ptr<IOCPServer> m_pIOCPServer;
-      shared_ptr<FolderManager> _folderManager;
+      boost::shared_ptr<ExternalFetchManager> m_pExternalFetchManager;
+      boost::shared_ptr<BackupManager> m_pBackupManager;
+      boost::shared_ptr<Scheduler> m_pScheduler;
+      boost::shared_ptr<NotificationServer> m_pNotificationServer;
+      boost::shared_ptr<IOCPServer> m_pIOCPServer;
+      boost::shared_ptr<FolderManager> _folderManager;
 
       const String m_sRandomWorkQueue;
       // The random work queue can run any type of task.

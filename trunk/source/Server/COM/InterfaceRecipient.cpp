@@ -7,7 +7,7 @@
 
 
 void 
-InterfaceRecipient::AttachItem(shared_ptr<HM::MessageRecipient> pRecipient)
+InterfaceRecipient::AttachItem(boost::shared_ptr<HM::MessageRecipient> pRecipient)
 {
    m_pObject = pRecipient;
 }

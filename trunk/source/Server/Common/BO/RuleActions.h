@@ -21,15 +21,15 @@ namespace HM
 
       __int64 GetRuleID() const {return m_iRuleID; }
 
-      void MoveUp(shared_ptr<RuleAction> pRuleAction);
-      void MoveDown(shared_ptr<RuleAction> pRuleAction);
+      void MoveUp(boost::shared_ptr<RuleAction> pRuleAction);
+      void MoveDown(boost::shared_ptr<RuleAction> pRuleAction);
 
    protected:
       virtual String GetCollectionName() const {return "RuleActions"; } 
-      virtual bool PreSaveObject(shared_ptr<RuleAction> pRuleAction, XNode *node);
+      virtual bool PreSaveObject(boost::shared_ptr<RuleAction> pRuleAction, XNode *node);
    private:
 
-      vector<shared_ptr<RuleAction> >::iterator _GetRuleActionIterator(shared_ptr<RuleAction> pRuleAction);
+      vector<boost::shared_ptr<RuleAction> >::iterator _GetRuleActionIterator(boost::shared_ptr<RuleAction> pRuleAction);
       void _UpdateSortOrder();
 
       __int64 m_iRuleID;

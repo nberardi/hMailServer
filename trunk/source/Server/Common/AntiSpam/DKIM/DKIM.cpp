@@ -92,7 +92,7 @@ namespace HM
    }
 
    bool 
-   DKIM::Sign(shared_ptr<Message> message,
+   DKIM::Sign(boost::shared_ptr<Message> message,
               const AnsiString &domain,
               const AnsiString &selector,
               const String &privateKey,
@@ -101,8 +101,8 @@ namespace HM
               Canonicalization::CanonicalizeMethod bodyMethod)
    {
 
-      shared_ptr<Canonicalization> bodyCanonicalization = _CreateCanonicalization(bodyMethod);
-      shared_ptr<Canonicalization> headerCanonicalization = _CreateCanonicalization(headerMethod);
+      boost::shared_ptr<Canonicalization> bodyCanonicalization = _CreateCanonicalization(bodyMethod);
+      boost::shared_ptr<Canonicalization> headerCanonicalization = _CreateCanonicalization(headerMethod);
 
       if (!bodyCanonicalization || !headerCanonicalization)
       {
@@ -288,8 +288,8 @@ namespace HM
          return Neutral;
       }
 
-      shared_ptr<Canonicalization> headerCanonicalization;
-      shared_ptr<Canonicalization> bodyCanonicalization;
+      boost::shared_ptr<Canonicalization> headerCanonicalization;
+      boost::shared_ptr<Canonicalization> bodyCanonicalization;
 
       AnsiString method = signatureParams.GetValue("c");
       AnsiString headerMethod;
@@ -317,14 +317,14 @@ namespace HM
       }
 
       if (headerMethod == "simple")
-         headerCanonicalization = shared_ptr<SimpleCanonicalization>(new SimpleCanonicalization) ;
+         headerCanonicalization = boost::shared_ptr<SimpleCanonicalization>(new SimpleCanonicalization) ;
       else
-         headerCanonicalization = shared_ptr<RelaxedCanonicalization>(new RelaxedCanonicalization) ;
+         headerCanonicalization = boost::shared_ptr<RelaxedCanonicalization>(new RelaxedCanonicalization) ;
 
       if (bodyMethod == "simple")
-         bodyCanonicalization = shared_ptr<SimpleCanonicalization>(new SimpleCanonicalization) ;
+         bodyCanonicalization = boost::shared_ptr<SimpleCanonicalization>(new SimpleCanonicalization) ;
       else
-         bodyCanonicalization = shared_ptr<RelaxedCanonicalization>(new RelaxedCanonicalization) ;
+         bodyCanonicalization = boost::shared_ptr<RelaxedCanonicalization>(new RelaxedCanonicalization) ;
 
       AnsiString publicKeyString;
       AnsiString flags;
@@ -423,7 +423,7 @@ namespace HM
    }
 
    bool 
-   DKIM::_ValidateBodyHash(const String &fileName, const DKIMParameters &signatureParams, shared_ptr<Canonicalization> canonicalization)
+   DKIM::_ValidateBodyHash(const String &fileName, const DKIMParameters &signatureParams, boost::shared_ptr<Canonicalization> canonicalization)
    {
       AnsiString tagA = signatureParams.GetValue("a");
       AnsiString tagBH = signatureParams.GetValue("bh");
@@ -718,18 +718,18 @@ namespace HM
       return true;
    }
 
-   shared_ptr<Canonicalization> 
+   boost::shared_ptr<Canonicalization> 
    DKIM::_CreateCanonicalization(Canonicalization::CanonicalizeMethod method)
    {
       switch (method)
       {
       case Canonicalization::Simple:
-         return shared_ptr<Canonicalization>(new SimpleCanonicalization);
+         return boost::shared_ptr<Canonicalization>(new SimpleCanonicalization);
       case Canonicalization::Relaxed:
-         return shared_ptr<Canonicalization>(new RelaxedCanonicalization);
+         return boost::shared_ptr<Canonicalization>(new RelaxedCanonicalization);
       }
 
-      shared_ptr<Canonicalization> pEmpty;
+      boost::shared_ptr<Canonicalization> pEmpty;
       return pEmpty;
    }
 

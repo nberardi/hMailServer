@@ -37,7 +37,7 @@ namespace HM
    {
       CriticalSectionScope scope(_starterLock);
 
-      shared_ptr<MessageIndexer> indexer = _GetRunningIndexer();
+      boost::shared_ptr<MessageIndexer> indexer = _GetRunningIndexer();
 
       if (indexer)
       {
@@ -45,11 +45,11 @@ namespace HM
          return;
       }
 
-      shared_ptr<WorkQueue> pWorkQueue = Application::Instance()->GetRandomWorkQueue();
+      boost::shared_ptr<WorkQueue> pWorkQueue = Application::Instance()->GetRandomWorkQueue();
 
       // Start the indexer now.
       LOG_DEBUG("Starting message indexing thread...");
-      shared_ptr<MessageIndexer> messageIndexer = shared_ptr<MessageIndexer>(new MessageIndexer);
+      boost::shared_ptr<MessageIndexer> messageIndexer = boost::shared_ptr<MessageIndexer>(new MessageIndexer);
       pWorkQueue->AddTask(messageIndexer);
    }
 
@@ -60,33 +60,33 @@ namespace HM
 
       CriticalSectionScope scope(_starterLock);
 
-      shared_ptr<WorkQueue> pWorkQueue = Application::Instance()->GetRandomWorkQueue();
+      boost::shared_ptr<WorkQueue> pWorkQueue = Application::Instance()->GetRandomWorkQueue();
       pWorkQueue->StopTask("MessageIndexer");
 
    }
 
-   shared_ptr<MessageIndexer>
+   boost::shared_ptr<MessageIndexer>
    MessageIndexer::_GetRunningIndexer()
    {
       try
       {
          // This is a very expensive operation. Luckily we don't need to do it very often.
-         shared_ptr<WorkQueue> pWorkQueue = Application::Instance()->GetRandomWorkQueue();
+         boost::shared_ptr<WorkQueue> pWorkQueue = Application::Instance()->GetRandomWorkQueue();
          bool queued = false;
-         shared_ptr<Task> task = pWorkQueue->GetTaskByName("MessageIndexer", queued);
+         boost::shared_ptr<Task> task = pWorkQueue->GetTaskByName("MessageIndexer", queued);
 
          if (!task)
          {
-            shared_ptr<MessageIndexer> nothing;
+            boost::shared_ptr<MessageIndexer> nothing;
             return nothing;
          }
 
-         shared_ptr<MessageIndexer> result = shared_static_cast<MessageIndexer>(task);
+         boost::shared_ptr<MessageIndexer> result = shared_static_cast<MessageIndexer>(task);
          return result;
       }
       catch (...)
       {
-         shared_ptr<MessageIndexer> nothing;
+         boost::shared_ptr<MessageIndexer> nothing;
          return nothing;
       }
 
@@ -139,7 +139,7 @@ namespace HM
    void 
    MessageIndexer::IndexNow()
    {
-      shared_ptr<MessageIndexer> indexer = _GetRunningIndexer();
+      boost::shared_ptr<MessageIndexer> indexer = _GetRunningIndexer();
 
       if (indexer)
       {
@@ -170,7 +170,7 @@ namespace HM
       while (true)
       {
          // added the boolean quickIndex to tell the funciton to use the quick index or the full index
-         set<shared_ptr<PersistentMessageMetaData::MessageInfo> > messagesToIndex = persistentMetaData.GetMessagesToIndex(bDoQuickIndex);
+         set<boost::shared_ptr<PersistentMessageMetaData::MessageInfo> > messagesToIndex = persistentMetaData.GetMessagesToIndex(bDoQuickIndex);
          if (messagesToIndex.size() == 0)
          {
             LOG_DEBUG("No messages to index.");
@@ -179,7 +179,7 @@ namespace HM
             return;
          }
 
-         boost_foreach(shared_ptr<PersistentMessageMetaData::MessageInfo> messageToIndex, messagesToIndex)
+         boost_foreach(boost::shared_ptr<PersistentMessageMetaData::MessageInfo> messageToIndex, messagesToIndex)
          {
             if (_stopRunning.IsSet())
                return;
@@ -198,7 +198,7 @@ namespace HM
             String cc = header.GetUnicodeFieldValue("CC");
             String to = header.GetUnicodeFieldValue("TO");
 
-            shared_ptr<MessageMetaData> metaData = shared_ptr<MessageMetaData>(new MessageMetaData);
+            boost::shared_ptr<MessageMetaData> metaData = boost::shared_ptr<MessageMetaData>(new MessageMetaData);
 
             metaData->SetAccountID(messageToIndex->AccountID);
             metaData->SetFolderID(messageToIndex->FolderID);

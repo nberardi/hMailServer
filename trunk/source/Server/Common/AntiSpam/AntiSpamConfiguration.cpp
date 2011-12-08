@@ -31,16 +31,16 @@ namespace HM
    bool 
    AntiSpamConfiguration::Load()
    {
-      _dnsBlackLists = shared_ptr<DNSBlackLists>(new DNSBlackLists);
+      _dnsBlackLists = boost::shared_ptr<DNSBlackLists>(new DNSBlackLists);
       _dnsBlackLists->Refresh();
 
-      _surblServers = shared_ptr<SURBLServers>(new SURBLServers);
+      _surblServers = boost::shared_ptr<SURBLServers>(new SURBLServers);
       _surblServers->Refresh();
 
       return true;
    }
 
-   shared_ptr<PropertySet> 
+   boost::shared_ptr<PropertySet> 
    AntiSpamConfiguration::_GetSettings()
    {
       return Configuration::Instance()->GetSettings();
@@ -435,18 +435,18 @@ namespace HM
       _GetSettings()->SetBool(PROPERTY_BYPASS_GREYLISTING_ON_MAILFROMMX , newValue);
    }
 
-   shared_ptr<WhiteListAddresses> 
+   boost::shared_ptr<WhiteListAddresses> 
    AntiSpamConfiguration::GetWhiteListAddresses()
    {
-      shared_ptr<WhiteListAddresses> whiteListAddresses = shared_ptr<WhiteListAddresses>(new WhiteListAddresses);
+      boost::shared_ptr<WhiteListAddresses> whiteListAddresses = boost::shared_ptr<WhiteListAddresses>(new WhiteListAddresses);
       whiteListAddresses->Refresh();
       return whiteListAddresses;
    }
 
-   shared_ptr<GreyListingWhiteAddresses>
+   boost::shared_ptr<GreyListingWhiteAddresses>
    AntiSpamConfiguration::GetGreyListingWhiteAddresses()
    {
-      shared_ptr<GreyListingWhiteAddresses> greyListingWhiteAddresses = shared_ptr<GreyListingWhiteAddresses>(new GreyListingWhiteAddresses);
+      boost::shared_ptr<GreyListingWhiteAddresses> greyListingWhiteAddresses = boost::shared_ptr<GreyListingWhiteAddresses>(new GreyListingWhiteAddresses);
       greyListingWhiteAddresses->Refresh();
 
       return greyListingWhiteAddresses;

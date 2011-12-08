@@ -75,11 +75,11 @@ namespace HM
       m_iFlags = 0;
    }
 
-   shared_ptr<MessageRecipients>
+   boost::shared_ptr<MessageRecipients>
    Message::GetRecipients()
    {
       if (!m_pRecipients)
-         m_pRecipients = shared_ptr<MessageRecipients>(new MessageRecipients);
+         m_pRecipients = boost::shared_ptr<MessageRecipients>(new MessageRecipients);
 
       return m_pRecipients;
    }

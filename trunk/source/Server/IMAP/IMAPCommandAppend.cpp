@@ -50,7 +50,7 @@ namespace HM
    }
 
    IMAPResult
-   IMAPCommandAppend::ExecuteCommand(shared_ptr<IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandAppend::ExecuteCommand(boost::shared_ptr<IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       if (!pConnection->IsAuthenticated())
          return IMAPResult(IMAPResult::ResultNo, "Authenticate first");
@@ -61,7 +61,7 @@ namespace HM
       m_sFlagsToSet = "";
       m_sCreateTimeToSet = "";
 
-      shared_ptr<IMAPSimpleCommandParser> pParser = shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
+      boost::shared_ptr<IMAPSimpleCommandParser> pParser = boost::shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
 
       pParser->Parse(pArgument);
 
@@ -77,7 +77,7 @@ namespace HM
          m_sFlagsToSet = pParser->ParantheziedWord()->Value();
 
       // last word.
-      shared_ptr<IMAPSimpleWord> pWord = pParser->Word(pParser->WordCount()-1);
+      boost::shared_ptr<IMAPSimpleWord> pWord = pParser->Word(pParser->WordCount()-1);
 
       if (!pWord || !pWord->Clammerized())
          return IMAPResult(IMAPResult::ResultBad, "Missing literal");
@@ -91,7 +91,7 @@ namespace HM
       // Add an extra two bytes since we expect a <newline> in the end.
       m_lBytesLeftToReceive += 2;
 
-      shared_ptr<const Domain> domain = CacheContainer::Instance()->GetDomain(pConnection->GetAccount()->GetDomainID());
+      boost::shared_ptr<const Domain> domain = CacheContainer::Instance()->GetDomain(pConnection->GetAccount()->GetDomainID());
       int maxMessageSizeKB = _GetMaxMessageSize(domain);
 
       if (maxMessageSizeKB > 0 && 
@@ -110,7 +110,7 @@ namespace HM
       
       for (int i = 2; i < pParser->WordCount(); i++)
       {
-         shared_ptr<IMAPSimpleWord> pWord = pParser->Word(i);
+         boost::shared_ptr<IMAPSimpleWord> pWord = pParser->Word(i);
 
          if (pWord->Quoted())
          {
@@ -131,7 +131,7 @@ namespace HM
       if (!m_pDestinationFolder->IsPublicFolder())
       {
          // Make sure that this message fits in the mailbox.
-         shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(pConnection->GetAccount()->GetID());
+         boost::shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(pConnection->GetAccount()->GetID());
          
          if (!pAccount)
             return IMAPResult(IMAPResult::ResultNo, "Account could not be fetched.");
@@ -147,13 +147,13 @@ namespace HM
 
       __int64 lFolderID = m_pDestinationFolder->GetID();
 
-      m_pCurrentMessage = shared_ptr<Message>(new Message);
+      m_pCurrentMessage = boost::shared_ptr<Message>(new Message);
       m_pCurrentMessage->SetAccountID(m_pDestinationFolder->GetAccountID());
       m_pCurrentMessage->SetFolderID(lFolderID);
 
       // Construct a file name which we'll write the message to.
       // Should we connect this message to an account? Yes, if this is not a public folder.
-      shared_ptr<const Account> pMessageOwner;
+      boost::shared_ptr<const Account> pMessageOwner;
       if (!m_pDestinationFolder->IsPublicFolder())
          pMessageOwner = pConnection->GetAccount();
 
@@ -167,7 +167,7 @@ namespace HM
    }
 
    void
-   IMAPCommandAppend::ParseBinary(shared_ptr<IMAPConnection> pConnection, shared_ptr<ByteBuffer> pBuf)
+   IMAPCommandAppend::ParseBinary(boost::shared_ptr<IMAPConnection> pConnection, boost::shared_ptr<ByteBuffer> pBuf)
    {
       _appendBuffer.Add(pBuf);
    
@@ -193,7 +193,7 @@ namespace HM
    }
    
    bool
-   IMAPCommandAppend::_WriteData(const shared_ptr<IMAPConnection>  pConn, const BYTE *pBuf, int WriteLen)
+   IMAPCommandAppend::_WriteData(const boost::shared_ptr<IMAPConnection>  pConn, const BYTE *pBuf, int WriteLen)
    {
       if (!m_pCurrentMessage)
          return false;
@@ -213,7 +213,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandAppend::_TruncateBuffer(const shared_ptr<IMAPConnection> pConn)
+   IMAPCommandAppend::_TruncateBuffer(const boost::shared_ptr<IMAPConnection> pConn)
    {
       if (_appendBuffer.GetSize() >= 20000)
       {
@@ -227,7 +227,7 @@ namespace HM
    }
 
    void
-   IMAPCommandAppend::_Finish(shared_ptr<IMAPConnection> pConnection)
+   IMAPCommandAppend::_Finish(boost::shared_ptr<IMAPConnection> pConnection)
    {
       if (!m_pCurrentMessage)
          return;
@@ -276,7 +276,7 @@ namespace HM
       if (pConnection->GetCurrentFolder() &&
           pConnection->GetCurrentFolder()->GetID() == m_pDestinationFolder->GetID())
       {
-         shared_ptr<Messages> messages = m_pDestinationFolder->GetMessages();
+         boost::shared_ptr<Messages> messages = m_pDestinationFolder->GetMessages();
          sResponse += IMAPNotificationClient::GenerateExistsString(messages->GetCount());
          sResponse += IMAPNotificationClient::GenerateRecentString(messages->GetNoOfRecent());
       }
@@ -286,8 +286,8 @@ namespace HM
       pConnection->SendAsciiData(sResponse);
 
       // Notify the mailbox notifier that the mailbox contents have changed. 
-      shared_ptr<ChangeNotification> pNotification = 
-         shared_ptr<ChangeNotification>(new ChangeNotification(m_pDestinationFolder->GetAccountID(), m_pDestinationFolder->GetID(), ChangeNotification::NotificationMessageAdded));
+      boost::shared_ptr<ChangeNotification> pNotification = 
+         boost::shared_ptr<ChangeNotification>(new ChangeNotification(m_pDestinationFolder->GetAccountID(), m_pDestinationFolder->GetID(), ChangeNotification::NotificationMessageAdded));
       Application::Instance()->GetNotificationServer()->SendNotification(pConnection->GetNotificationClient(), pNotification);
 
       m_pDestinationFolder.reset();
@@ -295,7 +295,7 @@ namespace HM
    }
 
    int 
-   IMAPCommandAppend::_GetMaxMessageSize(shared_ptr<const Domain> pDomain)
+   IMAPCommandAppend::_GetMaxMessageSize(boost::shared_ptr<const Domain> pDomain)
    {
       int iMaxMessageSizeKB = Configuration::Instance()->GetSMTPConfiguration()->GetMaxMessageSize();
 

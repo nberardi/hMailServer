@@ -17,7 +17,7 @@ namespace HM
 	   MySQLRecordset();
 	   virtual ~MySQLRecordset();
 
-      virtual DALConnection::ExecutionResult TryOpen(shared_ptr<DALConnection> pDALConn, const SQLCommand &command, String &sErrorMessage);
+      virtual DALConnection::ExecutionResult TryOpen(boost::shared_ptr<DALConnection> pDALConn, const SQLCommand &command, String &sErrorMessage);
       
       virtual bool MoveNext();
       virtual bool IsEOF() const;
@@ -45,6 +45,6 @@ namespace HM
 
       vector<AnsiString> m_vecColumns;
 
-      shared_ptr<ColumnPositions> _columnPositions;
+      boost::shared_ptr<ColumnPositions> _columnPositions;
    };
 }

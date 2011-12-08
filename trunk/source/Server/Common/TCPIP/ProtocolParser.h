@@ -19,7 +19,7 @@ namespace HM
       
       virtual AnsiString GetCommandSeparator() const = 0;
       
-      shared_ptr<TCPConnection> GetTCPConnectionTemporaryPointer();
+      boost::shared_ptr<TCPConnection> GetTCPConnectionTemporaryPointer();
 
       // The connection to the server has failed
       virtual void OnCouldNotConnect(const AnsiString &sErrorDescription) {};
@@ -33,10 +33,10 @@ namespace HM
 
       /* PARSING METHODS */
       virtual void ParseData(const AnsiString &sAnsiString) = 0;
-      virtual void ParseData(shared_ptr<ByteBuffer> pByteBuffer) = 0;
+      virtual void ParseData(boost::shared_ptr<ByteBuffer> pByteBuffer) = 0;
 
       bool SendData(const AnsiString &sAnsiString);
-      bool SendData(shared_ptr<ByteBuffer> pByteBuffer);
+      bool SendData(boost::shared_ptr<ByteBuffer> pByteBuffer);
 
       void PostReceive();
       void PostBufferReceive();
@@ -63,7 +63,7 @@ namespace HM
       unsigned long GetLocalPort() const;
       AnsiString GetIPAddressString() const;
 
-      shared_ptr<SecurityRange> GetSecurityRange() const;
+      boost::shared_ptr<SecurityRange> GetSecurityRange() const;
    private:
 
       TCPConnection *_parentConnection;

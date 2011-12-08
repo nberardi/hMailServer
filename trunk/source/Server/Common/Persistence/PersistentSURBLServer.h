@@ -13,10 +13,10 @@ namespace HM
       PersistentSURBLServer(void);
       ~PersistentSURBLServer(void);
       
-      static bool DeleteObject(shared_ptr<SURBLServer> pObject);
-      static bool SaveObject(shared_ptr<SURBLServer> pObject);
-      static bool SaveObject(shared_ptr<SURBLServer> pObject, String &errorMessage);
-      static bool ReadObject(shared_ptr<SURBLServer> pObject, shared_ptr<DALRecordset> pRS);
+      static bool DeleteObject(boost::shared_ptr<SURBLServer> pObject);
+      static bool SaveObject(boost::shared_ptr<SURBLServer> pObject);
+      static bool SaveObject(boost::shared_ptr<SURBLServer> pObject, String &errorMessage);
+      static bool ReadObject(boost::shared_ptr<SURBLServer> pObject, boost::shared_ptr<DALRecordset> pRS);
 
    };
 }

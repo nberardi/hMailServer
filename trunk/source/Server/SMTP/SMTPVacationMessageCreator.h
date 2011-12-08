@@ -13,11 +13,11 @@ namespace HM
       SMTPVacationMessageCreator();
 	   virtual ~SMTPVacationMessageCreator();
 
-      void CreateVacationMessage(shared_ptr<const Account> recipientAccount,
+      void CreateVacationMessage(boost::shared_ptr<const Account> recipientAccount,
                                   const String &sToAddress, 
                                   const String &sVacationSubject, 
                                   const String &sVacationMessage,
-                                  const shared_ptr<Message> pOriginalMessage);
+                                  const boost::shared_ptr<Message> pOriginalMessage);
 
       
 

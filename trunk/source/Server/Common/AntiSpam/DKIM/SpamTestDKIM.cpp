@@ -32,12 +32,12 @@ namespace HM
       return config.GetDKIMVerificationEnabled();
    }
 
-   set<shared_ptr<SpamTestResult> >
-   SpamTestDKIM::RunTest(shared_ptr<SpamTestData> pTestData)
+   set<boost::shared_ptr<SpamTestResult> >
+   SpamTestDKIM::RunTest(boost::shared_ptr<SpamTestData> pTestData)
    {
-      shared_ptr<Message> pMessage = pTestData->GetMessageData()->GetMessage();
+      boost::shared_ptr<Message> pMessage = pTestData->GetMessageData()->GetMessage();
 
-      set<shared_ptr<SpamTestResult> > setSpamTestResults;
+      set<boost::shared_ptr<SpamTestResult> > setSpamTestResults;
 
       const String fileName = PersistentMessage::GetFileName(pMessage);
 
@@ -48,12 +48,12 @@ namespace HM
          // Blocked
          AntiSpamConfiguration &config= Configuration::Instance()->GetAntiSpamConfiguration();
          int iSomeScore = config.GetDKIMVerificationFailureScore();
-         shared_ptr<SpamTestResult> pResult = shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Fail, iSomeScore, "Rejected by DKIM."));
+         boost::shared_ptr<SpamTestResult> pResult = boost::shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Fail, iSomeScore, "Rejected by DKIM."));
          setSpamTestResults.insert(pResult);
       }
       else if (result == DKIM::Pass)
       {
-         shared_ptr<SpamTestResult> pResult = shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Pass, 0, ""));
+         boost::shared_ptr<SpamTestResult> pResult = boost::shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Pass, 0, ""));
          setSpamTestResults.insert(pResult);
       }
 

@@ -24,7 +24,7 @@ namespace HM
 
 
    bool
-   DALRecordset::Open(shared_ptr<DALConnection> pConn, const SQLCommand &command)
+   DALRecordset::Open(boost::shared_ptr<DALConnection> pConn, const SQLCommand &command)
    {
       String sErrMsg;
 

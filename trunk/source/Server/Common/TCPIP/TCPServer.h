@@ -20,7 +20,7 @@ namespace HM
    class TCPServer
    {
    public:
-      TCPServer(boost::asio::io_service& io_service, const IPAddress &ipaddress, int port, SessionType sessionType, shared_ptr<SSLCertificate> certificate);
+      TCPServer(boost::asio::io_service& io_service, const IPAddress &ipaddress, int port, SessionType sessionType, boost::shared_ptr<SSLCertificate> certificate);
       ~TCPServer(void);
 
       void Run();
@@ -36,14 +36,14 @@ namespace HM
 
       bool InitAcceptor();
       void StartAccept();
-      void HandleAccept(shared_ptr<TCPConnection> pConnection, const boost::system::error_code& error);
+      void HandleAccept(boost::shared_ptr<TCPConnection> pConnection, const boost::system::error_code& error);
 
       bool FireOnAcceptEvent(const IPAddress &remoteAddress, int port);
 
       boost::asio::ip::tcp::acceptor _acceptor;
       boost::asio::ssl::context _context;
       SessionType _sessionType;
-      shared_ptr<SSLCertificate> _certificate;
+      boost::shared_ptr<SSLCertificate> _certificate;
 
       IPAddress _ipaddress;
       int _port;

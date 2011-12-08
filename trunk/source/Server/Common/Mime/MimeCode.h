@@ -72,9 +72,9 @@ namespace HM
 	   static FieldCodeBase* CreateFieldCoder(const char* pszFieldName);
 
 	   // media type management
-	   typedef shared_ptr<MimeBody> (*BODY_PART_FACTORY)();
+	   typedef boost::shared_ptr<MimeBody> (*BODY_PART_FACTORY)();
 	   static void RegisterMediaType(const char* pszMediaType, BODY_PART_FACTORY pfnCreateObject=NULL);
-	   static shared_ptr<MimeBody> CreateBodyPart(const char* pszMediaType);
+	   static boost::shared_ptr<MimeBody> CreateBodyPart(const char* pszMediaType);
 
    private:
 	   static bool m_bAutoFolding;
@@ -111,7 +111,7 @@ namespace HM
 	   MimeEnvironment::RegisterFieldCoder(field_name, 0)
 
    #define DECLARE_MEDIATYPE(class_name) \
-	   public: static shared_ptr<MimeBody> CreateObject() { return new class_name; }
+	   public: static boost::shared_ptr<MimeBody> CreateObject() { return new class_name; }
 
    #define REGISTER_MEDIATYPE(media_type, class_name) \
 	   MimeEnvironment::RegisterMediaType(media_type, class_name::CreateObject)

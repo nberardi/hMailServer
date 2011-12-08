@@ -175,7 +175,7 @@ STDMETHODIMP InterfaceRule::get_Criterias(IInterfaceRuleCriterias **pVal)
       CComObject<InterfaceRuleCriterias>* pItem = new CComObject<InterfaceRuleCriterias >();
       pItem->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::RuleCriterias> pRuleCriterias = m_pObject->GetCriterias();
+      boost::shared_ptr<HM::RuleCriterias> pRuleCriterias = m_pObject->GetCriterias();
    
       if (pRuleCriterias)
       {
@@ -201,7 +201,7 @@ STDMETHODIMP InterfaceRule::get_Actions(IInterfaceRuleActions **pVal)
 
       CComObject<InterfaceRuleActions>* pItem = new CComObject<InterfaceRuleActions >();
    
-      shared_ptr<HM::RuleActions> pRuleActions = m_pObject->GetActions();
+      boost::shared_ptr<HM::RuleActions> pRuleActions = m_pObject->GetActions();
    
       if (pRuleActions)
       {
@@ -267,14 +267,14 @@ STDMETHODIMP InterfaceRule::Save()
       // Set the sort order of the rule.
       if (m_pObject->GetID() == 0 && m_pObject->GetSortOrder() == 0)
       {
-         std::vector<shared_ptr<HM::Rule> > vecExistingRules = m_pParentCollection->GetVector();
+         std::vector<boost::shared_ptr<HM::Rule> > vecExistingRules = m_pParentCollection->GetVector();
    
          // Determine the highest SortOrder.
          if (vecExistingRules.size() == 0)
             m_pObject->SetSortOrder(1);
          else
          {
-            shared_ptr<HM::Rule> pLastRule = vecExistingRules[vecExistingRules.size() -1];
+            boost::shared_ptr<HM::Rule> pLastRule = vecExistingRules[vecExistingRules.size() -1];
             m_pObject->SetSortOrder(pLastRule->GetSortOrder() +1);
          }
       }

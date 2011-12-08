@@ -905,11 +905,11 @@ namespace HM
       return sWideStr;
    }
 
-   shared_ptr<MimeBody> 
+   boost::shared_ptr<MimeBody> 
    MimeBody::LoadEncapsulatedMessage() const
    {
       // try to generate a file name using the message subject.
-      shared_ptr<MimeBody> pEncapsulatedMessage = shared_ptr<MimeBody>(new MimeBody);
+      boost::shared_ptr<MimeBody> pEncapsulatedMessage = boost::shared_ptr<MimeBody>(new MimeBody);
 
       int iLength = GetContentLength();
       char *pData = new char[iLength+1];
@@ -927,7 +927,7 @@ namespace HM
       if (!IsEncapsulatedRFC822Message())
          return "";
 
-      shared_ptr<MimeBody> pEncapsulatedMessage = LoadEncapsulatedMessage();
+      boost::shared_ptr<MimeBody> pEncapsulatedMessage = LoadEncapsulatedMessage();
 
       String sFilename = unicode ? 
          pEncapsulatedMessage->GetUnicodeFieldValue("Subject") :
@@ -1078,7 +1078,7 @@ namespace HM
 
       // Read the file as a text file. This will cause a null
       // to be added by File, which is required by Load() below.
-      shared_ptr<ByteBuffer> pFileContents = oFile.ReadTextFile();
+      boost::shared_ptr<ByteBuffer> pFileContents = oFile.ReadTextFile();
 
 		FreeBuffer();
 		if (pFileContents->GetSize() > 0)
@@ -1122,7 +1122,7 @@ namespace HM
       if (!oFile.Open(pszFilename, File::OTReadOnly))
          return false;
 
-      shared_ptr<ByteBuffer> pUnencodedBuffer = oFile.ReadFile();
+      boost::shared_ptr<ByteBuffer> pUnencodedBuffer = oFile.ReadFile();
 
       if (!pUnencodedBuffer)
          return false;
@@ -1171,16 +1171,16 @@ namespace HM
    {
 	   while (!m_listBodies.empty())
 	   {
-		   shared_ptr<MimeBody> pBP = m_listBodies.back();
+		   boost::shared_ptr<MimeBody> pBP = m_listBodies.back();
 		   m_listBodies.pop_back();
 		   ASSERT(pBP != NULL);
 	   }
    }
 
    // create a new child body part, and add it to body part list
-   shared_ptr<MimeBody> MimeBody::CreatePart(const char* pszMediaType/*=NULL*/, shared_ptr<MimeBody> pWhere/*=NULL*/)
+   boost::shared_ptr<MimeBody> MimeBody::CreatePart(const char* pszMediaType/*=NULL*/, boost::shared_ptr<MimeBody> pWhere/*=NULL*/)
    {
-	   shared_ptr<MimeBody> pBP = MimeEnvironment::CreateBodyPart(pszMediaType);
+	   boost::shared_ptr<MimeBody> pBP = MimeEnvironment::CreateBodyPart(pszMediaType);
 	   ASSERT(pBP != NULL);
 	   if (pWhere != NULL)
 	   {
@@ -1196,7 +1196,7 @@ namespace HM
    }
 
    // create a new child body part, and add it to body part list
-   void MimeBody::AddPart(shared_ptr<MimeBody> part)
+   void MimeBody::AddPart(boost::shared_ptr<MimeBody> part)
    {
       m_listBodies.push_back(part);
    }
@@ -1207,7 +1207,7 @@ namespace HM
       return (int) m_listBodies.size();
    }
    // remove and delete a child body part
-   void MimeBody::ErasePart(shared_ptr<MimeBody> pBP)
+   void MimeBody::ErasePart(boost::shared_ptr<MimeBody> pBP)
    {
 	   ASSERT(pBP != NULL);
 	   m_listBodies.remove(pBP);
@@ -1217,7 +1217,7 @@ namespace HM
    // Since we are using smart pointers, and it's not possible to cast
    // from <this> to a smart_ptr, we need to give this function a pointer
    // to itself. Really ugly but should work fine.
-   int MimeBody::GetAttachmentList(shared_ptr<MimeBody> pThis, BodyList& rList) const
+   int MimeBody::GetAttachmentList(boost::shared_ptr<MimeBody> pThis, BodyList& rList) const
    {
       int nCount = 0;
       int nMediaType = GetMediaType();
@@ -1233,10 +1233,10 @@ namespace HM
 
       else
       {
-         list<shared_ptr<MimeBody> >::const_iterator it;
+         list<boost::shared_ptr<MimeBody> >::const_iterator it;
          for (it=m_listBodies.begin(); it!=m_listBodies.end(); it++)
          {
-            shared_ptr<MimeBody> pBP = *it;
+            boost::shared_ptr<MimeBody> pBP = *it;
             ASSERT(pBP != NULL);
             nCount += pBP->GetAttachmentList(pBP, rList);
          }
@@ -1249,10 +1249,10 @@ namespace HM
    {
       if (GetMediaType() ==MEDIA_MULTIPART)
       {
-         list<shared_ptr<MimeBody> >::iterator it = m_listBodies.begin();
+         list<boost::shared_ptr<MimeBody> >::iterator it = m_listBodies.begin();
          while (it != m_listBodies.end())
          {
-            shared_ptr<MimeBody> pBody = (*it);
+            boost::shared_ptr<MimeBody> pBody = (*it);
             if (pBody->IsAttachment())
                it = m_listBodies.erase(it);
             else
@@ -1262,14 +1262,14 @@ namespace HM
    }
 
    // clear all attachments from this subtype.
-   void MimeBody::RemoveAttachment(shared_ptr<MimeBody> pAttachment) 
+   void MimeBody::RemoveAttachment(boost::shared_ptr<MimeBody> pAttachment) 
    {
       if (GetMediaType() ==MEDIA_MULTIPART)
       {
-         list<shared_ptr<MimeBody> >::iterator it = m_listBodies.begin();
+         list<boost::shared_ptr<MimeBody> >::iterator it = m_listBodies.begin();
          while (it != m_listBodies.end())
          {
-            shared_ptr<MimeBody> pBody = (*it);
+            boost::shared_ptr<MimeBody> pBody = (*it);
             if (pBody->IsAttachment() && pBody == pAttachment)
             {
                it = m_listBodies.erase(it);
@@ -1304,11 +1304,11 @@ namespace HM
 
 	   string strBoundary = GetBoundary();
 	   int nBoundSize = (int) strBoundary.size();
-	   list<shared_ptr<MimeBody> >::const_iterator it;
+	   list<boost::shared_ptr<MimeBody> >::const_iterator it;
 	   for (it=m_listBodies.begin(); it!=m_listBodies.end(); it++)
 	   {
 		   nLength += nBoundSize + 6;	// include 2 leading hyphens and 2 pair of CRLFs
-		   shared_ptr<MimeBody> pBP = *it;
+		   boost::shared_ptr<MimeBody> pBP = *it;
 		   ASSERT(pBP != NULL);
 		   nLength += pBP->GetLength();
 	   }
@@ -1349,7 +1349,7 @@ namespace HM
            AnsiString boundaryLine = Formatter::Format(_T("\r\n--{0}\r\n"), String(strBoundary));
            output.append(boundaryLine);
 
-		   shared_ptr<MimeBody> pBP = *it;
+		   boost::shared_ptr<MimeBody> pBP = *it;
 		   ASSERT(pBP != NULL);	
 
            pBP->Store(output);
@@ -1496,7 +1496,7 @@ namespace HM
 			   pszBound2 = pszEnd;
 		   int nEntitySize = (int) (pszBound2 - pszStart);
 		   
-         shared_ptr<MimeBody> pBP = shared_ptr<MimeBody>(new MimeBody());
+         boost::shared_ptr<MimeBody> pBP = boost::shared_ptr<MimeBody>(new MimeBody());
 
 		   m_listBodies.push_back(pBP);
 

@@ -32,17 +32,17 @@ namespace HM
       _DBLoad(sSQL);
    }
 
-   vector<shared_ptr<Route> >
+   vector<boost::shared_ptr<Route> >
    Routes::GetItemsByName(const String &sRouteName)
    {
-      vector<shared_ptr<Route> >::iterator iter = vecObjects.begin();
-      vector<shared_ptr<Route> >::iterator iterEnd = vecObjects.end();
+      vector<boost::shared_ptr<Route> >::iterator iter = vecObjects.begin();
+      vector<boost::shared_ptr<Route> >::iterator iterEnd = vecObjects.end();
 
-      vector<shared_ptr<Route> > vecResult;
+      vector<boost::shared_ptr<Route> > vecResult;
 
       for (; iter != iterEnd; iter++)
       {
-         shared_ptr<Route> pRoute = (*iter);
+         boost::shared_ptr<Route> pRoute = (*iter);
 
          if (pRoute->DomainName().CompareNoCase(sRouteName) == 0)
          {

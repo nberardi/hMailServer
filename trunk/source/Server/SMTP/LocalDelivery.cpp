@@ -42,7 +42,7 @@
 
 namespace HM
 { 
-   LocalDelivery::LocalDelivery(const String &sSendersIP, shared_ptr<Message> message, const RuleResult &globalRuleResult) :
+   LocalDelivery::LocalDelivery(const String &sSendersIP, boost::shared_ptr<Message> message, const RuleResult &globalRuleResult) :
       _sendersIP(sSendersIP),
       _originalMessage(message),
       _globalRuleResult(globalRuleResult)
@@ -66,12 +66,12 @@ namespace HM
 
       // NOTE: Since were manipulating the messages recipient vector below, we want to do a copy.
       //       We should iterate over the copy of recipients here. Not over the original list.
-      vector<shared_ptr<MessageRecipient> > &vecRecipients = _originalMessage->GetRecipients()->GetVector();
-      vector<shared_ptr<MessageRecipient> >::iterator iterRecipient = vecRecipients.begin();
+      vector<boost::shared_ptr<MessageRecipient> > &vecRecipients = _originalMessage->GetRecipients()->GetVector();
+      vector<boost::shared_ptr<MessageRecipient> >::iterator iterRecipient = vecRecipients.begin();
 
       while (iterRecipient != vecRecipients.end())
       {
-         shared_ptr<MessageRecipient> pRecipient = (*iterRecipient);
+         boost::shared_ptr<MessageRecipient> pRecipient = (*iterRecipient);
 
          if (pRecipient->GetLocalAccountID() == 0)
          {
@@ -81,7 +81,7 @@ namespace HM
          }
 
          // Read the recipients account from database.
-         shared_ptr<const Account> pCheckAccount = CacheContainer::Instance()->GetAccount(pRecipient->GetLocalAccountID());
+         boost::shared_ptr<const Account> pCheckAccount = CacheContainer::Instance()->GetAccount(pRecipient->GetLocalAccountID());
 
          if (pCheckAccount)
          {
@@ -110,7 +110,7 @@ namespace HM
    /// Delivers a single message to a specific account.
    /// Returns true if the delivery was made, false otherwise.
    void
-   LocalDelivery::_DeliverToLocalAccount(shared_ptr<const Account> account, int iNoOfRecipients, vector<String> &saErrorMessages, const String &sOriginalAddress, bool &messageReused)
+   LocalDelivery::_DeliverToLocalAccount(boost::shared_ptr<const Account> account, int iNoOfRecipients, vector<String> &saErrorMessages, const String &sOriginalAddress, bool &messageReused)
    {
       // First check that we're actually able to deliver a message to this account. If the account
       // has reached it's quota, we should cancel delivery immediately. If we create the account-level
@@ -125,7 +125,7 @@ namespace HM
       // we don't have to create a new file on disk.
       messageReused = iNoOfRecipients == 1;
 
-      shared_ptr<Message> accountLevelMessage = _CreateAccountLevelMessage(_originalMessage, account, messageReused, sOriginalAddress);
+      boost::shared_ptr<Message> accountLevelMessage = _CreateAccountLevelMessage(_originalMessage, account, messageReused, sOriginalAddress);
       if (!accountLevelMessage)
       {
          String errorMessage;
@@ -163,8 +163,8 @@ namespace HM
       IMAPFolderContainer::Instance()->SetFolderNeedRefresh(accountLevelMessage->GetAccountID(), accountLevelMessage->GetFolderID());
 
       // Notify the mailbox notifier that the mailbox contents have changed.
-      shared_ptr<ChangeNotification> changeNotification = 
-         shared_ptr<ChangeNotification>(new ChangeNotification(accountLevelMessage->GetAccountID(), accountLevelMessage->GetFolderID(), ChangeNotification::NotificationMessageAdded));
+      boost::shared_ptr<ChangeNotification> changeNotification = 
+         boost::shared_ptr<ChangeNotification>(new ChangeNotification(accountLevelMessage->GetAccountID(), accountLevelMessage->GetFolderID(), ChangeNotification::NotificationMessageAdded));
       Application::Instance()->GetNotificationServer()->SendNotification(changeNotification);
 
       AWStats::LogDeliverySuccess(_sendersIP, "127.0.0.1", accountLevelMessage, account->GetAddress());
@@ -177,7 +177,7 @@ namespace HM
    Returns true if message should be delivered, false if it should be aborted.
    */
    bool 
-   LocalDelivery::_LocalDeliveryPreProcess(shared_ptr<const Account> account, shared_ptr<Message> accountLevelMessage, const String &sOriginalAddress, vector<String> &saErrorMessages)
+   LocalDelivery::_LocalDeliveryPreProcess(boost::shared_ptr<const Account> account, boost::shared_ptr<Message> accountLevelMessage, const String &sOriginalAddress, vector<String> &saErrorMessages)
    {
       _SendAutoReplyMessage(account, _originalMessage);
 
@@ -234,7 +234,7 @@ namespace HM
    }
 
    bool 
-   LocalDelivery::_CheckAccountQuotas(shared_ptr<const Account> pCheckAccount, vector<String> &saErrorMessages)
+   LocalDelivery::_CheckAccountQuotas(boost::shared_ptr<const Account> pCheckAccount, vector<String> &saErrorMessages)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Checks that the recipient account has enough space available. If not, 
@@ -264,12 +264,12 @@ namespace HM
       return true;
    }
 
-   shared_ptr<Message> 
-   LocalDelivery::_CreateAccountLevelMessage(shared_ptr<Message> pOriginalMessage, shared_ptr<const Account> pRecipientAccount, bool reuseMessage, const String &sOriginalAddress)
+   boost::shared_ptr<Message> 
+   LocalDelivery::_CreateAccountLevelMessage(boost::shared_ptr<Message> pOriginalMessage, boost::shared_ptr<const Account> pRecipientAccount, bool reuseMessage, const String &sOriginalAddress)
    {
       // Copy the original message to the new message. Also copy the message
       // file unless we should reuse the old one.
-      shared_ptr<Message> pNewMessage;
+      boost::shared_ptr<Message> pNewMessage;
 
       if (reuseMessage)
       {
@@ -282,7 +282,7 @@ namespace HM
          __int64  inboxID = CacheContainer::Instance()->GetInboxIDCache().GetUserInboxFolder(pRecipientAccount->GetID());
          if (inboxID == 0)
          {
-            shared_ptr<Message> empty;
+            boost::shared_ptr<Message> empty;
             return empty;
          }
 
@@ -290,7 +290,7 @@ namespace HM
 
          if (!PersistentMessage::MoveFileToUserFolder(sourceLocation, pNewMessage, pRecipientAccount))
          {
-            shared_ptr<Message> empty;
+            boost::shared_ptr<Message> empty;
             return empty;
          }
       }
@@ -298,7 +298,7 @@ namespace HM
       {
          pNewMessage = PersistentMessage::CopyFromQueueToInbox(pOriginalMessage, pRecipientAccount);
 
-         boost_foreach (shared_ptr<MessageRecipient> recipient, pOriginalMessage->GetRecipients()->GetVector())
+         boost_foreach (boost::shared_ptr<MessageRecipient> recipient, pOriginalMessage->GetRecipients()->GetVector())
          {
             if (recipient->GetAddress().CompareNoCase(pRecipientAccount->GetAddress()) == 0)
             {
@@ -314,7 +314,7 @@ namespace HM
    }
 
    bool 
-   LocalDelivery::_AddTraceHeaders(shared_ptr<const Account> account, shared_ptr<Message> pMessage, const String &sOriginalAddress)
+   LocalDelivery::_AddTraceHeaders(boost::shared_ptr<const Account> account, boost::shared_ptr<Message> pMessage, const String &sOriginalAddress)
    {
       std::vector<pair<AnsiString, AnsiString> > fieldsToWrite;
 
@@ -330,7 +330,7 @@ namespace HM
    }    
 
    void 
-   LocalDelivery::_SendAutoReplyMessage(shared_ptr<const Account> pAccount, shared_ptr<Message> pMessage)
+   LocalDelivery::_SendAutoReplyMessage(boost::shared_ptr<const Account> pAccount, boost::shared_ptr<Message> pMessage)
    {
       // Do this before we move the message to the users
       // directory. If we do it afterwards, the user may have (at least theoretically)
@@ -355,10 +355,10 @@ namespace HM
    }      
 
    bool 
-   LocalDelivery::_RunAccountRules(shared_ptr<const Account> pAccount, shared_ptr<Message> pMessage, RuleResult &accountRuleResult)
+   LocalDelivery::_RunAccountRules(boost::shared_ptr<const Account> pAccount, boost::shared_ptr<Message> pMessage, RuleResult &accountRuleResult)
    {
       // Apply rules on this message.  
-      shared_ptr<RuleApplier> pRuleApplier = shared_ptr<RuleApplier>(new RuleApplier);
+      boost::shared_ptr<RuleApplier> pRuleApplier = boost::shared_ptr<RuleApplier>(new RuleApplier);
 
       pRuleApplier->ApplyRules(ObjectCache::Instance()->GetAccountRules(pAccount->GetID()), pAccount, pMessage, accountRuleResult);
 

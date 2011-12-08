@@ -55,20 +55,20 @@ namespace HM
    void
    SpamProtection::Load()
    {
-      m_pSpamTestRunner = shared_ptr<SpamTestRunner>(new SpamTestRunner);
+      m_pSpamTestRunner = boost::shared_ptr<SpamTestRunner>(new SpamTestRunner);
       m_pSpamTestRunner->LoadSpamTests();
 
       DKIM::Initialize();
    }
 
-   set<shared_ptr<SpamTestResult> >
+   set<boost::shared_ptr<SpamTestResult> >
    SpamProtection::RunPreTransmissionTests(const String &sFromAddress, 
                                            const IPAddress &iOriginatingIP,
                                            const IPAddress &iConnectingIP,
                                            const String &sHeloHost)
    {
 
-      shared_ptr<SpamTestData> pTestData = shared_ptr<SpamTestData>(new SpamTestData);
+      boost::shared_ptr<SpamTestData> pTestData = boost::shared_ptr<SpamTestData>(new SpamTestData);
       
       pTestData->SetEnvelopeFrom(sFromAddress);
       pTestData->SetHeloHost(sHeloHost);
@@ -78,16 +78,16 @@ namespace HM
       AntiSpamConfiguration &config = Configuration::Instance()->GetAntiSpamConfiguration();
       int maxScore = max(config.GetSpamDeleteThreshold(), config.GetSpamMarkThreshold());
 
-      set<shared_ptr<SpamTestResult> > setResult = m_pSpamTestRunner->RunSpamTest(pTestData, SpamTest::PreTransmission, maxScore);
+      set<boost::shared_ptr<SpamTestResult> > setResult = m_pSpamTestRunner->RunSpamTest(pTestData, SpamTest::PreTransmission, maxScore);
 
       return setResult;
    }
 
-   set<shared_ptr<SpamTestResult> >
+   set<boost::shared_ptr<SpamTestResult> >
    SpamProtection::RunPostTransmissionTests(const String &sFromAddress, 
                                             const IPAddress & iOriginatingIP,
                                             const IPAddress & iConnectingIP,
-                                            shared_ptr<Message> pMessage)
+                                            boost::shared_ptr<Message> pMessage)
    {
 
       const String fileName = PersistentMessage::GetFileName(pMessage);
@@ -107,12 +107,12 @@ namespace HM
       if (messageSizeKB > maxSizeToScanKB)
       {
          // The message is larger than the max message size to scan, so we'll skip scanning it.
-         set<shared_ptr<SpamTestResult> > emptySet;
+         set<boost::shared_ptr<SpamTestResult> > emptySet;
          return emptySet;
       }
 
-      shared_ptr<SpamTestData> pTestData = shared_ptr<SpamTestData>(new SpamTestData);      
-      shared_ptr<MessageData> pMessageData = shared_ptr<MessageData>(new MessageData);
+      boost::shared_ptr<SpamTestData> pTestData = boost::shared_ptr<SpamTestData>(new SpamTestData);      
+      boost::shared_ptr<MessageData> pMessageData = boost::shared_ptr<MessageData>(new MessageData);
       
       pMessageData->LoadFromMessage(fileName, pMessage);
 
@@ -123,13 +123,13 @@ namespace HM
 
       int maxScore = max(config.GetSpamDeleteThreshold(), config.GetSpamMarkThreshold());
 
-      set<shared_ptr<SpamTestResult> > setResult = m_pSpamTestRunner->RunSpamTest(pTestData, SpamTest::PostTransmission, maxScore);
+      set<boost::shared_ptr<SpamTestResult> > setResult = m_pSpamTestRunner->RunSpamTest(pTestData, SpamTest::PostTransmission, maxScore);
 
       return setResult;
    }
 
    bool
-   SpamProtection::PerformGreyListing(shared_ptr<Message> message, const set<shared_ptr<SpamTestResult> > &spamTestResults, const String &toAddress, const IPAddress &ipaddress)
+   SpamProtection::PerformGreyListing(boost::shared_ptr<Message> message, const set<boost::shared_ptr<SpamTestResult> > &spamTestResults, const String &toAddress, const IPAddress &ipaddress)
    {
       if (!Configuration::Instance()->GetAntiSpamConfiguration().GetUseGreyListing())
       {
@@ -140,7 +140,7 @@ namespace HM
 
       // Check if we should use grey listing for the recipient domain.
       String sRecipientDomain = StringParser::ExtractDomain(toAddress);
-      shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(sRecipientDomain);         
+      boost::shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(sRecipientDomain);         
 
       if (pDomain && !pDomain->GetASUseGreyListing())
       {
@@ -152,7 +152,7 @@ namespace HM
       // Check if the SPF test has succeeded. If so, maybe we should not do
       if (Configuration::Instance()->GetAntiSpamConfiguration().GetBypassGreyListingOnSPFSuccess())
       {
-         boost_foreach(shared_ptr<SpamTestResult> testResult, spamTestResults)
+         boost_foreach(boost::shared_ptr<SpamTestResult> testResult, spamTestResults)
          {
             if (testResult->GetTestName() == SpamTestSPF::GetTestName())
             {
@@ -199,10 +199,10 @@ namespace HM
       return true; 
    }
 
-   shared_ptr<MessageData>
-   SpamProtection::TagMessageAsSpam(shared_ptr<Message> pMessage, set<shared_ptr<SpamTestResult> > setResult)
+   boost::shared_ptr<MessageData>
+   SpamProtection::TagMessageAsSpam(boost::shared_ptr<Message> pMessage, set<boost::shared_ptr<SpamTestResult> > setResult)
    {
-      shared_ptr<MessageData> pMessageData;
+      boost::shared_ptr<MessageData> pMessageData;
 
       AntiSpamConfiguration &config = Configuration::Instance()->GetAntiSpamConfiguration();
 
@@ -217,7 +217,7 @@ namespace HM
       if (!pMessage)
          return pMessageData;
 
-      pMessageData = shared_ptr<MessageData>(new MessageData);
+      pMessageData = boost::shared_ptr<MessageData>(new MessageData);
       if (!pMessageData->LoadFromMessage(PersistentMessage::GetFileName(pMessage), pMessage))
          return pMessageData;
 
@@ -226,14 +226,14 @@ namespace HM
 
       if (config.GetAddHeaderReason())
       {
-         set<shared_ptr<SpamTestResult> >::iterator iter = setResult.begin();
-         set<shared_ptr<SpamTestResult> >::iterator iterEnd = setResult.end();
+         set<boost::shared_ptr<SpamTestResult> >::iterator iter = setResult.begin();
+         set<boost::shared_ptr<SpamTestResult> >::iterator iterEnd = setResult.end();
 
          int iFieldIdx = 1;
          int iTotalScore = 0;
          for (; iter != iterEnd; iter++, iFieldIdx++)
          {
-            shared_ptr<SpamTestResult> pResult = (*iter);
+            boost::shared_ptr<SpamTestResult> pResult = (*iter);
 
             // Only if the test has failed should we add a header for it. If the test
             // is neutral or pass, we shouldn't mention it in the headers.
@@ -292,16 +292,16 @@ namespace HM
    }
 
    int 
-   SpamProtection::CalculateTotalSpamScore(set<shared_ptr<SpamTestResult> > result)
+   SpamProtection::CalculateTotalSpamScore(set<boost::shared_ptr<SpamTestResult> > result)
    {
       int iTotalSpamScore = 0;
 
-      set<shared_ptr<SpamTestResult> >::iterator iter = result.begin();
-      set<shared_ptr<SpamTestResult> >::iterator iterEnd = result.end();
+      set<boost::shared_ptr<SpamTestResult> >::iterator iter = result.begin();
+      set<boost::shared_ptr<SpamTestResult> >::iterator iterEnd = result.end();
 
       for (; iter != iterEnd; iter++)
       {
-         shared_ptr<SpamTestResult> pResult = (*iter);
+         boost::shared_ptr<SpamTestResult> pResult = (*iter);
          iTotalSpamScore += pResult->GetSpamScore();
 
       }

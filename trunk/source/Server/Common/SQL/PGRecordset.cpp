@@ -28,13 +28,13 @@ namespace HM
    }
 
    DALConnection::ExecutionResult
-   PGRecordset::TryOpen(shared_ptr<DALConnection> pDALConn, const SQLCommand &command, String &sErrorMessage)
+   PGRecordset::TryOpen(boost::shared_ptr<DALConnection> pDALConn, const SQLCommand &command, String &sErrorMessage)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Opens a recordset specified by the given SQL string sSQL.
    //---------------------------------------------------------------------------()
    {  
-      shared_ptr<PGConnection> pConn = static_pointer_cast<PGConnection>(pDALConn);
+      boost::shared_ptr<PGConnection> pConn = static_pointer_cast<PGConnection>(pDALConn);
       
       String sSQL = command.GetQueryString();
 

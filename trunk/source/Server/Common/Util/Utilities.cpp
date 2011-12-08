@@ -94,14 +94,14 @@ namespace HM
 
    }
 
-   shared_ptr<MimeHeader>
+   boost::shared_ptr<MimeHeader>
    Utilities::GetMimeHeader(const BYTE *pByteBuf, int iBufSize)
    {
       // First locate end of header in the buffer.
       const char *pBuffer = (const char*) pByteBuf;
       const char *pBufferEndPos = StringParser::Search(pBuffer, iBufSize, "\r\n\r\n");
 
-      shared_ptr<MimeHeader> pMimeHeader = shared_ptr<MimeHeader>(new MimeHeader);
+      boost::shared_ptr<MimeHeader> pMimeHeader = boost::shared_ptr<MimeHeader>(new MimeHeader);
 
       if (!pBufferEndPos)
       {

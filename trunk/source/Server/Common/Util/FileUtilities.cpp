@@ -265,7 +265,7 @@ namespace HM
       oFile.Open(sFilename, File::OTReadOnly);
 
       // Read file
-      shared_ptr<ByteBuffer> pBuffer = oFile.ReadFile();
+      boost::shared_ptr<ByteBuffer> pBuffer = oFile.ReadFile();
 
       if (!pBuffer || pBuffer->GetSize() == 0)
       {

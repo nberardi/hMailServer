@@ -13,13 +13,13 @@ namespace HM
       PersistentRuleCriteria(void);
       ~PersistentRuleCriteria(void);
 
-      static bool ReadObject(shared_ptr<RuleCriteria> pRuleCriteria, const SQLCommand &sSQL);
-      static bool ReadObject(shared_ptr<RuleCriteria> pRuleCriteria, shared_ptr<DALRecordset> pRS);
+      static bool ReadObject(boost::shared_ptr<RuleCriteria> pRuleCriteria, const SQLCommand &sSQL);
+      static bool ReadObject(boost::shared_ptr<RuleCriteria> pRuleCriteria, boost::shared_ptr<DALRecordset> pRS);
 
       
-      static bool SaveObject(shared_ptr<RuleCriteria> pRuleCriteria, String &errorMessage);
-      static bool SaveObject(shared_ptr<RuleCriteria> pRuleCriteria);
-      static bool DeleteObject(shared_ptr<RuleCriteria> pRuleCriteria);
+      static bool SaveObject(boost::shared_ptr<RuleCriteria> pRuleCriteria, String &errorMessage);
+      static bool SaveObject(boost::shared_ptr<RuleCriteria> pRuleCriteria);
+      static bool DeleteObject(boost::shared_ptr<RuleCriteria> pRuleCriteria);
 
       static bool DeleteObjects(__int64 iRuleID);
    };

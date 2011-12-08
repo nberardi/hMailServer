@@ -22,32 +22,32 @@ namespace HM
 
       void SetIsUID() { m_bIsUID = true; }
 
-      IMAPResult ExecuteCommand(shared_ptr<IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument);
+      IMAPResult ExecuteCommand(boost::shared_ptr<IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument);
 
    private:
 
-      bool _MatchesHeaderCriteria(const String &fileName,shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesUIDCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesSequenceSetCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria, int index);
-      bool _MatchesTEXTCriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesBODYCriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesONCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesSENTONCriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesSENTBEFORECriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesSENTSINCECriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesSINCECriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesHeaderCriteria(const String &fileName,boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesUIDCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesSequenceSetCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria, int index);
+      bool _MatchesTEXTCriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesBODYCriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesONCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesSENTONCriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesSENTBEFORECriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesSENTSINCECriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesSINCECriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
       
-      bool _MatchesBEFORECriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesLARGERCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
-      bool _MatchesSMALLERCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesBEFORECriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesLARGERCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
+      bool _MatchesSMALLERCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria);
 
-      String _GetHeaderValue(const String &fileName, shared_ptr<Message> pMessage, const String &sHeaderField);
+      String _GetHeaderValue(const String &fileName, boost::shared_ptr<Message> pMessage, const String &sHeaderField);
       
       
-      bool _DoesMessageMatch(shared_ptr<IMAPSearchCriteria> pParentCriteria, const String &fileName, shared_ptr<Message> pMessage, int index);
+      bool _DoesMessageMatch(boost::shared_ptr<IMAPSearchCriteria> pParentCriteria, const String &fileName, boost::shared_ptr<Message> pMessage, int index);
 
-      shared_ptr<MessageData> m_pMessageData;
-      shared_ptr<MimeHeader> m_pMimeHeader;
+      boost::shared_ptr<MessageData> m_pMessageData;
+      boost::shared_ptr<MimeHeader> m_pMimeHeader;
 
       bool m_bIsSort;
       bool m_bIsUID;

@@ -24,30 +24,30 @@ namespace HM
          AccountFolder = 3
       };
 
-      static shared_ptr<Message> CopyToQueue(shared_ptr<const Account> sourceAccount, shared_ptr<Message> sourceMessage);
-      static shared_ptr<Message> CopyToIMAPFolder(shared_ptr<const Account> sourceAccount, shared_ptr<Message> sourceMessage, shared_ptr<IMAPFolder> destinationFolder);
-      static shared_ptr<Message> CopyFromQueueToInbox(shared_ptr<Message> sourceMessage, shared_ptr<const Account> destinationAccount);
+      static boost::shared_ptr<Message> CopyToQueue(boost::shared_ptr<const Account> sourceAccount, boost::shared_ptr<Message> sourceMessage);
+      static boost::shared_ptr<Message> CopyToIMAPFolder(boost::shared_ptr<const Account> sourceAccount, boost::shared_ptr<Message> sourceMessage, boost::shared_ptr<IMAPFolder> destinationFolder);
+      static boost::shared_ptr<Message> CopyFromQueueToInbox(boost::shared_ptr<Message> sourceMessage, boost::shared_ptr<const Account> destinationAccount);
 
-      static bool DeleteObject(shared_ptr<Message> pMessage);
-      static bool SaveObject(shared_ptr<Message> pMessage);
-      static bool SaveObject(shared_ptr<Message> pMessage, String &errorMessage);
-      static bool AddObject(const shared_ptr<Message> pMessage);
+      static bool DeleteObject(boost::shared_ptr<Message> pMessage);
+      static bool SaveObject(boost::shared_ptr<Message> pMessage);
+      static bool SaveObject(boost::shared_ptr<Message> pMessage, String &errorMessage);
+      static bool AddObject(const boost::shared_ptr<Message> pMessage);
       static bool LockObject(__int64 ObjectID);
-      static bool LockObject(shared_ptr<Message> pMessage );
-      static bool UnlockObject(shared_ptr<Message> pMessage);
+      static bool LockObject(boost::shared_ptr<Message> pMessage );
+      static bool UnlockObject(boost::shared_ptr<Message> pMessage);
       static bool UnlockAll();
-      static bool DeleteFile(shared_ptr<const Account> account, shared_ptr<Message> pMessage);
+      static bool DeleteFile(boost::shared_ptr<const Account> account, boost::shared_ptr<Message> pMessage);
 
       static bool GetMessageID(const String &fileName, __int64 &messageID, bool &isPartialFilename);
-      static bool ReadObject(shared_ptr<DALRecordset> pRS, shared_ptr<Message> pMessage, bool bReadRecipients = true);
-      static bool ReadObject(shared_ptr<Message> pMessage, __int64 ObjectID);
-      static bool ReadObject(shared_ptr<Message> pMessage, const SQLCommand &command);
+      static bool ReadObject(boost::shared_ptr<DALRecordset> pRS, boost::shared_ptr<Message> pMessage, bool bReadRecipients = true);
+      static bool ReadObject(boost::shared_ptr<Message> pMessage, __int64 ObjectID);
+      static bool ReadObject(boost::shared_ptr<Message> pMessage, const SQLCommand &command);
 
       static bool SetNextTryTime(__int64 iMessageID, bool bUpdateNoOfTries, long lNoOfMinutes);
-      static void EnsureFileExistance(shared_ptr<const Account> account, shared_ptr<Message> pMessage);
+      static void EnsureFileExistance(boost::shared_ptr<const Account> account, boost::shared_ptr<Message> pMessage);
       
-      static bool MoveFileToPublicFolder(const String &sourceLocation, shared_ptr<Message> pMessage);
-      static bool MoveFileToUserFolder(const String &sourceLocation, shared_ptr<Message>, shared_ptr<const Account> destinationAccount);
+      static bool MoveFileToPublicFolder(const String &sourceLocation, boost::shared_ptr<Message> pMessage);
+      static bool MoveFileToUserFolder(const String &sourceLocation, boost::shared_ptr<Message>, boost::shared_ptr<const Account> destinationAccount);
 
       static bool GetAllMessageFilesAreInDataFolder();
       static bool GetAllMessageFilesArePartialNames();
@@ -64,30 +64,30 @@ namespace HM
       static AnsiString LoadHeader(const String &fileName, bool reportError);
       static AnsiString LoadBody(const String &fileName);
 
-      static String GetFileName(shared_ptr<const Message> message);
-      static String GetFileName(shared_ptr<const Message> message, FileLocation location);
-      static String GetFileName(shared_ptr<const Account> account, shared_ptr<const Message> message);
-      static String GetFileName(shared_ptr<const Account> account, shared_ptr<const Message> message, FileLocation location);
-      static String GetFileName(const String &accountAddress, shared_ptr<const Message> message);
-      static String GetFileName(const String &accountAddress, shared_ptr<const Message> message, FileLocation location);
+      static String GetFileName(boost::shared_ptr<const Message> message);
+      static String GetFileName(boost::shared_ptr<const Message> message, FileLocation location);
+      static String GetFileName(boost::shared_ptr<const Account> account, boost::shared_ptr<const Message> message);
+      static String GetFileName(boost::shared_ptr<const Account> account, boost::shared_ptr<const Message> message, FileLocation location);
+      static String GetFileName(const String &accountAddress, boost::shared_ptr<const Message> message);
+      static String GetFileName(const String &accountAddress, boost::shared_ptr<const Message> message, FileLocation location);
 
       static bool GetPartialFilename(const String &fullPath, String &partialPath);
 
-      static bool SaveFlags(shared_ptr<Message> message);
+      static bool SaveFlags(boost::shared_ptr<Message> message);
 
 
       static bool IsPartialPath(const String &path);
    private:
       
-      static shared_ptr<Message> _CreateCopy(shared_ptr<Message> sourceMessage, int destinationAccountID);
+      static boost::shared_ptr<Message> _CreateCopy(boost::shared_ptr<Message> sourceMessage, int destinationAccountID);
 
-      static bool _MoveMessageFileToFolder(const String &sourceLocation, shared_ptr<Message> pMessage, shared_ptr<const Account> destinationAccount);
+      static bool _MoveMessageFileToFolder(const String &sourceLocation, boost::shared_ptr<Message> pMessage, boost::shared_ptr<const Account> destinationAccount);
 
       // Recipient functions begin
-      static bool _ReadRecipients(shared_ptr<Message> pMessage);
-      static bool _SaveRecipients(shared_ptr<Message> pMessage);
+      static bool _ReadRecipients(boost::shared_ptr<Message> pMessage);
+      static bool _SaveRecipients(boost::shared_ptr<Message> pMessage);
       // Recipient functions end
    };
 
-   typedef shared_ptr<Message> MessageSP;
+   typedef boost::shared_ptr<Message> MessageSP;
 }

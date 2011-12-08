@@ -32,7 +32,7 @@ namespace HM
    
 
    bool 
-   SURBL::Run(shared_ptr<SURBLServer> pSURBLServer, shared_ptr<MessageData> pMessageData)
+   SURBL::Run(boost::shared_ptr<SURBLServer> pSURBLServer, boost::shared_ptr<MessageData> pMessageData)
    {
       Stopwatch stopWatch(true);
       LOG_DEBUG("SURBL::Run");

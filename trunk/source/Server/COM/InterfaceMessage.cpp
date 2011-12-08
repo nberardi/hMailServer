@@ -48,7 +48,7 @@ InterfaceMessage::InterfaceSupportsErrorInfo(REFIID riid)
    
 InterfaceMessage::InterfaceMessage()
 {
-   m_pObject = shared_ptr<HM::Message>(new HM::Message());
+   m_pObject = boost::shared_ptr<HM::Message>(new HM::Message());
 }
 
 STDMETHODIMP InterfaceMessage::get_ID(hyper *pVal)
@@ -110,7 +110,7 @@ STDMETHODIMP InterfaceMessage::get_Filename(BSTR *pVal)
       if (!m_pObject)
          return GetAccessDenied();
 
-      shared_ptr<const HM::Account> account;
+      boost::shared_ptr<const HM::Account> account;
       
       if (m_pObject->GetAccountID() > 0)
       {
@@ -341,7 +341,7 @@ STDMETHODIMP InterfaceMessage::get_Attachments(IInterfaceAttachments **pVal)
       CComObject<InterfaceAttachments>* pItem = new CComObject<InterfaceAttachments>();
       pItem->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Attachments> pAttachments = _GetMessageData()->GetAttachments();
+      boost::shared_ptr<HM::Attachments> pAttachments = _GetMessageData()->GetAttachments();
    
       if (pAttachments)
       {
@@ -365,7 +365,7 @@ STDMETHODIMP InterfaceMessage::get_Headers(IInterfaceMessageHeaders **pVal)
       if (!m_pObject)
          return GetAccessDenied();
 
-      shared_ptr<HM::MimeBody> pMimeBody = _GetMessageData()->GetMimeMessage();
+      boost::shared_ptr<HM::MimeBody> pMimeBody = _GetMessageData()->GetMimeMessage();
    
       if (!pMimeBody)
          return DISP_E_BADINDEX;
@@ -393,7 +393,7 @@ InterfaceMessage::_SaveNewMessageToIMAPFolder()
          return GetAccessDenied();
 
       // Check which account this message belongs to.
-      shared_ptr<const HM::Account> pAccount = HM::CacheContainer::Instance()->GetAccount(m_pObject->GetAccountID());
+      boost::shared_ptr<const HM::Account> pAccount = HM::CacheContainer::Instance()->GetAccount(m_pObject->GetAccountID());
    
       // Save the message to the database
       if (!HM::PersistentMessage::SaveObject(m_pObject))
@@ -403,8 +403,8 @@ InterfaceMessage::_SaveNewMessageToIMAPFolder()
       AddToParentCollection();
    
       // Notify...
-      shared_ptr<HM::ChangeNotification> pNotification = 
-         shared_ptr<HM::ChangeNotification>(new HM::ChangeNotification(m_pObject->GetAccountID(), m_pObject->GetFolderID(), HM::ChangeNotification::NotificationMessageAdded));
+      boost::shared_ptr<HM::ChangeNotification> pNotification = 
+         boost::shared_ptr<HM::ChangeNotification>(new HM::ChangeNotification(m_pObject->GetAccountID(), m_pObject->GetFolderID(), HM::ChangeNotification::NotificationMessageAdded));
    
       HM::Application::Instance()->GetNotificationServer()->SendNotification(pNotification);
    
@@ -432,7 +432,7 @@ STDMETHODIMP InterfaceMessage::Save()
          _GetMessageData()->SetSentTime(sDate);
       }
    
-      shared_ptr<const HM::Account> account;
+      boost::shared_ptr<const HM::Account> account;
    
       if (m_pObject->GetAccountID() > 0)
       {
@@ -741,7 +741,7 @@ STDMETHODIMP InterfaceMessage::get_Recipients(IInterfaceRecipients**pVal)
       CComObject<InterfaceRecipients>* pItem = new CComObject<InterfaceRecipients>();
       pItem->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Message> pMessage = _GetMessageData()->GetMessage();
+      boost::shared_ptr<HM::Message> pMessage = _GetMessageData()->GetMessage();
    
       if (pMessage)
       {
@@ -758,19 +758,19 @@ STDMETHODIMP InterfaceMessage::get_Recipients(IInterfaceRecipients**pVal)
    }
 }
 
-shared_ptr<HM::MessageData> 
+boost::shared_ptr<HM::MessageData> 
 InterfaceMessage::_GetMessageData()
 {
    if (!m_pMsgData)
    {
-      shared_ptr<const HM::Account> account;
+      boost::shared_ptr<const HM::Account> account;
 
       if (m_pObject->GetAccountID() > 0)
       {
          account = HM::CacheContainer::Instance()->GetAccount(m_pObject->GetAccountID());
       }
 
-      m_pMsgData = shared_ptr<HM::MessageData>(new HM::MessageData());
+      m_pMsgData = boost::shared_ptr<HM::MessageData>(new HM::MessageData());
       m_pMsgData->LoadFromMessage(account, m_pObject);
    }
 

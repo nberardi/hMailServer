@@ -17,7 +17,7 @@ namespace HM
       virtual ~Scheduler();
 
 
-      void ScheduleTask(shared_ptr<ScheduledTask> pTask);
+      void ScheduleTask(boost::shared_ptr<ScheduledTask> pTask);
 
       void DoWork();
       void StopWork();
@@ -29,7 +29,7 @@ namespace HM
       Event m_hStopTask;      
 
       CriticalSection m_oVecCritSec;
-      vector<shared_ptr<ScheduledTask >> m_vecScheduledTasks;
+      vector<boost::shared_ptr<ScheduledTask >> m_vecScheduledTasks;
 
    };
 

@@ -57,17 +57,17 @@ namespace HM
       // Delete all existing ports and then add new ones.
       DeleteAll();
 
-      shared_ptr<TCPIPPort> pTCPIPPort = shared_ptr<TCPIPPort>(new TCPIPPort);
+      boost::shared_ptr<TCPIPPort> pTCPIPPort = boost::shared_ptr<TCPIPPort>(new TCPIPPort);
       pTCPIPPort->SetPortNumber(25);
       pTCPIPPort->SetProtocol(STSMTP);
       PersistentTCPIPPort::SaveObject(pTCPIPPort);
 
-      pTCPIPPort = shared_ptr<TCPIPPort>(new TCPIPPort);
+      pTCPIPPort = boost::shared_ptr<TCPIPPort>(new TCPIPPort);
       pTCPIPPort->SetPortNumber(110);
       pTCPIPPort->SetProtocol(STPOP3);
       PersistentTCPIPPort::SaveObject(pTCPIPPort);
 
-      pTCPIPPort = shared_ptr<TCPIPPort>(new TCPIPPort);
+      pTCPIPPort = boost::shared_ptr<TCPIPPort>(new TCPIPPort);
       pTCPIPPort->SetPortNumber(143);
       pTCPIPPort->SetProtocol(STIMAP);
       PersistentTCPIPPort::SaveObject(pTCPIPPort);
@@ -75,16 +75,16 @@ namespace HM
       Refresh();
    }
 
-   shared_ptr<TCPIPPort> 
+   boost::shared_ptr<TCPIPPort> 
    TCPIPPorts::GetPort(const IPAddress &iIPAddress, int iPort)
    {
-      vector<shared_ptr<TCPIPPort> >::iterator iter = vecObjects.begin();   
-      vector<shared_ptr<TCPIPPort> >::iterator iterEnd = vecObjects.end();   
+      vector<boost::shared_ptr<TCPIPPort> >::iterator iter = vecObjects.begin();   
+      vector<boost::shared_ptr<TCPIPPort> >::iterator iterEnd = vecObjects.end();   
 
       std::vector<int> vecResult;
       for (; iter != iterEnd; iter++)
       {
-         shared_ptr<TCPIPPort> pTCPIPPort = (*iter);
+         boost::shared_ptr<TCPIPPort> pTCPIPPort = (*iter);
          if (pTCPIPPort->GetPortNumber() == iPort && 
             (pTCPIPPort->GetAddress() == iIPAddress || pTCPIPPort->GetAddress().IsAny()))
          {
@@ -92,7 +92,7 @@ namespace HM
          }
       }
 
-      shared_ptr<TCPIPPort> pEmpty;
+      boost::shared_ptr<TCPIPPort> pEmpty;
       return pEmpty;
    }
 

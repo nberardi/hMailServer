@@ -60,7 +60,7 @@ namespace HM
    }
 
    int
-   SMTPClientConnection::SetDelivery(shared_ptr<Message> pDelMsg, std::vector<shared_ptr<MessageRecipient> > &vecRecipients)
+   SMTPClientConnection::SetDelivery(boost::shared_ptr<Message> pDelMsg, std::vector<boost::shared_ptr<MessageRecipient> > &vecRecipients)
    {
       m_pDeliveryMessage = pDelMsg;
       m_vecRecipients = vecRecipients;
@@ -233,7 +233,7 @@ namespace HM
       {
          LOG_DEBUG("SMTPClientConnection::~_ParseASCII() - 6");
 
-         shared_ptr<MessageRecipient> pRecipient = _GetNextRecipient();
+         boost::shared_ptr<MessageRecipient> pRecipient = _GetNextRecipient();
          if (!pRecipient) 
          {
             _SendQUIT();
@@ -263,7 +263,7 @@ namespace HM
             }
          }
 
-         shared_ptr<MessageRecipient> pRecipient = _GetNextRecipient();
+         boost::shared_ptr<MessageRecipient> pRecipient = _GetNextRecipient();
          if (pRecipient)
          {
             // Send next recipient.
@@ -340,7 +340,7 @@ namespace HM
    void
    SMTPClientConnection::_UpdateSuccessfulRecipients()
    {
-      boost_foreach(shared_ptr<MessageRecipient> actualRecipient, _actualRecipients)
+      boost_foreach(boost::shared_ptr<MessageRecipient> actualRecipient, _actualRecipients)
          actualRecipient->SetDeliveryResult(MessageRecipient::ResultOK);
 
    }
@@ -445,7 +445,7 @@ namespace HM
    void 
    SMTPClientConnection::_UpdateAllRecipientsWithError(int iErrorCode, const AnsiString &sResponse, bool bPreConnectError)
    {
-      std::vector<shared_ptr<MessageRecipient> >::iterator iterRecipient = m_vecRecipients.begin();
+      std::vector<boost::shared_ptr<MessageRecipient> >::iterator iterRecipient = m_vecRecipients.begin();
       while (iterRecipient != m_vecRecipients.end())
       {
          _UpdateRecipientWithError(iErrorCode, sResponse, (*iterRecipient), bPreConnectError);
@@ -455,7 +455,7 @@ namespace HM
    }
 
    void 
-   SMTPClientConnection::_UpdateRecipientWithError(int iErrorCode, const AnsiString &sResponse, shared_ptr<MessageRecipient> pRecipient, bool bPreConnectError)
+   SMTPClientConnection::_UpdateRecipientWithError(int iErrorCode, const AnsiString &sResponse, boost::shared_ptr<MessageRecipient> pRecipient, bool bPreConnectError)
    {
       if (pRecipient->GetDeliveryResult() == MessageRecipient::ResultFatalError)
       {
@@ -573,7 +573,7 @@ namespace HM
       _SetState(QUITSENT);
    }
 
-   shared_ptr<MessageRecipient> 
+   boost::shared_ptr<MessageRecipient> 
    SMTPClientConnection::_GetNextRecipient()
    {
       while (1)
@@ -586,7 +586,7 @@ namespace HM
          }
          else
          {
-            shared_ptr<MessageRecipient> pEmpty;
+            boost::shared_ptr<MessageRecipient> pEmpty;
             return pEmpty;
          }
       }
@@ -607,7 +607,7 @@ namespace HM
 
       _transmissionBuffer.Initialize(this);
 
-      shared_ptr<ByteBuffer> pBuf = _currentFile.ReadChunk(GetBufferSize());
+      boost::shared_ptr<ByteBuffer> pBuf = _currentFile.ReadChunk(GetBufferSize());
 
       if (!pBuf)
          return;
@@ -627,7 +627,7 @@ namespace HM
             LOG_DEBUG("SMTPClientConnection::~_Continue sendfile");
       // Continue sending the file..
       int bufferSize = GetBufferSize();
-      shared_ptr<ByteBuffer> pBuffer = _currentFile.ReadChunk(bufferSize);
+      boost::shared_ptr<ByteBuffer> pBuffer = _currentFile.ReadChunk(bufferSize);
 
       while (pBuffer)
       {

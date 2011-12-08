@@ -77,7 +77,7 @@ namespace HM
       const int maxIterations = 100000;
       for (int i = 0; i < maxIterations; i++)
       {
-         shared_ptr<ByteBuffer> pBuf = oFile.ReadChunk(20000);
+         boost::shared_ptr<ByteBuffer> pBuf = oFile.ReadChunk(20000);
 
          if (!pBuf)
             break;
@@ -115,7 +115,7 @@ namespace HM
    }
 
    void
-   SpamAssassinClient::ParseData(shared_ptr<ByteBuffer> pBuf)
+   SpamAssassinClient::ParseData(boost::shared_ptr<ByteBuffer> pBuf)
    {
       if (!m_pResult)
       {
@@ -123,7 +123,7 @@ namespace HM
          logMessage.Format(_T("Parsing response from SpamAssassin. Session %d"), GetSessionID());
          LOG_DEBUG(logMessage);
 
-         m_pResult = shared_ptr<File>(new File);
+         m_pResult = boost::shared_ptr<File>(new File);
          m_pResult->Open(FileUtilities::GetTempFileName(), File::OTAppend);
 
          _ParseFirstBuffer(pBuf);
@@ -172,7 +172,7 @@ namespace HM
    }
 
    void
-   SpamAssassinClient::_ParseFirstBuffer(shared_ptr<ByteBuffer> pBuffer) const
+   SpamAssassinClient::_ParseFirstBuffer(boost::shared_ptr<ByteBuffer> pBuffer) const
    {
       // Don't send first line, since it's the Result header.
       char *pFoundPos = StringParser::Search(pBuffer->GetCharBuffer(), pBuffer->GetSize(), "\r\n");

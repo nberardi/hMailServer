@@ -1,0 +1,3208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Code">
+      <UniqueIdentifier>{2c352e58-52b8-4d24-af16-91c0c76656d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Code\Source Files\Interfaces">
+      <UniqueIdentifier>{714f29bb-d700-44ea-bc0f-b515e592e60b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Interfaces\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="Code\Source Files\Interfaces\COM Wrappers">
+      <UniqueIdentifier>{662cc325-3df0-4c7d-8056-6b1d0fe7c0aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core">
+      <UniqueIdentifier>{7a9e0fce-3c19-429e-a563-5f686df27329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\BO">
+      <UniqueIdentifier>{00a4c93f-5b2a-4449-9e8f-3a5377d390cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\BO\Collections">
+      <UniqueIdentifier>{1cf0082c-de71-4127-92d6-c4e97b3f19ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\BO\Objects">
+      <UniqueIdentifier>{874d3b88-b0f8-4137-bcee-2136964d1861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Mime">
+      <UniqueIdentifier>{d03bd9e5-d2b0-4188-82dd-f371f4a143c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Application">
+      <UniqueIdentifier>{8addef53-c08d-4789-9f5d-e9b04c36e4a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Application\ScriptingHost">
+      <UniqueIdentifier>{877eb79e-7d4c-4707-b772-5688ed402b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\SQL">
+      <UniqueIdentifier>{85c8fa14-f8c4-4aac-b847-ae8bc7affc63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\SQL\Prerequisites">
+      <UniqueIdentifier>{e0abf30f-794f-4eb5-b559-8ef53ade802a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\SQL\Macros">
+      <UniqueIdentifier>{1c15f178-180e-47b1-8fa8-2448d8a379c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Events">
+      <UniqueIdentifier>{e652cdb8-5f81-4ff0-b18a-d585576035b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Persistence">
+      <UniqueIdentifier>{9cc50e37-48f4-4629-8b43-77c0cdcd9b3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Persistence\Maintenance">
+      <UniqueIdentifier>{cd7f84df-fe91-405f-90e5-161d7333c3af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Cache">
+      <UniqueIdentifier>{f7e228aa-7631-4c58-b8ba-598b10bd8bd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Threading">
+      <UniqueIdentifier>{24e3c1e1-b474-4d85-9209-a68ce2810f49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\AntiSpam">
+      <UniqueIdentifier>{105ae08c-cd89-4e2d-97c7-1930b74a7a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\AntiSpam\SpamAssassin">
+      <UniqueIdentifier>{0a431e70-a68f-40b1-9b32-69e8d051aa59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\AntiSpam\DKIM">
+      <UniqueIdentifier>{37fa220a-ae86-4a1e-be60-6c1cbc74773a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\TCPIP">
+      <UniqueIdentifier>{aff91a65-4375-4360-b4f1-4199962b4a00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Diagnostics">
+      <UniqueIdentifier>{c59c1afe-216c-46bb-955d-967b903fe88c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Tracking">
+      <UniqueIdentifier>{92a2f547-d5df-4894-8d47-a64605f58312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Util">
+      <UniqueIdentifier>{f3b2c9c7-d947-4e70-ac54-337a374af30e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Util\Hashing">
+      <UniqueIdentifier>{b343fbc0-d17d-413e-a6f6-82329e711107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Util\Encoding">
+      <UniqueIdentifier>{0f48a77b-fd50-4660-8b87-4344784f70af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Util\Strings">
+      <UniqueIdentifier>{31ba47bf-69a5-40d2-9c74-926c3dc20779}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\Util\Parsing">
+      <UniqueIdentifier>{08b88760-7be1-4ae6-b672-0451eddf8edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Core\AntiVirus">
+      <UniqueIdentifier>{6a8d1bcd-e369-4802-bc64-9d14056a1a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Protocols">
+      <UniqueIdentifier>{75d967fd-fab4-4810-a5ec-75ecf4393191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Protocols\SMTP">
+      <UniqueIdentifier>{15b46245-6989-4850-a439-ffe8f721515e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Protocols\SMTP\AntiSpam">
+      <UniqueIdentifier>{6a854489-c10c-43fb-bf18-ec87ff1c43b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Protocols\SMTP\AntiSpam\SPF">
+      <UniqueIdentifier>{067a181e-53ff-4bf2-a0ef-f1d52a110d73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Protocols\IMAP">
+      <UniqueIdentifier>{1635511f-e59c-41f5-9670-6c80d25c5943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Source Files\Protocols\POP3">
+      <UniqueIdentifier>{945c896c-b73b-41d3-8608-fe699967db17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Generated Files">
+      <UniqueIdentifier>{14a45cfb-c476-4bee-80f5-8553a86c7abe}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Database scripts">
+      <UniqueIdentifier>{cc420b0d-9ed2-49a4-b678-20380f78629e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="hMailServer.cpp">
+      <Filter>Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceAccount.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceAccounts.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceAlias.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceAliases.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceAntiSpam.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceAntiVirus.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceApplication.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceAttachment.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceAttachments.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceBackup.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceBackupManager.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceBackupSettings.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceBlockedAttachment.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceBlockedAttachments.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceCache.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Com\InterfaceClient.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDatabase.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDeliveryQueue.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDiagnosticResult.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDiagnosticResults.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDiagnostics.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDirectories.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDistributionList.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDistributionListRecipient.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDistributionListRecipients.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDistributionLists.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDNSBlackList.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDNSBlackLists.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDomain.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDomainAlias.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDomainAliases.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceDomains.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Com\InterfaceEventLog.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceFetchAccount.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceFetchAccounts.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceGlobalObjects.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceGreyListingWhiteAddress.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceGreyListingWhiteAddresses.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceGroup.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceGroupMember.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceGroupMembers.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceGroups.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Com\InterfaceIMAPFolder.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceIMAPFolderPermission.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceIMAPFolderPermissions.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Com\InterfaceIMAPFolders.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceIncomingRelay.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceIncomingRelays.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceLanguage.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceLanguages.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceLinks.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceLogging.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceMessage.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceMessageHeader.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceMessageHeaders.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceMessageIndexing.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceMessages.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRecipient.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRecipients.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Com\InterfaceResult.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRoute.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRouteAddress.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRouteAddresses.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRoutes.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRule.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRuleAction.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRuleActions.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRuleCriteria.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRuleCriterias.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceRules.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Com\InterfaceScripting.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceSecurityRange.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceSecurityRanges.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceServerMessage.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceServerMessages.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceSettings.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceSSLCertificate.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceSSLCertificates.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceStatus.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceSURBLServer.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceSURBLServers.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceTCPIPPort.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceTCPIPPorts.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceUtilities.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceWhiteListAddress.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\InterfaceWhiteListAddresses.cpp">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\COMError.cpp">
+      <Filter>Code\Source Files\Interfaces\COM Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Accounts.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\ACLPermissions.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Aliases.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Attachments.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\BlockedAttachments.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\DistributionListRecipients.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\DistributionLists.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\DNSBlackLists.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\DomainAliases.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Domains.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\FetchAccounts.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\FetchAccountUIDs.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\GreyListingWhiteAddresses.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\GroupMembers.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\Groups.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\IMAPFolders.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\IncomingRelays.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\MessageRecipients.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Messages.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\RouteAddresses.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Routes.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\RuleActions.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\RuleCriterias.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Rules.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\SecurityRanges.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\SSLCertificates.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\SURBLServers.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\TCPIPPorts.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\WhiteListAddresses.cpp">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Account.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\ACLPermission.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Alias.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Attachment.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\BlockedAttachment.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\DistributionList.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\DistributionListRecipient.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\DNSBlackList.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Domain.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\DomainAlias.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\FetchAccount.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\FetchAccountUID.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\GreyListingWhiteAddress.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\GreyListTriplet.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\Group.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\GroupMember.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\IMAPFolder.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\IncomingRelay.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TCPIP\IPAddress.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Message.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\MessageData.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\MessageMetaData.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\MessageRecipient.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Route.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\RouteAddress.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\Rule.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\RuleAction.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\RuleApplier.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\RuleCriteria.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\ScheduledTask.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Bo\SecurityRange.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\ServerMessage.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\ServerMessages.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\SSLCertificate.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\SURBLServer.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\TCPIPPort.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BO\WhiteListAddress.cpp">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Mime\CodePages.cpp">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Mime\Mime.cpp">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Mime\MimeChar.cpp">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Mime\MimeCode.cpp">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Mime\MimeTester.cpp">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Mime\MimeType.cpp">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\ACLManager.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\Application.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\Backup.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\BackupExecuter.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\BackupManager.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\BackupTask.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\COM\COMAuthentication.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\Configuration.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\DatabaseConnectionManager.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\DefaultDomain.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\Dictionary.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\ErrorManager.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\FolderManager.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\IniFileSettings.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\Logger.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\MessageIndexer.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\ObjectCache.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\OutOfMemoryHandler.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\Property.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\PropertySet.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\Reinitializator.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\RemoveExpiredRecords.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\ScriptingHost\Result.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\Scheduler.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\ScriptingHost\ScriptObjectContainer.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\SessionManager.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\SingletonCreator.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\TimeoutCalculator.cpp">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\ScriptingHost\ScriptServer.cpp">
+      <Filter>Code\Source Files\Core\Application\ScriptingHost</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\ADOConnection.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\ADORecordset.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\ColumnPositionCache.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\DALConnection.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\DALConnectionFactory.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\DALRecordset.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\DALRecordsetFactory.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\DatabaseSettings.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\IPAddressSQLHelper.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\MySQLConnection.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\MySQLInterface.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\MySQLRecordset.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\PGConnection.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\PGRecordset.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\SQLCEConnection.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\SQLCERecordset.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\SQLCommand.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\SQLParameter.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\SQLScriptParser.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\SQLScriptRunner.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Sql\SQLStatement.cpp">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\Prerequisites\PreReqNoDuplicateFolders.cpp">
+      <Filter>Code\Source Files\Core\SQL\Prerequisites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\Prerequisites\PrerequisiteList.cpp">
+      <Filter>Code\Source Files\Core\SQL\Prerequisites</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\Macros\Macro.cpp">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\Macros\MacroParser.cpp">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\Macros\MSSQLMacroExpander.cpp">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\Macros\MySQLMacroExpander.cpp">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\Macros\PGSQLMacroExpander.cpp">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SQL\Macros\SQLCEMacroExpander.cpp">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\EventHandlers\Events.cpp">
+      <Filter>Code\Source Files\Core\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\NameChanger.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentAccount.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentACLPermission.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentAlias.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentBlockedAttachment.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentDistributionList.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentDistributionListRecipient.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentDNSBlacklist.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentDomain.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentDomainAlias.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentFetchAccount.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentFetchAccountUID.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentGreyList.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentGreyListingWhiteAddress.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentGroup.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentGroupMember.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentIMAPFolder.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentIncomingRelay.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentLogonFailure.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentMessage.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentMessageMetaData.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentMessageRecipient.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentRoute.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentRouteAddress.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentRule.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentRuleAction.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentRuleCriteria.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentSecurityRange.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentServerMessage.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentSSLCertificate.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentSURBLServer.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentTCPIPPort.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PersistentWhiteListAddress.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\PreSaveLimitationsCheck.cpp">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Persistence\Maintenance\Maintenance.cpp">
+      <Filter>Code\Source Files\Core\Persistence\Maintenance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Cache\AccountSizeCache.cpp">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Cache\Cacheable.cpp">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Cache\CacheConfiguration.cpp">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Cache\CacheContainer.cpp">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Cache\InboxIDCache.cpp">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Cache\MessageCache.cpp">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Threading\Task.cpp">
+      <Filter>Code\Source Files\Core\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Threading\Thread.cpp">
+      <Filter>Code\Source Files\Core\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Threading\WorkQueue.cpp">
+      <Filter>Code\Source Files\Core\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Threading\WorkQueueManager.cpp">
+      <Filter>Code\Source Files\Core\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\AntiSpamConfiguration.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamProtection.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTest.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTestData.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTestDNSBlackLists.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTestHeloHost.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTestMXRecords.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTestResult.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTestRunner.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTestSpamAssassin.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTestSPF.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamTestSURBL.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SURBL.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamAssassin\SpamAssassinClient.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam\SpamAssassin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\SpamAssassin\SpamAssassinTestConnect.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam\SpamAssassin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\DKIM\Canonicalization.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\DKIM\DKIM.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\DKIM\DKIMParameters.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\DKIM\DKIMSigner.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiSpam\DKIM\SpamTestDKIM.cpp">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Tcpip\DNSResolver.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TCPIP\IOCPQueueWorkerTask.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TCPIP\IOCPServer.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TCPIP\IOOperation.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TCPIP\IOOperationQueue.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Tcpip\LocalIPAddresses.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TCPIP\ProtocolParser.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TCPIP\SynchronousConnection.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TCPIP\TCPConnection.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TCPIP\TCPServer.cpp">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\Diagnostic.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\DiagnosticResult.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\TestBackupDirectory.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\TestConnect.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\TestConnectToSelf.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\TestDataDirectory.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\TestInformationGatherer.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\TestIPRanges.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\TestIPv6.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\TestMXRecords.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Diagnostics\TestOutboundPort.cpp">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Tracking\ChangeNotification.cpp">
+      <Filter>Code\Source Files\Core\Tracking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Tracking\NotificationClient.cpp">
+      <Filter>Code\Source Files\Core\Tracking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Tracking\NotificationClientSubscription.cpp">
+      <Filter>Code\Source Files\Core\Tracking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Tracking\NotificationServer.cpp">
+      <Filter>Code\Source Files\Core\Tracking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\AccountLogon.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Assert.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\AWStats.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\BlowFish.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\ByteBuffer.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Charset.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\ClassTester.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Application\ClientInfo.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Compression.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\CriticalSection.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Crypt.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Event.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\File.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\FileUtilities.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\FolderManipulationLock.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\GUIDCreator.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\HeapChecker.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\HTTPClient.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Language.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Languages.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\MailerDaemonAddressDeterminer.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\MailImporter.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Math.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\MessageAttachmentStripper.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\MessageUtilities.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\PasswordGenerator.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\PasswordRemover.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\PasswordValidator.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\ProcessLauncher.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Registry.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\RegularExpression.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\ServerInfo.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\ServerStatus.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\ServiceManager.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\SignatureAdder.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\SSPIValidation.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Stopwatch.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\SystemInformation.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Time.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\TLD.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\TraceHeaderWriter.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\TransparentTransmissionBuffer.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Unicode.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Utilities.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\VariantDateTime.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\XMLite.cpp">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Hashing\HashCreator.cpp">
+      <Filter>Code\Source Files\Core\Util\Hashing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Encoding\Base64.cpp">
+      <Filter>Code\Source Files\Core\Util\Encoding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Encoding\ModifiedUTF7.cpp">
+      <Filter>Code\Source Files\Core\Util\Encoding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Strings\FormatArgument.cpp">
+      <Filter>Code\Source Files\Core\Util\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Strings\Formatter.cpp">
+      <Filter>Code\Source Files\Core\Util\Strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Parsing\AddresslistParser.cpp">
+      <Filter>Code\Source Files\Core\Util\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Parsing\StringParser.cpp">
+      <Filter>Code\Source Files\Core\Util\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\Parsing\StringTreeParser.cpp">
+      <Filter>Code\Source Files\Core\Util\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiVirus\AntiVirusConfiguration.cpp">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiVirus\ClamAVVirusScanner.cpp">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiVirus\ClamWinVirusScanner.cpp">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiVirus\CustomVirusScanner.cpp">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiVirus\VirusScanner.cpp">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiVirus\VirusScannerTester.cpp">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\AntiVirus\VirusScanningResult.cpp">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\BLCheck.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\DeliveryQueue.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\DeliveryTask.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Util\EmailAllUsers.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SMTP\ExternalDelivery.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ExternalFetcher\ExternalFetch.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ExternalFetcher\ExternalFetchManager.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SMTP\GreyListCleanerTask.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SMTP\GreyListing.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SMTP\LocalDelivery.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SMTP\MirrorMessage.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SMTP\PlusAddressing.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\RecipientParser.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SMTP\RuleResult.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SMTP\ServerTargetResolver.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\SMTPClientConnection.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\SMTPConfiguration.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\SMTPConnection.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\SMTPDeliverer.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\SMTPDeliveryManager.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SMTP\SMTPForwarding.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\SMTPVacationMessageCreator.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\SMTPVirusNotifier.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\StatisticsSender.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\Spf\RMSPF.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP\AntiSpam\SPF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Smtp\Spf\SPF.cpp">
+      <Filter>Code\Source Files\Protocols\SMTP\AntiSpam\SPF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\FolderListCreator.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPACLHelper.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommand.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandAppend.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandAuthenticate.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandCapability.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandCheck.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandClose.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandCopy.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandCreate.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandDelete.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPCommandDeleteAcl.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandExamine.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandExpunge.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandFetch.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPCommandGetAcl.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandGetQuota.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandGetQuotaRoot.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPCommandIdle.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandList.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPCommandListRights.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandLogin.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandLogout.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandLSUB.CPP">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPCommandMyRights.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPCommandNamespace.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPCommandRangeAction.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandRename.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandSearch.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandSelect.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPCommandSetAcl.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandStatus.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandStore.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandSubscribe.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandUID.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCommandUnsubscribe.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPConfiguration.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPConnection.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPCopy.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPFetch.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPFetchParser.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPFolderContainer.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPFolderUtilities.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPListLookup.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPNotificationClient.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IMAP\IMAPResult.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPSearchParser.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPSimpleCommandParser.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPSort.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPSortParser.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\IMAPStore.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imap\StaticIMAPCommandHandlers.cpp">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ExternalFetcher\ExternalFetchTask.cpp">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ExternalFetcher\FetchAccountUIDList.cpp">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ExternalFetcher\POP3ClientConnection.cpp">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Pop3\POP3Configuration.cpp">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Pop3\POP3Connection.cpp">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Pop3\POP3Sessions.cpp">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClCompile>
+    <ClCompile Include="hMailServer_i.c">
+      <Filter>Code\Generated Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="hMailServer.idl">
+      <Filter>Code\Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\COM\COMAuthentication.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\COMAuthenticator.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Com\COMCollection.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceAccount.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceAccounts.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceAlias.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceAliases.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceAntiSpam.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceAntiVirus.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceApplication.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceAttachment.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceAttachments.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceBackup.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceBackupManager.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceBackupSettings.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceBlockedAttachment.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceBlockedAttachments.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceCache.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Com\InterfaceClient.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDatabase.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDeliveryQueue.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDiagnosticResult.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDiagnosticResults.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDiagnostics.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDirectories.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDistributionList.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDistributionListRecipient.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDistributionListRecipients.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDistributionLists.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDNSBlackList.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDNSBlackLists.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDomain.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDomainAlias.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDomainAliases.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceDomains.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Com\InterfaceEventLog.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Com\InterfaceFetchAccount.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Com\InterfaceFetchAccounts.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceGlobalObjects.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceGreyListingWhiteAddress.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceGreyListingWhiteAddresses.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceGroup.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceGroupMember.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceGroupMembers.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceGroups.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Com\InterfaceIMAPFolder.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceIMAPFolderPermission.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceIMAPFolderPermissions.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Com\InterfaceIMAPFolders.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceIncomingRelay.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceIncomingRelays.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceLanguage.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceLanguages.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceLinks.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceLogging.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceMessage.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceMessageHeader.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceMessageHeaders.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceMessageIndexing.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceMessages.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRecipient.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRecipients.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Com\InterfaceResult.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRoute.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRouteAddress.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRouteAddresses.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRoutes.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRule.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRuleAction.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRuleActions.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRuleCriteria.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRuleCriterias.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceRules.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Com\InterfaceScripting.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceSecurityRange.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceSecurityRanges.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceServerMessage.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceServerMessages.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceSettings.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceSSLCertificate.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceSSLCertificates.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceStatus.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceSURBLServer.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceSURBLServers.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceTCPIPPort.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceTCPIPPorts.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceUtilities.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceWhiteListAddress.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\InterfaceWhiteListAddresses.h">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COM\COMError.h">
+      <Filter>Code\Source Files\Interfaces\COM Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Code\Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Accounts.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\ACLPermissions.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Aliases.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Attachments.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\BlockedAttachments.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Collection.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\DistributionListRecipients.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\DistributionLists.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\DNSBlackLists.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\DomainAliases.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Domains.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\FetchAccounts.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\FetchAccountUIDs.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\GreyListingWhiteAddresses.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\GroupMembers.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\Groups.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\IMAPFolders.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\IncomingRelays.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\MessageRecipients.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Messages.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\RouteAddresses.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Routes.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\RuleActions.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\RuleCriterias.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Rules.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\SecurityRanges.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\SSLCertificates.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\SURBLServers.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\TCPIPPorts.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\WhiteListAddresses.h">
+      <Filter>Code\Source Files\Core\BO\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Account.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\ACLPermission.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Alias.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Attachment.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\BlockedAttachment.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\BusinessObject.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\DistributionList.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\DistributionListRecipient.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\DNSBlackList.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Domain.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\DomainAlias.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ExternalFetcher\ExternalFetch.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\FetchAccount.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\FetchAccountUID.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\GreyListingWhiteAddress.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\GreyListTriplet.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\Group.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\GroupMember.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\IMAPFolder.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\IncomingRelay.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TCPIP\IPAddress.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Message.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\MessageData.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\MessageMetaData.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\MessageRecipient.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Route.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\RouteAddress.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\Rule.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\RuleAction.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\RuleApplier.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\RuleCriteria.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\ScheduledTask.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Bo\SecurityRange.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\ServerMessage.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\ServerMessages.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\SSLCertificate.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\SURBLServer.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\TCPIPPort.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BO\WhiteListAddress.h">
+      <Filter>Code\Source Files\Core\BO\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Mime\CodePages.h">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Mime\Mime.h">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Mime\MimeChar.h">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Mime\MimeCode.h">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Mime\MimeTester.h">
+      <Filter>Code\Source Files\Core\Mime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\ACLManager.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Application.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Backup.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\BackupExecuter.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\BackupManager.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\BackupTask.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Configuration.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Constants.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\DefaultDomain.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Dictionary.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\ErrorManager.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\FolderManager.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\IniFileSettings.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Logger.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\MessageIndexer.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\ObjectCache.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\OutOfMemoryHandler.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Property.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\PropertySet.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\ProtocolConnectionFactory.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Reinitializator.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\RemoveExpiredRecords.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\ScriptingHost\Result.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Scheduler.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\ScriptingHost\ScriptObjectContainer.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\SessionManager.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\SingletonCreator.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\TimeoutCalculator.h">
+      <Filter>Code\Source Files\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\ScriptingHost\ScriptServer.h">
+      <Filter>Code\Source Files\Core\Application\ScriptingHost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\ScriptingHost\ScriptSite.h">
+      <Filter>Code\Source Files\Core\Application\ScriptingHost</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\ADOConnection.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\ADORecordset.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\ColumnPositionCache.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\DALConnection.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\DALConnectionFactory.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\DALRecordset.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\DALRecordsetFactory.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\DatabaseConnectionManager.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\DatabaseSettings.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\IPAddressSQLHelper.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\MySQLConnection.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\MySQLInterface.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\MySQLRecordset.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\PGConnection.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\PGRecordset.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\SQLCEConnection.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\SQLCERecordset.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\SQLCommand.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\SQLParameter.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\SQLScriptParser.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\SQLScriptRunner.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Sql\SQLStatement.h">
+      <Filter>Code\Source Files\Core\SQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Prerequisites\IPrerequisite.h">
+      <Filter>Code\Source Files\Core\SQL\Prerequisites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Prerequisites\PreReqNoDuplicateFolders.h">
+      <Filter>Code\Source Files\Core\SQL\Prerequisites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Prerequisites\PrerequisiteList.h">
+      <Filter>Code\Source Files\Core\SQL\Prerequisites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Macros\IMacroExpander.h">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Macros\Macro.h">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Macros\MacroParser.h">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Macros\MSSQLMacroExpander.h">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Macros\MySQLMacroExpander.h">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Macros\PGSQLMacroExpander.h">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SQL\Macros\SQLCEMacroExpander.h">
+      <Filter>Code\Source Files\Core\SQL\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\EventHandlers\Events.h">
+      <Filter>Code\Source Files\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\NameChanger.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentAccount.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentACLPermission.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentAlias.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentBlockedAttachment.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentDistributionList.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentDistributionListRecipient.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentDNSBlacklist.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentDomain.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentDomainAlias.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentFetchAccount.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentFetchAccountUID.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentGreyList.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentGreyListingWhiteAddress.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentGroup.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentGroupMember.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentIMAPFolder.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentIncomingRelay.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentLogonFailure.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentMessage.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentMessageMetaData.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentMessageRecipient.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentRoute.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentRouteAddress.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentRule.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentRuleAction.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentRuleCriteria.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentSecurityRange.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentServerMessage.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentSSLCertificate.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentSURBLServer.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentTCPIPPort.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PersistentWhiteListAddress.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\PreSaveLimitationsCheck.h">
+      <Filter>Code\Source Files\Core\Persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Persistence\Maintenance\Maintenance.h">
+      <Filter>Code\Source Files\Core\Persistence\Maintenance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Cache\AccountSizeCache.h">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Cache\Cache.h">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Cache\Cacheable.h">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Cache\CacheConfiguration.h">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Cache\CacheContainer.h">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Cache\InboxIDCache.h">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Cache\MessageCache.h">
+      <Filter>Code\Source Files\Core\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Threading\Task.h">
+      <Filter>Code\Source Files\Core\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Threading\Thread.h">
+      <Filter>Code\Source Files\Core\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Threading\WorkQueue.h">
+      <Filter>Code\Source Files\Core\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Threading\WorkQueueManager.h">
+      <Filter>Code\Source Files\Core\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\AntiSpamConfiguration.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamProtection.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTest.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTestData.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTestDNSBlackLists.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTestHeloHost.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTestMXRecords.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTestResult.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTestRunner.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTestSpamAssassin.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTestSPF.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamTestSURBL.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SURBL.h">
+      <Filter>Code\Source Files\Core\AntiSpam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamAssassin\SpamAssassinClient.h">
+      <Filter>Code\Source Files\Core\AntiSpam\SpamAssassin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\SpamAssassin\SpamAssassinTestConnect.h">
+      <Filter>Code\Source Files\Core\AntiSpam\SpamAssassin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\DKIM\Canonicalization.h">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\DKIM\DKIM.h">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\DKIM\DKIMParameters.h">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\DKIM\DKIMSigner.h">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiSpam\DKIM\SpamTestDKIM.h">
+      <Filter>Code\Source Files\Core\AntiSpam\DKIM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tcpip\DNSResolver.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TCPIP\IOCPQueueWorkerTask.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TCPIP\IOCPServer.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TCPIP\IOOperation.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TCPIP\IOOperationQueue.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tcpip\LocalIPAddresses.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TCPIP\ProtocolParser.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tcpip\SocketConstants.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TCPIP\SynchronousConnection.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TCPIP\TCPConnection.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TCPIP\TCPServer.h">
+      <Filter>Code\Source Files\Core\TCPIP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\Diagnostic.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\DiagnosticResult.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\TestBackupDirectory.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\TestConnect.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\TestConnectToSelf.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\TestDataDirectory.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\TestInformationGatherer.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\TestIPRanges.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\TestIPv6.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\TestMXRecords.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Diagnostics\TestOutboundPort.h">
+      <Filter>Code\Source Files\Core\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tracking\ChangeNotification.h">
+      <Filter>Code\Source Files\Core\Tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tracking\NotificationClient.h">
+      <Filter>Code\Source Files\Core\Tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tracking\NotificationClientSubscription.h">
+      <Filter>Code\Source Files\Core\Tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tracking\NotificationServer.h">
+      <Filter>Code\Source Files\Core\Tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\AccountLogon.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Assert.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\AWStats.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\BlowFish.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\ByteBuffer.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Charset.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\ClassTester.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\ClientInfo.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Compression.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\CriticalSection.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Crypt.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\EmailAllUsers.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Event.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\File.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\FileUtilities.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\FolderManipulationLock.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\GUIDCreator.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\HeapChecker.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\HTTPClient.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Language.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Languages.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\MailerDaemonAddressDeterminer.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\MailImporter.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Math.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\MessageAttachmentStripper.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\MessageUtilities.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\PasswordGenerator.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\PasswordRemover.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\PasswordValidator.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\ProcessLauncher.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Registry.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\RegularExpression.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\ServerInfo.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\ServerStatus.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\ServiceManager.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\SignatureAdder.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Singleton.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\SSPIValidation.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\StdString.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Stopwatch.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\SystemInformation.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Time.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\TLD.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\TraceHeaderWriter.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\TransparentTransmissionBuffer.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Unicode.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Utilities.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\VariantDateTime.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Application\Version.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\XMLite.h">
+      <Filter>Code\Source Files\Core\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Hashing\HashCreator.h">
+      <Filter>Code\Source Files\Core\Util\Hashing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Encoding\Base64.h">
+      <Filter>Code\Source Files\Core\Util\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Encoding\ModifiedUTF7.h">
+      <Filter>Code\Source Files\Core\Util\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Strings\FormatArgument.h">
+      <Filter>Code\Source Files\Core\Util\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Strings\Formatter.h">
+      <Filter>Code\Source Files\Core\Util\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Parsing\AddresslistParser.h">
+      <Filter>Code\Source Files\Core\Util\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Parsing\StringParser.h">
+      <Filter>Code\Source Files\Core\Util\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Util\Parsing\StringTreeParser.h">
+      <Filter>Code\Source Files\Core\Util\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiVirus\AntiVirusConfiguration.h">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiVirus\ClamAVVirusScanner.h">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiVirus\ClamWinVirusScanner.h">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiVirus\CustomVirusScanner.h">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiVirus\VirusScanner.h">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiVirus\VirusScannerTester.h">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AntiVirus\VirusScanningResult.h">
+      <Filter>Code\Source Files\Core\AntiVirus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Threading\AsynchronousTask.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\BLCheck.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\DeliveryQueue.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\DeliveryTask.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SMTP\ExternalDelivery.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ExternalFetcher\ExternalFetchManager.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SMTP\GreyListCleanerTask.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SMTP\GreyListing.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SMTP\LocalDelivery.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SMTP\MirrorMessage.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SMTP\PlusAddressing.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\RecipientParser.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SMTP\RuleResult.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SMTP\ServerTargetResolver.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\SMTPClientConnection.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\SMTPConfiguration.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\SMTPConnection.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\SMTPDeliverer.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\SMTPDeliveryManager.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SMTP\SMTPForwarding.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\SMTPVacationMessageCreator.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\SMTPVirusNotifier.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\StatisticsSender.h">
+      <Filter>Code\Source Files\Protocols\SMTP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\Spf\Rmspf.h">
+      <Filter>Code\Source Files\Protocols\SMTP\AntiSpam\SPF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Smtp\Spf\SPF.h">
+      <Filter>Code\Source Files\Protocols\SMTP\AntiSpam\SPF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\FolderListCreator.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPACLHelper.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommand.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandAppend.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandAuthenticate.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandCapability.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandCheck.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandClose.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandCopy.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandCreate.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandDelete.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPCommandDeleteAcl.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandExamine.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandExpunge.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandFetch.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPCommandGetAcl.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandGetQuota.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandGetQuotaRoot.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPCommandIdle.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandList.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPCommandListRights.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandLogin.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandLogout.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandLSUB.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPCommandMyRights.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPCommandNamespace.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPCommandRangeAction.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandRename.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandSearch.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandSelect.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPCommandSetAcl.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandStatus.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandStore.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandSubscribe.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandUID.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCommandUnsubscribe.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPConfiguration.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPConnection.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPCopy.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPFetch.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPFetchParser.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPFolderContainer.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPFolderUtilities.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPListLookup.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPNotificationClient.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IMAP\IMAPResult.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPSearchParser.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPSimpleCommandParser.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPSort.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPSortParser.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\IMAPStore.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imap\StaticIMAPCommandHandlers.h">
+      <Filter>Code\Source Files\Protocols\IMAP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ExternalFetcher\ExternalFetchTask.h">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ExternalFetcher\FetchAccountUIDList.h">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ExternalFetcher\POP3ClientConnection.h">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Pop3\POP3Configuration.h">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Pop3\POP3Connection.h">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Pop3\POP3Sessions.h">
+      <Filter>Code\Source Files\Protocols\POP3</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\COM\InterfaceAccount.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceAccounts.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceAlias.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceAliases.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceAntiVirus.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceApplication.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceAttachment.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceAttachments.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceBackupManager.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceBackupSettings.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceCache.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\Com\InterfaceClient.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="InterfaceClient.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDatabase.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDiagnosticResult.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDiagnosticResults.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDiagnostics.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDirectories.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDistributionList.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDistributionListRecipient.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDistributionListRecipients.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDistributionLists.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDNSBlackList.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDNSBlackLists.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDomain.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDomainAlias.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDomainAliases.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDomains.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceFetchAccount.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceFetchAccounts.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceIncomingRelay.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceIncomingRelays.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceLanguages.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceLinks.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceLogging.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceMessage.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceMessageHeader.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceMessageHeaders.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceMessageIndexing.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceMessages.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRecipient.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRecipients.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\Com\InterfaceResult.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRoute.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRouteAddress.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRouteAddresses.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRoutes.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRule.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRuleAction.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRuleActions.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRuleCriteria.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRuleCriterias.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceRules.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceScripting.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceSecurityRange.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceSecurityRanges.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceSettings.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceStatus.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\InterfaceUtilities.rgs">
+      <Filter>Code\Source Files\Interfaces</Filter>
+    </None>
+    <None Include="..\COM\BackupManager.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="hMailServer.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceAntiSpam.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceAntiSpam.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceBackup.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceBlockedAttachment.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceBlockedAttachment.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceBlockedAttachments.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceBlockedAttachments.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceDeliveryQueue.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceEventLog.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceGlobalObjects.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceGreyListingWhiteAddress.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceGreyListingWhiteAddress.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceGreyListingWhiteAddresses.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceGreyListingWhiteAddresses.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceIMAPFolder.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceIMAPFolder.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceIMAPFolders.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceIMAPFolders.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceLanguage.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceMessageHeader.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceServerMessage.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceServerMessage.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceServerMessages.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceServerMessages.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceSURBLServer.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceSURBLServers.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceTCPIPPort.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceTCPIPPort.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceTCPIPPorts.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="InterfaceTCPIPPorts.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceWhiteListAddress.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\COM\InterfaceWhiteListAddresses.rgs">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </None>
+    <None Include="..\DBScripts\CreateTablesMSSQL.sql">
+      <Filter>Database scripts</Filter>
+    </None>
+    <None Include="..\DBScripts\CreateTablesMYSQL.sql">
+      <Filter>Database scripts</Filter>
+    </None>
+    <None Include="..\..\DBScripts\CreateTablesPGSQL.sql">
+      <Filter>Database scripts</Filter>
+    </None>
+    <None Include="..\Common\Application\Errors.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="hMailServer.rc">
+      <Filter>Code\Source Files\Interfaces\Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

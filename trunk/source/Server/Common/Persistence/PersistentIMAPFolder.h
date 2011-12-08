@@ -16,10 +16,10 @@ namespace HM
 	   virtual ~PersistentIMAPFolder();
    public:
 
-      static bool DeleteObject(shared_ptr<IMAPFolder> pFolder);
-      static bool DeleteObject(shared_ptr<IMAPFolder> pFolder, bool forceDelete);
-      static bool SaveObject(shared_ptr<IMAPFolder> pFolder, String &errorMessage);
-      static bool SaveObject(shared_ptr<IMAPFolder> pFolder);
+      static bool DeleteObject(boost::shared_ptr<IMAPFolder> pFolder);
+      static bool DeleteObject(boost::shared_ptr<IMAPFolder> pFolder, bool forceDelete);
+      static bool SaveObject(boost::shared_ptr<IMAPFolder> pFolder, String &errorMessage);
+      static bool SaveObject(boost::shared_ptr<IMAPFolder> pFolder);
       static bool DeleteByAccount(__int64 iAccountID);
 
       static bool GetExistsFolderContainingCharacter(String theChar);

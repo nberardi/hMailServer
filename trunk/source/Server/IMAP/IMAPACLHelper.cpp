@@ -32,20 +32,20 @@ namespace HM
    }
 
    String
-   IMAPACLHelper::CreateACLList(shared_ptr<IMAPFolder> pFolder, const String &sEscapedFolderName)
+   IMAPACLHelper::CreateACLList(boost::shared_ptr<IMAPFolder> pFolder, const String &sEscapedFolderName)
    {
       // Retrieve a list of all rights for this folder.
-      shared_ptr<ACLPermissions> pPermissions = pFolder->GetPermissions();
+      boost::shared_ptr<ACLPermissions> pPermissions = pFolder->GetPermissions();
 
       String sACLList = "* ACL \"" + sEscapedFolderName + "\"";
       for (int i = 0; i < pPermissions->GetCount(); i++)
       {
-         shared_ptr<ACLPermission> pPermission = pPermissions->GetItem(i);
+         boost::shared_ptr<ACLPermission> pPermission = pPermissions->GetItem(i);
 
          // Determine the name of this account
          __int64 iAccountID = pPermission->GetPermissionAccountID();
 
-         shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(iAccountID);
+         boost::shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(iAccountID);
 
          String sIdentifier = pAccount->GetAddress();
          String sRights = pPermission->GetRights();

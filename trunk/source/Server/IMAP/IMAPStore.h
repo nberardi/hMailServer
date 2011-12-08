@@ -14,8 +14,8 @@ namespace HM
 	   IMAPStore();
 	   virtual ~IMAPStore();
 
-      IMAPResult DoAction(shared_ptr<IMAPConnection> pConnection, int messageIndex, shared_ptr<Message> pMessage, const shared_ptr<IMAPCommandArgument> pArgument);
-      static String GetMessageFlags(shared_ptr<Message> pMessage, int messageIndex);
+      IMAPResult DoAction(boost::shared_ptr<IMAPConnection> pConnection, int messageIndex, boost::shared_ptr<Message> pMessage, const boost::shared_ptr<IMAPCommandArgument> pArgument);
+      static String GetMessageFlags(boost::shared_ptr<Message> pMessage, int messageIndex);
    };
 
 }

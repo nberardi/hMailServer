@@ -27,8 +27,8 @@ namespace HM
 
       virtual String GetCollectionName() const {return "GroupMembers"; }
 
-      void PostStoreObject(shared_ptr<GroupMember> pGroupMember, XNode *pChildNode);
-      bool PreSaveObject(shared_ptr<GroupMember> pGroupMember, XNode *pNode);
+      void PostStoreObject(boost::shared_ptr<GroupMember> pGroupMember, XNode *pChildNode);
+      bool PreSaveObject(boost::shared_ptr<GroupMember> pGroupMember, XNode *pNode);
 
    private:
  

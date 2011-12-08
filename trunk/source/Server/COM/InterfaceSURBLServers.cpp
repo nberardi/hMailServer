@@ -66,7 +66,7 @@ InterfaceSURBLServers::get_Item(long Index, IInterfaceSURBLServer **pVal)
       CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
       pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SURBLServer> pDNSBlackList = m_pSURBLServers->GetItem(Index);
+      boost::shared_ptr<HM::SURBLServer> pDNSBlackList = m_pSURBLServers->GetItem(Index);
    
       if (!pDNSBlackList)
          return DISP_E_BADINDEX;
@@ -112,7 +112,7 @@ InterfaceSURBLServers::get_ItemByDBID(long lDBID, IInterfaceSURBLServer **pVal)
       CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
       pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SURBLServer> pDNSBlackList = m_pSURBLServers->GetItemByDBID(lDBID);
+      boost::shared_ptr<HM::SURBLServer> pDNSBlackList = m_pSURBLServers->GetItemByDBID(lDBID);
    
       if (!pDNSBlackList)
          return DISP_E_BADINDEX;
@@ -145,7 +145,7 @@ InterfaceSURBLServers::Add(IInterfaceSURBLServer **pVal)
       CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
       pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SURBLServer> pDNSBL = shared_ptr<HM::SURBLServer>(new HM::SURBLServer);
+      boost::shared_ptr<HM::SURBLServer> pDNSBL = boost::shared_ptr<HM::SURBLServer>(new HM::SURBLServer);
    
       pInterfaceSURBLServer->AttachItem(pDNSBL);
       pInterfaceSURBLServer->AttachParent(m_pSURBLServers, false);
@@ -173,7 +173,7 @@ InterfaceSURBLServers::get_ItemByDNSHost(BSTR ItemName, IInterfaceSURBLServer **
       CComObject<InterfaceSURBLServer>* pInterfaceSURBLServer = new CComObject<InterfaceSURBLServer>();
       pInterfaceSURBLServer->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SURBLServer> pDNSBL = m_pSURBLServers->GetItemByName(ItemName);
+      boost::shared_ptr<HM::SURBLServer> pDNSBL = m_pSURBLServers->GetItemByName(ItemName);
       if (!pDNSBL)
          return S_FALSE;
    

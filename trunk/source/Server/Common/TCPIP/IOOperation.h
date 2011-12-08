@@ -20,19 +20,19 @@ namespace HM
          BCTDisconnect,
       };
 
-      IOOperation(OperationType type, shared_ptr<ByteBuffer> buffer);
+      IOOperation(OperationType type, boost::shared_ptr<ByteBuffer> buffer);
       IOOperation(OperationType type, const AnsiString &string);
       ~IOOperation(void);
 
       OperationType GetType() {return _type; }
-      shared_ptr<ByteBuffer> GetBuffer() {return _buffer; }
+      boost::shared_ptr<ByteBuffer> GetBuffer() {return _buffer; }
       AnsiString GetString() {return _string; }
 
    private:
 
       OperationType _type;
       AnsiString _string;
-      shared_ptr<ByteBuffer> _buffer;
+      boost::shared_ptr<ByteBuffer> _buffer;
 
    };
 }

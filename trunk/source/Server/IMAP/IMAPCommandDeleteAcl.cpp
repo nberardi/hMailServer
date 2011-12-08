@@ -24,7 +24,7 @@
 namespace HM
 {
    IMAPResult
-   IMAPCommandDeleteAcl::ExecuteCommand(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandDeleteAcl::ExecuteCommand(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       if (!pConnection->IsAuthenticated())
          return IMAPResult(IMAPResult::ResultNo, "Authenticate first");
@@ -32,7 +32,7 @@ namespace HM
       if (!Configuration::Instance()->GetIMAPConfiguration()->GetUseIMAPACL())
          return IMAPResult(IMAPResult::ResultBad, "ACL is not enabled.");
 
-      shared_ptr<IMAPSimpleCommandParser> pParser = shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
+      boost::shared_ptr<IMAPSimpleCommandParser> pParser = boost::shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
       pParser->Parse(pArgument);
 
       if (pParser->ParamCount() != 2)
@@ -55,7 +55,7 @@ namespace HM
 
       String sIdentifier = pParser->Word(2)->Value();
       
-      shared_ptr<IMAPFolder> pFolder = pConnection->GetFolderByFullPath(sFolderName);
+      boost::shared_ptr<IMAPFolder> pFolder = pConnection->GetFolderByFullPath(sFolderName);
       if (!pFolder)
          return IMAPResult(IMAPResult::ResultBad, "Folder could not be found.");
 
@@ -64,7 +64,7 @@ namespace HM
          return IMAPResult(IMAPResult::ResultNo, "ACL: DeleteACL permission denied");
 
       // Assume identifier is a user and not a group.
-      shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(sIdentifier);
+      boost::shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(sIdentifier);
 
       if (!pAccount)
       {

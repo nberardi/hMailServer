@@ -88,7 +88,7 @@ namespace HM
       void SetCreateTime(const String &sCreateTime) {m_sCreateTime = sCreateTime; }
       String GetCreateTime() const {return m_sCreateTime; }
 
-      shared_ptr<MessageRecipients> GetRecipients();
+      boost::shared_ptr<MessageRecipients> GetRecipients();
 
       bool XMLStore(XNode *pParentNode, int iOptions);
       bool XMLLoad(XNode *pNode, int iOptions);
@@ -116,7 +116,7 @@ namespace HM
       bool _GetFlag(int iFlag) const;
       void _SetFlag(int iFlag, bool bSet);
 
-      shared_ptr<MessageRecipients> m_pRecipients;
+      boost::shared_ptr<MessageRecipients> m_pRecipients;
 
    };
 }

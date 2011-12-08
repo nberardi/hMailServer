@@ -13,10 +13,10 @@ namespace HM
       PersistentDomainAlias(void);
       ~PersistentDomainAlias(void);
 
-      static bool ReadObject(shared_ptr<DomainAlias> oFA, const SQLCommand & sSQL);
-      static bool ReadObject(shared_ptr<DomainAlias> oFA, shared_ptr<DALRecordset> pRS);
-      static bool SaveObject(shared_ptr<DomainAlias> oFA);
-      static bool SaveObject(shared_ptr<DomainAlias> oFA, String &sErrorMessage);
-      static bool DeleteObject(shared_ptr<DomainAlias> pDA);
+      static bool ReadObject(boost::shared_ptr<DomainAlias> oFA, const SQLCommand & sSQL);
+      static bool ReadObject(boost::shared_ptr<DomainAlias> oFA, boost::shared_ptr<DALRecordset> pRS);
+      static bool SaveObject(boost::shared_ptr<DomainAlias> oFA);
+      static bool SaveObject(boost::shared_ptr<DomainAlias> oFA, String &sErrorMessage);
+      static bool DeleteObject(boost::shared_ptr<DomainAlias> pDA);
    };
 }

@@ -46,7 +46,7 @@ STDMETHODIMP InterfaceApplication::InterfaceSupportsErrorInfo(REFIID riid)
 
 InterfaceApplication::InterfaceApplication()
 {
-   m_pAuthentication = shared_ptr<HM::COMAuthentication>(new HM::COMAuthentication);
+   m_pAuthentication = boost::shared_ptr<HM::COMAuthentication>(new HM::COMAuthentication);
 
    m_pAuthentication->AttempAnonymousAuthentication();
 }
@@ -324,11 +324,11 @@ STDMETHODIMP InterfaceApplication::Authenticate(BSTR sUsername, BSTR sPassword, 
    try
    {
       // Authenticates the user and returns the account object.
-      shared_ptr<const HM::Account> pAccount = m_pAuthentication->Authenticate(sUsername, sPassword);
+      boost::shared_ptr<const HM::Account> pAccount = m_pAuthentication->Authenticate(sUsername, sPassword);
    
       if (pAccount)
       {
-         shared_ptr<HM::Account> accountCopy = shared_ptr<HM::Account>(new HM::Account(*pAccount.get()));
+         boost::shared_ptr<HM::Account> accountCopy = boost::shared_ptr<HM::Account>(new HM::Account(*pAccount.get()));
    
          // Return the account.
          CComObject<InterfaceAccount>* pAccountInt = new CComObject<InterfaceAccount>();
@@ -411,7 +411,7 @@ STDMETHODIMP InterfaceApplication::get_Rules(IInterfaceRules **pVal)
       CComObject<InterfaceRules >* pItem = new CComObject<InterfaceRules >();
       pItem->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Rules> pRules = shared_ptr<HM::Rules>(new HM::Rules(0));
+      boost::shared_ptr<HM::Rules> pRules = boost::shared_ptr<HM::Rules>(new HM::Rules(0));
    
       if (pRules)
       {
@@ -432,7 +432,7 @@ STDMETHODIMP InterfaceApplication::get_Rules(IInterfaceRules **pVal)
 HRESULT
 InterfaceApplication::_EnsureDatabaseConnectivity()
 {
-   shared_ptr<HM::DatabaseConnectionManager> pConnectionManager = HM::Application::Instance()->GetDBManager();
+   boost::shared_ptr<HM::DatabaseConnectionManager> pConnectionManager = HM::Application::Instance()->GetDBManager();
    if (!pConnectionManager || !pConnectionManager->GetIsConnected())
    {
       return COMError::GenerateError("The connection to the database is not available. Please check the hMailServer error log for details.");

@@ -15,7 +15,7 @@ InterfaceSecurityRanges::LoadSettings()
    if (!GetIsServerAdmin())
       return false;
 
-   m_pSecurityRanges = shared_ptr<HM::SecurityRanges> (new HM::SecurityRanges);
+   m_pSecurityRanges = boost::shared_ptr<HM::SecurityRanges> (new HM::SecurityRanges);
    m_pSecurityRanges->Refresh();
 
    return true;
@@ -99,7 +99,7 @@ STDMETHODIMP InterfaceSecurityRanges::get_Item(long Index, IInterfaceSecurityRan
       CComObject<InterfaceSecurityRange>* pRangeInt = new CComObject<InterfaceSecurityRange>();
       pRangeInt->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItem(Index);
+      boost::shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItem(Index);
    
       if (pRange)
       {
@@ -133,7 +133,7 @@ STDMETHODIMP InterfaceSecurityRanges::get_ItemByDBID(long DBID, IInterfaceSecuri
       CComObject<InterfaceSecurityRange>* pRangeInt = new CComObject<InterfaceSecurityRange>();
       pRangeInt->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItemByDBID(DBID);
+      boost::shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItemByDBID(DBID);
    
       if (pRange)
       {
@@ -168,7 +168,7 @@ STDMETHODIMP InterfaceSecurityRanges::Add(IInterfaceSecurityRange **pVal)
       CComObject<InterfaceSecurityRange>* pInterfaceRange = new CComObject<InterfaceSecurityRange>();
       pInterfaceRange->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SecurityRange> pRange = shared_ptr<HM::SecurityRange>(new HM::SecurityRange); 
+      boost::shared_ptr<HM::SecurityRange> pRange = boost::shared_ptr<HM::SecurityRange>(new HM::SecurityRange); 
    
       pInterfaceRange->AttachItem(pRange);
       pInterfaceRange->AttachParent(m_pSecurityRanges, false);
@@ -194,7 +194,7 @@ STDMETHODIMP InterfaceSecurityRanges::get_ItemByName(BSTR sName, IInterfaceSecur
       CComObject<InterfaceSecurityRange>* pRangeInt = new CComObject<InterfaceSecurityRange>();
       pRangeInt->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItemByName(sName);
+      boost::shared_ptr<HM::SecurityRange> pRange = m_pSecurityRanges->GetItemByName(sName);
    
       if (pRange)
       {

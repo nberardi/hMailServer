@@ -33,22 +33,22 @@ namespace HM
    }
 
    void 
-   ExternalFetch::Start(shared_ptr<FetchAccount> pFA)
+   ExternalFetch::Start(boost::shared_ptr<FetchAccount> pFA)
    {  
       LOG_DEBUG("ExternalFetch::Start");
       
-      shared_ptr<IOCPServer> pIOCPServer = Application::Instance()->GetIOCPServer();
+      boost::shared_ptr<IOCPServer> pIOCPServer = Application::Instance()->GetIOCPServer();
 
       boost::asio::ssl::context ctx(pIOCPServer->GetIOService(), boost::asio::ssl::context::sslv23);
 
-      shared_ptr<TCPConnection> pClientConnection;
+      boost::shared_ptr<TCPConnection> pClientConnection;
 
       if (pFA->GetUseSSL())
          pClientConnection = pIOCPServer->CreateConnection(ctx);
       else
          pClientConnection = pIOCPServer->CreateConnection();
 
-      shared_ptr<POP3ClientConnection> pProtocolParser = shared_ptr<POP3ClientConnection>(new POP3ClientConnection(pFA));
+      boost::shared_ptr<POP3ClientConnection> pProtocolParser = boost::shared_ptr<POP3ClientConnection>(new POP3ClientConnection(pFA));
 
       try
       {

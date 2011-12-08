@@ -38,7 +38,7 @@ namespace HM
 
       void SetMaxSizeKB(int maxSize);
       
-      shared_ptr<ByteBuffer> GetBuffer() 
+      boost::shared_ptr<ByteBuffer> GetBuffer() 
       {
          return m_pBuffer; 
       }
@@ -57,7 +57,7 @@ namespace HM
          return m_bLastSendEndedWithNewline;
       }
 
-      bool _SaveToFile(shared_ptr<ByteBuffer> pBuffer);
+      bool _SaveToFile(boost::shared_ptr<ByteBuffer> pBuffer);
       // Flushes the supplied buffer to file.
 
       int GetSize();
@@ -66,10 +66,10 @@ namespace HM
       String GetCancelMessage() {return _cancelMessage;}
    private:
 
-      void _InsertTransmissionPeriod(shared_ptr<ByteBuffer> pIn);
-      void _RemoveTransmissionPeriod(shared_ptr<ByteBuffer> pIn);
+      void _InsertTransmissionPeriod(boost::shared_ptr<ByteBuffer> pIn);
+      void _RemoveTransmissionPeriod(boost::shared_ptr<ByteBuffer> pIn);
 
-      shared_ptr<ByteBuffer> m_pBuffer;
+      boost::shared_ptr<ByteBuffer> m_pBuffer;
       // The buffer containing the data to send/receive.
       
       bool m_bTransmissionEnded;

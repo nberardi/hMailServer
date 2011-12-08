@@ -17,9 +17,9 @@
 namespace HM
 {
    IMAPResult
-   IMAPCommandLOGIN::ExecuteCommand(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandLOGIN::ExecuteCommand(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
-      shared_ptr<IMAPSimpleCommandParser> pParser = shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
+      boost::shared_ptr<IMAPSimpleCommandParser> pParser = boost::shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
       
       pParser->Parse(pArgument);
       
@@ -34,7 +34,7 @@ namespace HM
 
       AccountLogon accountLogon;
       bool disconnect = false;
-      shared_ptr<const Account> pAccount = accountLogon.Logon(pConnection->GetIPAddress(), sUsername, sPassword, disconnect);
+      boost::shared_ptr<const Account> pAccount = accountLogon.Logon(pConnection->GetIPAddress(), sUsername, sPassword, disconnect);
 
       if (disconnect)
       {

@@ -11,6 +11,6 @@ namespace HM
 	   DALRecordsetFactory();
 	   virtual ~DALRecordsetFactory();
 
-      //static shared_ptr<DALRecordset> CreateRecordset();
+      //static boost::shared_ptr<DALRecordset> CreateRecordset();
    };
 }

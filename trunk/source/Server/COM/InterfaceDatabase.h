@@ -81,9 +81,9 @@ private:
 
    HM::Configuration *m_pConfig;
    HM::IniFileSettings *m_pIniFileSettings;
-   shared_ptr<HM::DatabaseConnectionManager> m_pDBManager;
+   boost::shared_ptr<HM::DatabaseConnectionManager> m_pDBManager;
 
-   shared_ptr<HM::DALConnection> m_pConn;
+   boost::shared_ptr<HM::DALConnection> m_pConn;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Database), InterfaceDatabase)

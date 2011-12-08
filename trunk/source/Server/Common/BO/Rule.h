@@ -29,8 +29,8 @@ namespace HM
       bool GetUseAND() const {return m_bUseAND;}
       void SetUseAND(bool bNewVal) {m_bUseAND = bNewVal; }
 
-      shared_ptr<RuleCriterias> GetCriterias();
-      shared_ptr<RuleActions> GetActions();
+      boost::shared_ptr<RuleCriterias> GetCriterias();
+      boost::shared_ptr<RuleActions> GetActions();
 
       bool XMLStore(XNode *pParentNode, int iOptions);
       bool XMLLoad(XNode *pRuleNode, int iOptions);
@@ -42,8 +42,8 @@ namespace HM
       int m_iSortOrder;
       String m_sName;
 
-      shared_ptr<RuleCriterias> m_pCriterias;
-      shared_ptr<RuleActions> m_pActions;
+      boost::shared_ptr<RuleCriterias> m_pCriterias;
+      boost::shared_ptr<RuleActions> m_pActions;
 
       bool m_bActive;
       bool m_bUseAND;

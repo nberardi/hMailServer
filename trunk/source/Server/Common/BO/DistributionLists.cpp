@@ -22,17 +22,17 @@ namespace HM
    {
    }
 
-   shared_ptr<DistributionList>
+   boost::shared_ptr<DistributionList>
    DistributionLists::GetItemByAddress(const String & sAddress)
    {
 
-      boost_foreach(shared_ptr<DistributionList> Item, vecObjects)
+      boost_foreach(boost::shared_ptr<DistributionList> Item, vecObjects)
       {
          if (Item->GetAddress().CompareNoCase(sAddress) == 0)
             return Item;
       }
 
-      shared_ptr<DistributionList> pEmpty;
+      boost::shared_ptr<DistributionList> pEmpty;
       return pEmpty;
    }
 
@@ -48,7 +48,7 @@ namespace HM
 
 
    bool
-   DistributionLists::PreSaveObject(shared_ptr<DistributionList> pList, XNode *node)
+   DistributionLists::PreSaveObject(boost::shared_ptr<DistributionList> pList, XNode *node)
    {
       pList->SetDomainID(m_iDomainID);
 

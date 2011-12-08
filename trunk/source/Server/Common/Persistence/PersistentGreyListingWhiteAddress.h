@@ -13,10 +13,10 @@ namespace HM
       PersistentGreyListingWhiteAddress(void);
       ~PersistentGreyListingWhiteAddress(void);
       
-      static bool DeleteObject(shared_ptr<GreyListingWhiteAddress> pObject);
-      static bool SaveObject(shared_ptr<GreyListingWhiteAddress> pObject, String &errorMessage);
-      static bool SaveObject(shared_ptr<GreyListingWhiteAddress> pObject);
-      static bool ReadObject(shared_ptr<GreyListingWhiteAddress> pObject, shared_ptr<DALRecordset> pRS);
+      static bool DeleteObject(boost::shared_ptr<GreyListingWhiteAddress> pObject);
+      static bool SaveObject(boost::shared_ptr<GreyListingWhiteAddress> pObject, String &errorMessage);
+      static bool SaveObject(boost::shared_ptr<GreyListingWhiteAddress> pObject);
+      static bool ReadObject(boost::shared_ptr<GreyListingWhiteAddress> pObject, boost::shared_ptr<DALRecordset> pRS);
 
       static bool IsSenderWhitelisted(const String &address);
    };

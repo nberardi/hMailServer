@@ -22,16 +22,16 @@ namespace HM
       bool Execute(const SQLStatement &statement, __int64 *iInsertID = 0, int iIgnoreErrors = 0, String &sErrorMessage = String(_T("")));
       bool Execute(const SQLCommand &command, __int64 *iInsertID = 0, int iIgnoreErrors = 0, String &sErrorMessage = String(_T("")));
       
-      shared_ptr<DALRecordset> OpenRecordset(const SQLStatement &statement);
-      shared_ptr<DALRecordset> OpenRecordset(const SQLCommand &command);
+      boost::shared_ptr<DALRecordset> OpenRecordset(const SQLStatement &statement);
+      boost::shared_ptr<DALRecordset> OpenRecordset(const SQLCommand &command);
 
       int GetCurrentDatabaseVersion();
 
       bool GetIsConnected();
 
-      shared_ptr<DALConnection> BeginTransaction(String &sErrorMessage);
-      bool CommitTransaction(shared_ptr<DALConnection> pConnection, String &sErrorMessage);
-      bool RollbackTransaction(shared_ptr<DALConnection> pConnection, String &sErrorMessage);
+      boost::shared_ptr<DALConnection> BeginTransaction(String &sErrorMessage);
+      bool CommitTransaction(boost::shared_ptr<DALConnection> pConnection, String &sErrorMessage);
+      bool RollbackTransaction(boost::shared_ptr<DALConnection> pConnection, String &sErrorMessage);
       bool ExecuteScript(const String &sFile, String &sErrorMessage);
 
       bool EnsuresPrerequisites(long DBVersion, String &sErrorMessage);
@@ -39,13 +39,13 @@ namespace HM
 
       DALConnection::ConnectionResult _Connect(String &sErrorMessage);
 
-      shared_ptr<DALConnection> _GetConnection();
-      void _ReleaseConnection(shared_ptr<DALConnection> pConn);
+      boost::shared_ptr<DALConnection> _GetConnection();
+      void _ReleaseConnection(boost::shared_ptr<DALConnection> pConn);
      
       CriticalSection m_oCritSec;
       
-      std::set<shared_ptr<DALConnection> > m_setBusyConnections;
-      std::set<shared_ptr<DALConnection> > m_setAvailableConnections;
+      std::set<boost::shared_ptr<DALConnection> > m_setBusyConnections;
+      std::set<boost::shared_ptr<DALConnection> > m_setAvailableConnections;
       
 
    };

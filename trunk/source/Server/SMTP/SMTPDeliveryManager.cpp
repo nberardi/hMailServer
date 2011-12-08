@@ -75,12 +75,12 @@ namespace HM
       // Unlock all messages
       PersistentMessage::UnlockAll();
 
-      shared_ptr<WorkQueue> pQueue = WorkQueueManager::Instance()->GetQueue(GetQueueName());
+      boost::shared_ptr<WorkQueue> pQueue = WorkQueueManager::Instance()->GetQueue(GetQueueName());
 
       while (1)
       {
          // Deliver all pending messages
-         shared_ptr<Message> pMessage;
+         boost::shared_ptr<Message> pMessage;
          while (pMessage = _GetNextMessage())
          {
             // Lock this message
@@ -91,7 +91,7 @@ namespace HM
                continue;
             }
 
-            shared_ptr<DeliveryTask> pDeliveryTask = shared_ptr<DeliveryTask>(new DeliveryTask(pMessage));
+            boost::shared_ptr<DeliveryTask> pDeliveryTask = boost::shared_ptr<DeliveryTask>(new DeliveryTask(pMessage));
             WorkQueueManager::Instance()->AddTask(m_iQueueID, pDeliveryTask);
             
             m_lCurNumberOfSent++;
@@ -182,7 +182,7 @@ namespace HM
       m_pPendingMessages = Application::Instance()->GetDBManager()->OpenRecordset(command);
    }
 
-   shared_ptr<Message>
+   boost::shared_ptr<Message>
    SMTPDeliveryManager::_GetNextMessage()
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
@@ -198,7 +198,7 @@ namespace HM
          _LoadPendingMessageList();
       }
 
-      shared_ptr<Message> pRetMessage;
+      boost::shared_ptr<Message> pRetMessage;
       if (!m_pPendingMessages || m_pPendingMessages->IsEOF())
          return pRetMessage;
       
@@ -213,7 +213,7 @@ namespace HM
          // Message was not found in cache. Read from database. Will
          // require 1 extra statement towards the database, since we
          // need to read recipients 
-         pRetMessage = shared_ptr<Message> (new Message(false));
+         pRetMessage = boost::shared_ptr<Message> (new Message(false));
          PersistentMessage::ReadObject(m_pPendingMessages, pRetMessage);
       }
 
@@ -267,13 +267,13 @@ namespace HM
    }
 
    void
-   SMTPDeliveryManager::OnPropertyChanged(shared_ptr<Property> pProperty)
+   SMTPDeliveryManager::OnPropertyChanged(boost::shared_ptr<Property> pProperty)
    {
       String sPropertyName = pProperty->GetName();
       
       if (sPropertyName == PROPERTY_MAXDELIVERYTHREADS)
       {
-         shared_ptr<WorkQueue> pWorkQueue = WorkQueueManager::Instance()->GetQueue(GetQueueName());
+         boost::shared_ptr<WorkQueue> pWorkQueue = WorkQueueManager::Instance()->GetQueue(GetQueueName());
          
          if (!pWorkQueue)
             return;

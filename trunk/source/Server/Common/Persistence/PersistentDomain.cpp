@@ -43,7 +43,7 @@ namespace HM
    }
 
    bool
-   PersistentDomain::DeleteObject(shared_ptr<Domain> pDomain)
+   PersistentDomain::DeleteObject(boost::shared_ptr<Domain> pDomain)
    {
       __int64 iDomainID = pDomain->GetID();
       assert(iDomainID);
@@ -83,7 +83,7 @@ namespace HM
    }
 
    bool
-   PersistentDomain::ReadObject(shared_ptr<Domain> pDomain, __int64 ObjectID)
+   PersistentDomain::ReadObject(boost::shared_ptr<Domain> pDomain, __int64 ObjectID)
    {
       SQLCommand command("select * from hm_domains where domainid = @DOMAINID");
       command.AddParameter("@DOMAINID", ObjectID);
@@ -94,7 +94,7 @@ namespace HM
    }
 
    bool
-   PersistentDomain::ReadObject(shared_ptr<Domain> pDomain, const String & sDomainName)
+   PersistentDomain::ReadObject(boost::shared_ptr<Domain> pDomain, const String & sDomainName)
    {
       SQLStatement statement;
 
@@ -109,9 +109,9 @@ namespace HM
 
 
    bool
-   PersistentDomain::ReadObject(shared_ptr<Domain> pDomain, const SQLCommand &command)
+   PersistentDomain::ReadObject(boost::shared_ptr<Domain> pDomain, const SQLCommand &command)
    {
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return false;
 
@@ -125,7 +125,7 @@ namespace HM
 
 
    bool
-   PersistentDomain::ReadObject(shared_ptr<Domain> pDomain, shared_ptr<DALRecordset> pRS)
+   PersistentDomain::ReadObject(boost::shared_ptr<Domain> pDomain, boost::shared_ptr<DALRecordset> pRS)
    {
       pDomain->SetID(pRS->GetLongValue("domainid"));
       pDomain->SetName(pRS->GetStringValue("domainname"));
@@ -161,14 +161,14 @@ namespace HM
    }
 
    bool
-   PersistentDomain::SaveObject(shared_ptr<Domain> pDomain)
+   PersistentDomain::SaveObject(boost::shared_ptr<Domain> pDomain)
    {
       String sErrorMessage;
       return SaveObject(pDomain, sErrorMessage);
    }
 
    bool
-   PersistentDomain::SaveObject(shared_ptr<Domain> pDomain, String &sErrorMessage)
+   PersistentDomain::SaveObject(boost::shared_ptr<Domain> pDomain, String &sErrorMessage)
    {
       if (!PreSaveLimitationsCheck::CheckLimitations(pDomain, sErrorMessage))
          return false;
@@ -177,7 +177,7 @@ namespace HM
       if (iID > 0)
       {
          // First read the domain to see if we've changed its name.
-         shared_ptr<Domain> pTempDomain = shared_ptr<Domain>(new Domain());
+         boost::shared_ptr<Domain> pTempDomain = boost::shared_ptr<Domain>(new Domain());
          if (!PersistentDomain::ReadObject(pTempDomain, iID))
             return false;
 
@@ -269,7 +269,7 @@ namespace HM
    // Returns true if an active account with the address accountaddress exists.
    //---------------------------------------------------------------------------()
    {
-      shared_ptr<const Domain> pDomain = Cache<Domain, PersistentDomain>::Instance()->GetObject(DomainName);
+      boost::shared_ptr<const Domain> pDomain = Cache<Domain, PersistentDomain>::Instance()->GetObject(DomainName);
 
       if (pDomain)
       {
@@ -281,7 +281,7 @@ namespace HM
    }
 
    int 
-   PersistentDomain::GetSize(shared_ptr<Domain> pDomain)
+   PersistentDomain::GetSize(boost::shared_ptr<Domain> pDomain)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Returns the current size of this domain, measured in mega bytes.
@@ -308,7 +308,7 @@ namespace HM
       SQLCommand command (sSQL);
       command.AddParameter("@DOMAINID", pDomain->GetID());
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS || pRS->IsEOF())
          return 0;
 
@@ -323,7 +323,7 @@ namespace HM
    }
 
    __int64 
-   PersistentDomain::GetAllocatedSize(shared_ptr<Domain> pDomain)
+   PersistentDomain::GetAllocatedSize(boost::shared_ptr<Domain> pDomain)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Returns the current allocated size of the domain in MB. This means the
@@ -347,7 +347,7 @@ namespace HM
 
       command.AddParameter("@DOMAINID", pDomain->GetID());
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS || pRS->IsEOF())
          return 0;
 

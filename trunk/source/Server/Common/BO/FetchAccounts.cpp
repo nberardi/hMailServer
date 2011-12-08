@@ -43,7 +43,7 @@ namespace HM
    }
 
    bool
-   FetchAccounts::PreSaveObject(shared_ptr<FetchAccount> pFA, XNode *node)
+   FetchAccounts::PreSaveObject(boost::shared_ptr<FetchAccount> pFA, XNode *node)
    {
       pFA->SetAccountID(m_iAccountID);
       return true;

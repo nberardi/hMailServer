@@ -6,7 +6,7 @@
 #include "InterfaceAttachment.h"
 
 void 
-InterfaceAttachment::Attach(shared_ptr<HM::Attachment> pAttachment) 
+InterfaceAttachment::Attach(boost::shared_ptr<HM::Attachment> pAttachment) 
 { 
 
    m_pAttachment = pAttachment; 

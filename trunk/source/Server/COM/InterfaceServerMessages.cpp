@@ -70,7 +70,7 @@ InterfaceServerMessages::get_Item(long Index, IInterfaceServerMessage **pVal)
       CComObject<InterfaceServerMessage>* pInterfaceServerMessage = new CComObject<InterfaceServerMessage>();
       pInterfaceServerMessage->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::ServerMessage> pSM = m_pServerMessages->GetItem(Index);
+      boost::shared_ptr<HM::ServerMessage> pSM = m_pServerMessages->GetItem(Index);
    
       if (!pSM)
          return DISP_E_BADINDEX;
@@ -98,7 +98,7 @@ InterfaceServerMessages::get_ItemByDBID(long lDBID, IInterfaceServerMessage **pV
       CComObject<InterfaceServerMessage>* pInterfaceServerMessage = new CComObject<InterfaceServerMessage>();
       pInterfaceServerMessage->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::ServerMessage> pSM = m_pServerMessages->GetItemByDBID(lDBID);
+      boost::shared_ptr<HM::ServerMessage> pSM = m_pServerMessages->GetItemByDBID(lDBID);
    
       if (!pSM)
          return DISP_E_BADINDEX;
@@ -127,7 +127,7 @@ InterfaceServerMessages::get_ItemByName(BSTR sName, IInterfaceServerMessage **pV
       CComObject<InterfaceServerMessage>* pInterfaceServerMessage = new CComObject<InterfaceServerMessage>();
       pInterfaceServerMessage->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::ServerMessage> pSM = m_pServerMessages->GetItemByName(sName);
+      boost::shared_ptr<HM::ServerMessage> pSM = m_pServerMessages->GetItemByName(sName);
    
       if (!pSM)
          return DISP_E_BADINDEX;

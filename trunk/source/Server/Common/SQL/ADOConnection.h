@@ -15,7 +15,7 @@ namespace HM
          RequiredVersion = 8
       };
 
-	   ADOConnection(shared_ptr<DatabaseSettings> pSettings);
+	   ADOConnection(boost::shared_ptr<DatabaseSettings> pSettings);
 	   virtual ~ADOConnection();
 
       ConnectionResult Connect(String &sErrorMessage);
@@ -35,9 +35,9 @@ namespace HM
 
       static DALConnection::ExecutionResult GetErrorType(int iErrorCode);
       virtual bool CheckServerVersion(String &errorMessage);
-      virtual shared_ptr<DALRecordset> CreateRecordset();
+      virtual boost::shared_ptr<DALRecordset> CreateRecordset();
       virtual void EscapeString(String &sInput);
-      virtual shared_ptr<IMacroExpander> CreateMacroExpander();
+      virtual boost::shared_ptr<IMacroExpander> CreateMacroExpander();
 
       void InitializeCommandParameters(_CommandPtr &adoCommand, const SQLCommand &sqlCommand, String &queryString) const;
 

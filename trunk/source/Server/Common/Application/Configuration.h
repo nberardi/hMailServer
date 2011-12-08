@@ -33,16 +33,16 @@ namespace HM
 	   Configuration();
 	   virtual ~Configuration();
 
-      shared_ptr<POP3Configuration> GetPOP3Configuration() const { return m_pPOP3Configuration; }
-      shared_ptr<SMTPConfiguration> GetSMTPConfiguration() const { return m_pSMTPConfiguration; }
-      shared_ptr<IMAPConfiguration> GetIMAPConfiguration() const { return m_pIMAPConfiguration; }
+      boost::shared_ptr<POP3Configuration> GetPOP3Configuration() const { return m_pPOP3Configuration; }
+      boost::shared_ptr<SMTPConfiguration> GetSMTPConfiguration() const { return m_pSMTPConfiguration; }
+      boost::shared_ptr<IMAPConfiguration> GetIMAPConfiguration() const { return m_pIMAPConfiguration; }
       AntiSpamConfiguration &GetAntiSpamConfiguration() { return _antiSpamConfiguration; }
       AntiVirusConfiguration &GetAntiVirusConfiguration() { return _antiVirusConfiguration; }
-      shared_ptr<CacheConfiguration> GetCacheConfiguration() const { return m_pCacheConfiguration; }
+      boost::shared_ptr<CacheConfiguration> GetCacheConfiguration() const { return m_pCacheConfiguration; }
 
       bool Load();
 
-      void OnPropertyChanged(shared_ptr<Property> pProperty);
+      void OnPropertyChanged(boost::shared_ptr<Property> pProperty);
 
       bool GetUseSMTP() const;
       void SetUseSMTP(bool UseSMTP);
@@ -149,30 +149,30 @@ namespace HM
       bool GetMessageIndexing();
       void SetMessageIndexing(bool enable);
 
-      shared_ptr<PropertySet> GetSettings() const;
+      boost::shared_ptr<PropertySet> GetSettings() const;
 
-      shared_ptr<ServerMessages> GetServerMessages() {return _serverMessages;}
-      shared_ptr<TCPIPPorts> GetTCPIPPorts() const;
-      shared_ptr<BlockedAttachments> GetBlockedAttachments() {return _blockedAttachments;}
-      shared_ptr<SSLCertificates> GetSSLCertificates() {return _sslCertificates;}
-      shared_ptr<PropertySet> GetPropertySet() {return _propertySet;}
+      boost::shared_ptr<ServerMessages> GetServerMessages() {return _serverMessages;}
+      boost::shared_ptr<TCPIPPorts> GetTCPIPPorts() const;
+      boost::shared_ptr<BlockedAttachments> GetBlockedAttachments() {return _blockedAttachments;}
+      boost::shared_ptr<SSLCertificates> GetSSLCertificates() {return _sslCertificates;}
+      boost::shared_ptr<PropertySet> GetPropertySet() {return _propertySet;}
 
    private:
 
-      shared_ptr<POP3Configuration> m_pPOP3Configuration;
-      shared_ptr<SMTPConfiguration> m_pSMTPConfiguration;
-      shared_ptr<IMAPConfiguration> m_pIMAPConfiguration;
+      boost::shared_ptr<POP3Configuration> m_pPOP3Configuration;
+      boost::shared_ptr<SMTPConfiguration> m_pSMTPConfiguration;
+      boost::shared_ptr<IMAPConfiguration> m_pIMAPConfiguration;
       
-      shared_ptr<CacheConfiguration> m_pCacheConfiguration;
+      boost::shared_ptr<CacheConfiguration> m_pCacheConfiguration;
 
       AntiSpamConfiguration _antiSpamConfiguration;
       AntiVirusConfiguration _antiVirusConfiguration;
 
-      shared_ptr<ServerMessages> _serverMessages;
-      shared_ptr<TCPIPPorts> _tcpipPorts;
-      shared_ptr<BlockedAttachments> _blockedAttachments;
-      shared_ptr<SSLCertificates> _sslCertificates;
+      boost::shared_ptr<ServerMessages> _serverMessages;
+      boost::shared_ptr<TCPIPPorts> _tcpipPorts;
+      boost::shared_ptr<BlockedAttachments> _blockedAttachments;
+      boost::shared_ptr<SSLCertificates> _sslCertificates;
 
-      shared_ptr<PropertySet> _propertySet;
+      boost::shared_ptr<PropertySet> _propertySet;
    };
 }

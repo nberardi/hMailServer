@@ -15,14 +15,14 @@ namespace HM
 	   IMAPCommandUID();
 	   virtual ~IMAPCommandUID();
 
-      virtual IMAPResult ExecuteCommand(shared_ptr<IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument);
-      virtual IMAPResult DoAction(shared_ptr<IMAPConnection> pConnection, int messageIndex, shared_ptr<Message> pMessage, const shared_ptr<IMAPCommandArgument> pArgument) {assert(0); return IMAPResult(IMAPResult::ResultBad, "Internal parsing error.");}
+      virtual IMAPResult ExecuteCommand(boost::shared_ptr<IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument);
+      virtual IMAPResult DoAction(boost::shared_ptr<IMAPConnection> pConnection, int messageIndex, boost::shared_ptr<Message> pMessage, const boost::shared_ptr<IMAPCommandArgument> pArgument) {assert(0); return IMAPResult(IMAPResult::ResultBad, "Internal parsing error.");}
 
    private:
       
       void _ShowForMails(const String &sMailNo, const String &sShowPart);
       
-      shared_ptr<HM::IMAPCommandRangeAction> m_pCommand;
+      boost::shared_ptr<HM::IMAPCommandRangeAction> m_pCommand;
    };
 
 }

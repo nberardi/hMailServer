@@ -9,7 +9,7 @@
 #include "../Common/Mime/Mime.h"
 
 void 
-InterfaceMessageHeaders::AttachItem(shared_ptr<HM::MimeHeader> pHeader)
+InterfaceMessageHeaders::AttachItem(boost::shared_ptr<HM::MimeHeader> pHeader)
 {
    m_pHeader = pHeader;
 }

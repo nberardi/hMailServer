@@ -12,13 +12,13 @@ namespace HM
    class Attachments 
    {
    public:
-	   Attachments(shared_ptr<MimeBody> pMimeBody, MessageData *pMsgData);
+	   Attachments(boost::shared_ptr<MimeBody> pMimeBody, MessageData *pMsgData);
 	   virtual ~Attachments();
 
       bool Add(const String &sFilename);
-      bool Add(shared_ptr<Attachment> pAttachment);
+      bool Add(boost::shared_ptr<Attachment> pAttachment);
       
-      shared_ptr<Attachment> GetItem(unsigned int index) const;
+      boost::shared_ptr<Attachment> GetItem(unsigned int index) const;
 
       size_t GetCount() const;
       void Clear();
@@ -26,9 +26,9 @@ namespace HM
       void Load();
 
    private:
-      std::vector<shared_ptr<Attachment> > vecObjects;
+      std::vector<boost::shared_ptr<Attachment> > vecObjects;
 
-      shared_ptr<MimeBody> m_pMimeBody;
+      boost::shared_ptr<MimeBody> m_pMimeBody;
       MessageData *m_pMsgData;
    };
 }

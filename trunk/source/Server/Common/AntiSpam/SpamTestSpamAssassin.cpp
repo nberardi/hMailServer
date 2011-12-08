@@ -43,19 +43,19 @@ namespace HM
          return false;
    }
 
-   set<shared_ptr<SpamTestResult> >
-   SpamTestSpamAssassin::RunTest(shared_ptr<SpamTestData> pTestData)
+   set<boost::shared_ptr<SpamTestResult> >
+   SpamTestSpamAssassin::RunTest(boost::shared_ptr<SpamTestData> pTestData)
    {
-      set<shared_ptr<SpamTestResult> > setSpamTestResults;
+      set<boost::shared_ptr<SpamTestResult> > setSpamTestResults;
       
       AntiSpamConfiguration& config = Configuration::Instance()->GetAntiSpamConfiguration();
 
-      shared_ptr<Message> pMessage = pTestData->GetMessageData()->GetMessage();
+      boost::shared_ptr<Message> pMessage = pTestData->GetMessageData()->GetMessage();
       const String sFilename = PersistentMessage::GetFileName(pMessage);
       
-      shared_ptr<SpamAssassinClient> pSAClient = shared_ptr<SpamAssassinClient>(new SpamAssassinClient(sFilename));
+      boost::shared_ptr<SpamAssassinClient> pSAClient = boost::shared_ptr<SpamAssassinClient>(new SpamAssassinClient(sFilename));
 
-      shared_ptr<TCPConnection> pClientConnection = Application::Instance()->GetIOCPServer()->CreateConnection();
+      boost::shared_ptr<TCPConnection> pClientConnection = Application::Instance()->GetIOCPServer()->CreateConnection();
       pClientConnection->Start(pSAClient);
       
       String sHost = config.GetSpamAssassinHost();
@@ -78,7 +78,7 @@ namespace HM
       
        
       // Check if the message is tagged as spam.
-      shared_ptr<MessageData> pMessageData = pTestData->GetMessageData();
+      boost::shared_ptr<MessageData> pMessageData = pTestData->GetMessageData();
       pMessageData->RefreshFromMessage();
 
       bool bIsSpam = false;
@@ -95,7 +95,7 @@ namespace HM
             iScore = config.GetSpamAssassinScore();
 
          String sMessage = "Tagged as Spam by SpamAssassin";
-         shared_ptr<SpamTestResult> pResult = shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Fail, iScore, sMessage));
+         boost::shared_ptr<SpamTestResult> pResult = boost::shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Fail, iScore, sMessage));
          setSpamTestResults.insert(pResult);   
       }
       

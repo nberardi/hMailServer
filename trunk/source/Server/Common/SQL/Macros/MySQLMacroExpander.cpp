@@ -16,7 +16,7 @@
 namespace HM
 {
    bool
-   MySQLMacroExpander::ProcessMacro(shared_ptr<DALConnection> connection, const Macro &macro, String &sErrorMessage)
+   MySQLMacroExpander::ProcessMacro(boost::shared_ptr<DALConnection> connection, const Macro &macro, String &sErrorMessage)
    {
       switch (macro.GetType())
       {

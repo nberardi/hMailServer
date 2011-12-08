@@ -54,10 +54,10 @@ namespace HM
       std::vector<int> Expunge();
       std::vector<int> Expunge(const std::set<int> &uids, const boost::function<void()> &func);
 
-      shared_ptr<Messages> GetMessages(bool bReloadIfNeeded = true);
-      vector<shared_ptr<Message>> GetMessagesCopy(bool bReloadIfNeeded = true);
-      shared_ptr<IMAPFolders> GetSubFolders();
-      shared_ptr<ACLPermissions> GetPermissions();
+      boost::shared_ptr<Messages> GetMessages(bool bReloadIfNeeded = true);
+      vector<boost::shared_ptr<Message>> GetMessagesCopy(bool bReloadIfNeeded = true);
+      boost::shared_ptr<IMAPFolders> GetSubFolders();
+      boost::shared_ptr<ACLPermissions> GetPermissions();
 
       static void EscapeFolderString(String &sFolderString);
       static void UnescapeFolderString(String &sFolderString);
@@ -87,8 +87,8 @@ namespace HM
       bool m_bFolderIsSubscribed;
       AnsiString m_sFolderName;
 
-      shared_ptr<Messages> m_oMessages;
-      shared_ptr<IMAPFolders> m_oSubFolders;   
+      boost::shared_ptr<Messages> m_oMessages;
+      boost::shared_ptr<IMAPFolders> m_oSubFolders;   
  
       DateTime _createTime;
 

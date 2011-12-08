@@ -28,16 +28,16 @@ namespace HM
    
    }
 
-   std::vector<shared_ptr<Message>>
+   std::vector<boost::shared_ptr<Message>>
    Messages::GetCopy()
    {
       CriticalSectionScope scope(_lock);
 
-      std::vector<shared_ptr<Message>> result;
+      std::vector<boost::shared_ptr<Message>> result;
 
-      boost_foreach(shared_ptr<Message> oMessage, vecObjects)
+      boost_foreach(boost::shared_ptr<Message> oMessage, vecObjects)
       {
-         shared_ptr<Message> messageCopy = shared_ptr<Message>(new Message(*oMessage.get()));
+         boost::shared_ptr<Message> messageCopy = boost::shared_ptr<Message>(new Message(*oMessage.get()));
          result.push_back(messageCopy);
       }
 
@@ -52,7 +52,7 @@ namespace HM
 
       long lNoOfSeen = 0;
 
-      boost_foreach(shared_ptr<Message> oMessage, vecObjects)
+      boost_foreach(boost::shared_ptr<Message> oMessage, vecObjects)
       {
          if (oMessage->GetFlagSeen()) 
             lNoOfSeen ++;
@@ -68,7 +68,7 @@ namespace HM
 
       long lNoOfRecent = 0;
 
-      boost_foreach(shared_ptr<Message> message, vecObjects)
+      boost_foreach(boost::shared_ptr<Message> message, vecObjects)
       {
          if (message->GetFlagRecent()) 
             lNoOfRecent ++;
@@ -85,7 +85,7 @@ namespace HM
 
       long lSize = 0;
 
-      boost_foreach(shared_ptr<Message> oMessage, vecObjects)
+      boost_foreach(boost::shared_ptr<Message> oMessage, vecObjects)
       {
          lSize += oMessage->GetSize();
       }
@@ -98,7 +98,7 @@ namespace HM
    {
       CriticalSectionScope scope(_lock);
 
-      boost_foreach(shared_ptr<Message> message, vecObjects)
+      boost_foreach(boost::shared_ptr<Message> message, vecObjects)
       {
          if (!message->GetFlagSeen())
             return message->GetUID();
@@ -115,7 +115,7 @@ namespace HM
 
       LOG_DEBUG("Messages::Save()");
 
-      boost_foreach(shared_ptr<Message> oMessage, vecObjects)
+      boost_foreach(boost::shared_ptr<Message> oMessage, vecObjects)
       {
          LOG_DEBUG("Messages::Save() - Iteration");
 
@@ -146,7 +146,7 @@ namespace HM
       CriticalSectionScope scope(_lock);
 
       std::vector<int> vecExpungedMessages;
-      std::vector<shared_ptr<Message> >::iterator iterMessage = vecObjects.begin();
+      std::vector<boost::shared_ptr<Message> >::iterator iterMessage = vecObjects.begin();
 
       long lIndex = 0;
       int expungedCount = 0;
@@ -154,7 +154,7 @@ namespace HM
       {
          lIndex++;
 
-         shared_ptr<Message> pCurMsg = (*iterMessage);
+         boost::shared_ptr<Message> pCurMsg = (*iterMessage);
 
          if ((messagesMarkedForDeletion && pCurMsg->GetFlagDeleted()) ||
              uids.find(pCurMsg->GetUID()) != uids.end())
@@ -185,7 +185,7 @@ namespace HM
    {
       CriticalSectionScope scope(_lock);
 
-      std::vector<shared_ptr<Message> >::iterator iterMessage = vecObjects.begin();
+      std::vector<boost::shared_ptr<Message> >::iterator iterMessage = vecObjects.begin();
       std::vector<int> vecExpungedMessages;
 
       long lIndex = 0;
@@ -193,7 +193,7 @@ namespace HM
       {
          lIndex++;
 
-         shared_ptr<Message> pCurMsg = (*iterMessage);
+         boost::shared_ptr<Message> pCurMsg = (*iterMessage);
 
          PersistentMessage::DeleteObject(pCurMsg);
          vecExpungedMessages.push_back(lIndex);
@@ -272,7 +272,7 @@ namespace HM
 
       command.SetQueryString(sSQL);
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return;
 
@@ -312,7 +312,7 @@ namespace HM
    }
 
    void
-   Messages::AddToCollection(shared_ptr<DALRecordset> pRS)
+   Messages::AddToCollection(boost::shared_ptr<DALRecordset> pRS)
    {
       CriticalSectionScope scope(_lock);
 
@@ -328,7 +328,7 @@ namespace HM
 
          while (!pRS->IsEOF())
          {
-            shared_ptr<Message> msg = shared_ptr<Message> (new Message(false));
+            boost::shared_ptr<Message> msg = boost::shared_ptr<Message> (new Message(false));
             PersistentMessage::ReadObject(pRS, msg, false);
                   
             vecObjects.push_back(msg);
@@ -338,13 +338,13 @@ namespace HM
             pRS->MoveNext();
          }
 
-         shared_ptr<Message> pLastMessage = vecObjects[vecObjects.size() -1];
+         boost::shared_ptr<Message> pLastMessage = vecObjects[vecObjects.size() -1];
          _lastRefreshedUID = pLastMessage->GetUID();
       }
    }
 
    void 
-   Messages::AddItem(shared_ptr<Message> pObject)
+   Messages::AddItem(boost::shared_ptr<Message> pObject)
    {
       // Rather than adding the message, refresh entire folder
       // content from database.
@@ -360,7 +360,7 @@ namespace HM
    {
       CriticalSectionScope scope(_lock);
 
-      boost_foreach(shared_ptr<Message> pCurMsg, vecObjects)
+      boost_foreach(boost::shared_ptr<Message> pCurMsg, vecObjects)
       {
          if (pCurMsg->GetID() == ID)
          {
@@ -377,14 +377,14 @@ namespace HM
    {
       CriticalSectionScope scope(_lock);
 
-      boost_foreach(shared_ptr<Message> message, vecObjects)
+      boost_foreach(boost::shared_ptr<Message> message, vecObjects)
       {
          message->SetFlagRecent(bRecent);
       }
    }
 
    bool
-   Messages::PreSaveObject(shared_ptr<Message> pMessage, XNode *node)
+   Messages::PreSaveObject(boost::shared_ptr<Message> pMessage, XNode *node)
    {
       CriticalSectionScope scope(_lock);
 
@@ -404,7 +404,7 @@ namespace HM
    {
       CriticalSectionScope scope(_lock);
 
-      std::vector<shared_ptr<Message> >::iterator iterMessage = vecObjects.begin();
+      std::vector<boost::shared_ptr<Message> >::iterator iterMessage = vecObjects.begin();
 
       // Locate the message
       while (iterMessage != vecObjects.end() && (*iterMessage)->GetID() != iDBID)
@@ -415,7 +415,7 @@ namespace HM
          vecObjects.erase(iterMessage);
    }
 
-   shared_ptr<Message>
+   boost::shared_ptr<Message>
    Messages::GetItemByUID(unsigned int uid)
    {
       unsigned int dummy = 0;
@@ -423,12 +423,12 @@ namespace HM
    }
 
 
-   shared_ptr<Message>
+   boost::shared_ptr<Message>
    Messages::GetItemByUID(unsigned int uid, unsigned int &foundIndex)
    {
       CriticalSectionScope scope(_lock);
       foundIndex = 0;
-      boost_foreach(shared_ptr<Message> item, vecObjects)
+      boost_foreach(boost::shared_ptr<Message> item, vecObjects)
       {
          foundIndex++;
 
@@ -436,7 +436,7 @@ namespace HM
             return item;
       }
 
-      shared_ptr<Message> empty;
+      boost::shared_ptr<Message> empty;
       return empty;
    }
 

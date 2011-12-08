@@ -29,12 +29,12 @@ namespace HM
 
 
    IMAPResult
-   IMAPCopy::DoAction(shared_ptr<IMAPConnection> pConnection, int messageIndex, shared_ptr<Message> pOldMessage, const shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCopy::DoAction(boost::shared_ptr<IMAPConnection> pConnection, int messageIndex, boost::shared_ptr<Message> pOldMessage, const boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       if (!pArgument || !pOldMessage)
          return IMAPResult(IMAPResult::ResultBad, "Invalid parameters");
       
-      shared_ptr<IMAPSimpleCommandParser> pParser = shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
+      boost::shared_ptr<IMAPSimpleCommandParser> pParser = boost::shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
 
       pParser->Parse(pArgument);
       
@@ -50,11 +50,11 @@ namespace HM
          IMAPFolder::UnescapeFolderString(sFolderName);
       }
 
-      shared_ptr<IMAPFolder> pFolder = pConnection->GetFolderByFullPath(sFolderName);
+      boost::shared_ptr<IMAPFolder> pFolder = pConnection->GetFolderByFullPath(sFolderName);
       if (!pFolder)
          return IMAPResult(IMAPResult::ResultBad, "The folder could not be found.");
 
-      shared_ptr<const Account> pAccount = pConnection->GetAccount();
+      boost::shared_ptr<const Account> pAccount = pConnection->GetAccount();
 
       if (!pFolder->IsPublicFolder())
       {
@@ -66,7 +66,7 @@ namespace HM
       if (!pConnection->CheckPermission(pFolder, ACLPermission::PermissionInsert))
          return IMAPResult(IMAPResult::ResultBad, "ACL: Insert permission denied (Required for COPY command).");
 
-      shared_ptr<Message> pNewMessage = PersistentMessage::CopyToIMAPFolder(pAccount, pOldMessage, pFolder);
+      boost::shared_ptr<Message> pNewMessage = PersistentMessage::CopyToIMAPFolder(pAccount, pOldMessage, pFolder);
 
       if (!pNewMessage)
          return IMAPResult(IMAPResult::ResultBad, "Failed to copy message");
@@ -82,8 +82,8 @@ namespace HM
 
       // Set a delayed notification so that the any IMAP idle client is notified when this
       // command has been finished.
-      shared_ptr<ChangeNotification> pNotification = 
-         shared_ptr<ChangeNotification>(new ChangeNotification(pFolder->GetAccountID(), pFolder->GetID(), ChangeNotification::NotificationMessageAdded));
+      boost::shared_ptr<ChangeNotification> pNotification = 
+         boost::shared_ptr<ChangeNotification>(new ChangeNotification(pFolder->GetAccountID(), pFolder->GetID(), ChangeNotification::NotificationMessageAdded));
 
       pConnection->SetDelayedChangeNotification(pNotification);
 

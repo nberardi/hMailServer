@@ -15,8 +15,8 @@ namespace HM
       IOOperationQueue();
       ~IOOperationQueue(void);
 
-      void Push(shared_ptr<IOOperation> operation);
-      shared_ptr<IOOperation> Front();
+      void Push(boost::shared_ptr<IOOperation> operation);
+      boost::shared_ptr<IOOperation> Front();
       void Pop(IOOperation::OperationType type);
 
       bool ContainsQueuedSendOperation();
@@ -25,8 +25,8 @@ namespace HM
 
       CriticalSection _criticalSection;
 
-      std::deque<shared_ptr<IOOperation> > _queueOperations;
+      std::deque<boost::shared_ptr<IOOperation> > _queueOperations;
       
-      std::vector<shared_ptr<IOOperation > > _ongoingOperations;
+      std::vector<boost::shared_ptr<IOOperation > > _ongoingOperations;
    };
 }

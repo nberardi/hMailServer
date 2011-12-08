@@ -38,7 +38,7 @@ namespace HM
    }
 
    IMAPResult
-   IMAPFetch::DoAction(shared_ptr<IMAPConnection> pConnection, int messageIndex, shared_ptr<Message> pMessage, const shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPFetch::DoAction(boost::shared_ptr<IMAPConnection> pConnection, int messageIndex, boost::shared_ptr<Message> pMessage, const boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       if (!pArgument || !pMessage)
          return IMAPResult(IMAPResult::ResultBad, "Invalid parameters");
@@ -50,7 +50,7 @@ namespace HM
       // Parse the command
       if (!m_pParser)
       {
-         m_pParser = shared_ptr<IMAPFetchParser>(new IMAPFetchParser());
+         m_pParser = boost::shared_ptr<IMAPFetchParser>(new IMAPFetchParser());
          String sTemp = pArgument->Command();
          m_pParser->ParseCommand(sTemp);
       }
@@ -180,7 +180,7 @@ namespace HM
       // Sometimes we need to load the entire mail into memory.
       // If the user want's to download a specific attachment or
       // if he wants to look at the structure of the mime message.
-      shared_ptr<MimeBody> pMimeBody = _LoadMimeBody(m_pParser, messageFileName);
+      boost::shared_ptr<MimeBody> pMimeBody = _LoadMimeBody(m_pParser, messageFileName);
       
       if (m_pParser->GetShowBodyStructure() ||
           m_pParser->GetShowBodyStructureNonExtensible())
@@ -216,7 +216,7 @@ namespace HM
             int iOctetCount = oPart.m_iOctetCount;
            
             const String messageFileName = PersistentMessage::GetFileName(pConnection->GetAccount(), pMessage);
-            shared_ptr<ByteBuffer> pBuffer = _GetByteBufferByBodyPart(messageFileName, pMimeBody, oPart);
+            boost::shared_ptr<ByteBuffer> pBuffer = _GetByteBufferByBodyPart(messageFileName, pMimeBody, oPart);
             
             String sPartIdentifier;
             if (iOctetStart == -1 && iOctetCount == -1)
@@ -304,8 +304,8 @@ namespace HM
       iOutCount = iOctetCount;
    }
 
-   shared_ptr<MimeBody> 
-   IMAPFetch::_GetBodyPartByRecursiveIdentifier(shared_ptr<MimeBody> pBody, const String &sName)
+   boost::shared_ptr<MimeBody> 
+   IMAPFetch::_GetBodyPartByRecursiveIdentifier(boost::shared_ptr<MimeBody> pBody, const String &sName)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Returns a body part by a given identifier. An identifier can be 1, 2, 1.2 etc.
@@ -313,7 +313,7 @@ namespace HM
    {
       if (!pBody || sName.IsEmpty())
       {
-         shared_ptr<MimeBody> pEmpty;
+         boost::shared_ptr<MimeBody> pEmpty;
          return pEmpty;
       }
 
@@ -354,7 +354,7 @@ namespace HM
 
                   ErrorManager::Instance()->ReportError(ErrorManager::Medium, 5060, "IMAPFetch::_GetBodyPartByRecursiveIdentifier", sErrorMessage);
 
-                  shared_ptr<MimeBody> empty;
+                  boost::shared_ptr<MimeBody> empty;
                   return empty;
                }
             }
@@ -368,14 +368,14 @@ namespace HM
    }
 
 
-   shared_ptr<ByteBuffer> 
-   IMAPFetch::_GetByteBufferByBodyPart(const String &messageFileName, shared_ptr<MimeBody> pBodyPart, IMAPFetchParser::BodyPart &oPart)
+   boost::shared_ptr<ByteBuffer> 
+   IMAPFetch::_GetByteBufferByBodyPart(const String &messageFileName, boost::shared_ptr<MimeBody> pBodyPart, IMAPFetchParser::BodyPart &oPart)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Returns a buffer containing the data for the given body/part
    //---------------------------------------------------------------------------()
    {
-      shared_ptr<ByteBuffer> pOutBuf = shared_ptr<ByteBuffer>(new ByteBuffer);
+      boost::shared_ptr<ByteBuffer> pOutBuf = boost::shared_ptr<ByteBuffer>(new ByteBuffer);
 
       if (!pBodyPart)
       {
@@ -546,18 +546,18 @@ namespace HM
       return pOutBuf;
    }
 
-   shared_ptr<MimeBody>
-   IMAPFetch::_GetMessagePartByPartNo(shared_ptr<MimeBody> pBody, long iPartNo)
+   boost::shared_ptr<MimeBody>
+   IMAPFetch::_GetMessagePartByPartNo(boost::shared_ptr<MimeBody> pBody, long iPartNo)
    {
       
       if (!pBody)
       {
-         shared_ptr<MimeBody> pEmpty;
+         boost::shared_ptr<MimeBody> pEmpty;
          return pEmpty;
       }
       
       // Fetch the first part of the message.
-      shared_ptr<MimeBody> oPart = pBody->FindFirstPart();
+      boost::shared_ptr<MimeBody> oPart = pBody->FindFirstPart();
 
       if (!oPart)
       {
@@ -578,7 +578,7 @@ namespace HM
          oPart = pBody->FindNextPart();
       }      
 
-      shared_ptr<MimeBody> pEmpty;
+      boost::shared_ptr<MimeBody> pEmpty;
       return pEmpty;
    }
 
@@ -763,7 +763,7 @@ namespace HM
    }
 
    String
-   IMAPFetch::_IteratePartRecursive(shared_ptr<MimeBody> oPart, bool bExtensible, int iRecursion)
+   IMAPFetch::_IteratePartRecursive(boost::shared_ptr<MimeBody> oPart, bool bExtensible, int iRecursion)
    {
       iRecursion++;
 
@@ -779,7 +779,7 @@ namespace HM
 
          String sResult = "(";
 
-         shared_ptr<MimeBody> pSubPart = oPart->FindFirstPart();
+         boost::shared_ptr<MimeBody> pSubPart = oPart->FindFirstPart();
 
          while (pSubPart)
          {
@@ -808,7 +808,7 @@ namespace HM
    }
 
    String 
-   IMAPFetch::_GetPartStructure(shared_ptr<MimeBody> oPart, bool bExtensible, int iRecursion)   
+   IMAPFetch::_GetPartStructure(boost::shared_ptr<MimeBody> oPart, bool bExtensible, int iRecursion)   
    {
       String sMainType = oPart->GetMainType();
       sMainType.ToUpper();
@@ -882,7 +882,7 @@ namespace HM
       
          try
          {
-            shared_ptr<MimeBody> pBody = oPart->LoadEncapsulatedMessage();
+            boost::shared_ptr<MimeBody> pBody = oPart->LoadEncapsulatedMessage();
 
             AnsiString sMessageHeader = pBody->GetHeaderContents();
             MimeHeader oHeader;
@@ -972,9 +972,9 @@ namespace HM
 
       // First remove the newline characters.
       
-      shared_ptr<AddresslistParser> pParser = shared_ptr<AddresslistParser>(new AddresslistParser());
-      std::vector<shared_ptr<Address> > vecAddresses = pParser->ParseList(sField);
-      std::vector<shared_ptr<Address> >::iterator iterElement = vecAddresses.begin();
+      boost::shared_ptr<AddresslistParser> pParser = boost::shared_ptr<AddresslistParser>(new AddresslistParser());
+      std::vector<boost::shared_ptr<Address> > vecAddresses = pParser->ParseList(sField);
+      std::vector<boost::shared_ptr<Address> >::iterator iterElement = vecAddresses.begin();
 
       while (iterElement != vecAddresses.end())
       {
@@ -1017,14 +1017,14 @@ namespace HM
 
    }
 
-   shared_ptr<MimeBody> 
-   IMAPFetch::_LoadMimeBody(shared_ptr<IMAPFetchParser> pParser, const String &fileName)
+   boost::shared_ptr<MimeBody> 
+   IMAPFetch::_LoadMimeBody(boost::shared_ptr<IMAPFetchParser> pParser, const String &fileName)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Loads the part of a message needed. 
    //---------------------------------------------------------------------------()
    {
-      shared_ptr<MimeBody> pMimeBody;
+      boost::shared_ptr<MimeBody> pMimeBody;
       
       if (pParser->GetPartsToLookAt().size() == 0 &&
           !pParser->GetShowBodyStructure() &&
@@ -1043,7 +1043,7 @@ namespace HM
 
       try
       {
-         pMimeBody = shared_ptr<MimeBody>(new MimeBody);
+         pMimeBody = boost::shared_ptr<MimeBody>(new MimeBody);
 
          if (bLoadFullMail)
             pMimeBody->LoadFromFile(fileName);
@@ -1065,7 +1065,7 @@ namespace HM
    }
 
    bool 
-   IMAPFetch::_GetMessageBodyNeeded(shared_ptr<IMAPFetchParser> pParser)
+   IMAPFetch::_GetMessageBodyNeeded(boost::shared_ptr<IMAPFetchParser> pParser)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // This method determines whether we need to load the entire body, or if
@@ -1110,7 +1110,7 @@ namespace HM
    }
 
    void
-   IMAPFetch::_SendAndReset(shared_ptr<IMAPConnection> pConnection, String &sOutput)
+   IMAPFetch::_SendAndReset(boost::shared_ptr<IMAPConnection> pConnection, String &sOutput)
    {
       pConnection->SendAsciiData(sOutput);
       sOutput = "";

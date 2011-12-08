@@ -7,7 +7,7 @@
 #include "COMError.h"
 
 void 
-InterfaceLanguage::Attach(shared_ptr<HM::Language> pLanguage)
+InterfaceLanguage::Attach(boost::shared_ptr<HM::Language> pLanguage)
 {
    m_pLanguage = pLanguage;
 }

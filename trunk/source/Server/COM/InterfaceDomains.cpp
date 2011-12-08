@@ -41,7 +41,7 @@ STDMETHODIMP InterfaceDomains::InterfaceSupportsErrorInfo(REFIID riid)
 }   
 
 void
-InterfaceDomains::SetAuthentication(shared_ptr<HM::COMAuthentication> pAuthentication)
+InterfaceDomains::SetAuthentication(boost::shared_ptr<HM::COMAuthentication> pAuthentication)
 {
    COMAuthenticator::SetAuthentication(pAuthentication);
 }
@@ -53,7 +53,7 @@ STDMETHODIMP InterfaceDomains::Refresh()
       if (!m_pAuthentication->GetIsAuthenticated())
          return m_pAuthentication->GetAccessDenied();
    
-      m_pObjects = shared_ptr<HM::Domains>(new HM::Domains);
+      m_pObjects = boost::shared_ptr<HM::Domains>(new HM::Domains);
    
       try
       {
@@ -109,7 +109,7 @@ STDMETHODIMP InterfaceDomains::Add(/*[out, retval] */IInterfaceDomain** pVal)
       CComObject<InterfaceDomain>* pDomainInterface = new CComObject<InterfaceDomain>;
       pDomainInterface->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Domain> pDomain = shared_ptr<HM::Domain>(new HM::Domain());
+      boost::shared_ptr<HM::Domain> pDomain = boost::shared_ptr<HM::Domain>(new HM::Domain());
       
       pDomainInterface->AttachItem(pDomain);
       pDomainInterface->AttachParent(m_pObjects, false);
@@ -140,7 +140,7 @@ STDMETHODIMP InterfaceDomains::get_ItemByName(BSTR ItemName, IInterfaceDomain **
       CComObject<InterfaceDomain>* pDomain = new CComObject<InterfaceDomain>();
       pDomain->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Domain> pPersDomain = m_pObjects->GetItemByName(ItemName);
+      boost::shared_ptr<HM::Domain> pPersDomain = m_pObjects->GetItemByName(ItemName);
    
       if (!pPersDomain)
          return DISP_E_BADINDEX;
@@ -173,7 +173,7 @@ STDMETHODIMP InterfaceDomains::get_Item(long Index, IInterfaceDomain **pVal)
       CComObject<InterfaceDomain>* pDomain = new CComObject<InterfaceDomain>();
       pDomain->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Domain> pPersDomain = m_pObjects->GetItem(Index);
+      boost::shared_ptr<HM::Domain> pPersDomain = m_pObjects->GetItem(Index);
    
       if (!pPersDomain)
          return DISP_E_BADINDEX;
@@ -207,7 +207,7 @@ STDMETHODIMP InterfaceDomains::get_ItemByDBID(long DBID, IInterfaceDomain **pVal
       CComObject<InterfaceDomain>* pDomain = new CComObject<InterfaceDomain>();
       pDomain->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Domain> pPersDomain = m_pObjects->GetItemByDBID(DBID);
+      boost::shared_ptr<HM::Domain> pPersDomain = m_pObjects->GetItemByDBID(DBID);
    
       if (!pPersDomain)
          return DISP_E_BADINDEX;

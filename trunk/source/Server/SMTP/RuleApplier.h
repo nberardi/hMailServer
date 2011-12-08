@@ -23,32 +23,32 @@ namespace HM
       RuleApplier(void);
       ~RuleApplier(void);
 
-      void ApplyRules(shared_ptr<Rules> pRules, shared_ptr<const Account> account, shared_ptr<Message> pMessage, RuleResult &ruleResult);
+      void ApplyRules(boost::shared_ptr<Rules> pRules, boost::shared_ptr<const Account> account, boost::shared_ptr<Message> pMessage, RuleResult &ruleResult);
 
       static bool TestMatch(String matchValue, RuleCriteria::MatchType matchType, String testValue);
 
-      static bool RuleLoopCountReached(shared_ptr<MessageData> pMsgData);
+      static bool RuleLoopCountReached(boost::shared_ptr<MessageData> pMsgData);
 
    private:
 
       // Apply one rule to the message.
-      bool _ApplyRule(shared_ptr<Rule> pRule, shared_ptr<const Account> account, shared_ptr<MessageData> pMsgData, bool &bContinueRuleProcessing, RuleResult &ruleResult);
+      bool _ApplyRule(boost::shared_ptr<Rule> pRule, boost::shared_ptr<const Account> account, boost::shared_ptr<MessageData> pMsgData, bool &bContinueRuleProcessing, RuleResult &ruleResult);
 
       // Do the actions for the message.
-      void _ApplyActions(shared_ptr<Rule> pRule, shared_ptr<const Account> account, shared_ptr<MessageData> pMsgData, bool &bContinueRuleProcessing, RuleResult &ruleResult);
+      void _ApplyActions(boost::shared_ptr<Rule> pRule, boost::shared_ptr<const Account> account, boost::shared_ptr<MessageData> pMsgData, bool &bContinueRuleProcessing, RuleResult &ruleResult);
 
       // Do the action
-      void _ApplyAction(shared_ptr<Rule> pRule, shared_ptr<RuleAction> pAction, shared_ptr<const Account> account, shared_ptr<MessageData> pMsgData, bool &bContinueRuleProcessing, RuleResult &ruleResult);
+      void _ApplyAction(boost::shared_ptr<Rule> pRule, boost::shared_ptr<RuleAction> pAction, boost::shared_ptr<const Account> account, boost::shared_ptr<MessageData> pMsgData, bool &bContinueRuleProcessing, RuleResult &ruleResult);
 
       // Check wether pMessage matches pCriteria.
-      bool _MessageMatchesCriteria(shared_ptr<RuleCriteria> pCriteria, shared_ptr<MessageData> pMsgData) const;
+      bool _MessageMatchesCriteria(boost::shared_ptr<RuleCriteria> pCriteria, boost::shared_ptr<MessageData> pMsgData) const;
       
       // Actions
-      void _ApplyActionForward(shared_ptr<RuleAction> pAction, shared_ptr<const Account> account, shared_ptr<MessageData> pMsgData) const;
-      void _ApplyActionCopy(shared_ptr<Rule> rule, shared_ptr<const Account> account, shared_ptr<MessageData> pMsgData) const;
-      void _ApplyActionReply(shared_ptr<RuleAction> pAction, shared_ptr<MessageData> pMsgData) const;
-      void _ApplyActionScriptFunction(shared_ptr<RuleAction> pAction, shared_ptr<const Account> account, shared_ptr<MessageData> pMsgData) const;
-      void _ApplyActionSetHeader(shared_ptr<RuleAction> pAction, shared_ptr<const Account> account, shared_ptr<MessageData> pMsgData) const;
+      void _ApplyActionForward(boost::shared_ptr<RuleAction> pAction, boost::shared_ptr<const Account> account, boost::shared_ptr<MessageData> pMsgData) const;
+      void _ApplyActionCopy(boost::shared_ptr<Rule> rule, boost::shared_ptr<const Account> account, boost::shared_ptr<MessageData> pMsgData) const;
+      void _ApplyActionReply(boost::shared_ptr<RuleAction> pAction, boost::shared_ptr<MessageData> pMsgData) const;
+      void _ApplyActionScriptFunction(boost::shared_ptr<RuleAction> pAction, boost::shared_ptr<const Account> account, boost::shared_ptr<MessageData> pMsgData) const;
+      void _ApplyActionSetHeader(boost::shared_ptr<RuleAction> pAction, boost::shared_ptr<const Account> account, boost::shared_ptr<MessageData> pMsgData) const;
 
       ;
 

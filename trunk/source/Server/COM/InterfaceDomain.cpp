@@ -48,7 +48,7 @@ STDMETHODIMP InterfaceDomain::InterfaceSupportsErrorInfo(REFIID riid)
    
 
 void
-InterfaceDomain::SetAuthentication(shared_ptr<HM::COMAuthentication> pAuthentication)
+InterfaceDomain::SetAuthentication(boost::shared_ptr<HM::COMAuthentication> pAuthentication)
 {
    m_pAuthentication = pAuthentication;
 }
@@ -315,7 +315,7 @@ STDMETHODIMP InterfaceDomain::get_Accounts(IInterfaceAccounts **pVal)
       CComObject<InterfaceAccounts>* pItem = new CComObject<InterfaceAccounts>();
       pItem->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Accounts> pAccounts;
+      boost::shared_ptr<HM::Accounts> pAccounts;
    
       if (m_pAuthentication->GetIsDomainAdmin())
          pAccounts = m_pObject->GetAccounts();
@@ -390,7 +390,7 @@ STDMETHODIMP InterfaceDomain::get_Aliases(IInterfaceAliases **pVal)
       CComObject<InterfaceAliases>* pItem = new CComObject<InterfaceAliases>();
       pItem->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Aliases> pAliases = m_pObject->GetAliases();
+      boost::shared_ptr<HM::Aliases> pAliases = m_pObject->GetAliases();
       pAliases->Refresh();
    
       if (pAliases)
@@ -423,7 +423,7 @@ STDMETHODIMP InterfaceDomain::get_DomainAliases(IInterfaceDomainAliases **pVal)
       CComObject<InterfaceDomainAliases>* pItem = new CComObject<InterfaceDomainAliases>();
       pItem->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::DomainAliases> pDA = shared_ptr<HM::DomainAliases>(new HM::DomainAliases(m_pObject->GetID()));
+      boost::shared_ptr<HM::DomainAliases> pDA = boost::shared_ptr<HM::DomainAliases>(new HM::DomainAliases(m_pObject->GetID()));
    
       if (pDA)
       {
@@ -457,7 +457,7 @@ STDMETHODIMP InterfaceDomain::get_DistributionLists(IInterfaceDistributionLists 
       CComObject<InterfaceDistributionLists>* pItem = new CComObject<InterfaceDistributionLists>();
       pItem->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::DistributionLists> pDistLists = m_pObject->GetDistributionLists();
+      boost::shared_ptr<HM::DistributionLists> pDistLists = m_pObject->GetDistributionLists();
       pDistLists->Refresh();
    
       if (pDistLists)

@@ -18,16 +18,16 @@ namespace HM
 	   virtual ~IMAPFolders();
       void Refresh();
 
-      shared_ptr<IMAPFolder> GetItemByDBIDRecursive(__int64 lFolderID);
-      shared_ptr<IMAPFolder> GetFolderByName(const String &sName, bool bRecursive = false);
-      shared_ptr<IMAPFolder> GetFolderByFullPath(const String &sPath);
-      shared_ptr<IMAPFolder> GetFolderByFullPath(const std::vector<String> &vecFolders);
+      boost::shared_ptr<IMAPFolder> GetItemByDBIDRecursive(__int64 lFolderID);
+      boost::shared_ptr<IMAPFolder> GetFolderByName(const String &sName, bool bRecursive = false);
+      boost::shared_ptr<IMAPFolder> GetFolderByFullPath(const String &sPath);
+      boost::shared_ptr<IMAPFolder> GetFolderByFullPath(const std::vector<String> &vecFolders);
       
-      void RemoveFolder(shared_ptr<IMAPFolder> pFolder);
+      void RemoveFolder(boost::shared_ptr<IMAPFolder> pFolder);
 
-      void CreatePath(shared_ptr<IMAPFolders> pParentContainer, const std::vector<String> &vecFolderPath, bool bAutoSubscribe);
+      void CreatePath(boost::shared_ptr<IMAPFolders> pParentContainer, const std::vector<String> &vecFolderPath, bool bAutoSubscribe);
       
-      virtual bool PreSaveObject(shared_ptr<IMAPFolder> pObject, XNode *node);
+      virtual bool PreSaveObject(boost::shared_ptr<IMAPFolder> pObject, XNode *node);
 
       __int64 GetParentID();
       // Returns the ID of the IMAP folder in which these folder exists. If this is

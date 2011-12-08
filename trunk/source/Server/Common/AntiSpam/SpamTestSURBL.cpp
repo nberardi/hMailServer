@@ -30,15 +30,15 @@ namespace HM
    bool 
    SpamTestSURBL::GetIsEnabled()
    {
-      shared_ptr<SURBLServers> pSURBLServers = Configuration::Instance()->GetAntiSpamConfiguration().GetSURBLServers();
+      boost::shared_ptr<SURBLServers> pSURBLServers = Configuration::Instance()->GetAntiSpamConfiguration().GetSURBLServers();
 
-      vector<shared_ptr<SURBLServer> > vec = pSURBLServers->GetVector();
-      vector<shared_ptr<SURBLServer> >::iterator iter = vec.begin();
-      vector<shared_ptr<SURBLServer> >::iterator iterEnd = vec.end();
+      vector<boost::shared_ptr<SURBLServer> > vec = pSURBLServers->GetVector();
+      vector<boost::shared_ptr<SURBLServer> >::iterator iter = vec.begin();
+      vector<boost::shared_ptr<SURBLServer> >::iterator iterEnd = vec.end();
 
       for (; iter != iterEnd; iter++)
       {
-         shared_ptr<SURBLServer> pSURBLServer = (*iter);
+         boost::shared_ptr<SURBLServer> pSURBLServer = (*iter);
 
          if (pSURBLServer->GetIsActive()) 
          {
@@ -49,17 +49,17 @@ namespace HM
       return false;
    }
 
-   set<shared_ptr<SpamTestResult> >
-   SpamTestSURBL::RunTest(shared_ptr<SpamTestData> pTestData)
+   set<boost::shared_ptr<SpamTestResult> >
+   SpamTestSURBL::RunTest(boost::shared_ptr<SpamTestData> pTestData)
    {
-      set<shared_ptr<SpamTestResult> > setSpamTestResults;
+      set<boost::shared_ptr<SpamTestResult> > setSpamTestResults;
 
-      shared_ptr<MessageData> pMessageData = pTestData->GetMessageData();
-      shared_ptr<SURBLServers> pSURBLServers = Configuration::Instance()->GetAntiSpamConfiguration().GetSURBLServers();
+      boost::shared_ptr<MessageData> pMessageData = pTestData->GetMessageData();
+      boost::shared_ptr<SURBLServers> pSURBLServers = Configuration::Instance()->GetAntiSpamConfiguration().GetSURBLServers();
 
       SURBL surblTester;
 
-      boost_foreach(shared_ptr<SURBLServer> pSURBLServer, pSURBLServers->GetVector())
+      boost_foreach(boost::shared_ptr<SURBLServer> pSURBLServer, pSURBLServers->GetVector())
       {
          if (pSURBLServer->GetIsActive()) 
          {
@@ -67,7 +67,7 @@ namespace HM
             {
                // Blocked
                int iSomeScore = pSURBLServer->GetScore();
-               shared_ptr<SpamTestResult> pResult = shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Fail, iSomeScore, pSURBLServer->GetRejectMessage()));
+               boost::shared_ptr<SpamTestResult> pResult = boost::shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Fail, iSomeScore, pSURBLServer->GetRejectMessage()));
 
                setSpamTestResults.insert(pResult);
             }

@@ -23,7 +23,7 @@ namespace HM
       m_iMaxSizeKB(0),
       _cancelTransmission(false)
    {
-      m_pBuffer = shared_ptr<ByteBuffer>(new ByteBuffer);
+      m_pBuffer = boost::shared_ptr<ByteBuffer>(new ByteBuffer);
    }
 
    TransparentTransmissionBuffer::~TransparentTransmissionBuffer(void)
@@ -210,7 +210,7 @@ namespace HM
             // Copy the data up including this position
             int iCopySize = i+1;
 
-            shared_ptr<ByteBuffer> pOutBuffer = shared_ptr<ByteBuffer>(new ByteBuffer);
+            boost::shared_ptr<ByteBuffer> pOutBuffer = boost::shared_ptr<ByteBuffer>(new ByteBuffer);
             pOutBuffer->Add(m_pBuffer->GetBuffer(), iCopySize);
 
             // Remove it from the old buffer
@@ -249,7 +249,7 @@ namespace HM
    }
 
    bool 
-   TransparentTransmissionBuffer::_SaveToFile(shared_ptr<ByteBuffer> pBuffer)
+   TransparentTransmissionBuffer::_SaveToFile(boost::shared_ptr<ByteBuffer> pBuffer)
    {
       if (m_iMaxSizeKB > 0 && (m_iDataSent / 1024) > m_iMaxSizeKB)
       {
@@ -267,7 +267,7 @@ namespace HM
    }
 
    void 
-   TransparentTransmissionBuffer::_InsertTransmissionPeriod(shared_ptr<ByteBuffer> pBuffer)
+   TransparentTransmissionBuffer::_InsertTransmissionPeriod(boost::shared_ptr<ByteBuffer> pBuffer)
    {
       // All . which are placed as the first character on a new
       // line should be replaced with ..
@@ -312,7 +312,7 @@ namespace HM
    }
 
    void
-   TransparentTransmissionBuffer::_RemoveTransmissionPeriod(shared_ptr<ByteBuffer> pBuffer)
+   TransparentTransmissionBuffer::_RemoveTransmissionPeriod(boost::shared_ptr<ByteBuffer> pBuffer)
    {
       // Allocate maximum required length for the out buffer.
       char *pInBuffer = (char*) pBuffer->GetCharBuffer();

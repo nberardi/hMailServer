@@ -27,7 +27,7 @@ namespace HM
    }
 
    void
-   MessageAttachmentStripper::Strip(shared_ptr<Message> pMessage)
+   MessageAttachmentStripper::Strip(boost::shared_ptr<Message> pMessage)
    {
       const String fileName = PersistentMessage::GetFileName(pMessage);
 
@@ -36,7 +36,7 @@ namespace HM
       oMimeMessage.LoadFromFile(fileName);
 
       // Assume first part is the text to keep.
-      shared_ptr<MimeBody> pBody = oMimeMessage.FindFirstPart();
+      boost::shared_ptr<MimeBody> pBody = oMimeMessage.FindFirstPart();
 
       if (!pBody)
       {
@@ -49,7 +49,7 @@ namespace HM
 
          if (pBody->IsMultiPart())
          {
-            shared_ptr<MimeBody> pSubBody = pBody->FindFirstPart();
+            boost::shared_ptr<MimeBody> pSubBody = pBody->FindFirstPart();
 
            
             while (pSubBody)
@@ -80,7 +80,7 @@ namespace HM
    }
 
    void
-   MessageAttachmentStripper::_WriteToDisk(shared_ptr<Message> pMessage, MimeBody &oMainMessage, shared_ptr<MimeBody> pBody)
+   MessageAttachmentStripper::_WriteToDisk(boost::shared_ptr<Message> pMessage, MimeBody &oMainMessage, boost::shared_ptr<MimeBody> pBody)
    {
       if (!pBody)
          return;
@@ -136,7 +136,7 @@ namespace HM
 
 
    bool
-   MessageAttachmentStripper::_IsGoodTextPart(shared_ptr<MimeBody> pBody)
+   MessageAttachmentStripper::_IsGoodTextPart(boost::shared_ptr<MimeBody> pBody)
    {
       if (!pBody)
          return false;

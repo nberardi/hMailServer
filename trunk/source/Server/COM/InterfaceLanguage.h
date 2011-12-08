@@ -44,7 +44,7 @@ END_COM_MAP()
 	{
 	}
 
-   void Attach(shared_ptr<HM::Language> pLanguage);
+   void Attach(boost::shared_ptr<HM::Language> pLanguage);
    
 public:
 
@@ -55,7 +55,7 @@ public:
    
 private:
 
-   shared_ptr<HM::Language> m_pLanguage;
+   boost::shared_ptr<HM::Language> m_pLanguage;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Language), InterfaceLanguage)

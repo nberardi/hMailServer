@@ -96,7 +96,7 @@ namespace HM
       const int maxIterations = 100000;
       for (int i = 0; i < maxIterations; i++)
       {
-         shared_ptr<ByteBuffer> pBuf = oFile.ReadChunk(STREAM_BLOCK_SIZE);
+         boost::shared_ptr<ByteBuffer> pBuf = oFile.ReadChunk(STREAM_BLOCK_SIZE);
 
          if (!pBuf)
             break;

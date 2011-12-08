@@ -15,7 +15,7 @@
 
 namespace HM
 {
-   DeliveryTask::DeliveryTask(shared_ptr<Message> pMessage) :
+   DeliveryTask::DeliveryTask(boost::shared_ptr<Message> pMessage) :
       m_pMessage(pMessage)
    {
       

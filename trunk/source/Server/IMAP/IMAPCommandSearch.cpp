@@ -37,7 +37,7 @@ namespace HM
    }
 
    IMAPResult
-   IMAPCommandSEARCH::ExecuteCommand(shared_ptr<IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandSEARCH::ExecuteCommand(boost::shared_ptr<IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       if (m_bIsSort && !Configuration::Instance()->GetIMAPConfiguration()->GetUseIMAPSort())
          return IMAPResult(IMAPResult::ResultNo, "IMAP SORT is not enabled.");
@@ -69,7 +69,7 @@ namespace HM
          pArgument->Command(sCommand);
       }
 
-      shared_ptr<IMAPSearchParser> pParser = shared_ptr<IMAPSearchParser>(new IMAPSearchParser());
+      boost::shared_ptr<IMAPSearchParser> pParser = boost::shared_ptr<IMAPSearchParser>(new IMAPSearchParser());
       IMAPResult result = pParser->ParseCommand(pArgument, m_bIsSort);
       if (result.GetResult() != IMAPResult::ResultOK)
          return result;
@@ -78,21 +78,21 @@ namespace HM
          return IMAPResult(IMAPResult::ResultBad, "Incorrect search commands.");
 
       // Mails in current box
-      shared_ptr<IMAPFolder> pCurFolder =  pConnection->GetCurrentFolder();
+      boost::shared_ptr<IMAPFolder> pCurFolder =  pConnection->GetCurrentFolder();
 
       if (!pCurFolder)
          return IMAPResult(IMAPResult::ResultBad, "No selected folder");
 
-      vector<shared_ptr<Message>> messages = pCurFolder->GetMessages()->GetCopy();
+      vector<boost::shared_ptr<Message>> messages = pCurFolder->GetMessages()->GetCopy();
 
       std::vector<String> sMatchingVec;
       if (messages.size() > 0)
       {
          // Iterate through the messages and see which ones match.
-         vector<pair<int, shared_ptr<Message> > > vecMatchingMessages;
+         vector<pair<int, boost::shared_ptr<Message> > > vecMatchingMessages;
 
          int index = 0;
-         boost_foreach(shared_ptr<Message> pMessage, messages)
+         boost_foreach(boost::shared_ptr<Message> pMessage, messages)
          {
             const String fileName = PersistentMessage::GetFileName(pConnection->GetAccount(), pMessage);
 
@@ -111,11 +111,11 @@ namespace HM
             // Sort the message vector
          }
 
-         typedef pair<int, shared_ptr<Message> > MessagePair;
+         typedef pair<int, boost::shared_ptr<Message> > MessagePair;
          boost_foreach(MessagePair messagePair, vecMatchingMessages)
          {
             int index = messagePair.first;
-            shared_ptr<Message> pMessage = messagePair.second;
+            boost::shared_ptr<Message> pMessage = messagePair.second;
 
             String sID;
             if (m_bIsUID)
@@ -153,7 +153,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_DoesMessageMatch(shared_ptr<IMAPSearchCriteria> pParentCriteria, const String &fileName, shared_ptr<Message> pMessage, int index)
+   IMAPCommandSEARCH::_DoesMessageMatch(boost::shared_ptr<IMAPSearchCriteria> pParentCriteria, const String &fileName, boost::shared_ptr<Message> pMessage, int index)
    {
       m_pMessageData.reset();
       m_pMimeHeader.reset();
@@ -161,15 +161,15 @@ namespace HM
       bool bIsOrCriteria = pParentCriteria->GetIsOR();
 
       // Loop over the criterias in the command.
-      vector<shared_ptr<IMAPSearchCriteria> > &vecCriterias = pParentCriteria->GetSubCriterias();
-      vector<shared_ptr<IMAPSearchCriteria> >::iterator iterCriteria = vecCriterias.begin();
+      vector<boost::shared_ptr<IMAPSearchCriteria> > &vecCriterias = pParentCriteria->GetSubCriterias();
+      vector<boost::shared_ptr<IMAPSearchCriteria> >::iterator iterCriteria = vecCriterias.begin();
 
       bool bMessageIsMatchingCriteria = true;
       while (iterCriteria != vecCriterias.end())
       {
          bMessageIsMatchingCriteria = true;
 
-         shared_ptr<IMAPSearchCriteria> pCriteria = (*iterCriteria);
+         boost::shared_ptr<IMAPSearchCriteria> pCriteria = (*iterCriteria);
 
          if (pCriteria->GetType() == IMAPSearchCriteria::CTSubCriteria)
          {
@@ -437,11 +437,11 @@ namespace HM
     }
 
    bool
-   IMAPCommandSEARCH::_MatchesBODYCriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesBODYCriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    {
       if (!m_pMessageData)
       {
-         m_pMessageData = shared_ptr<MessageData>(new MessageData());
+         m_pMessageData = boost::shared_ptr<MessageData>(new MessageData());
          m_pMessageData->LoadFromMessage(fileName, pMessage);
       }
 
@@ -458,7 +458,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesONCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesONCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    {
       String sCreationDate = pMessage->GetCreateTime();
 
@@ -480,7 +480,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesSENTONCriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesSENTONCriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    {
       String sDateHeader = _GetHeaderValue(fileName, pMessage, "Date");
       sDateHeader = Time::GetIMAPDateFromMimeHeader(sDateHeader);
@@ -492,7 +492,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesSENTBEFORECriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesSENTBEFORECriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    {
       String sDateHeader = _GetHeaderValue(fileName, pMessage, "Date");
 
@@ -506,7 +506,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesSENTSINCECriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesSENTSINCECriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    {
       String sDateHeader = _GetHeaderValue(fileName, pMessage, "Date");
 
@@ -520,7 +520,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesSINCECriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesSINCECriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Messages whose internal date is within or later
@@ -537,7 +537,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesBEFORECriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesBEFORECriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Messages whose internal date is before the specified date
@@ -553,7 +553,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesLARGERCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesLARGERCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Messages whose size is larger than the size specified in critera.
@@ -569,7 +569,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesSMALLERCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesSMALLERCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Messages whose size is smaller than the size specified in critera.
@@ -585,11 +585,11 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesTEXTCriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesTEXTCriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    {
       if (!m_pMessageData)
       {
-         m_pMessageData = shared_ptr<MessageData>(new MessageData());
+         m_pMessageData = boost::shared_ptr<MessageData>(new MessageData());
          m_pMessageData->LoadFromMessage(fileName, pMessage);
       }
 
@@ -617,7 +617,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesUIDCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesUIDCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    {
       vector<String> split = pCriteria->GetSequenceSet();
 
@@ -630,7 +630,7 @@ namespace HM
    }
 
    bool
-   IMAPCommandSEARCH::_MatchesSequenceSetCriteria(shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria, int index)
+   IMAPCommandSEARCH::_MatchesSequenceSetCriteria(boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria, int index)
    {
       vector<String> split = pCriteria->GetSequenceSet();
 
@@ -644,7 +644,7 @@ namespace HM
 
 
    bool
-   IMAPCommandSEARCH::_MatchesHeaderCriteria(const String &fileName, shared_ptr<Message> pMessage, shared_ptr<IMAPSearchCriteria> pCriteria)
+   IMAPCommandSEARCH::_MatchesHeaderCriteria(const String &fileName, boost::shared_ptr<Message> pMessage, boost::shared_ptr<IMAPSearchCriteria> pCriteria)
    {
       String sHeaderField = pCriteria->GetHeaderField();
       String sTextToFind = pCriteria->GetText();
@@ -658,11 +658,11 @@ namespace HM
    }
 
    String
-   IMAPCommandSEARCH::_GetHeaderValue(const String &fileName, shared_ptr<Message> pMessage, const String &sHeaderField)
+   IMAPCommandSEARCH::_GetHeaderValue(const String &fileName, boost::shared_ptr<Message> pMessage, const String &sHeaderField)
    {
       if (m_pMessageData)
       {
-         m_pMessageData = shared_ptr<MessageData>(new MessageData());
+         m_pMessageData = boost::shared_ptr<MessageData>(new MessageData());
          m_pMessageData->LoadFromMessage(fileName, pMessage);
 
          return m_pMessageData->GetFieldValue(sHeaderField);
@@ -673,7 +673,7 @@ namespace HM
          // Load header
          AnsiString sHeader = PersistentMessage::LoadHeader(fileName);
 
-         m_pMimeHeader = shared_ptr<MimeHeader>(new MimeHeader);
+         m_pMimeHeader = boost::shared_ptr<MimeHeader>(new MimeHeader);
          m_pMimeHeader->Load(sHeader, sHeader.GetLength(), true);
       }
 

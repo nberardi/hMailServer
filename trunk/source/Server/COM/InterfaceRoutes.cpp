@@ -49,7 +49,7 @@ STDMETHODIMP InterfaceRoutes::get_Item(long Index, IInterfaceRoute **pVal)
       CComObject<InterfaceRoute>* pInterfaceRoute = new CComObject<InterfaceRoute>();
       pInterfaceRoute->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Route> pRoute = m_pRoutes->GetItem(Index);
+      boost::shared_ptr<HM::Route> pRoute = m_pRoutes->GetItem(Index);
    
       if (!pRoute)
          return S_FALSE;
@@ -105,7 +105,7 @@ STDMETHODIMP InterfaceRoutes::Add(IInterfaceRoute **pVal)
       CComObject<InterfaceRoute>* pRouteInterface = new CComObject<InterfaceRoute>();
       pRouteInterface->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Route> pRoute = shared_ptr<HM::Route>(new HM::Route);
+      boost::shared_ptr<HM::Route> pRoute = boost::shared_ptr<HM::Route>(new HM::Route);
    
       pRouteInterface->AttachItem(pRoute);
       pRouteInterface->AttachParent(m_pRoutes, false);
@@ -133,7 +133,7 @@ InterfaceRoutes::get_ItemByName(BSTR ItemName, IInterfaceRoute **pVal)
       CComObject<InterfaceRoute>* pRouteInterface = new CComObject<InterfaceRoute>();
       pRouteInterface->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Route> pRoute = m_pRoutes->GetItemByName(ItemName);
+      boost::shared_ptr<HM::Route> pRoute = m_pRoutes->GetItemByName(ItemName);
       if (!pRoute)
          return S_FALSE;
    
@@ -162,7 +162,7 @@ InterfaceRoutes::get_ItemByDBID(long lDBID, IInterfaceRoute **pVal)
       CComObject<InterfaceRoute>* pRouteInterface = new CComObject<InterfaceRoute>();
       pRouteInterface->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Route> pRoute = m_pRoutes->GetItemByDBID(lDBID);
+      boost::shared_ptr<HM::Route> pRoute = m_pRoutes->GetItemByDBID(lDBID);
       if (!pRoute)
          return S_FALSE;
    

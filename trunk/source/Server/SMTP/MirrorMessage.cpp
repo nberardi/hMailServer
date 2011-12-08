@@ -28,7 +28,7 @@
 
 namespace HM
 { 
-   MirrorMessage::MirrorMessage(shared_ptr<Message> message) :
+   MirrorMessage::MirrorMessage(boost::shared_ptr<Message> message) :
       _message(message)
    {
    }
@@ -56,19 +56,19 @@ namespace HM
 
       // Is the mirror address a local domain?
       String sDomain = StringParser::ExtractDomain(sMirrorAddress);
-      shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(sDomain);      
+      boost::shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(sDomain);      
 
       if (pDomain)
       {
          // The domain is local. See if the account exist.
-         shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(sMirrorAddress);
+         boost::shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(sMirrorAddress);
 
          if (!pDomain->GetIsActive() || !pAccount || !pAccount->GetActive())
          {
             // check if a route exists with the same name and account.
             bool found = false;
-            vector<shared_ptr<Route> > vecRoutes = Configuration::Instance()->GetSMTPConfiguration()->GetRoutes()->GetItemsByName(sDomain);
-            boost_foreach(shared_ptr<Route> route, vecRoutes)
+            vector<boost::shared_ptr<Route> > vecRoutes = Configuration::Instance()->GetSMTPConfiguration()->GetRoutes()->GetItemsByName(sDomain);
+            boost_foreach(boost::shared_ptr<Route> route, vecRoutes)
             {
                if (route->ToAllAddresses() || route->GetAddresses()->GetItemByName(sMirrorAddress))
                {
@@ -90,10 +90,10 @@ namespace HM
       String deliveredToAddresses;
 
       // If the mirror address is on the recipient list, don't mirror it.
-      vector<shared_ptr<MessageRecipient> > &vecRecipients = _message->GetRecipients()->GetVector();
-      vector<shared_ptr<MessageRecipient> >::iterator iterRecipient = vecRecipients.begin();
+      vector<boost::shared_ptr<MessageRecipient> > &vecRecipients = _message->GetRecipients()->GetVector();
+      vector<boost::shared_ptr<MessageRecipient> >::iterator iterRecipient = vecRecipients.begin();
       
-      boost_foreach(shared_ptr<MessageRecipient> recipipent, _message->GetRecipients()->GetVector())
+      boost_foreach(boost::shared_ptr<MessageRecipient> recipipent, _message->GetRecipients()->GetVector())
       {
          if (recipipent->GetAddress().CompareNoCase(sMirrorAddress) == 0)
          {
@@ -107,8 +107,8 @@ namespace HM
          deliveredToAddresses += recipipent->GetOriginalAddress();
       }
 
-      shared_ptr<Account> emptyAccount;
-      shared_ptr<Message> pMsg = PersistentMessage::CopyToQueue(emptyAccount, _message);
+      boost::shared_ptr<Account> emptyAccount;
+      boost::shared_ptr<Message> pMsg = PersistentMessage::CopyToQueue(emptyAccount, _message);
 
       pMsg->SetState(Message::Delivering);
 
@@ -121,7 +121,7 @@ namespace HM
       // than the mirror address. The problem is that the Delivered-To address is limited to
       // 256 characters due to database limitations.
       deliveredToAddresses = deliveredToAddresses.Mid(0, 255);
-      boost_foreach(shared_ptr<MessageRecipient> recipipent, pMsg->GetRecipients()->GetVector())
+      boost_foreach(boost::shared_ptr<MessageRecipient> recipipent, pMsg->GetRecipients()->GetVector())
       {
          recipipent->SetOriginalAddress(deliveredToAddresses);
       }

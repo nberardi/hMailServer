@@ -25,7 +25,7 @@ namespace HM
    }
 
    bool 
-   TraceHeaderWriter::Write(const String &messageFileName, shared_ptr<Message> message, const vector<pair<AnsiString, AnsiString> > &headerFields)
+   TraceHeaderWriter::Write(const String &messageFileName, boost::shared_ptr<Message> message, const vector<pair<AnsiString, AnsiString> > &headerFields)
    {
       if (headerFields.size() == 0)
          return true;

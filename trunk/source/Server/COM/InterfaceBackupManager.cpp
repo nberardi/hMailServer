@@ -51,7 +51,7 @@ InterfaceBackupManager::LoadBackup(BSTR sXMLFile, IInterfaceBackup **pVal)
       CComObject<InterfaceBackup>* pBackupInt = new CComObject<InterfaceBackup>();
       pBackupInt->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Backup> pBackup = m_pBackupManager->LoadBackup(sXMLFile);
+      boost::shared_ptr<HM::Backup> pBackup = m_pBackupManager->LoadBackup(sXMLFile);
    
       if (!pBackup)
          return DISP_E_BADINDEX;

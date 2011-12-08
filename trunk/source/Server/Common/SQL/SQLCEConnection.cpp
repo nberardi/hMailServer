@@ -21,7 +21,7 @@ using namespace std;
 
 namespace HM
 {
-   SQLCEConnection::SQLCEConnection(shared_ptr<DatabaseSettings> pSettings) :
+   SQLCEConnection::SQLCEConnection(boost::shared_ptr<DatabaseSettings> pSettings) :
       DALConnection(pSettings)
    {
       HRESULT hr =cSQLCEConnection.CreateInstance(__uuidof(Connection));
@@ -518,17 +518,17 @@ namespace HM
       return true;
    }
 
-   shared_ptr<DALRecordset> 
+   boost::shared_ptr<DALRecordset> 
    SQLCEConnection::CreateRecordset()
    {
-      shared_ptr<SQLCERecordset> recordset = shared_ptr<SQLCERecordset>(new SQLCERecordset());
+      boost::shared_ptr<SQLCERecordset> recordset = boost::shared_ptr<SQLCERecordset>(new SQLCERecordset());
       return recordset;
    }
 
-   shared_ptr<IMacroExpander> 
+   boost::shared_ptr<IMacroExpander> 
    SQLCEConnection::CreateMacroExpander()
    {
-      shared_ptr<SQLCEMacroExpander> expander = shared_ptr<SQLCEMacroExpander>(new SQLCEMacroExpander());
+      boost::shared_ptr<SQLCEMacroExpander> expander = boost::shared_ptr<SQLCEMacroExpander>(new SQLCEMacroExpander());
       return expander;
    }
 

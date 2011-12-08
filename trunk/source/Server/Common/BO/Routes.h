@@ -21,7 +21,7 @@ namespace HM
       // Refreshes this collection from the database.
       void Refresh();
 
-      vector<shared_ptr<Route> > GetItemsByName(const String &sRouteName);
+      vector<boost::shared_ptr<Route> > GetItemsByName(const String &sRouteName);
 
    protected:
 

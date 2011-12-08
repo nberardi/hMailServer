@@ -13,10 +13,10 @@ namespace HM
       PersistentSSLCertificate(void);
       ~PersistentSSLCertificate(void);
       
-      static bool DeleteObject(shared_ptr<SSLCertificate> pObject);
-      static bool SaveObject(shared_ptr<SSLCertificate> pObject);
-      static bool SaveObject(shared_ptr<SSLCertificate> pObject, String &errorMessage);
-      static bool ReadObject(shared_ptr<SSLCertificate> pObject, shared_ptr<DALRecordset> pRS);
+      static bool DeleteObject(boost::shared_ptr<SSLCertificate> pObject);
+      static bool SaveObject(boost::shared_ptr<SSLCertificate> pObject);
+      static bool SaveObject(boost::shared_ptr<SSLCertificate> pObject, String &errorMessage);
+      static bool ReadObject(boost::shared_ptr<SSLCertificate> pObject, boost::shared_ptr<DALRecordset> pRS);
 
    };
 }

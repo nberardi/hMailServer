@@ -20,12 +20,12 @@
 namespace HM
 {
    IMAPResult
-   IMAPCommandEXAMINE::ExecuteCommand(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandEXAMINE::ExecuteCommand(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       if (!pConnection->IsAuthenticated())
          return IMAPResult(IMAPResult::ResultNo, "Authenticate first");
 
-      shared_ptr<IMAPSimpleCommandParser> pParser = shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
+      boost::shared_ptr<IMAPSimpleCommandParser> pParser = boost::shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
 
       pParser->Parse(pArgument);
 
@@ -34,7 +34,7 @@ namespace HM
 
       // Fetch the folder
       String sFolderName = pParser->GetParamValue(pArgument, 0);
-      shared_ptr<IMAPFolder> pSelectedFolder = pConnection->GetFolderByFullPath(sFolderName);
+      boost::shared_ptr<IMAPFolder> pSelectedFolder = pConnection->GetFolderByFullPath(sFolderName);
       
       if (!pSelectedFolder)
          return IMAPResult(IMAPResult::ResultBad, "Folder could not be found.");
@@ -43,7 +43,7 @@ namespace HM
          return IMAPResult(IMAPResult::ResultBad, "ACL: Read permission denied (Required for EXAMINE command).");
 
       pConnection->SetCurrentFolder(pSelectedFolder, true);
-      shared_ptr<Messages> pMessages = pSelectedFolder->GetMessages();
+      boost::shared_ptr<Messages> pMessages = pSelectedFolder->GetMessages();
 
       long lCount = pMessages->GetCount();
       __int64 lFirstUnseenID = pMessages->GetFirstUnseenUID();

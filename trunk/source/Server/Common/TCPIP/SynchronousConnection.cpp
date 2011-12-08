@@ -77,7 +77,7 @@ namespace HM
    {
       try
       {
-         optional<error_code> timer_result; 
+         optional<boost::system::error_code> timer_result; 
 
          // Create the timeout timer.
          boost::asio::deadline_timer timer(m_ioservice); 
@@ -86,7 +86,7 @@ namespace HM
 
          // Start an asynchronous write.
          boost::asio::streambuf readBuffer;
-         optional<error_code> write_result; 
+         optional<boost::system::error_code> write_result; 
          async_write(m_socket, boost::asio::buffer(buf, bufSize), boost::bind(set_result, &write_result, _1)); 
          m_ioservice.reset(); 
 
@@ -116,7 +116,7 @@ namespace HM
 
       try
       {
-         optional<error_code> timer_result; 
+         optional<boost::system::error_code> timer_result; 
          
          // Create the timeout timer.
          boost::asio::deadline_timer timer(m_ioservice); 
@@ -125,7 +125,7 @@ namespace HM
 
          // Start an asynchronous read.
          boost::asio::streambuf readBuffer;
-         optional<error_code> read_result; 
+         optional<boost::system::error_code> read_result; 
          async_read_until(m_socket, readBuffer, delimiter, boost::bind(set_result, &read_result, _1)); 
          m_ioservice.reset(); 
 

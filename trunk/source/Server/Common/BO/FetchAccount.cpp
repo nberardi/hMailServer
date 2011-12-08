@@ -39,12 +39,12 @@ namespace HM
 
    }
 
-   shared_ptr<FetchAccountUIDs>
+   boost::shared_ptr<FetchAccountUIDs>
    FetchAccount::GetUIDs()
    {
       if (!m_pUIDs)
       {
-         m_pUIDs = shared_ptr<FetchAccountUIDs> (new FetchAccountUIDs);
+         m_pUIDs = boost::shared_ptr<FetchAccountUIDs> (new FetchAccountUIDs);
          m_pUIDs->Refresh(m_iID);
       }
 

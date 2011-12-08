@@ -36,28 +36,28 @@ namespace HM
    void 
    SpamTestRunner::LoadSpamTests()
    {
-      m_setSpamTests.push_back(shared_ptr<SpamTestDNSBlackLists> (new SpamTestDNSBlackLists));
-      m_setSpamTests.push_back(shared_ptr<SpamTestHeloHost> (new SpamTestHeloHost));
-      m_setSpamTests.push_back(shared_ptr<SpamTestMXRecords> (new SpamTestMXRecords));
-      m_setSpamTests.push_back(shared_ptr<SpamTestSPF> (new SpamTestSPF));
-      m_setSpamTests.push_back(shared_ptr<SpamTestSURBL> (new SpamTestSURBL));
-      m_setSpamTests.push_back(shared_ptr<SpamTestDKIM> (new SpamTestDKIM));
-      m_setSpamTests.push_back(shared_ptr<SpamTestSpamAssassin> (new SpamTestSpamAssassin));
+      m_setSpamTests.push_back(boost::shared_ptr<SpamTestDNSBlackLists> (new SpamTestDNSBlackLists));
+      m_setSpamTests.push_back(boost::shared_ptr<SpamTestHeloHost> (new SpamTestHeloHost));
+      m_setSpamTests.push_back(boost::shared_ptr<SpamTestMXRecords> (new SpamTestMXRecords));
+      m_setSpamTests.push_back(boost::shared_ptr<SpamTestSPF> (new SpamTestSPF));
+      m_setSpamTests.push_back(boost::shared_ptr<SpamTestSURBL> (new SpamTestSURBL));
+      m_setSpamTests.push_back(boost::shared_ptr<SpamTestDKIM> (new SpamTestDKIM));
+      m_setSpamTests.push_back(boost::shared_ptr<SpamTestSpamAssassin> (new SpamTestSpamAssassin));
    }
 
-   set<shared_ptr<SpamTestResult> >
-   SpamTestRunner::RunSpamTest(shared_ptr<SpamTestData> pInputData, SpamTest::SpamTestType iType, int iMaxScore)
+   set<boost::shared_ptr<SpamTestResult> >
+   SpamTestRunner::RunSpamTest(boost::shared_ptr<SpamTestData> pInputData, SpamTest::SpamTestType iType, int iMaxScore)
    {
-      std::vector<shared_ptr<SpamTest> >::iterator iter = m_setSpamTests.begin(); 
-      std::vector<shared_ptr<SpamTest> >::iterator iterEnd = m_setSpamTests.end();
+      std::vector<boost::shared_ptr<SpamTest> >::iterator iter = m_setSpamTests.begin(); 
+      std::vector<boost::shared_ptr<SpamTest> >::iterator iterEnd = m_setSpamTests.end();
 
-      set<shared_ptr<SpamTestResult> > setTotalResult;
+      set<boost::shared_ptr<SpamTestResult> > setTotalResult;
 
       int iTotalScore = 0;
 
       for (; iter != iterEnd; iter++)
       {
-         shared_ptr<SpamTest> pSpamTest = (*iter);
+         boost::shared_ptr<SpamTest> pSpamTest = (*iter);
 
          if (!pSpamTest->GetIsEnabled())
             continue;
@@ -69,15 +69,15 @@ namespace HM
          
          String sName = pSpamTest->GetName();
 
-         set<shared_ptr<SpamTestResult> > setResult = pSpamTest->RunTest(pInputData);
+         set<boost::shared_ptr<SpamTestResult> > setResult = pSpamTest->RunTest(pInputData);
 
-         set<shared_ptr<SpamTestResult> >::iterator iter = setResult.begin();
-         set<shared_ptr<SpamTestResult> >::iterator iterEnd = setResult.end();
+         set<boost::shared_ptr<SpamTestResult> >::iterator iter = setResult.begin();
+         set<boost::shared_ptr<SpamTestResult> >::iterator iterEnd = setResult.end();
 
          int totalScoreBefore = iTotalScore;
          for (; iter != iterEnd; iter++)
          {
-            shared_ptr<SpamTestResult> pResult = (*iter);
+            boost::shared_ptr<SpamTestResult> pResult = (*iter);
             setTotalResult.insert(pResult);
 
             iTotalScore += pResult->GetSpamScore();

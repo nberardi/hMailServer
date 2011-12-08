@@ -23,7 +23,7 @@
 namespace HM
 {
    IMAPResult
-   IMAPCommandMyRights::ExecuteCommand(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandMyRights::ExecuteCommand(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       if (!pConnection->IsAuthenticated())
          return IMAPResult(IMAPResult::ResultNo, "Authenticate first");
@@ -31,7 +31,7 @@ namespace HM
       if (!Configuration::Instance()->GetIMAPConfiguration()->GetUseIMAPACL())
          return IMAPResult(IMAPResult::ResultBad, "ACL is not enabled.");
 
-      shared_ptr<IMAPSimpleCommandParser> pParser = shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
+      boost::shared_ptr<IMAPSimpleCommandParser> pParser = boost::shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
       pParser->Parse(pArgument);
 
       if (pParser->WordCount() < 2)
@@ -53,12 +53,12 @@ namespace HM
          IMAPFolder::UnescapeFolderString(sFolderName);
       }
       
-      shared_ptr<IMAPFolder> pSelectedFolder = pConnection->GetFolderByFullPath(sFolderName);
+      boost::shared_ptr<IMAPFolder> pSelectedFolder = pConnection->GetFolderByFullPath(sFolderName);
       if (!pSelectedFolder)
          return IMAPResult(IMAPResult::ResultBad, "Folder could not be found.");
 
 	  ACLManager aclManager;
-      shared_ptr<ACLPermission> pPermission = aclManager.GetPermissionForFolder(pConnection->GetAccount()->GetID(), pSelectedFolder);
+      boost::shared_ptr<ACLPermission> pPermission = aclManager.GetPermissionForFolder(pConnection->GetAccount()->GetID(), pSelectedFolder);
       String sRightsString;
       if (pPermission)
          sRightsString = pPermission->GetRights();

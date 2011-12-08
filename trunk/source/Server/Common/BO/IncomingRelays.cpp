@@ -44,7 +44,7 @@ namespace HM
          return false;
       }
 
-      boost_foreach(shared_ptr<IncomingRelay> relay, vecObjects)
+      boost_foreach(boost::shared_ptr<IncomingRelay> relay, vecObjects)
       {
          if (relay->IPIsWithinRange(address))
          {

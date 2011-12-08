@@ -10,7 +10,7 @@ namespace HM
    class Attachment  
    {
    public:
-	   Attachment(shared_ptr<MimeBody> pMessage, shared_ptr<MimeBody> pAttachment);
+	   Attachment(boost::shared_ptr<MimeBody> pMessage, boost::shared_ptr<MimeBody> pAttachment);
 	   virtual ~Attachment();
 
       String GetFileName();
@@ -20,8 +20,8 @@ namespace HM
       
    private:
       
-      shared_ptr<MimeBody> m_pAttachment;
-      shared_ptr<MimeBody> m_pMessage;
+      boost::shared_ptr<MimeBody> m_pAttachment;
+      boost::shared_ptr<MimeBody> m_pMessage;
    };
 
 }

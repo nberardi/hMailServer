@@ -13,7 +13,7 @@ namespace HM
       PlusAddressing(void);
       ~PlusAddressing(void);
    
-      static String ExtractAccountAddress(const String &sAddress, shared_ptr<const Domain> pDomain);
+      static String ExtractAccountAddress(const String &sAddress, boost::shared_ptr<const Domain> pDomain);
       
    private:
    };

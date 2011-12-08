@@ -31,7 +31,7 @@ namespace HM
    }
 
    bool
-   NameChanger::RenameDomain(const String& oldDomainName, shared_ptr<Domain> pDomain, String &errorMessage)
+   NameChanger::RenameDomain(const String& oldDomainName, boost::shared_ptr<Domain> pDomain, String &errorMessage)
    {
       const String& newDomainName = pDomain->GetName();
 
@@ -39,13 +39,13 @@ namespace HM
          return false;
 
       // Update accounts...
-      std::vector<shared_ptr<Account> > vecAccounts = pDomain->GetAccounts()->GetVector();
-      std::vector<shared_ptr<Account> >::iterator iterAccount = vecAccounts.begin();
-      std::vector<shared_ptr<Account> >::iterator iterAccountEnd = vecAccounts.end();
+      std::vector<boost::shared_ptr<Account> > vecAccounts = pDomain->GetAccounts()->GetVector();
+      std::vector<boost::shared_ptr<Account> >::iterator iterAccount = vecAccounts.begin();
+      std::vector<boost::shared_ptr<Account> >::iterator iterAccountEnd = vecAccounts.end();
 
       for (; iterAccount != iterAccountEnd; iterAccount++)
       {
-         shared_ptr<Account> pAccount = (*iterAccount);
+         boost::shared_ptr<Account> pAccount = (*iterAccount);
 
          String sAddress = pAccount->GetAddress();
          _UpdateDomainName(sAddress, oldDomainName, newDomainName);
@@ -59,13 +59,13 @@ namespace HM
       }
 
       // Update aliases...
-      std::vector<shared_ptr<Alias> > vecAliases = pDomain->GetAliases()->GetVector();
-      std::vector<shared_ptr<Alias> >::iterator iterAlias = vecAliases.begin();
-      std::vector<shared_ptr<Alias> >::iterator iterAliasEnd = vecAliases.end();
+      std::vector<boost::shared_ptr<Alias> > vecAliases = pDomain->GetAliases()->GetVector();
+      std::vector<boost::shared_ptr<Alias> >::iterator iterAlias = vecAliases.begin();
+      std::vector<boost::shared_ptr<Alias> >::iterator iterAliasEnd = vecAliases.end();
 
       for (; iterAlias != iterAliasEnd; iterAlias++)
       {
-         shared_ptr<Alias> pAlias = (*iterAlias);
+         boost::shared_ptr<Alias> pAlias = (*iterAlias);
 
          String sAddress = pAlias->GetName();
          _UpdateDomainName(sAddress, oldDomainName, newDomainName);
@@ -80,20 +80,20 @@ namespace HM
       }
 
       // Update lists...
-      std::vector<shared_ptr<DistributionList> > vecLists = pDomain->GetDistributionLists()->GetVector();
-      std::vector<shared_ptr<DistributionList> >::iterator iterList = vecLists.begin();
-      std::vector<shared_ptr<DistributionList> >::iterator iterListEnd = vecLists.end();
+      std::vector<boost::shared_ptr<DistributionList> > vecLists = pDomain->GetDistributionLists()->GetVector();
+      std::vector<boost::shared_ptr<DistributionList> >::iterator iterList = vecLists.begin();
+      std::vector<boost::shared_ptr<DistributionList> >::iterator iterListEnd = vecLists.end();
 
       for (; iterList != iterListEnd; iterList++)
       {
-         shared_ptr<DistributionList> pList = (*iterList);
+         boost::shared_ptr<DistributionList> pList = (*iterList);
 
          String sAddress = pList->GetAddress();
          _UpdateDomainName(sAddress, oldDomainName,newDomainName);
          pList->SetAddress(sAddress);
 
-         vector<shared_ptr<HM::DistributionListRecipient>> recipients = pList->GetMembers()->GetVector();
-         boost_foreach(shared_ptr<DistributionListRecipient> recipient, recipients)
+         vector<boost::shared_ptr<HM::DistributionListRecipient>> recipients = pList->GetMembers()->GetVector();
+         boost_foreach(boost::shared_ptr<DistributionListRecipient> recipient, recipients)
          {
             String address = recipient->GetAddress();
             if (_UpdateDomainName(address,oldDomainName, newDomainName))
@@ -133,7 +133,7 @@ namespace HM
    }
 
    bool
-   NameChanger::RenameAccount(const String& oldAccountName, shared_ptr<Account> pAccount, String &errorMessage)
+   NameChanger::RenameAccount(const String& oldAccountName, boost::shared_ptr<Account> pAccount, String &errorMessage)
    {
       String dataDirectory = IniFileSettings::Instance()->GetDataDirectory();
       String domainName = StringParser::ExtractDomain(oldAccountName);

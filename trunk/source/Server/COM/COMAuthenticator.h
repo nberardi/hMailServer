@@ -12,12 +12,12 @@ namespace HM
       COMAuthenticator()
       {
          // Create a dummy object so that it always exists.
-         m_pAuthentication = shared_ptr<HM::COMAuthentication>(new COMAuthentication);
+         m_pAuthentication = boost::shared_ptr<HM::COMAuthentication>(new COMAuthentication);
 
          m_pAuthentication->AttempAnonymousAuthentication();
       }
       
-      void SetAuthentication(shared_ptr<HM::COMAuthentication> pAuthentication)
+      void SetAuthentication(boost::shared_ptr<HM::COMAuthentication> pAuthentication)
       {
          m_pAuthentication = pAuthentication; 
       }
@@ -43,7 +43,7 @@ namespace HM
          return m_pAuthentication->GetAccessDenied();
       }
 
-      shared_ptr<COMAuthentication> m_pAuthentication;
+      boost::shared_ptr<COMAuthentication> m_pAuthentication;
 
    private:
 

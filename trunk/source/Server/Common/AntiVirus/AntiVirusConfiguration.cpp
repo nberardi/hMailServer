@@ -21,7 +21,7 @@ namespace HM
    
    }
 
-   shared_ptr<PropertySet> 
+   boost::shared_ptr<PropertySet> 
    AntiVirusConfiguration::_GetSettings() const
    {
       return Configuration::Instance()->GetSettings();

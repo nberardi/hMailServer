@@ -132,7 +132,7 @@ InterfaceGroupMember::get_Account(IInterfaceAccount **pVal)
       CComObject<InterfaceAccount>* pInterfaceAccount = new CComObject<InterfaceAccount>();
       pInterfaceAccount->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Account> pAccount = shared_ptr<HM::Account>(new HM::Account);
+      boost::shared_ptr<HM::Account> pAccount = boost::shared_ptr<HM::Account>(new HM::Account);
          
       if (!HM::PersistentAccount::ReadObject(pAccount, (__int64) m_pObject->GetAccountID()))
          return DISP_E_BADINDEX;

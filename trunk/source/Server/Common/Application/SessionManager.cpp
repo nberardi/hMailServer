@@ -54,10 +54,10 @@ namespace HM
       }
    }
 
-   shared_ptr<ProtocolParser>
-   SessionManager::CreateConnection(SessionType t, shared_ptr<SecurityRange> securityRange)
+   boost::shared_ptr<ProtocolParser>
+   SessionManager::CreateConnection(SessionType t, boost::shared_ptr<SecurityRange> securityRange)
    {
-      shared_ptr<ProtocolParser> pParser;
+      boost::shared_ptr<ProtocolParser> pParser;
 
       // Check max per protocol
       int iMaxConnections = 0;
@@ -113,19 +113,19 @@ namespace HM
       case STSMTP:
          {
             InterlockedIncrement(&m_iNoOfSMTPConnections);
-            pParser = shared_ptr<SMTPConnection>(new SMTPConnection());
+            pParser = boost::shared_ptr<SMTPConnection>(new SMTPConnection());
             break;
          }
       case STPOP3:
          {
             InterlockedIncrement(&m_iNoOfPOP3Connections);
-            pParser = shared_ptr<POP3Connection>(new POP3Connection());
+            pParser = boost::shared_ptr<POP3Connection>(new POP3Connection());
             break;
          }
       case STIMAP:
          {
             InterlockedIncrement(&m_iNoOfIMAPConnections);
-            pParser = shared_ptr<IMAPConnection>(new IMAPConnection());
+            pParser = boost::shared_ptr<IMAPConnection>(new IMAPConnection());
             break;
          }
       }

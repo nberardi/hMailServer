@@ -48,12 +48,12 @@ public:
    STDMETHOD(get_Count)(/*[out, retval]*/ long *pVal);
    STDMETHOD(Add)(IInterfaceMessage **pVal);
 
-   void Attach(shared_ptr<HM::Messages> pMessages);
+   void Attach(boost::shared_ptr<HM::Messages> pMessages);
    STDMETHOD(Clear)();
 
 private:
 
-   shared_ptr<HM::Messages> m_pMessages;
+   boost::shared_ptr<HM::Messages> m_pMessages;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Messages), InterfaceMessages)

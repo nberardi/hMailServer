@@ -12,13 +12,13 @@ namespace HM
 
    class IMAPCommandRENAME : public IMAPCommand
    {
-      virtual IMAPResult ExecuteCommand(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument);
+      virtual IMAPResult ExecuteCommand(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument);
 
    private:
       
-      IMAPResult ConfirmPossibleToRename(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPFolder> pFolderToRename, const std::vector<String> &vecOldPath, const std::vector<String> &vecNewPath);
+      IMAPResult ConfirmPossibleToRename(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPFolder> pFolderToRename, const std::vector<String> &vecOldPath, const std::vector<String> &vecNewPath);
 
-      shared_ptr<IMAPFolder> GetParentFolder(shared_ptr<HM::IMAPConnection> pConnection, const std::vector<String> &vecFolderPath);
+      boost::shared_ptr<IMAPFolder> GetParentFolder(boost::shared_ptr<HM::IMAPConnection> pConnection, const std::vector<String> &vecFolderPath);
    };
 
 }

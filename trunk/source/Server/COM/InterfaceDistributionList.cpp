@@ -287,7 +287,7 @@ STDMETHODIMP InterfaceDistributionList::get_Recipients(IInterfaceDistributionLis
       pItem->SetAuthentication(m_pAuthentication);
    
       pItem->SetListID(m_pObject->GetID());
-      shared_ptr<HM::DistributionListRecipients> pRecipients = m_pObject->GetMembers();
+      boost::shared_ptr<HM::DistributionListRecipients> pRecipients = m_pObject->GetMembers();
    
       if (pRecipients)
       {

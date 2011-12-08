@@ -31,7 +31,7 @@ namespace HM
    }
 
    bool
-   PersistentDistributionList::DeleteObject(shared_ptr<DistributionList> pDistList)
+   PersistentDistributionList::DeleteObject(boost::shared_ptr<DistributionList> pDistList)
    {
       if (pDistList->GetID() == 0)
       {
@@ -52,7 +52,7 @@ namespace HM
    }
 
    bool
-   PersistentDistributionList::ReadObject(shared_ptr<DistributionList> pDistList, const String &sAddress)
+   PersistentDistributionList::ReadObject(boost::shared_ptr<DistributionList> pDistList, const String &sAddress)
    {
       SQLStatement statement;
 
@@ -64,7 +64,7 @@ namespace HM
    }  
 
    bool
-   PersistentDistributionList::ReadObject(shared_ptr<DistributionList> pDistList, __int64 iID)
+   PersistentDistributionList::ReadObject(boost::shared_ptr<DistributionList> pDistList, __int64 iID)
    {
       SQLCommand selectCommand("select * from hm_distributionlists where distributionlistid = @LISTID");
       selectCommand.AddParameter("@LISTID", iID);
@@ -73,9 +73,9 @@ namespace HM
    }
 
    bool
-   PersistentDistributionList::ReadObject(shared_ptr<DistributionList> pDistList, const SQLCommand &command)
+   PersistentDistributionList::ReadObject(boost::shared_ptr<DistributionList> pDistList, const SQLCommand &command)
    {
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return false;
 
@@ -92,7 +92,7 @@ namespace HM
 
 
    bool
-   PersistentDistributionList::ReadObject(shared_ptr<DistributionList> pDistList, shared_ptr<DALRecordset> pRS)
+   PersistentDistributionList::ReadObject(boost::shared_ptr<DistributionList> pDistList, boost::shared_ptr<DALRecordset> pRS)
    {
       pDistList->SetID(pRS->GetLongValue("distributionlistid"));
       pDistList->SetDomainID(pRS->GetLongValue("distributionlistdomainid"));
@@ -106,14 +106,14 @@ namespace HM
    }
 
    bool
-   PersistentDistributionList::SaveObject(shared_ptr<DistributionList> pDistList)
+   PersistentDistributionList::SaveObject(boost::shared_ptr<DistributionList> pDistList)
    {
       String sErrorMessage;
       return SaveObject(pDistList, sErrorMessage);
    }
 
    bool
-   PersistentDistributionList::SaveObject(shared_ptr<DistributionList> pDistList, String &sErrorMessage)
+   PersistentDistributionList::SaveObject(boost::shared_ptr<DistributionList> pDistList, String &sErrorMessage)
    {
       if (!PreSaveLimitationsCheck::CheckLimitations(pDistList, sErrorMessage))
          return false;
@@ -156,7 +156,7 @@ namespace HM
    }
    
    bool
-   PersistentDistributionList::DeleteMembers(shared_ptr<DistributionList> pDistList)
+   PersistentDistributionList::DeleteMembers(boost::shared_ptr<DistributionList> pDistList)
    {
       return PersistentDistributionListRecipient::DeleteByListID(pDistList->GetID());     
    }

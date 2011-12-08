@@ -24,7 +24,7 @@ namespace HM
    }
 
    bool
-   PersistentTCPIPPort::DeleteObject(shared_ptr<TCPIPPort> pObject)
+   PersistentTCPIPPort::DeleteObject(boost::shared_ptr<TCPIPPort> pObject)
    {
       SQLCommand command("delete from hm_tcpipports where portid = @PORTID");
       command.AddParameter("@PORTID", pObject->GetID());
@@ -33,7 +33,7 @@ namespace HM
    }
 
    bool 
-   PersistentTCPIPPort::ReadObject(shared_ptr<TCPIPPort> pObject, shared_ptr<DALRecordset> pRS)
+   PersistentTCPIPPort::ReadObject(boost::shared_ptr<TCPIPPort> pObject, boost::shared_ptr<DALRecordset> pRS)
    {
       IPAddressSQLHelper helper;
 
@@ -48,7 +48,7 @@ namespace HM
    }
 
    bool 
-   PersistentTCPIPPort::SaveObject(shared_ptr<TCPIPPort> pObject, String &errorMessage)
+   PersistentTCPIPPort::SaveObject(boost::shared_ptr<TCPIPPort> pObject, String &errorMessage)
    {
       // errorMessage - not supported yet.
 
@@ -56,7 +56,7 @@ namespace HM
    }
 
    bool 
-   PersistentTCPIPPort::SaveObject(shared_ptr<TCPIPPort> pObject)
+   PersistentTCPIPPort::SaveObject(boost::shared_ptr<TCPIPPort> pObject)
    {
       SQLStatement oStatement;
       oStatement.SetTable("hm_tcpipports");

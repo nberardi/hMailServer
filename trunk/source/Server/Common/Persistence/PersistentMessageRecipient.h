@@ -13,6 +13,6 @@ namespace HM
       PersistentMessageRecipient(void);
       ~PersistentMessageRecipient(void);
 
-      static bool DeleteObject(shared_ptr<MessageRecipient> pRecipient);
+      static bool DeleteObject(boost::shared_ptr<MessageRecipient> pRecipient);
    };
 }

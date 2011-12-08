@@ -13,10 +13,10 @@ namespace HM
       PersistentTCPIPPort(void);
       ~PersistentTCPIPPort(void);
       
-      static bool DeleteObject(shared_ptr<TCPIPPort> pObject);
-      static bool SaveObject(shared_ptr<TCPIPPort> pObject);
-      static bool SaveObject(shared_ptr<TCPIPPort> pObject, String &errorMessage);
-      static bool ReadObject(shared_ptr<TCPIPPort> pObject, shared_ptr<DALRecordset> pRS);
+      static bool DeleteObject(boost::shared_ptr<TCPIPPort> pObject);
+      static bool SaveObject(boost::shared_ptr<TCPIPPort> pObject);
+      static bool SaveObject(boost::shared_ptr<TCPIPPort> pObject, String &errorMessage);
+      static bool ReadObject(boost::shared_ptr<TCPIPPort> pObject, boost::shared_ptr<DALRecordset> pRS);
 
    };
 }

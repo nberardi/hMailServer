@@ -41,9 +41,9 @@ namespace HM
    EmailAllUsers::Start(const String &sRecipientWildcard, const String &sFromAddress, const String &sFromName, const String &sSubject, const String &sBody)
    {
       // Create the message
-      shared_ptr<Message> pMessage = shared_ptr<Message>(new Message);
+      boost::shared_ptr<Message> pMessage = boost::shared_ptr<Message>(new Message);
 
-      shared_ptr<MessageRecipients> pRecipients = pMessage->GetRecipients();
+      boost::shared_ptr<MessageRecipients> pRecipients = pMessage->GetRecipients();
 
       // First read all accounts from the database.
       Accounts oAccounts(0);
@@ -52,11 +52,11 @@ namespace HM
       Domains oDomains;
       oDomains.Refresh();
 
-      vector<shared_ptr<Account> > vecAccounts = oAccounts.GetVector();
-      vector<shared_ptr<Account> >::iterator iterAccount = vecAccounts.begin();
+      vector<boost::shared_ptr<Account> > vecAccounts = oAccounts.GetVector();
+      vector<boost::shared_ptr<Account> >::iterator iterAccount = vecAccounts.begin();
       while (iterAccount != vecAccounts.end())
       {
-         shared_ptr<Account> pAccount = (*iterAccount);
+         boost::shared_ptr<Account> pAccount = (*iterAccount);
 
          if (!StringParser::WildcardMatchNoCase(sRecipientWildcard, pAccount->GetAddress()))
          {
@@ -75,7 +75,7 @@ namespace HM
          String sDomainName = StringParser::ExtractDomain(pAccount->GetAddress());
 
          // Check that the domain is active.
-         shared_ptr<Domain> pDomain = oDomains.GetItemByName(sDomainName);
+         boost::shared_ptr<Domain> pDomain = oDomains.GetItemByName(sDomainName);
 
          if (!pDomain || !pDomain->GetIsActive())
          {
@@ -85,7 +85,7 @@ namespace HM
          }
 
          // Add the recipient
-         shared_ptr<MessageRecipient> pRecipient = shared_ptr<MessageRecipient>(new MessageRecipient);
+         boost::shared_ptr<MessageRecipient> pRecipient = boost::shared_ptr<MessageRecipient>(new MessageRecipient);
          pRecipient->SetLocalAccountID(pAccount->GetID());
          pRecipient->SetAddress(pAccount->GetAddress());
 

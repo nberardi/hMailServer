@@ -10,7 +10,7 @@ namespace HM
 	   SQLCERecordset();
 	   virtual ~SQLCERecordset();
 
-      virtual DALConnection::ExecutionResult TryOpen(shared_ptr<DALConnection> pDALConn, const SQLCommand &command, String &sErrorMessage);
+      virtual DALConnection::ExecutionResult TryOpen(boost::shared_ptr<DALConnection> pDALConn, const SQLCommand &command, String &sErrorMessage);
       
       virtual bool MoveNext();
       virtual bool IsEOF() const;

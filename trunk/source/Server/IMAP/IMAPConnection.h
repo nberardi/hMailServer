@@ -81,36 +81,36 @@ namespace HM
       };
 
       void ParseData(const AnsiString &Request);
-      void ParseData(shared_ptr<ByteBuffer> pByteBuffer);
+      void ParseData(boost::shared_ptr<ByteBuffer> pByteBuffer);
       bool SendAsciiData(const AnsiString & sData);
       
-      shared_ptr<const Account> GetAccount() { return _account; }
+      boost::shared_ptr<const Account> GetAccount() { return _account; }
       
       void RefreshIMAPFolders();
       void NotifyFolderChange();
       
-      shared_ptr<IMAPFolders> GetAccountFolders() const { return m_pIMAPFolders;}
-      shared_ptr<IMAPFolders> GetPublicFolders() const { return m_pPublicIMAPFolders;}
+      boost::shared_ptr<IMAPFolders> GetAccountFolders() const { return m_pIMAPFolders;}
+      boost::shared_ptr<IMAPFolders> GetPublicFolders() const { return m_pPublicIMAPFolders;}
       
-      shared_ptr<IMAPFolder> GetFolderByFullPath(const String &sFolderName);
-      shared_ptr<IMAPFolder> GetFolderByFullPath(std::vector<String> &vecFolderPath);
+      boost::shared_ptr<IMAPFolder> GetFolderByFullPath(const String &sFolderName);
+      boost::shared_ptr<IMAPFolder> GetFolderByFullPath(std::vector<String> &vecFolderPath);
 
-      shared_ptr<IMAPFolder> GetCurrentFolder() { return m_pCurrentFolder; }
+      boost::shared_ptr<IMAPFolder> GetCurrentFolder() { return m_pCurrentFolder; }
 
-      bool CheckPermission(shared_ptr<IMAPFolder> pFolder, int iPermission);
-      void CheckFolderPermissions(shared_ptr<IMAPFolder> pFolder, bool &readAccess, bool &writeAccess);
+      bool CheckPermission(boost::shared_ptr<IMAPFolder> pFolder, int iPermission);
+      void CheckFolderPermissions(boost::shared_ptr<IMAPFolder> pFolder, bool &readAccess, bool &writeAccess);
 
       void CloseCurrentFolder();
-      void SetCurrentFolder(shared_ptr<IMAPFolder> pFolder, bool readOnly);
+      void SetCurrentFolder(boost::shared_ptr<IMAPFolder> pFolder, bool readOnly);
    
       void SendResponseString(const String &sTag, const String &sResponse, const String &sMessage);
 
       bool GetIsIdling() const;
       void SetIsIdling(bool bNewVal);
 
-      void SetDelayedChangeNotification(shared_ptr<ChangeNotification> pNotification);
+      void SetDelayedChangeNotification(boost::shared_ptr<ChangeNotification> pNotification);
 
-      void Login(shared_ptr<const Account> account);
+      void Login(boost::shared_ptr<const Account> account);
       void Logout(const String &goodbyeMessage);
 
       void SetReceiveBinary(bool binary);
@@ -123,7 +123,7 @@ namespace HM
          return ProtocolParser::GetIPAddress();
       }
 
-      shared_ptr<IMAPNotificationClient> GetNotificationClient() {return _notificationClient;}
+      boost::shared_ptr<IMAPNotificationClient> GetNotificationClient() {return _notificationClient;}
 
    protected:
 
@@ -137,13 +137,13 @@ namespace HM
             
       eIMAPCommandType GetCommandType(String & sCommand);
 
-      std::vector<shared_ptr<IMAPClientCommand> > vecIncoming;
-      std::map<eIMAPCommandType, shared_ptr<IMAPCommand> > mapCommandHandlers;
-      std::map<eIMAPCommandType, shared_ptr<IMAPCommand> > mapStaticHandlers;
+      std::vector<boost::shared_ptr<IMAPClientCommand> > vecIncoming;
+      std::map<eIMAPCommandType, boost::shared_ptr<IMAPCommand> > mapCommandHandlers;
+      std::map<eIMAPCommandType, boost::shared_ptr<IMAPCommand> > mapStaticHandlers;
 
    private:
 
-      void _SetAccount(shared_ptr<const Account> account) { _account = account; }
+      void _SetAccount(boost::shared_ptr<const Account> account) { _account = account; }
 
       void _Disconnect();
       bool _IsReceivingLiteralDataForLoginCommand() const;
@@ -156,15 +156,15 @@ namespace HM
       int _GetLiteralSize(const String &sCommand);
 
       void AnswerCommand();
-      shared_ptr<const Account> _account;
+      boost::shared_ptr<const Account> _account;
 
-      shared_ptr<IMAPFolders> m_pIMAPFolders;
-      shared_ptr<IMAPFolders> m_pPublicIMAPFolders;
+      boost::shared_ptr<IMAPFolders> m_pIMAPFolders;
+      boost::shared_ptr<IMAPFolders> m_pPublicIMAPFolders;
 
-      shared_ptr<ChangeNotification> m_pDelayedChangeNotification;
+      boost::shared_ptr<ChangeNotification> m_pDelayedChangeNotification;
 
       // Folder info
-      shared_ptr<IMAPFolder> m_pCurrentFolder;
+      boost::shared_ptr<IMAPFolder> m_pCurrentFolder;
       bool _currentFolderReadOnly;
 
       String m_sCommandBuffer;
@@ -175,7 +175,7 @@ namespace HM
 
       bool m_bPendingDisconnect;
 
-      shared_ptr<IMAPNotificationClient> _notificationClient;
+      boost::shared_ptr<IMAPNotificationClient> _notificationClient;
 
       int  m_iLogLevel;      
 

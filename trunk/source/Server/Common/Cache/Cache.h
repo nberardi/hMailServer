@@ -9,13 +9,13 @@ namespace HM
    public:
       Cache();
 
-      shared_ptr<const T> GetObject(const String &sName);
+      boost::shared_ptr<const T> GetObject(const String &sName);
       // Retrieves an object using the object name.
 
-      shared_ptr<const T> GetObject(__int64 iID);
+      boost::shared_ptr<const T> GetObject(__int64 iID);
       // Retrieves an object using the ID
 
-      void RemoveObject(shared_ptr<T> pObject);
+      void RemoveObject(boost::shared_ptr<T> pObject);
       void RemoveObject(const String &sName);
       void RemoveObject(__int64 iID);
 
@@ -26,8 +26,8 @@ namespace HM
 
    private:
 
-      bool _GetObjectIsWithinTTL(shared_ptr<T> pObject);
-      void _AddToCache(shared_ptr<T> pObject);
+      bool _GetObjectIsWithinTTL(boost::shared_ptr<T> pObject);
+      void _AddToCache(boost::shared_ptr<T> pObject);
 
       int m_iNoOfMisses;
       int m_iNoOfHits;
@@ -42,7 +42,7 @@ namespace HM
       // All access to the container is restricted by
       // a critical section
       
-      std::map<String, shared_ptr<T> > m_mapObjects;
+      std::map<String, boost::shared_ptr<T> > m_mapObjects;
       // All the objects in the cache
    };
 
@@ -104,11 +104,11 @@ namespace HM
 
    template <class T, class P> 
    void 
-   Cache<T,P>::RemoveObject(shared_ptr<T> pObject)
+   Cache<T,P>::RemoveObject(boost::shared_ptr<T> pObject)
    {
       CriticalSectionScope scope(m_oAccessCritSec);
 
-      std::map<String, shared_ptr<T> >::iterator iterObject = m_mapObjects.find(pObject->GetName());
+      std::map<String, boost::shared_ptr<T> >::iterator iterObject = m_mapObjects.find(pObject->GetName());
    
       if (iterObject != m_mapObjects.end())
          m_mapObjects.erase(iterObject);
@@ -121,7 +121,7 @@ namespace HM
    {
       CriticalSectionScope scope(m_oAccessCritSec);
 
-      std::map<String, shared_ptr<T> >::iterator iterObject = m_mapObjects.find(sName);
+      std::map<String, boost::shared_ptr<T> >::iterator iterObject = m_mapObjects.find(sName);
 
       if (iterObject != m_mapObjects.end())
          m_mapObjects.erase(iterObject);
@@ -135,12 +135,12 @@ namespace HM
       CriticalSectionScope scope(m_oAccessCritSec);
 
       // Find the domain using the ID
-      std::map<String, shared_ptr<T> >::iterator iterObject = m_mapObjects.begin();
-      std::map<String, shared_ptr<T> >::iterator iterEnd = m_mapObjects.end();
+      std::map<String, boost::shared_ptr<T> >::iterator iterObject = m_mapObjects.begin();
+      std::map<String, boost::shared_ptr<T> >::iterator iterEnd = m_mapObjects.end();
 
       for (; iterObject != iterEnd; iterObject++)
       {
-         shared_ptr<T> pObject = (*iterObject).second;
+         boost::shared_ptr<T> pObject = (*iterObject).second;
 
          if (pObject->GetID() == iID)
          {
@@ -152,18 +152,18 @@ namespace HM
    }
 
    template <class T, class P> 
-   shared_ptr<const T> 
+   boost::shared_ptr<const T> 
    Cache<T,P>::GetObject(const String &sName)
    {
       CriticalSectionScope scope(m_oAccessCritSec);
 
       if (m_bEnabled)
       {
-         std::map<String, shared_ptr<T> >::iterator iterObject = m_mapObjects.find(sName);
+         std::map<String, boost::shared_ptr<T> >::iterator iterObject = m_mapObjects.find(sName);
 
          if (iterObject != m_mapObjects.end())
          {
-            shared_ptr<T> pObject = (*iterObject).second;
+            boost::shared_ptr<T> pObject = (*iterObject).second;
 
             if (_GetObjectIsWithinTTL(pObject))
                return pObject;
@@ -174,11 +174,11 @@ namespace HM
       }
 
       // Load the object
-      shared_ptr<T> pRetObject = shared_ptr<T>(new T);
+      boost::shared_ptr<T> pRetObject = boost::shared_ptr<T>(new T);
       
       if (!P::ReadObject(pRetObject, sName))
       {
-         shared_ptr<T> pEmpty;
+         boost::shared_ptr<T> pEmpty;
          return pEmpty;
       }
 
@@ -189,7 +189,7 @@ namespace HM
    }
 
    template <class T, class P> 
-   shared_ptr<const T> 
+   boost::shared_ptr<const T> 
    Cache<T,P>::GetObject(__int64 iID)
    {
       CriticalSectionScope scope(m_oAccessCritSec);
@@ -197,12 +197,12 @@ namespace HM
       if (m_bEnabled)
       {
          // Find the domain using the ID
-         std::map<String, shared_ptr<T> >::iterator iterObject = m_mapObjects.begin();
-         std::map<String, shared_ptr<T> >::iterator iterEnd = m_mapObjects.end();
+         std::map<String, boost::shared_ptr<T> >::iterator iterObject = m_mapObjects.begin();
+         std::map<String, boost::shared_ptr<T> >::iterator iterEnd = m_mapObjects.end();
 
          for (; iterObject != iterEnd; iterObject++)
          {
-            shared_ptr<T> pObject = (*iterObject).second;
+            boost::shared_ptr<T> pObject = (*iterObject).second;
 
             if (pObject->GetID() == iID)
             {
@@ -217,10 +217,10 @@ namespace HM
       }
 
       // Load the object
-      shared_ptr<T> pRetObject = shared_ptr<T>(new T);
+      boost::shared_ptr<T> pRetObject = boost::shared_ptr<T>(new T);
       if (!P::ReadObject(pRetObject, iID))
       {
-         shared_ptr<T> pEmpty;
+         boost::shared_ptr<T> pEmpty;
          return pEmpty;
       }
 
@@ -232,7 +232,7 @@ namespace HM
 
    template <class T, class P> 
    void 
-   Cache<T,P>::_AddToCache(shared_ptr<T> pObject)
+   Cache<T,P>::_AddToCache(boost::shared_ptr<T> pObject)
    {
       CriticalSectionScope scope(m_oAccessCritSec);
 
@@ -250,7 +250,7 @@ namespace HM
 
    template <class T, class P> 
    bool 
-   Cache<T,P>::_GetObjectIsWithinTTL(shared_ptr<T> pObject)
+   Cache<T,P>::_GetObjectIsWithinTTL(boost::shared_ptr<T> pObject)
    {
       if (pObject)
       {

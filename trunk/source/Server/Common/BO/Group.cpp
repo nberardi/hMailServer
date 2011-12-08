@@ -36,10 +36,10 @@ namespace HM
       m_sName = sName;
    }
 
-   shared_ptr<GroupMembers> 
+   boost::shared_ptr<GroupMembers> 
    Group::GetMembers()
    {
-      shared_ptr<GroupMembers> pGroupMembers = shared_ptr<GroupMembers>(new GroupMembers(m_iID));
+      boost::shared_ptr<GroupMembers> pGroupMembers = boost::shared_ptr<GroupMembers>(new GroupMembers(m_iID));
       pGroupMembers->Refresh();
 
       return pGroupMembers;
@@ -75,7 +75,7 @@ namespace HM
    bool
    Group::XMLLoadSubItems(XNode *pNode, int iRestoreOptions)
    {
-      shared_ptr<GroupMembers> pGroupMembers = GetMembers();
+      boost::shared_ptr<GroupMembers> pGroupMembers = GetMembers();
       return pGroupMembers->XMLLoad(pNode, iRestoreOptions);
    }
 }

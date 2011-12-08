@@ -34,7 +34,7 @@ namespace HM
          MaxFileSize = 1024 * 1024 * 10
       };
 
-      bool Sign(shared_ptr<Message> message, 
+      bool Sign(boost::shared_ptr<Message> message, 
                 const AnsiString &domain,
                 const AnsiString &selector, 
                 const String &privateKey, 
@@ -47,7 +47,7 @@ namespace HM
    private:
 
       bool _ValidateHeaderContents(const DKIMParameters &signatureParams);
-      bool _ValidateBodyHash(const String &fileName, const DKIMParameters &signatureParams, shared_ptr<Canonicalization> canonicalization);
+      bool _ValidateBodyHash(const String &fileName, const DKIMParameters &signatureParams, boost::shared_ptr<Canonicalization> canonicalization);
       bool _ValidateDNSEntry(const DKIMParameters &entryParams, const DKIMParameters &headerParams);
       Result _VerifyHeaderHash(AnsiString canonicalizedHeader, const AnsiString &tagA, AnsiString &tagB, const AnsiString &publicKeyString);
       Result _VerifySignature(const String &fileName, const AnsiString &messageHeader, pair<AnsiString, AnsiString> signatureField);
@@ -55,7 +55,7 @@ namespace HM
       AnsiString _GetDKIMWithoutSignature(AnsiString value);
      
       String _BuildSignatureHeader(const String &tagA, const String &tagD, const String &tagS, const String &tagC, const String &tagQ, const String &fieldList, const String &bodyHash, const String &signatureString);
-      shared_ptr<Canonicalization> _CreateCanonicalization(Canonicalization::CanonicalizeMethod method);
+      boost::shared_ptr<Canonicalization> _CreateCanonicalization(Canonicalization::CanonicalizeMethod method);
       AnsiString _SignHash(AnsiString &privateKey, AnsiString &canonicalizedHeader, HashCreator::HashType keySize);
       static vector<AnsiString> _recommendedHeaderFields;
 

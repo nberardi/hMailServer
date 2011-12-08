@@ -21,8 +21,8 @@ namespace HM
       void OnCouldNotConnect(const AnsiString &sErrorDescription);
 
       virtual void ParseData(const AnsiString &Request);
-      virtual void ParseData(shared_ptr<ByteBuffer> ) {}
-      int SetDelivery(shared_ptr<Message> pDelMsg, std::vector<shared_ptr<MessageRecipient> > &vecRecipients);
+      virtual void ParseData(boost::shared_ptr<ByteBuffer> ) {}
+      int SetDelivery(boost::shared_ptr<Message> pDelMsg, std::vector<boost::shared_ptr<MessageRecipient> > &vecRecipients);
            
       void SetAuthInfo(const String &sUsername, const String &sPassword);
 
@@ -57,9 +57,9 @@ namespace HM
       bool _ProtocolPassswordCheck(int iCode, const String &sServerLine);
 
       void _UpdateAllRecipientsWithError(int iErrorCode, const AnsiString &sResponse, bool bPreConnectError);
-      void _UpdateRecipientWithError(int iErrorCode, const AnsiString &sResponse,shared_ptr<MessageRecipient> pRecipient, bool bPreConnectError);
+      void _UpdateRecipientWithError(int iErrorCode, const AnsiString &sResponse,boost::shared_ptr<MessageRecipient> pRecipient, bool bPreConnectError);
 
-      shared_ptr<MessageRecipient> _GetNextRecipient();
+      boost::shared_ptr<MessageRecipient> _GetNextRecipient();
       void _UpdateSuccessfulRecipients();
 
       enum ConnectionState
@@ -86,16 +86,16 @@ namespace HM
   
       ConnectionState m_CurrentState;
 
-      shared_ptr<Message> m_pDeliveryMessage;
+      boost::shared_ptr<Message> m_pDeliveryMessage;
 
 
       // These are the recipients which will hMailServer should
       // try to deliver to.
-      std::vector<shared_ptr<MessageRecipient> > m_vecRecipients;
+      std::vector<boost::shared_ptr<MessageRecipient> > m_vecRecipients;
 
       // The actual recipients are the recipients we've sent RCPT TO
       // for and the remote server has said OK to.
-      std::set<shared_ptr<MessageRecipient> > _actualRecipients;
+      std::set<boost::shared_ptr<MessageRecipient> > _actualRecipients;
 
       bool m_bUseSMTPAuth;
 

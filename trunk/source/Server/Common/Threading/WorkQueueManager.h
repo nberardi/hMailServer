@@ -20,16 +20,16 @@ namespace HM
       int CreateWorkQueue(int iMaxSimultaneous, const String &sQueueName, WorkQueue::QueueType qtType);
       void RemoveQueue(const String &sQueueName);
 
-      void AddTask(int iQueueID, shared_ptr<Task> pTask);
+      void AddTask(int iQueueID, boost::shared_ptr<Task> pTask);
 
-      shared_ptr<WorkQueue> GetQueue(const String &sQueueName);
+      boost::shared_ptr<WorkQueue> GetQueue(const String &sQueueName);
 
    private:
 
-      std::map<int, shared_ptr<WorkQueue> >::iterator _GetQueueIterator(const String &sQueueName);
+      std::map<int, boost::shared_ptr<WorkQueue> >::iterator _GetQueueIterator(const String &sQueueName);
 
       CriticalSection m_csWorkQueues;
-      std::map<int, shared_ptr<WorkQueue> > m_mapWorkQueues;
+      std::map<int, boost::shared_ptr<WorkQueue> > m_mapWorkQueues;
      
    };
 }

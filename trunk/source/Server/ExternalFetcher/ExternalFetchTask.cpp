@@ -15,7 +15,7 @@
 
 namespace HM
 {
-   ExternalFetchTask::ExternalFetchTask(shared_ptr<FetchAccount> pFA) : 
+   ExternalFetchTask::ExternalFetchTask(boost::shared_ptr<FetchAccount> pFA) : 
       m_pFA(pFA)
    {
    }

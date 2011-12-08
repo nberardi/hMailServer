@@ -21,10 +21,10 @@ namespace HM
       void DeleteUIDsNotInSet(set<String> &vecUIDs);
       void AddUID(const String &sUIDValue);
 
-      shared_ptr<FetchAccountUID> GetUID(const String &sUID);
+      boost::shared_ptr<FetchAccountUID> GetUID(const String &sUID);
    private:
 
-      std::map<String, shared_ptr<FetchAccountUID> > _fetchedUIDs;
+      std::map<String, boost::shared_ptr<FetchAccountUID> > _fetchedUIDs;
 
       __int64 m_iFAID;
    };

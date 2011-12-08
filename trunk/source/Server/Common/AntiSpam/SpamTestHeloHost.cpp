@@ -36,10 +36,10 @@ namespace HM
          return false;
    }
 
-   set<shared_ptr<SpamTestResult> >
-   SpamTestHeloHost::RunTest(shared_ptr<SpamTestData> pTestData)
+   set<boost::shared_ptr<SpamTestResult> >
+   SpamTestHeloHost::RunTest(boost::shared_ptr<SpamTestData> pTestData)
    {
-      set<shared_ptr<SpamTestResult> > setSpamTestResults;
+      set<boost::shared_ptr<SpamTestResult> > setSpamTestResults;
 
       const IPAddress &iIPAdress = pTestData->GetConnectingIP();
       String sHeloHost = pTestData->GetHeloHost();
@@ -50,7 +50,7 @@ namespace HM
          String sMessage = "The host name specified in HELO does not match IP address.";
          int iScore = Configuration::Instance()->GetAntiSpamConfiguration().GetCheckHostInHeloScore();;
 
-         shared_ptr<SpamTestResult> pResult = shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Fail, iScore, sMessage));
+         boost::shared_ptr<SpamTestResult> pResult = boost::shared_ptr<SpamTestResult>(new SpamTestResult(GetName(), SpamTestResult::Fail, iScore, sMessage));
          setSpamTestResults.insert(pResult);   
 
       }

@@ -24,14 +24,14 @@
 namespace HM
 {
    IMAPResult
-   IMAPCommandRENAME::ExecuteCommand(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandRENAME::ExecuteCommand(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
 
       if (!pConnection->IsAuthenticated())
          return IMAPResult(IMAPResult::ResultNo, "Authenticate first");
 
       
-      shared_ptr<IMAPSimpleCommandParser> pParser = shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
+      boost::shared_ptr<IMAPSimpleCommandParser> pParser = boost::shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
 
       pParser->Parse(pArgument);
 
@@ -42,7 +42,7 @@ namespace HM
       String sOldFolderName = pParser->GetParamValue(pArgument, 0);
       String sNewFolderName = pParser->GetParamValue(pArgument, 1);
             
-      shared_ptr<IMAPFolder> pFolderToRename = pConnection->GetFolderByFullPath(sOldFolderName);
+      boost::shared_ptr<IMAPFolder> pFolderToRename = pConnection->GetFolderByFullPath(sOldFolderName);
       if (!pFolderToRename)
          return IMAPResult(IMAPResult::ResultBad, "Folder could not be found.");
 
@@ -59,8 +59,8 @@ namespace HM
          return result;
 
       // Get the old and new parent folders.
-      shared_ptr<IMAPFolder> pOldParentFolder = GetParentFolder(pConnection, vecOldPath);
-      shared_ptr<IMAPFolder> pNewParentFolder = GetParentFolder(pConnection, vecNewPath);
+      boost::shared_ptr<IMAPFolder> pOldParentFolder = GetParentFolder(pConnection, vecOldPath);
+      boost::shared_ptr<IMAPFolder> pNewParentFolder = GetParentFolder(pConnection, vecNewPath);
 
       if (vecNewPath.size() > 1 && !pNewParentFolder)
       {
@@ -133,13 +133,13 @@ namespace HM
       return IMAPResult();
    }
    
-   shared_ptr<IMAPFolder> 
-   IMAPCommandRENAME::GetParentFolder(shared_ptr<HM::IMAPConnection> pConnection, const std::vector<String> &vecFolderPath)
+   boost::shared_ptr<IMAPFolder> 
+   IMAPCommandRENAME::GetParentFolder(boost::shared_ptr<HM::IMAPConnection> pConnection, const std::vector<String> &vecFolderPath)
    {
       // Get the old parent folder
       if (vecFolderPath.size() < 1)
       {
-         shared_ptr<IMAPFolder> pEmpty;
+         boost::shared_ptr<IMAPFolder> pEmpty;
          return pEmpty;
       }
       
@@ -147,13 +147,13 @@ namespace HM
       std::vector<String> vecParentFolder = vecFolderPath;
       vecParentFolder.resize(vecParentFolder.size() -1);
 
-      shared_ptr<IMAPFolder> pParentFolder = pConnection->GetFolderByFullPath(vecParentFolder);
+      boost::shared_ptr<IMAPFolder> pParentFolder = pConnection->GetFolderByFullPath(vecParentFolder);
 
       return pParentFolder;
    }
 
    IMAPResult
-   IMAPCommandRENAME::ConfirmPossibleToRename(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPFolder> pFolderToRename, const std::vector<String> &vecOldPath, const std::vector<String> &vecNewPath)
+   IMAPCommandRENAME::ConfirmPossibleToRename(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPFolder> pFolderToRename, const std::vector<String> &vecOldPath, const std::vector<String> &vecNewPath)
    {
 
 
@@ -186,7 +186,7 @@ namespace HM
          
       String hierarchyDelimiter = Configuration::Instance()->GetIMAPConfiguration()->GetHierarchyDelimiter();
       String sNewFolderName = StringParser::JoinVector(vecNewPath, hierarchyDelimiter);
-      shared_ptr<IMAPFolder> pTargetFolder = pConnection->GetFolderByFullPath(sNewFolderName);
+      boost::shared_ptr<IMAPFolder> pTargetFolder = pConnection->GetFolderByFullPath(sNewFolderName);
       if (pTargetFolder)
          return IMAPResult(IMAPResult::ResultNo, "Target folder already exist.");
 

@@ -8,7 +8,7 @@
 #include "InterfaceAlias.h"
 
 void
-InterfaceAliases::Attach(shared_ptr<HM::Aliases> pAliases)
+InterfaceAliases::Attach(boost::shared_ptr<HM::Aliases> pAliases)
 {
    m_pAliases = pAliases;
 } 
@@ -71,7 +71,7 @@ STDMETHODIMP InterfaceAliases::get_Item(long Index, IInterfaceAlias **pVal)
       CComObject<InterfaceAlias>* pAlias = new CComObject<InterfaceAlias>();
       pAlias->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Alias> pPersAlias = m_pAliases->GetItem(Index);
+      boost::shared_ptr<HM::Alias> pPersAlias = m_pAliases->GetItem(Index);
    
       if (!pPersAlias)
          return DISP_E_BADINDEX;  
@@ -103,7 +103,7 @@ STDMETHODIMP InterfaceAliases::Add(IInterfaceAlias **pVal)
       CComObject<InterfaceAlias>* pIntAlias = new CComObject<InterfaceAlias>();
       pIntAlias->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Alias> pAliasADO = shared_ptr<HM::Alias>(new HM::Alias);
+      boost::shared_ptr<HM::Alias> pAliasADO = boost::shared_ptr<HM::Alias>(new HM::Alias);
       
       pIntAlias->AttachItem(pAliasADO);
       pIntAlias->AttachParent(m_pAliases, false);
@@ -131,7 +131,7 @@ STDMETHODIMP InterfaceAliases::get_ItemByDBID(long DBID, IInterfaceAlias **pVal)
       CComObject<InterfaceAlias>* pAlias = new CComObject<InterfaceAlias>();
       pAlias->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Alias> pPersAlias = m_pAliases->GetItemByDBID(DBID);
+      boost::shared_ptr<HM::Alias> pPersAlias = m_pAliases->GetItemByDBID(DBID);
    
       if (pPersAlias)
       {
@@ -182,7 +182,7 @@ STDMETHODIMP InterfaceAliases::get_ItemByName(BSTR Name, IInterfaceAlias **pVal)
       CComObject<InterfaceAlias>* pAlias = new CComObject<InterfaceAlias>();
       pAlias->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Alias> pPersAlias = m_pAliases->GetItemByName(Name);
+      boost::shared_ptr<HM::Alias> pPersAlias = m_pAliases->GetItemByName(Name);
    
       if (pPersAlias)
       {

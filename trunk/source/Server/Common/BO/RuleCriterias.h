@@ -22,7 +22,7 @@ namespace HM
 
    protected:
       virtual String GetCollectionName() const {return "RuleCriterias"; }
-      virtual bool PreSaveObject(shared_ptr<RuleCriteria> pRuleCriteria, XNode *node);
+      virtual bool PreSaveObject(boost::shared_ptr<RuleCriteria> pRuleCriteria, XNode *node);
    private:
       __int64 m_iRuleID;
    };

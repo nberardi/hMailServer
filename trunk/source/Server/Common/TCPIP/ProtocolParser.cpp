@@ -63,7 +63,7 @@ namespace HM
    }
 
    bool
-   ProtocolParser::SendData(shared_ptr<ByteBuffer> pByteBuffer)
+   ProtocolParser::SendData(boost::shared_ptr<ByteBuffer> pByteBuffer)
    {
       _parentConnection->PostWrite(pByteBuffer);
 
@@ -136,7 +136,7 @@ namespace HM
       _parentConnection->UpdateLogoutTimer();
    }
 
-   shared_ptr<SecurityRange>
+   boost::shared_ptr<SecurityRange>
    ProtocolParser::GetSecurityRange() const
    {
       return _parentConnection->GetSecurityRange();
@@ -148,7 +148,7 @@ namespace HM
       return _parentConnection->GetBufferSize();
    }
 
-   shared_ptr<TCPConnection> 
+   boost::shared_ptr<TCPConnection> 
    ProtocolParser::GetTCPConnectionTemporaryPointer()
    {
       return _parentConnection->GetSharedFromThis();

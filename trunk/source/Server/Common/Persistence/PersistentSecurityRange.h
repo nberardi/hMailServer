@@ -15,15 +15,15 @@ namespace HM
 	   PersistentSecurityRange();
 	   virtual ~PersistentSecurityRange();
 
-      static bool DeleteObject(shared_ptr<SecurityRange> pSR);
-      static bool SaveObject(shared_ptr<SecurityRange> pSR);
-      static bool SaveObject(shared_ptr<SecurityRange> pSR, String &result);
+      static bool DeleteObject(boost::shared_ptr<SecurityRange> pSR);
+      static bool SaveObject(boost::shared_ptr<SecurityRange> pSR);
+      static bool SaveObject(boost::shared_ptr<SecurityRange> pSR, String &result);
 
-      static bool ReadObject(shared_ptr<SecurityRange> pSR, shared_ptr<DALRecordset> pRS);
-      static bool ReadObject(shared_ptr<SecurityRange> pSR, const SQLCommand &command);
-      static bool ReadObject(shared_ptr<SecurityRange> pSR, __int64 ObjectID);
+      static bool ReadObject(boost::shared_ptr<SecurityRange> pSR, boost::shared_ptr<DALRecordset> pRS);
+      static bool ReadObject(boost::shared_ptr<SecurityRange> pSR, const SQLCommand &command);
+      static bool ReadObject(boost::shared_ptr<SecurityRange> pSR, __int64 ObjectID);
 
-      static shared_ptr<SecurityRange> ReadMatchingIP(const IPAddress &ipaddress);
+      static boost::shared_ptr<SecurityRange> ReadMatchingIP(const IPAddress &ipaddress);
 
       static bool DeleteExpired();
 
@@ -31,7 +31,7 @@ namespace HM
 
    private:
 
-      static bool Validate(shared_ptr<SecurityRange> pSR, String &result);
+      static bool Validate(boost::shared_ptr<SecurityRange> pSR, String &result);
    };
 
 }

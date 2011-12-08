@@ -53,15 +53,15 @@ namespace HM
          }
       }
 
-      shared_ptr<TCPIPPorts> pTCPIPPorts = Configuration::Instance()->GetTCPIPPorts();
+      boost::shared_ptr<TCPIPPorts> pTCPIPPorts = Configuration::Instance()->GetTCPIPPorts();
 
-      const vector<shared_ptr<TCPIPPort> > vecTCPIPPorts = pTCPIPPorts->GetVector();
+      const vector<boost::shared_ptr<TCPIPPort> > vecTCPIPPorts = pTCPIPPorts->GetVector();
 
-      vector<shared_ptr<TCPIPPort> >::const_iterator iter = vecTCPIPPorts.begin();
-      vector<shared_ptr<TCPIPPort> >::const_iterator iterEnd = vecTCPIPPorts.end();
+      vector<boost::shared_ptr<TCPIPPort> >::const_iterator iter = vecTCPIPPorts.begin();
+      vector<boost::shared_ptr<TCPIPPort> >::const_iterator iterEnd = vecTCPIPPorts.end();
       for (; iter != iterEnd; iter++)
       {
-         shared_ptr<TCPIPPort> pTCPIPPort = (*iter);
+         boost::shared_ptr<TCPIPPort> pTCPIPPort = (*iter);
 
          if (pTCPIPPort->GetAddress().IsAny())
          {

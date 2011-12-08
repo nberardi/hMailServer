@@ -54,14 +54,14 @@ namespace HM
    bool 
    Configuration::Load()
    {
-      _propertySet = shared_ptr<PropertySet>(new PropertySet());
+      _propertySet = boost::shared_ptr<PropertySet>(new PropertySet());
       _propertySet->Refresh();
 
 
-      m_pPOP3Configuration = shared_ptr<POP3Configuration>(new POP3Configuration);
-      m_pSMTPConfiguration = shared_ptr<SMTPConfiguration>(new SMTPConfiguration);
-      m_pIMAPConfiguration = shared_ptr<IMAPConfiguration>(new IMAPConfiguration);
-      m_pCacheConfiguration = shared_ptr<CacheConfiguration>(new CacheConfiguration);
+      m_pPOP3Configuration = boost::shared_ptr<POP3Configuration>(new POP3Configuration);
+      m_pSMTPConfiguration = boost::shared_ptr<SMTPConfiguration>(new SMTPConfiguration);
+      m_pIMAPConfiguration = boost::shared_ptr<IMAPConfiguration>(new IMAPConfiguration);
+      m_pCacheConfiguration = boost::shared_ptr<CacheConfiguration>(new CacheConfiguration);
       
       if (!m_pSMTPConfiguration->Load())
          return false;
@@ -69,13 +69,13 @@ namespace HM
       if (!_antiSpamConfiguration.Load())
          return false;
 
-      _serverMessages = shared_ptr<ServerMessages> (new ServerMessages);
+      _serverMessages = boost::shared_ptr<ServerMessages> (new ServerMessages);
       _serverMessages->Refresh();
 
-      _blockedAttachments = shared_ptr<BlockedAttachments>(new BlockedAttachments);
+      _blockedAttachments = boost::shared_ptr<BlockedAttachments>(new BlockedAttachments);
       _blockedAttachments->Refresh();
 
-      _sslCertificates = shared_ptr<SSLCertificates>(new SSLCertificates);
+      _sslCertificates = boost::shared_ptr<SSLCertificates>(new SSLCertificates);
       _sslCertificates->Refresh();
 
       ScriptServer::Instance()->LoadScripts();
@@ -86,7 +86,7 @@ namespace HM
    }
 
    void 
-   Configuration::OnPropertyChanged(shared_ptr<Property> pProperty)
+   Configuration::OnPropertyChanged(boost::shared_ptr<Property> pProperty)
    {
       String sPropertyName = pProperty->GetName();
       if (sPropertyName == PROPERTY_LOGGING)
@@ -109,16 +109,16 @@ namespace HM
    }
 
 
-   shared_ptr<PropertySet>
+   boost::shared_ptr<PropertySet>
    Configuration::GetSettings() const
    {
       return _propertySet;
    }
 
-   shared_ptr<TCPIPPorts>
+   boost::shared_ptr<TCPIPPorts>
    Configuration::GetTCPIPPorts() const
    {
-      shared_ptr<TCPIPPorts> tcpipPorts = shared_ptr<TCPIPPorts>(new TCPIPPorts);
+      boost::shared_ptr<TCPIPPorts> tcpipPorts = boost::shared_ptr<TCPIPPorts>(new TCPIPPorts);
       tcpipPorts->Refresh();
       return tcpipPorts;
    }
@@ -615,7 +615,7 @@ namespace HM
       securityRanges.XMLStore(pBackupNode, 0);
 
       // RULES
-      shared_ptr<Rules> pRules = shared_ptr<Rules>(new Rules(0));
+      boost::shared_ptr<Rules> pRules = boost::shared_ptr<Rules>(new Rules(0));
       pRules->Refresh();
       pRules->XMLStore(pBackupNode, 0);
 
@@ -646,7 +646,7 @@ namespace HM
          return false;
 
       // RULES
-      shared_ptr<Rules> pRules = shared_ptr<Rules>(new Rules(0));
+      boost::shared_ptr<Rules> pRules = boost::shared_ptr<Rules>(new Rules(0));
       pRules->Refresh();
       if (!pRules->XMLLoad(pBackupNode, iRestoreOptions))
          return false;

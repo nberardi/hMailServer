@@ -12,7 +12,7 @@
 
 
 void
-InterfaceRecipients::Attach(shared_ptr<HM::Message> pMessage)
+InterfaceRecipients::Attach(boost::shared_ptr<HM::Message> pMessage)
 {
    m_pMessage = pMessage;
 
@@ -27,7 +27,7 @@ InterfaceRecipients::get_Count(long *pVal)
       if (!m_pMessage)
          return GetAccessDenied();
 
-      std::vector<shared_ptr<HM::MessageRecipient> > vecRecipients = m_pMessage->GetRecipients()->GetVector();
+      std::vector<boost::shared_ptr<HM::MessageRecipient> > vecRecipients = m_pMessage->GetRecipients()->GetVector();
    
       *pVal = (int) vecRecipients.size();
       return S_OK;
@@ -49,12 +49,12 @@ InterfaceRecipients::get_Item(long Index, IInterfaceRecipient **pVal)
       CComObject<InterfaceRecipient>* pInterfaceRecipient = new CComObject<InterfaceRecipient>();
       pInterfaceRecipient->SetAuthentication(m_pAuthentication);
    
-      std::vector<shared_ptr<HM::MessageRecipient> > vecRecipients = m_pMessage->GetRecipients()->GetVector();
+      std::vector<boost::shared_ptr<HM::MessageRecipient> > vecRecipients = m_pMessage->GetRecipients()->GetVector();
    
       if (Index >= (long) vecRecipients.size())
          return DISP_E_BADINDEX;
    
-      shared_ptr<HM::MessageRecipient> pRecipient = vecRecipients[Index];
+      boost::shared_ptr<HM::MessageRecipient> pRecipient = vecRecipients[Index];
    
       pInterfaceRecipient->AttachItem(pRecipient);
       pInterfaceRecipient->AddRef();

@@ -20,7 +20,7 @@ public:
 	{
 	}
 
-   void SetAuthentication(shared_ptr<HM::COMAuthentication> pAuthentication);
+   void SetAuthentication(boost::shared_ptr<HM::COMAuthentication> pAuthentication);
 
 DECLARE_REGISTRY_RESOURCEID(IDR_INTERFACEDELIVERYQUEUE)
 
@@ -50,7 +50,7 @@ public:
 
 private:
 
-   shared_ptr<HM::COMAuthentication> m_pAuthentication;
+   boost::shared_ptr<HM::COMAuthentication> m_pAuthentication;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(DeliveryQueue), InterfaceDeliveryQueue)

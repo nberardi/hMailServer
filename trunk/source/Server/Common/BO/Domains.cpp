@@ -51,7 +51,7 @@ namespace HM
    {
       bool first = true;
       String result;
-      boost_foreach(shared_ptr<Domain> domain, vecObjects)
+      boost_foreach(boost::shared_ptr<Domain> domain, vecObjects)
       {
          if (first)
             first = false;

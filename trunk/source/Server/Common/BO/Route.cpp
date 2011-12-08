@@ -33,13 +33,13 @@ namespace HM
 
    }
 
-   shared_ptr<RouteAddresses>
+   boost::shared_ptr<RouteAddresses>
    Route::GetAddresses()
    {
        if (!m_pAddresses)
        {
           assert(m_iID);
-          m_pAddresses = shared_ptr<RouteAddresses>(new RouteAddresses(m_iID));
+          m_pAddresses = boost::shared_ptr<RouteAddresses>(new RouteAddresses(m_iID));
 
           m_pAddresses->Refresh();
        }

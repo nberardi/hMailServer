@@ -58,11 +58,11 @@ public:
    STDMETHOD(DeleteByDBID)(/*[in]*/ long DBID);
    STDMETHOD(Add)(/*[out, retval]*/ IInterfaceGreyListingWhiteAddress **pVal);
 
-   void Attach(shared_ptr<HM::GreyListingWhiteAddresses> pGLWhiteAddresses);
+   void Attach(boost::shared_ptr<HM::GreyListingWhiteAddresses> pGLWhiteAddresses);
 
 public:
 
-   shared_ptr<HM::GreyListingWhiteAddresses> m_pGLWhiteAddresses;
+   boost::shared_ptr<HM::GreyListingWhiteAddresses> m_pGLWhiteAddresses;
 
 };
 

@@ -17,7 +17,7 @@
 #endif
 
 void
-InterfaceAccounts::Attach(shared_ptr<HM::Accounts> pAccounts)
+InterfaceAccounts::Attach(boost::shared_ptr<HM::Accounts> pAccounts)
 {
    m_pAccounts = pAccounts;
 }
@@ -55,7 +55,7 @@ STDMETHODIMP InterfaceAccounts::Add(IInterfaceAccount **pVal)
       CComObject<InterfaceAccount>* pAccountInterface = new CComObject<InterfaceAccount>();
       pAccountInterface->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Account> pAccount = shared_ptr<HM::Account>(new HM::Account);
+      boost::shared_ptr<HM::Account> pAccount = boost::shared_ptr<HM::Account>(new HM::Account);
    
       pAccount->SetDomainID(m_iDomainID);
       
@@ -84,7 +84,7 @@ STDMETHODIMP InterfaceAccounts::Delete(long Index)
       if (!m_pAuthentication->GetIsDomainAdmin())
          return m_pAuthentication->GetAccessDenied();
    
-      shared_ptr<HM::Account> pAccount = m_pAccounts->GetItem(Index);
+      boost::shared_ptr<HM::Account> pAccount = m_pAccounts->GetItem(Index);
       HM::PersistentAccount::DeleteObject(pAccount);
    
       return S_OK;
@@ -105,7 +105,7 @@ STDMETHODIMP InterfaceAccounts::get_Item(long Index, IInterfaceAccount **pVal)
       CComObject<InterfaceAccount>* pAccountInt = new CComObject<InterfaceAccount>();
       pAccountInt->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Account> pAccount = m_pAccounts->GetItem(Index);
+      boost::shared_ptr<HM::Account> pAccount = m_pAccounts->GetItem(Index);
    
       if (!pAccount)
          return DISP_E_BADINDEX;
@@ -150,7 +150,7 @@ STDMETHODIMP InterfaceAccounts::get_ItemByDBID(long DBID, IInterfaceAccount **pV
       CComObject<InterfaceAccount>* pAccountInt = new CComObject<InterfaceAccount>();
       pAccountInt->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Account> pAccount = m_pAccounts->GetItemByDBID(DBID);
+      boost::shared_ptr<HM::Account> pAccount = m_pAccounts->GetItemByDBID(DBID);
    
       if (!pAccount)
          return DISP_E_BADINDEX;  
@@ -180,7 +180,7 @@ STDMETHODIMP InterfaceAccounts::get_ItemByAddress(BSTR Address, IInterfaceAccoun
       CComObject<InterfaceAccount>* pAccountInt = new CComObject<InterfaceAccount>();
       pAccountInt->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Account> pAccount = m_pAccounts->GetItemByName(Address);
+      boost::shared_ptr<HM::Account> pAccount = m_pAccounts->GetItemByName(Address);
    
       if (!pAccount)
          return DISP_E_BADINDEX; 

@@ -32,7 +32,7 @@ STDMETHODIMP InterfaceAttachments::InterfaceSupportsErrorInfo(REFIID riid)
 }   
    
 void
-InterfaceAttachments::Attach(shared_ptr<HM::Attachments> pAttachments)
+InterfaceAttachments::Attach(boost::shared_ptr<HM::Attachments> pAttachments)
 {
    m_pAttachments = pAttachments;
 }
@@ -63,7 +63,7 @@ STDMETHODIMP InterfaceAttachments::get_Item(long Index, IInterfaceAttachment **p
       CComObject<InterfaceAttachment>* pInterfaceAttachment = new CComObject<InterfaceAttachment>();
       pInterfaceAttachment->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::Attachment> pAttachment = m_pAttachments->GetItem(Index);
+      boost::shared_ptr<HM::Attachment> pAttachment = m_pAttachments->GetItem(Index);
    
       if (!pAttachment)
          return DISP_E_BADINDEX;  

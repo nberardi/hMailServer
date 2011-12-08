@@ -143,7 +143,7 @@ namespace HM
 
             try
             {
-               shared_ptr<Task> pTask = m_pTask;
+               boost::shared_ptr<Task> pTask = m_pTask;
                if (pTask)
                   pTask->StopWork();
             }
@@ -183,7 +183,7 @@ namespace HM
    }
    
    void 
-   Thread::AssignTask(shared_ptr<Task> pTask)
+   Thread::AssignTask(boost::shared_ptr<Task> pTask)
    //---------------------------------------------------------------------------
    // DESCRIPTION:
    // Assigns a task to this thread. This should only be done by the work queue.

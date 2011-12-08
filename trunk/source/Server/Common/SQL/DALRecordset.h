@@ -13,9 +13,9 @@ namespace HM
       DALRecordset();
       virtual ~DALRecordset();
 
-      bool Open(shared_ptr<DALConnection> pConn, const SQLCommand &command);
+      bool Open(boost::shared_ptr<DALConnection> pConn, const SQLCommand &command);
 
-      virtual DALConnection::ExecutionResult TryOpen(shared_ptr<DALConnection> pConn, const SQLCommand &command, String &sErrorMessage) = 0;
+      virtual DALConnection::ExecutionResult TryOpen(boost::shared_ptr<DALConnection> pConn, const SQLCommand &command, String &sErrorMessage) = 0;
 
       virtual long RecordCount() const = 0;
       virtual bool MoveNext() = 0;

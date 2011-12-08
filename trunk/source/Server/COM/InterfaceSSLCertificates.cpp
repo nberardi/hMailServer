@@ -29,7 +29,7 @@ STDMETHODIMP InterfaceSSLCertificates::InterfaceSupportsErrorInfo(REFIID riid)
 }
    
 void 
-InterfaceSSLCertificates::Attach(shared_ptr<HM::SSLCertificates> pBA) 
+InterfaceSSLCertificates::Attach(boost::shared_ptr<HM::SSLCertificates> pBA) 
 { 
    m_pSSLCertificates = pBA; 
 }
@@ -100,7 +100,7 @@ InterfaceSSLCertificates::get_Item(long Index, IInterfaceSSLCertificate **pVal)
       CComObject<InterfaceSSLCertificate>* pInterfaceSSLCertificate = new CComObject<InterfaceSSLCertificate>();
       pInterfaceSSLCertificate->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SSLCertificate> pBA = m_pSSLCertificates->GetItem(Index);
+      boost::shared_ptr<HM::SSLCertificate> pBA = m_pSSLCertificates->GetItem(Index);
    
       if (!pBA)
          return DISP_E_BADINDEX;
@@ -146,7 +146,7 @@ InterfaceSSLCertificates::get_ItemByDBID(long lDBID, IInterfaceSSLCertificate **
       CComObject<InterfaceSSLCertificate>* pInterfaceSSLCertificate = new CComObject<InterfaceSSLCertificate>();
       pInterfaceSSLCertificate->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SSLCertificate> pBA = m_pSSLCertificates->GetItemByDBID(lDBID);
+      boost::shared_ptr<HM::SSLCertificate> pBA = m_pSSLCertificates->GetItemByDBID(lDBID);
    
       if (!pBA)
          return DISP_E_BADINDEX;
@@ -179,7 +179,7 @@ InterfaceSSLCertificates::Add(IInterfaceSSLCertificate **pVal)
       CComObject<InterfaceSSLCertificate>* pInterfaceSSLCertificate = new CComObject<InterfaceSSLCertificate>();
       pInterfaceSSLCertificate->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::SSLCertificate> pBA = shared_ptr<HM::SSLCertificate>(new HM::SSLCertificate);
+      boost::shared_ptr<HM::SSLCertificate> pBA = boost::shared_ptr<HM::SSLCertificate>(new HM::SSLCertificate);
    
       pInterfaceSSLCertificate->AttachItem(pBA);
       pInterfaceSSLCertificate->AttachParent(m_pSSLCertificates, false);

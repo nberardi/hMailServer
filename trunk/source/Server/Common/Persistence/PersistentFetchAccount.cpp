@@ -54,9 +54,9 @@ namespace HM
 
 
    bool
-   PersistentFetchAccount::ReadObject(shared_ptr<FetchAccount> oFA, const SQLCommand& command)
+   PersistentFetchAccount::ReadObject(boost::shared_ptr<FetchAccount> oFA, const SQLCommand& command)
    {
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return false;
 
@@ -70,7 +70,7 @@ namespace HM
    }
 
    bool
-   PersistentFetchAccount::ReadObject(shared_ptr<FetchAccount> oFA, shared_ptr<DALRecordset> pRS)
+   PersistentFetchAccount::ReadObject(boost::shared_ptr<FetchAccount> oFA, boost::shared_ptr<DALRecordset> pRS)
    {
 
       if (pRS->IsEOF())
@@ -100,7 +100,7 @@ namespace HM
    }
 
    bool
-   PersistentFetchAccount::DeleteObject(shared_ptr<FetchAccount> pFA)
+   PersistentFetchAccount::DeleteObject(boost::shared_ptr<FetchAccount> pFA)
    {
       SQLCommand command("delete from hm_fetchaccounts where faid = @FAID");
       command.AddParameter("@FAID", pFA->GetID());
@@ -121,20 +121,20 @@ namespace HM
    void
    PersistentFetchAccount::DeleteByAccountID(__int64 iAccountID)
    {
-      shared_ptr<FetchAccounts> pFetchAccounts = shared_ptr<FetchAccounts>(new FetchAccounts(iAccountID));
+      boost::shared_ptr<FetchAccounts> pFetchAccounts = boost::shared_ptr<FetchAccounts>(new FetchAccounts(iAccountID));
       pFetchAccounts->Refresh();
       pFetchAccounts->DeleteAll();
    }
 
    bool 
-   PersistentFetchAccount::SaveObject(shared_ptr<FetchAccount> pFA, String &errorMessage)
+   PersistentFetchAccount::SaveObject(boost::shared_ptr<FetchAccount> pFA, String &errorMessage)
    {
       // errorMessage - Not supported yet.
       return SaveObject(pFA);
    }
 
    bool 
-   PersistentFetchAccount::SaveObject(shared_ptr<FetchAccount> pFA)
+   PersistentFetchAccount::SaveObject(boost::shared_ptr<FetchAccount> pFA)
    {
       SQLStatement oStatement;
       oStatement.SetTable("hm_fetchaccounts");
@@ -194,7 +194,7 @@ namespace HM
    }
       
    void
-   PersistentFetchAccount::SetNextTryTime(shared_ptr<FetchAccount> pFA)
+   PersistentFetchAccount::SetNextTryTime(boost::shared_ptr<FetchAccount> pFA)
    {
       SQLCommand command;
 

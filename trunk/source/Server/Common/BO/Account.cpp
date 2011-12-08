@@ -97,36 +97,36 @@ namespace HM
       m_sLastLogonTime = oldAccount.m_sLastLogonTime;
    }
 
-   shared_ptr<Messages>
+   boost::shared_ptr<Messages>
    Account::GetMessages()
    {
       if (m_oMessages.get() == NULL)
       {
-         m_oMessages = shared_ptr<Messages>(new Messages(m_iID, -1));
+         m_oMessages = boost::shared_ptr<Messages>(new Messages(m_iID, -1));
          m_oMessages->Refresh();
       }
 
       return m_oMessages;
    }
 
-   shared_ptr<Rules>
+   boost::shared_ptr<Rules>
    Account::GetRules()
    {
       if (m_pRules.get() == NULL)
       {
-         m_pRules = shared_ptr<Rules>(new Rules(m_iID));
+         m_pRules = boost::shared_ptr<Rules>(new Rules(m_iID));
          m_pRules->Refresh();
       }
    
       return m_pRules;
    }
 
-   shared_ptr<IMAPFolders>
+   boost::shared_ptr<IMAPFolders>
    Account::GetFolders()
    {
       if (m_pFolders.get() == NULL)
       {
-         m_pFolders = shared_ptr<IMAPFolders>(new HM::IMAPFolders(m_iID, -1));
+         m_pFolders = boost::shared_ptr<IMAPFolders>(new HM::IMAPFolders(m_iID, -1));
          m_pFolders->Refresh();
 
       }
@@ -305,7 +305,7 @@ namespace HM
       pNode->AppendAttr(_T("LastLogonTime"), String(m_sLastLogonTime));
 
       // Store fetch accounts
-      shared_ptr<HM::FetchAccounts> pFetchAccounts = shared_ptr<HM::FetchAccounts>(new HM::FetchAccounts(m_iID));
+      boost::shared_ptr<HM::FetchAccounts> pFetchAccounts = boost::shared_ptr<HM::FetchAccounts>(new HM::FetchAccounts(m_iID));
       pFetchAccounts->Refresh();
       if (!pFetchAccounts->XMLStore(pNode, iBackupOptions))
          return false;
@@ -370,7 +370,7 @@ namespace HM
    Account::XMLLoadSubItems(XNode *pAccountNode, int iRestoreOptions)
    {
       // Load 
-      shared_ptr<HM::FetchAccounts> pFetchAccounts = shared_ptr<HM::FetchAccounts>(new HM::FetchAccounts(m_iID));
+      boost::shared_ptr<HM::FetchAccounts> pFetchAccounts = boost::shared_ptr<HM::FetchAccounts>(new HM::FetchAccounts(m_iID));
       pFetchAccounts->Refresh();
       if (!pFetchAccounts->XMLLoad(pAccountNode, iRestoreOptions))
          return false;

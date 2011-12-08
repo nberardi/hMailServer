@@ -21,7 +21,7 @@ namespace HM
 
        int Count();
 
-       shared_ptr<ProtocolParser> CreateConnection(SessionType t, shared_ptr<SecurityRange> securityRange);
+       boost::shared_ptr<ProtocolParser> CreateConnection(SessionType t, boost::shared_ptr<SecurityRange> securityRange);
       
        void OnDisconnect(SessionType st);
 

@@ -32,9 +32,9 @@ namespace HM
    }
 
    bool
-   PersistentRule::ReadObject(shared_ptr<Rule> pRule, const SQLCommand& sSQL)
+   PersistentRule::ReadObject(boost::shared_ptr<Rule> pRule, const SQLCommand& sSQL)
    {
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(sSQL);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(sSQL);
       if (!pRS)
          return false;
 
@@ -48,7 +48,7 @@ namespace HM
    }
 
    bool
-   PersistentRule::ReadObject(shared_ptr<Rule> pRule, shared_ptr<DALRecordset> pRS)
+   PersistentRule::ReadObject(boost::shared_ptr<Rule> pRule, boost::shared_ptr<DALRecordset> pRS)
    {
       if (pRS->IsEOF())
          return false;
@@ -70,7 +70,7 @@ namespace HM
    }
 
    bool
-   PersistentRule::SaveObject(shared_ptr<Rule> pRule, String &errorMessage)
+   PersistentRule::SaveObject(boost::shared_ptr<Rule> pRule, String &errorMessage)
    {
       // errorMessage not supported yet.
       return SaveObject(pRule);
@@ -78,7 +78,7 @@ namespace HM
 
 
    bool
-   PersistentRule::SaveObject(shared_ptr<Rule> pRule)
+   PersistentRule::SaveObject(boost::shared_ptr<Rule> pRule)
    {
       SQLStatement oStatement;
       oStatement.SetTable("hm_rules");
@@ -112,19 +112,19 @@ namespace HM
 
       // Save criterias.
       __int64 iRuleID = pRule->GetID();
-      shared_ptr<RuleCriterias> pRuleCriterias = pRule->GetCriterias();
+      boost::shared_ptr<RuleCriterias> pRuleCriterias = pRule->GetCriterias();
       for (int i = 0; i < pRuleCriterias->GetCount(); i++)
       {
-         shared_ptr<RuleCriteria> pRuleCriteria = pRuleCriterias->GetItem(i);
+         boost::shared_ptr<RuleCriteria> pRuleCriteria = pRuleCriterias->GetItem(i);
          pRuleCriteria->SetRuleID(iRuleID);
          PersistentRuleCriteria::SaveObject(pRuleCriteria);
       }
       
       // Save actions
-      shared_ptr<RuleActions> pRuleActions = pRule->GetActions();
+      boost::shared_ptr<RuleActions> pRuleActions = pRule->GetActions();
       for (int i = 0; i < pRuleActions->GetCount(); i++)
       {
-         shared_ptr<RuleAction> pRuleAction = pRuleActions->GetItem(i);
+         boost::shared_ptr<RuleAction> pRuleAction = pRuleActions->GetItem(i);
          pRuleAction->SetRuleID(iRuleID);
          PersistentRuleAction::SaveObject(pRuleAction);
       }
@@ -148,7 +148,7 @@ namespace HM
       SQLCommand selectCommand("select * from hm_rules where ruleaccountid = @ACCOUNTID");
       selectCommand.AddParameter("@ACCOUNTID", iAccountID);
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(selectCommand);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(selectCommand);
       if (!pRS)
          return ;
 
@@ -156,7 +156,7 @@ namespace HM
       while (!pRS->IsEOF())
       {
          // Create and read the fetch account.
-         shared_ptr<Rule> oRule = shared_ptr<Rule>(new Rule);
+         boost::shared_ptr<Rule> oRule = boost::shared_ptr<Rule>(new Rule);
 
          if (ReadObject(oRule, pRS))
          {
@@ -173,7 +173,7 @@ namespace HM
    }
 
    bool
-   PersistentRule::DeleteObject(shared_ptr<Rule> pRule)
+   PersistentRule::DeleteObject(boost::shared_ptr<Rule> pRule)
    {
       SQLCommand command("delete from hm_rules where ruleid = @RULEID");
       command.AddParameter("@RULEID", pRule->GetID());
@@ -189,7 +189,7 @@ namespace HM
    }
 
    void
-   PersistentRule::_NotifyReload(shared_ptr<Rule> pRule)
+   PersistentRule::_NotifyReload(boost::shared_ptr<Rule> pRule)
    {
       if (pRule->GetAccountID() == 0)
          ObjectCache::Instance()->SetGlobalRulesNeedsReload();

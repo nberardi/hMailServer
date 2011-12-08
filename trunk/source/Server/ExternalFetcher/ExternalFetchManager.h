@@ -25,9 +25,9 @@ namespace HM
 
    private:
 
-      bool _FetchIsAllowed(shared_ptr<FetchAccount> pFA);
+      bool _FetchIsAllowed(boost::shared_ptr<FetchAccount> pFA);
 
-      shared_ptr<FetchAccounts> m_pFetchAccounts;
+      boost::shared_ptr<FetchAccounts> m_pFetchAccounts;
 
       Event m_hStopTask;
       Event m_hCheckNow;

@@ -51,12 +51,12 @@ namespace HM
       return m_iParentFolderID;
    }
 
-   shared_ptr<Messages>
+   boost::shared_ptr<Messages>
    IMAPFolder::GetMessages(bool bReloadIfNeeded)
    {
       if (m_oMessages.get() == NULL)
       {
-         m_oMessages = shared_ptr<Messages>(new Messages(m_iAccountID, m_iDBID));
+         m_oMessages = boost::shared_ptr<Messages>(new Messages(m_iAccountID, m_iDBID));
          m_bFolderNeedsRefresh = true;      
       }
 
@@ -69,10 +69,10 @@ namespace HM
       return m_oMessages;
    }
 
-   std::vector<shared_ptr<Message>>
+   std::vector<boost::shared_ptr<Message>>
    IMAPFolder::GetMessagesCopy(bool bReloadIfNeeded)
    {
-      shared_ptr<Messages> messages = GetMessages(bReloadIfNeeded);
+      boost::shared_ptr<Messages> messages = GetMessages(bReloadIfNeeded);
       
       return messages->GetCopy();
    }
@@ -83,22 +83,22 @@ namespace HM
       m_bFolderNeedsRefresh = true; 
    }
 
-   shared_ptr<IMAPFolders>
+   boost::shared_ptr<IMAPFolders>
    IMAPFolder::GetSubFolders()
    {
       if (m_oSubFolders.get() == NULL)
-         m_oSubFolders = shared_ptr<IMAPFolders>(new IMAPFolders(m_iAccountID, m_iDBID));
+         m_oSubFolders = boost::shared_ptr<IMAPFolders>(new IMAPFolders(m_iAccountID, m_iDBID));
 
       return m_oSubFolders;
    }
 
 
-   shared_ptr<ACLPermissions>
+   boost::shared_ptr<ACLPermissions>
    IMAPFolder::GetPermissions()
    {
       // Always return a new one. Hopefully we don't have so many public folders
 	  // that this will become a performance issue.
-      shared_ptr<ACLPermissions> pPermissions = shared_ptr<ACLPermissions>(new ACLPermissions(m_iDBID));
+      boost::shared_ptr<ACLPermissions> pPermissions = boost::shared_ptr<ACLPermissions>(new ACLPermissions(m_iDBID));
       
 	  // No point in loading list of permissions for account level folder. 
 	  // (since account level folders never have permissions set)
@@ -262,15 +262,15 @@ namespace HM
 
       int iDepth = 1;
       
-      shared_ptr<IMAPFolders> pSubFolders = GetSubFolders();
-      vector<shared_ptr<IMAPFolder> > vecSubFolders = pSubFolders->GetVector();
-      vector<shared_ptr<IMAPFolder> >::iterator iterCurFolder = vecSubFolders.begin();
+      boost::shared_ptr<IMAPFolders> pSubFolders = GetSubFolders();
+      vector<boost::shared_ptr<IMAPFolder> > vecSubFolders = pSubFolders->GetVector();
+      vector<boost::shared_ptr<IMAPFolder> >::iterator iterCurFolder = vecSubFolders.begin();
 
       int iSubDepth = 0;
       int iMaxSubDepth = 0;
       while (iterCurFolder != vecSubFolders.end())
       {
-         shared_ptr<IMAPFolder> pFolder = (*iterCurFolder);
+         boost::shared_ptr<IMAPFolder> pFolder = (*iterCurFolder);
 
          iSubDepth = pFolder->GetFolderDepth(iRecursion);
 

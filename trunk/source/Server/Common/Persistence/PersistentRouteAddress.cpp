@@ -24,7 +24,7 @@ namespace HM
    }
 
    bool
-   PersistentRouteAddress::SaveObject(shared_ptr<RouteAddress> pRA, String &errorMessage)
+   PersistentRouteAddress::SaveObject(boost::shared_ptr<RouteAddress> pRA, String &errorMessage)
    {
       // errorMessage not supported yet.
 
@@ -32,7 +32,7 @@ namespace HM
    }
 
    bool
-   PersistentRouteAddress::SaveObject(shared_ptr<RouteAddress> pRA)
+   PersistentRouteAddress::SaveObject(boost::shared_ptr<RouteAddress> pRA)
    {
 
       SQLStatement oStatement;
@@ -67,7 +67,7 @@ namespace HM
    }
 
    bool
-   PersistentRouteAddress::DeleteObject(shared_ptr<RouteAddress> pRA)
+   PersistentRouteAddress::DeleteObject(boost::shared_ptr<RouteAddress> pRA)
    {
       SQLCommand command("delete from hm_routeaddresses where routeaddressid = @ROUTEADDRESSID");
       command.AddParameter("@ROUTEADDRESSID", pRA->GetID());
@@ -85,12 +85,12 @@ namespace HM
    }
 
    bool
-   PersistentRouteAddress::ReadObject(shared_ptr<RouteAddress> pRA, long lID)
+   PersistentRouteAddress::ReadObject(boost::shared_ptr<RouteAddress> pRA, long lID)
    {
       SQLCommand command("select * from hm_routeaddresses where routeaddressid = @ROUTEADDRESSID");
       command.AddParameter("@ROUTEADDRESSID", lID);
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return false;
 
@@ -104,7 +104,7 @@ namespace HM
    }
 
    bool 
-   PersistentRouteAddress::ReadObject(shared_ptr<RouteAddress> pRA, shared_ptr<DALRecordset> pRS)
+   PersistentRouteAddress::ReadObject(boost::shared_ptr<RouteAddress> pRA, boost::shared_ptr<DALRecordset> pRS)
    {
       pRA->SetID(pRS->GetLongValue("routeaddressid"));
       pRA->SetRouteID(pRS->GetLongValue("routeaddressrouteid"));

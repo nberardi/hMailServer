@@ -87,7 +87,7 @@ namespace HM
 
       static CriteriaType GetCriteriaTypeByName(const String &sName);
 
-      vector<shared_ptr<IMAPSearchCriteria> > &GetSubCriterias() {return m_vecSubCriterias;}
+      vector<boost::shared_ptr<IMAPSearchCriteria> > &GetSubCriterias() {return m_vecSubCriterias;}
 
       void SetSequenceSet(vector<String> newVal) {_sequenceSet = newVal;}
       vector<String> &GetSequenceSet() {return _sequenceSet;}
@@ -103,7 +103,7 @@ namespace HM
       CriteriaType m_Type;
 
       String m_sHeaderField;
-      vector<shared_ptr<IMAPSearchCriteria> > m_vecSubCriterias;
+      vector<boost::shared_ptr<IMAPSearchCriteria> > m_vecSubCriterias;
       vector<String> _sequenceSet;
 
       bool m_bIsOr;
@@ -116,10 +116,10 @@ namespace HM
 	   IMAPSearchParser();
 	   virtual ~IMAPSearchParser();
 
-      IMAPResult ParseCommand(shared_ptr<IMAPCommandArgument> pArgument, bool bIsSort);
+      IMAPResult ParseCommand(boost::shared_ptr<IMAPCommandArgument> pArgument, bool bIsSort);
 
-      shared_ptr<IMAPSearchCriteria>  GetCriteria() {return m_pResultCriteria;}
-      shared_ptr<IMAPSortParser> GetSortParser() {return m_pSortParser; }
+      boost::shared_ptr<IMAPSearchCriteria>  GetCriteria() {return m_pResultCriteria;}
+      boost::shared_ptr<IMAPSortParser> GetSortParser() {return m_pSortParser; }
 
       String GetCharsetName() 
       {
@@ -132,12 +132,12 @@ namespace HM
       bool _NeedsDecoding(IMAPSearchCriteria::CriteriaType criteriaType);
       String _DecodeWordAccordingToCharset(const String &inputValue);
       
-      IMAPResult _ParseSegment(shared_ptr<IMAPSimpleCommandParser> pSimpleParser, int &currentWord, shared_ptr<IMAPSearchCriteria> pCriteria, int iRecursion);
+      IMAPResult _ParseSegment(boost::shared_ptr<IMAPSimpleCommandParser> pSimpleParser, int &currentWord, boost::shared_ptr<IMAPSearchCriteria> pCriteria, int iRecursion);
 
-      IMAPResult _ParseWord(shared_ptr<IMAPSimpleCommandParser> pSimpleParser, shared_ptr<IMAPSearchCriteria> pNewCriteria, int &iCurrentWord);
+      IMAPResult _ParseWord(boost::shared_ptr<IMAPSimpleCommandParser> pSimpleParser, boost::shared_ptr<IMAPSearchCriteria> pNewCriteria, int &iCurrentWord);
 
-      shared_ptr<IMAPSortParser> m_pSortParser;
-      shared_ptr<IMAPSearchCriteria> m_pResultCriteria;
+      boost::shared_ptr<IMAPSortParser> m_pSortParser;
+      boost::shared_ptr<IMAPSearchCriteria> m_pResultCriteria;
 
       String _charsetName;
    };

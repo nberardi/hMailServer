@@ -34,7 +34,7 @@ namespace HM
 
 
    IMAPResult
-   IMAPStore::DoAction(shared_ptr<IMAPConnection> pConnection, int messageIndex,  shared_ptr<Message> pMessage, const shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPStore::DoAction(boost::shared_ptr<IMAPConnection> pConnection, int messageIndex,  boost::shared_ptr<Message> pMessage, const boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       if (!pMessage || !pArgument)
          return IMAPResult(IMAPResult::ResultBad, "Invalid parameters");
@@ -138,8 +138,8 @@ namespace HM
       std::vector<__int64> effectedMessages;
       effectedMessages.push_back(pMessage->GetID());
 
-      shared_ptr<ChangeNotification> pNotification = 
-         shared_ptr<ChangeNotification>(new ChangeNotification(pConnection->GetCurrentFolder()->GetAccountID(), pConnection->GetCurrentFolder()->GetID(),  ChangeNotification::NotificationMessageFlagsChanged, effectedMessages));
+      boost::shared_ptr<ChangeNotification> pNotification = 
+         boost::shared_ptr<ChangeNotification>(new ChangeNotification(pConnection->GetCurrentFolder()->GetAccountID(), pConnection->GetCurrentFolder()->GetID(),  ChangeNotification::NotificationMessageFlagsChanged, effectedMessages));
 
       Application::Instance()->GetNotificationServer()->SendNotification(pConnection->GetNotificationClient(), pNotification);
       // END IMAP IDLE
@@ -148,7 +148,7 @@ namespace HM
    }
 
    String 
-   IMAPStore::GetMessageFlags(shared_ptr<Message> pMessage, int messageIndex)
+   IMAPStore::GetMessageFlags(boost::shared_ptr<Message> pMessage, int messageIndex)
    {
       // Build a flags string.
       String sFlags;

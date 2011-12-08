@@ -51,11 +51,11 @@ END_COM_MAP()
    STDMETHOD(Refresh)();
    STDMETHOD(Add)(/*[out, retval]*/ IInterfaceIncomingRelay** pVal);
 
-   void Attach(shared_ptr<HM::IncomingRelays> pRanges);
+   void Attach(boost::shared_ptr<HM::IncomingRelays> pRanges);
 private:
 
 
-   shared_ptr<HM::IncomingRelays> m_pIncomingRelays;
+   boost::shared_ptr<HM::IncomingRelays> m_pIncomingRelays;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(IncomingRelays), InterfaceIncomingRelays)

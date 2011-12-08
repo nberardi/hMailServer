@@ -70,7 +70,7 @@ InterfaceDNSBlackLists::get_Item(long Index, IInterfaceDNSBlackList **pVal)
       CComObject<InterfaceDNSBlackList>* pInterfaceDNSBlackList = new CComObject<InterfaceDNSBlackList>();
       pInterfaceDNSBlackList->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::DNSBlackList> pDNSBlackList = m_pBlackLists->GetItem(Index);
+      boost::shared_ptr<HM::DNSBlackList> pDNSBlackList = m_pBlackLists->GetItem(Index);
    
       if (!pDNSBlackList)
          return DISP_E_BADINDEX;
@@ -115,7 +115,7 @@ InterfaceDNSBlackLists::get_ItemByDBID(long lDBID, IInterfaceDNSBlackList **pVal
 
       CComObject<InterfaceDNSBlackList>* pInterfaceDNSBlackList = new CComObject<InterfaceDNSBlackList>();
       pInterfaceDNSBlackList->SetAuthentication(m_pAuthentication);
-      shared_ptr<HM::DNSBlackList> pDNSBlackList = m_pBlackLists->GetItemByDBID(lDBID);
+      boost::shared_ptr<HM::DNSBlackList> pDNSBlackList = m_pBlackLists->GetItemByDBID(lDBID);
    
       if (!pDNSBlackList)
          return DISP_E_BADINDEX;
@@ -147,7 +147,7 @@ InterfaceDNSBlackLists::Add(IInterfaceDNSBlackList **pVal)
    
       CComObject<InterfaceDNSBlackList>* pInterfaceDNSBlackList = new CComObject<InterfaceDNSBlackList>();
       pInterfaceDNSBlackList->SetAuthentication(m_pAuthentication);
-      shared_ptr<HM::DNSBlackList> pDNSBL = shared_ptr<HM::DNSBlackList>(new HM::DNSBlackList);
+      boost::shared_ptr<HM::DNSBlackList> pDNSBL = boost::shared_ptr<HM::DNSBlackList>(new HM::DNSBlackList);
    
       pInterfaceDNSBlackList->AttachItem(pDNSBL);
       pInterfaceDNSBlackList->AttachParent(m_pBlackLists, false);
@@ -175,7 +175,7 @@ InterfaceDNSBlackLists::get_ItemByDNSHost(BSTR ItemName, IInterfaceDNSBlackList 
       CComObject<InterfaceDNSBlackList>* pInterfaceDNSBlackList = new CComObject<InterfaceDNSBlackList>();
       pInterfaceDNSBlackList->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::DNSBlackList> pDNSBL = m_pBlackLists->GetItemByName(ItemName);
+      boost::shared_ptr<HM::DNSBlackList> pDNSBL = m_pBlackLists->GetItemByName(ItemName);
       if (!pDNSBL)
          return S_FALSE;
    

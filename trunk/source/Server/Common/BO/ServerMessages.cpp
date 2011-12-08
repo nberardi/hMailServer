@@ -38,7 +38,7 @@ namespace HM
    String 
    ServerMessages::GetMessage(const String &sName) const
    {
-      shared_ptr<ServerMessage> pSM = GetItemByName(sName);
+      boost::shared_ptr<ServerMessage> pSM = GetItemByName(sName);
 
       if (!pSM)
       {

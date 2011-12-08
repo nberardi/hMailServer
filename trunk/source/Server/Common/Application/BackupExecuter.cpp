@@ -228,7 +228,7 @@ namespace HM
    bool 
    BackupExecuter::_BackupDomains(XNode *pBackupNode)
    {
-      shared_ptr<Domains> pDomains = shared_ptr<Domains>(new Domains);
+      boost::shared_ptr<Domains> pDomains = boost::shared_ptr<Domains>(new Domains);
       pDomains->Refresh();
       pDomains->XMLStore(pBackupNode, m_iBackupMode);
 
@@ -236,7 +236,7 @@ namespace HM
    }
 
    bool
-   BackupExecuter::StartRestore(shared_ptr<Backup> pBackup)
+   BackupExecuter::StartRestore(boost::shared_ptr<Backup> pBackup)
    {
       Logger::Instance()->LogBackup("Reading XML file...");
       String sZipFile = pBackup->GetBackupFile();
@@ -285,7 +285,7 @@ namespace HM
          // drop the domain folders from the data directory. If we do this
          // in the wrong order, we'll hence first restore the data directory
          // and then drop it.
-         shared_ptr<Domains> pDomains = shared_ptr<Domains>(new Domains);
+         boost::shared_ptr<Domains> pDomains = boost::shared_ptr<Domains>(new Domains);
          pDomains->Refresh();
          pDomains->DeleteAll();
 
@@ -343,7 +343,7 @@ namespace HM
    }
 
    void
-   BackupExecuter::_RestoreDataDirectory(shared_ptr<Backup> pBackup, XNode *pBackupNode)
+   BackupExecuter::_RestoreDataDirectory(boost::shared_ptr<Backup> pBackup, XNode *pBackupNode)
    {
       XNode *pBackupInfoNode = pBackupNode->GetChild(_T("BackupInformation"));
       

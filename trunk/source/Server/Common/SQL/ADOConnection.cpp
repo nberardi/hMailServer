@@ -18,7 +18,7 @@ using namespace std;
 
 namespace HM
 {
-   ADOConnection::ADOConnection(shared_ptr<DatabaseSettings> pSettings) :
+   ADOConnection::ADOConnection(boost::shared_ptr<DatabaseSettings> pSettings) :
       DALConnection(pSettings)
    {
       HRESULT hr =cADOConnection.CreateInstance(__uuidof(Connection));
@@ -390,7 +390,7 @@ namespace HM
    bool 
    ADOConnection::CheckServerVersion(String &errorMessage)
    {
-      shared_ptr<ADOConnection> connection = shared_from_this();
+      boost::shared_ptr<ADOConnection> connection = shared_from_this();
 
       ADORecordset recordset;
       if (recordset.TryOpen(connection, SQLCommand("SELECT SERVERPROPERTY('productversion') as ProductVersion"), errorMessage) != DALConnection::DALSuccess)
@@ -410,10 +410,10 @@ namespace HM
       return true;
    }
 
-   shared_ptr<DALRecordset> 
+   boost::shared_ptr<DALRecordset> 
    ADOConnection::CreateRecordset()
    {
-      shared_ptr<ADORecordset> recordset = shared_ptr<ADORecordset>(new ADORecordset());
+      boost::shared_ptr<ADORecordset> recordset = boost::shared_ptr<ADORecordset>(new ADORecordset());
       return recordset;
    }
 
@@ -423,10 +423,10 @@ namespace HM
       sInput.Replace(_T("'"), _T("''"));
    }
 
-   shared_ptr<IMacroExpander> 
+   boost::shared_ptr<IMacroExpander> 
    ADOConnection::CreateMacroExpander()
    {
-      shared_ptr<MSSQLMacroExpander> expander = shared_ptr<MSSQLMacroExpander>(new MSSQLMacroExpander());
+      boost::shared_ptr<MSSQLMacroExpander> expander = boost::shared_ptr<MSSQLMacroExpander>(new MSSQLMacroExpander());
       return expander;
    }
 

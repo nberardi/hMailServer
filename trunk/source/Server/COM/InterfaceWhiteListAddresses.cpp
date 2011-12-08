@@ -13,7 +13,7 @@
 
 
 void 
-InterfaceWhiteListAddresses::Attach(shared_ptr<HM::WhiteListAddresses> pBA) 
+InterfaceWhiteListAddresses::Attach(boost::shared_ptr<HM::WhiteListAddresses> pBA) 
 { 
    m_pObject = pBA; 
 }
@@ -88,7 +88,7 @@ InterfaceWhiteListAddresses::get_Item(long Index, IInterfaceWhiteListAddress **p
       CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
       pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::WhiteListAddress> pBA = m_pObject->GetItem(Index);
+      boost::shared_ptr<HM::WhiteListAddress> pBA = m_pObject->GetItem(Index);
    
       if (!pBA)
          return DISP_E_BADINDEX;
@@ -134,7 +134,7 @@ InterfaceWhiteListAddresses::get_ItemByDBID(long lDBID, IInterfaceWhiteListAddre
       CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
       pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::WhiteListAddress> pBA = m_pObject->GetItemByDBID(lDBID);
+      boost::shared_ptr<HM::WhiteListAddress> pBA = m_pObject->GetItemByDBID(lDBID);
    
       if (!pBA)
          return DISP_E_BADINDEX;
@@ -164,7 +164,7 @@ InterfaceWhiteListAddresses::get_ItemByName(BSTR sName, IInterfaceWhiteListAddre
       CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
       pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::WhiteListAddress> pBA = m_pObject->GetItemByName(sName);
+      boost::shared_ptr<HM::WhiteListAddress> pBA = m_pObject->GetItemByName(sName);
    
       if (!pBA)
          return DISP_E_BADINDEX;
@@ -197,7 +197,7 @@ InterfaceWhiteListAddresses::Add(IInterfaceWhiteListAddress **pVal)
       CComObject<InterfaceWhiteListAddress>* pInterfaceWhiteListAddress = new CComObject<InterfaceWhiteListAddress>();
       pInterfaceWhiteListAddress->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::WhiteListAddress> pBA = shared_ptr<HM::WhiteListAddress>(new HM::WhiteListAddress);
+      boost::shared_ptr<HM::WhiteListAddress> pBA = boost::shared_ptr<HM::WhiteListAddress>(new HM::WhiteListAddress);
    
       pInterfaceWhiteListAddress->AttachItem(pBA);
       pInterfaceWhiteListAddress->AttachParent(m_pObject, false);

@@ -27,7 +27,7 @@ namespace HM
 
       void SetMaxSimultaneous(int iMaxSimultaneous);
 
-      void AddTask(shared_ptr<Task> pTask);
+      void AddTask(boost::shared_ptr<Task> pTask);
       void Start();
       void ThreadFunc();
       
@@ -48,15 +48,15 @@ namespace HM
 
       HANDLE GetQueueThreadHandle() const {return m_hThread; }
       
-      shared_ptr<Task> GetTaskByName(const String &name, bool &isQueued);
+      boost::shared_ptr<Task> GetTaskByName(const String &name, bool &isQueued);
       void StopTask(const String &name);
 
    private:
 
-      queue<shared_ptr<Task> > m_qPendingTasks;
+      queue<boost::shared_ptr<Task> > m_qPendingTasks;
       CriticalSection m_csPendingTasks;
 
-      map<HANDLE, shared_ptr<Thread> > m_mapThreads;
+      map<HANDLE, boost::shared_ptr<Thread> > m_mapThreads;
       CriticalSection m_csThreads;
 
       unsigned int m_iMaxSimultaneous;

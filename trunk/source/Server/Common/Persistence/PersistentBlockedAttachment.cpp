@@ -23,7 +23,7 @@ namespace HM
    }
 
    bool
-   PersistentBlockedAttachment::DeleteObject(shared_ptr<BlockedAttachment> pObject)
+   PersistentBlockedAttachment::DeleteObject(boost::shared_ptr<BlockedAttachment> pObject)
    {
       SQLCommand command("delete from hm_blocked_attachments where baid = @BAID");
       command.AddParameter("@BAID", pObject->GetID());
@@ -32,7 +32,7 @@ namespace HM
    }
 
    bool 
-   PersistentBlockedAttachment::ReadObject(shared_ptr<BlockedAttachment> pObject, shared_ptr<DALRecordset> pRS)
+   PersistentBlockedAttachment::ReadObject(boost::shared_ptr<BlockedAttachment> pObject, boost::shared_ptr<DALRecordset> pRS)
    {
       pObject->SetID (pRS->GetLongValue("baid"));
       pObject->SetWildcard(pRS->GetStringValue("bawildcard"));
@@ -42,14 +42,14 @@ namespace HM
    }
 
    bool 
-   PersistentBlockedAttachment::SaveObject(shared_ptr<BlockedAttachment> pObject, String &errorMessage)
+   PersistentBlockedAttachment::SaveObject(boost::shared_ptr<BlockedAttachment> pObject, String &errorMessage)
    {
       // errorMessage -- not supported yet.
       return SaveObject(pObject);
    }
 
    bool 
-   PersistentBlockedAttachment::SaveObject(shared_ptr<BlockedAttachment> pObject)
+   PersistentBlockedAttachment::SaveObject(boost::shared_ptr<BlockedAttachment> pObject)
    {
       SQLStatement oStatement;
       oStatement.SetTable("hm_blocked_attachments");

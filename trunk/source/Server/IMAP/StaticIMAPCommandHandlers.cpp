@@ -43,7 +43,7 @@
 
 namespace HM
 {
-   std::map<IMAPConnection::eIMAPCommandType, shared_ptr<IMAPCommand> > StaticIMAPCommandHandlers::mapCommandHandlers;
+   std::map<IMAPConnection::eIMAPCommandType, boost::shared_ptr<IMAPCommand> > StaticIMAPCommandHandlers::mapCommandHandlers;
 
    StaticIMAPCommandHandlers::StaticIMAPCommandHandlers()
    {
@@ -58,36 +58,36 @@ namespace HM
    void
    StaticIMAPCommandHandlers::Init()
    {
-      mapCommandHandlers[IMAPConnection::IMAP_LOGIN] = shared_ptr<IMAPCommandLOGIN>(new IMAPCommandLOGIN());
-      mapCommandHandlers[IMAPConnection::IMAP_CHECK] = shared_ptr<IMAPCommandCHECK>(new IMAPCommandCHECK());
-      mapCommandHandlers[IMAPConnection::IMAP_SELECT] = shared_ptr<IMAPCommandSELECT>(new IMAPCommandSELECT());
-      mapCommandHandlers[IMAPConnection::IMAP_CLOSE] = shared_ptr<IMAPCommandCLOSE>(new IMAPCommandCLOSE());
-      mapCommandHandlers[IMAPConnection::IMAP_CREATE] = shared_ptr<IMAPCommandCREATE>(new IMAPCommandCREATE());
-      mapCommandHandlers[IMAPConnection::IMAP_DELETE] = shared_ptr<IMAPCommandDELETE>(new IMAPCommandDELETE());
-      mapCommandHandlers[IMAPConnection::IMAP_EXAMINE] = shared_ptr<IMAPCommandEXAMINE>(new IMAPCommandEXAMINE());
-      mapCommandHandlers[IMAPConnection::IMAP_EXPUNGE] = shared_ptr<IMAPCommandEXPUNGE>(new IMAPCommandEXPUNGE());
-      mapCommandHandlers[IMAPConnection::IMAP_UNSUBSCRIBE] = shared_ptr<IMAPCommandUNSUBSCRIBE>(new IMAPCommandUNSUBSCRIBE());
-      mapCommandHandlers[IMAPConnection::IMAP_SUBSCRIBE] = shared_ptr<IMAPCommandSUBSCRIBE>(new IMAPCommandSUBSCRIBE());
-      mapCommandHandlers[IMAPConnection::IMAP_STATUS] = shared_ptr<IMAPCommandSTATUS>(new IMAPCommandSTATUS());
-      mapCommandHandlers[IMAPConnection::IMAP_RENAME] = shared_ptr<IMAPCommandRENAME>(new IMAPCommandRENAME());
-      mapCommandHandlers[IMAPConnection::IMAP_LIST] = shared_ptr<IMAPCommandLIST>(new IMAPCommandLIST());
-      mapCommandHandlers[IMAPConnection::IMAP_LSUB] = shared_ptr<IMAPCommandLSUB>(new IMAPCommandLSUB());
-      mapCommandHandlers[IMAPConnection::IMAP_COPY] = shared_ptr<IMAPCommandCOPY>(new IMAPCommandCOPY());
-      mapCommandHandlers[IMAPConnection::IMAP_FETCH] = shared_ptr<IMAPCommandFETCH>(new IMAPCommandFETCH());
-      mapCommandHandlers[IMAPConnection::IMAP_CAPABILITY] = shared_ptr<IMAPCommandCapability>(new IMAPCommandCapability());
-      mapCommandHandlers[IMAPConnection::IMAP_STORE] = shared_ptr<IMAPCommandStore>(new IMAPCommandStore());
-      mapCommandHandlers[IMAPConnection::IMAP_AUTHENTICATE] = shared_ptr<IMAPCommandAUTHENTICATE>(new IMAPCommandAUTHENTICATE());
-      mapCommandHandlers[IMAPConnection::IMAP_NOOP] = shared_ptr<IMAPCommandNOOP>(new IMAPCommandNOOP());
-      mapCommandHandlers[IMAPConnection::IMAP_LOGOUT] = shared_ptr<IMAPCommandLOGOUT>(new IMAPCommandLOGOUT());
-      mapCommandHandlers[IMAPConnection::IMAP_UNKNOWN] = shared_ptr<IMAPCommandUNKNOWN>(new IMAPCommandUNKNOWN());
-      mapCommandHandlers[IMAPConnection::IMAP_GETQUOTAROOT] = shared_ptr<IMAPCommandGetQuotaRoot>(new IMAPCommandGetQuotaRoot());
-      mapCommandHandlers[IMAPConnection::IMAP_GETQUOTA] = shared_ptr<IMAPCommandGetQuota>(new IMAPCommandGetQuota());
-      mapCommandHandlers[IMAPConnection::IMAP_NAMESPACE] = shared_ptr<IMAPCommandNamespace>(new IMAPCommandNamespace());
-      mapCommandHandlers[IMAPConnection::IMAP_MYRIGHTS] = shared_ptr<IMAPCommandMyRights>(new IMAPCommandMyRights());
-      mapCommandHandlers[IMAPConnection::IMAP_GETACL] = shared_ptr<IMAPCommandGetAcl>(new IMAPCommandGetAcl());
-      mapCommandHandlers[IMAPConnection::IMAP_DELETEACL] = shared_ptr<IMAPCommandDeleteAcl>(new IMAPCommandDeleteAcl());
-      mapCommandHandlers[IMAPConnection::IMAP_SETACL] = shared_ptr<IMAPCommandSetAcl>(new IMAPCommandSetAcl());
-      mapCommandHandlers[IMAPConnection::IMAP_LISTRIGHTS] = shared_ptr<IMAPCommandListRights>(new IMAPCommandListRights());
+      mapCommandHandlers[IMAPConnection::IMAP_LOGIN] = boost::shared_ptr<IMAPCommandLOGIN>(new IMAPCommandLOGIN());
+      mapCommandHandlers[IMAPConnection::IMAP_CHECK] = boost::shared_ptr<IMAPCommandCHECK>(new IMAPCommandCHECK());
+      mapCommandHandlers[IMAPConnection::IMAP_SELECT] = boost::shared_ptr<IMAPCommandSELECT>(new IMAPCommandSELECT());
+      mapCommandHandlers[IMAPConnection::IMAP_CLOSE] = boost::shared_ptr<IMAPCommandCLOSE>(new IMAPCommandCLOSE());
+      mapCommandHandlers[IMAPConnection::IMAP_CREATE] = boost::shared_ptr<IMAPCommandCREATE>(new IMAPCommandCREATE());
+      mapCommandHandlers[IMAPConnection::IMAP_DELETE] = boost::shared_ptr<IMAPCommandDELETE>(new IMAPCommandDELETE());
+      mapCommandHandlers[IMAPConnection::IMAP_EXAMINE] = boost::shared_ptr<IMAPCommandEXAMINE>(new IMAPCommandEXAMINE());
+      mapCommandHandlers[IMAPConnection::IMAP_EXPUNGE] = boost::shared_ptr<IMAPCommandEXPUNGE>(new IMAPCommandEXPUNGE());
+      mapCommandHandlers[IMAPConnection::IMAP_UNSUBSCRIBE] = boost::shared_ptr<IMAPCommandUNSUBSCRIBE>(new IMAPCommandUNSUBSCRIBE());
+      mapCommandHandlers[IMAPConnection::IMAP_SUBSCRIBE] = boost::shared_ptr<IMAPCommandSUBSCRIBE>(new IMAPCommandSUBSCRIBE());
+      mapCommandHandlers[IMAPConnection::IMAP_STATUS] = boost::shared_ptr<IMAPCommandSTATUS>(new IMAPCommandSTATUS());
+      mapCommandHandlers[IMAPConnection::IMAP_RENAME] = boost::shared_ptr<IMAPCommandRENAME>(new IMAPCommandRENAME());
+      mapCommandHandlers[IMAPConnection::IMAP_LIST] = boost::shared_ptr<IMAPCommandLIST>(new IMAPCommandLIST());
+      mapCommandHandlers[IMAPConnection::IMAP_LSUB] = boost::shared_ptr<IMAPCommandLSUB>(new IMAPCommandLSUB());
+      mapCommandHandlers[IMAPConnection::IMAP_COPY] = boost::shared_ptr<IMAPCommandCOPY>(new IMAPCommandCOPY());
+      mapCommandHandlers[IMAPConnection::IMAP_FETCH] = boost::shared_ptr<IMAPCommandFETCH>(new IMAPCommandFETCH());
+      mapCommandHandlers[IMAPConnection::IMAP_CAPABILITY] = boost::shared_ptr<IMAPCommandCapability>(new IMAPCommandCapability());
+      mapCommandHandlers[IMAPConnection::IMAP_STORE] = boost::shared_ptr<IMAPCommandStore>(new IMAPCommandStore());
+      mapCommandHandlers[IMAPConnection::IMAP_AUTHENTICATE] = boost::shared_ptr<IMAPCommandAUTHENTICATE>(new IMAPCommandAUTHENTICATE());
+      mapCommandHandlers[IMAPConnection::IMAP_NOOP] = boost::shared_ptr<IMAPCommandNOOP>(new IMAPCommandNOOP());
+      mapCommandHandlers[IMAPConnection::IMAP_LOGOUT] = boost::shared_ptr<IMAPCommandLOGOUT>(new IMAPCommandLOGOUT());
+      mapCommandHandlers[IMAPConnection::IMAP_UNKNOWN] = boost::shared_ptr<IMAPCommandUNKNOWN>(new IMAPCommandUNKNOWN());
+      mapCommandHandlers[IMAPConnection::IMAP_GETQUOTAROOT] = boost::shared_ptr<IMAPCommandGetQuotaRoot>(new IMAPCommandGetQuotaRoot());
+      mapCommandHandlers[IMAPConnection::IMAP_GETQUOTA] = boost::shared_ptr<IMAPCommandGetQuota>(new IMAPCommandGetQuota());
+      mapCommandHandlers[IMAPConnection::IMAP_NAMESPACE] = boost::shared_ptr<IMAPCommandNamespace>(new IMAPCommandNamespace());
+      mapCommandHandlers[IMAPConnection::IMAP_MYRIGHTS] = boost::shared_ptr<IMAPCommandMyRights>(new IMAPCommandMyRights());
+      mapCommandHandlers[IMAPConnection::IMAP_GETACL] = boost::shared_ptr<IMAPCommandGetAcl>(new IMAPCommandGetAcl());
+      mapCommandHandlers[IMAPConnection::IMAP_DELETEACL] = boost::shared_ptr<IMAPCommandDeleteAcl>(new IMAPCommandDeleteAcl());
+      mapCommandHandlers[IMAPConnection::IMAP_SETACL] = boost::shared_ptr<IMAPCommandSetAcl>(new IMAPCommandSetAcl());
+      mapCommandHandlers[IMAPConnection::IMAP_LISTRIGHTS] = boost::shared_ptr<IMAPCommandListRights>(new IMAPCommandListRights());
       
    }
 
@@ -100,7 +100,7 @@ namespace HM
    // Tiny commands
 
    IMAPResult
-   IMAPCommandUNKNOWN::ExecuteCommand(shared_ptr<IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandUNKNOWN::ExecuteCommand(boost::shared_ptr<IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       pConnection->SendResponseString(pArgument->Tag(), "BAD", "Unknown or NULL command");
 
@@ -108,7 +108,7 @@ namespace HM
    }
 
    IMAPResult
-   IMAPCommandNOOP::ExecuteCommand(shared_ptr<IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandNOOP::ExecuteCommand(boost::shared_ptr<IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
       pConnection->SendAsciiData(pArgument->Tag() + " OK NOOP completed\r\n");   
 

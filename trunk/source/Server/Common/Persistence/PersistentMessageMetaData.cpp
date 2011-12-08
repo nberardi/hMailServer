@@ -26,10 +26,10 @@ namespace HM
    }
 
    // 2011-11-15 JDR: Modified this function to include quickIndex to pick a specific query.
-   set<shared_ptr<PersistentMessageMetaData::MessageInfo> >
+   set<boost::shared_ptr<PersistentMessageMetaData::MessageInfo> >
    PersistentMessageMetaData::GetMessagesToIndex(bool quickIndex = false)
    {
-      set<shared_ptr<MessageInfo> > result;
+      set<boost::shared_ptr<MessageInfo> > result;
 
       SQLStatement statement;
       statement.AddColumn("messageid");
@@ -62,14 +62,14 @@ namespace HM
          LOG_DEBUG("Doing FULL index... ");
       }
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(statement);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(statement);
 
       if (!pRS)
          return result;
 
       while (!pRS->IsEOF())
       {
-         shared_ptr<MessageInfo> messageInfo = shared_ptr<MessageInfo>(new MessageInfo);
+         boost::shared_ptr<MessageInfo> messageInfo = boost::shared_ptr<MessageInfo>(new MessageInfo);
          messageInfo->MessageID = pRS->GetInt64Value("messageid");
          messageInfo->AccountID = pRS->GetLongValue("messageaccountid");
          messageInfo->FolderID = pRS->GetLongValue("messagefolderid");
@@ -77,7 +77,7 @@ namespace HM
          String accountAddress = pRS->GetStringValue("accountaddress");
          String fileName = pRS->GetStringValue("messagefilename");
 
-         shared_ptr<Message> dummyMessage = shared_ptr<Message>(new Message);
+         boost::shared_ptr<Message> dummyMessage = boost::shared_ptr<Message>(new Message);
          dummyMessage->SetID(messageInfo->MessageID);
          dummyMessage->SetAccountID(messageInfo->AccountID);
          dummyMessage->SetFolderID(messageInfo->FolderID);
@@ -127,7 +127,7 @@ namespace HM
       whereClause.Format(_T("metadata_accountid = %d and metadata_folderid = %d"), accountID, folderID);
       sql.SetWhereClause(whereClause);
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(sql);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(sql);
 
       while (!pRS->IsEOF())
       {
@@ -162,7 +162,7 @@ namespace HM
 
 
    bool 
-   PersistentMessageMetaData::SaveObject(shared_ptr<MessageMetaData> metaData)
+   PersistentMessageMetaData::SaveObject(boost::shared_ptr<MessageMetaData> metaData)
    {
       SQLStatement statement;
       statement.SetTable("hm_message_metadata");
@@ -200,7 +200,7 @@ namespace HM
    }
 
    bool
-   PersistentMessageMetaData::DeleteForMessage(shared_ptr<Message> message)
+   PersistentMessageMetaData::DeleteForMessage(boost::shared_ptr<Message> message)
    {
       if (message->GetState() != Message::Delivered)
       {
@@ -219,7 +219,7 @@ namespace HM
    {
       SQLCommand command("select count(*) as c from hm_message_metadata");
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return false;
 

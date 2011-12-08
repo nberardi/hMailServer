@@ -113,22 +113,22 @@ namespace HM
    // Connection handlers that needs to be connection-specific (nonstatic)
    //---------------------------------------------------------------------------()
    {
-      mapCommandHandlers[IMAP_UID] = shared_ptr<IMAPCommandUID>(new IMAPCommandUID());
-      mapCommandHandlers[IMAP_APPEND] = shared_ptr<IMAPCommandAppend>(new IMAPCommandAppend());
-      mapCommandHandlers[IMAP_SEARCH] = shared_ptr<IMAPCommandSEARCH>(new IMAPCommandSEARCH(false));
-      mapCommandHandlers[IMAP_SORT] = shared_ptr<IMAPCommandSEARCH>(new IMAPCommandSEARCH(true));
-      mapCommandHandlers[IMAP_IDLE] = shared_ptr<IMAPCommandIdle>(new IMAPCommandIdle(shared_from_this()));
+      mapCommandHandlers[IMAP_UID] = boost::shared_ptr<IMAPCommandUID>(new IMAPCommandUID());
+      mapCommandHandlers[IMAP_APPEND] = boost::shared_ptr<IMAPCommandAppend>(new IMAPCommandAppend());
+      mapCommandHandlers[IMAP_SEARCH] = boost::shared_ptr<IMAPCommandSEARCH>(new IMAPCommandSEARCH(false));
+      mapCommandHandlers[IMAP_SORT] = boost::shared_ptr<IMAPCommandSEARCH>(new IMAPCommandSEARCH(true));
+      mapCommandHandlers[IMAP_IDLE] = boost::shared_ptr<IMAPCommandIdle>(new IMAPCommandIdle(shared_from_this()));
 
       mapStaticHandlers = StaticIMAPCommandHandlers::Instance()->GetStaticHandlers();
 
-      _notificationClient = shared_ptr<IMAPNotificationClient>(new IMAPNotificationClient());
+      _notificationClient = boost::shared_ptr<IMAPNotificationClient>(new IMAPNotificationClient());
       _notificationClient->SetConnection(shared_from_this());
    }
 
    void 
-   IMAPConnection::ParseData(shared_ptr<ByteBuffer> pByteBuffer)
+   IMAPConnection::ParseData(boost::shared_ptr<ByteBuffer> pByteBuffer)
    {
-      std::map<eIMAPCommandType, shared_ptr<IMAPCommand> >::iterator iterCommandHandler = mapCommandHandlers.find(IMAP_APPEND);
+      std::map<eIMAPCommandType, boost::shared_ptr<IMAPCommand> >::iterator iterCommandHandler = mapCommandHandlers.find(IMAP_APPEND);
       IMAPCommand* pCommand = (*iterCommandHandler).second.get();
       IMAPCommandAppend * pCommandAppend  = static_cast<IMAPCommandAppend*>(pCommand);
 
@@ -168,7 +168,7 @@ namespace HM
       String sTag = m_sCommandBuffer.Mid(0, iSpace);
       String sCommand = m_sCommandBuffer.Mid(iSpace+1, iLineEnd - (iSpace+1));
    
-      shared_ptr<IMAPClientCommand> pCommand = shared_ptr<IMAPClientCommand>(new IMAPClientCommand);
+      boost::shared_ptr<IMAPClientCommand> pCommand = boost::shared_ptr<IMAPClientCommand>(new IMAPClientCommand);
       
       // Check if we should receive any literal data.
       if (m_iLiteralDataToReceive == 0)
@@ -410,7 +410,7 @@ namespace HM
    }
 
    void 
-   IMAPConnection::Login(shared_ptr<const Account> account)
+   IMAPConnection::Login(boost::shared_ptr<const Account> account)
    {
       _account = account;
 
@@ -422,7 +422,7 @@ namespace HM
    {
       CloseCurrentFolder();
 
-      shared_ptr<const Account> account;
+      boost::shared_ptr<const Account> account;
       _SetAccount(account),
 
       SendAsciiData(goodbyeMessage);   
@@ -547,7 +547,7 @@ namespace HM
    // Handles a single client command.
    //---------------------------------------------------------------------------()
    {
-      std::vector<shared_ptr<IMAPClientCommand> >::iterator iterCommand = vecIncoming.begin();
+      std::vector<boost::shared_ptr<IMAPClientCommand> >::iterator iterCommand = vecIncoming.begin();
 
       if (iterCommand != vecIncoming.end())
       {
@@ -588,7 +588,7 @@ namespace HM
 
          bool bHandlerFound = false;
          
-         std::map<eIMAPCommandType, shared_ptr<IMAPCommand> >::iterator iterCommandHandler = mapCommandHandlers.find(eCommand);
+         std::map<eIMAPCommandType, boost::shared_ptr<IMAPCommand> >::iterator iterCommandHandler = mapCommandHandlers.find(eCommand);
 
          if (iterCommandHandler != mapCommandHandlers.end())
             bHandlerFound = true;
@@ -603,9 +603,9 @@ namespace HM
 
          if (bHandlerFound)
          {
-            shared_ptr<IMAPCommand> pCommand = (*iterCommandHandler).second;
+            boost::shared_ptr<IMAPCommand> pCommand = (*iterCommandHandler).second;
 
-            shared_ptr<IMAPCommandArgument> pArgument = shared_ptr<IMAPCommandArgument> (new IMAPCommandArgument);
+            boost::shared_ptr<IMAPCommandArgument> pArgument = boost::shared_ptr<IMAPCommandArgument> (new IMAPCommandArgument);
 
             pArgument->Command(sCommandValue);
             pArgument->Tag(sCommandTag);
@@ -663,9 +663,9 @@ namespace HM
          return;
       }
 
-      std::map<eIMAPCommandType, shared_ptr<IMAPCommand> >::iterator iterCommandHandler = mapCommandHandlers.find(IMAP_IDLE);
-      shared_ptr<IMAPCommand> pCommand = (*iterCommandHandler).second;
-      shared_ptr<IMAPCommandIdle> pIdleCommand = boost::shared_static_cast<IMAPCommandIdle>(pCommand);
+      std::map<eIMAPCommandType, boost::shared_ptr<IMAPCommand> >::iterator iterCommandHandler = mapCommandHandlers.find(IMAP_IDLE);
+      boost::shared_ptr<IMAPCommand> pCommand = (*iterCommandHandler).second;
+      boost::shared_ptr<IMAPCommandIdle> pIdleCommand = boost::shared_static_cast<IMAPCommandIdle>(pCommand);
       pIdleCommand->Finish(true);
    }
 
@@ -690,7 +690,7 @@ namespace HM
       m_pPublicIMAPFolders = IMAPFolderContainer::Instance()->GetPublicFolders();
    }
 
-   shared_ptr<IMAPFolder> 
+   boost::shared_ptr<IMAPFolder> 
    IMAPConnection::GetFolderByFullPath(const String &sFolderName)
    {
       String hierarchyDelimiter = Configuration::Instance()->GetIMAPConfiguration()->GetHierarchyDelimiter();
@@ -699,10 +699,10 @@ namespace HM
       return GetFolderByFullPath(vecFolderPath);
    }
 
-   shared_ptr<IMAPFolder> 
+   boost::shared_ptr<IMAPFolder> 
    IMAPConnection::GetFolderByFullPath(std::vector<String> &vecFolderPath)
    {
-      shared_ptr<IMAPFolder> pFolder;
+      boost::shared_ptr<IMAPFolder> pFolder;
 
       if (vecFolderPath.size() > 0)
       {
@@ -765,7 +765,7 @@ namespace HM
    }
 
    void
-   IMAPConnection::SetCurrentFolder(shared_ptr<IMAPFolder> pFolder, bool readOnly)
+   IMAPConnection::SetCurrentFolder(boost::shared_ptr<IMAPFolder> pFolder, bool readOnly)
    {
       // First close the currently set folder. This will cause an unsubscribe from the 
       // current folder to be made and \recent flags to be removed.
@@ -803,7 +803,7 @@ namespace HM
    }
 
    void 
-   IMAPConnection::SetDelayedChangeNotification(shared_ptr<ChangeNotification> pNotification)
+   IMAPConnection::SetDelayedChangeNotification(boost::shared_ptr<ChangeNotification> pNotification)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Sets a delayed change notification. This will be performed when the
@@ -820,7 +820,7 @@ namespace HM
    }
 
    bool 
-   IMAPConnection::CheckPermission(shared_ptr<IMAPFolder> pFolder, int iPermission)
+   IMAPConnection::CheckPermission(boost::shared_ptr<IMAPFolder> pFolder, int iPermission)
    {
       if (!Configuration::Instance()->GetIMAPConfiguration()->GetUseIMAPACL())
       {
@@ -829,7 +829,7 @@ namespace HM
       }
 
 	   ACLManager aclManager;
-      shared_ptr<ACLPermission> pPermission = aclManager.GetPermissionForFolder(_account->GetID(), pFolder);
+      boost::shared_ptr<ACLPermission> pPermission = aclManager.GetPermissionForFolder(_account->GetID(), pFolder);
       if (!pPermission)
          return false;
 
@@ -840,7 +840,7 @@ namespace HM
    }
 
    void
-   IMAPConnection::CheckFolderPermissions(shared_ptr<IMAPFolder> pFolder, bool &readAccess, bool &writeAccess)
+   IMAPConnection::CheckFolderPermissions(boost::shared_ptr<IMAPFolder> pFolder, bool &readAccess, bool &writeAccess)
    {
       // Default no access.
       readAccess = false;
@@ -856,7 +856,7 @@ namespace HM
       }
 
       ACLManager aclManager;
-      shared_ptr<ACLPermission> pPermission = aclManager.GetPermissionForFolder(_account->GetID(), pFolder);
+      boost::shared_ptr<ACLPermission> pPermission = aclManager.GetPermissionForFolder(_account->GetID(), pFolder);
       if (!pPermission)
          return;
 

@@ -13,10 +13,10 @@ namespace HM
       PersistentWhiteListAddress(void);
       ~PersistentWhiteListAddress(void);
       
-      static bool DeleteObject(shared_ptr<WhiteListAddress> pObject);
-      static bool SaveObject(shared_ptr<WhiteListAddress> pObject, String &errorMessage);
-      static bool SaveObject(shared_ptr<WhiteListAddress> pObject);
-      static bool ReadObject(shared_ptr<WhiteListAddress> pObject, shared_ptr<DALRecordset> pRS);
+      static bool DeleteObject(boost::shared_ptr<WhiteListAddress> pObject);
+      static bool SaveObject(boost::shared_ptr<WhiteListAddress> pObject, String &errorMessage);
+      static bool SaveObject(boost::shared_ptr<WhiteListAddress> pObject);
+      static bool ReadObject(boost::shared_ptr<WhiteListAddress> pObject, boost::shared_ptr<DALRecordset> pRS);
 
       static bool IsSenderWhitelisted(const IPAddress &ipaddress, const String &fromAddress);
    };

@@ -14,13 +14,13 @@ namespace HM
       PrerequisiteList(void);
       ~PrerequisiteList(void);
 
-      bool Ensure(shared_ptr<DALConnection> connection, int scriptDatabaseVersion, String &sErrorMessage);
+      bool Ensure(boost::shared_ptr<DALConnection> connection, int scriptDatabaseVersion, String &sErrorMessage);
 
    private:
 
       void _Initialize();
 
-      vector<pair<int, shared_ptr<IPrerequisite > > > _prerequisites;
+      vector<pair<int, boost::shared_ptr<IPrerequisite > > > _prerequisites;
       
    };
 }

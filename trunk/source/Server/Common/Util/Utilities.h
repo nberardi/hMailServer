@@ -24,7 +24,7 @@ namespace HM
       static String GenerateMessageID();
       static String GenerateReceivedHeader(const String &RemoteIP, String sHostName);
 
-      static shared_ptr<MimeHeader> GetMimeHeader(const BYTE *pByteBuf, int iBufSize);
+      static boost::shared_ptr<MimeHeader> GetMimeHeader(const BYTE *pByteBuf, int iBufSize);
 
       static bool IsLocalHost(const String &sHostname);
 

@@ -22,7 +22,7 @@ namespace HM
    }
    
  void 
-   StringTreeParser::Parse(const String &sCommand, vector<shared_ptr<StringNode> > & vecNodes)
+   StringTreeParser::Parse(const String &sCommand, vector<boost::shared_ptr<StringNode> > & vecNodes)
    {
 
       StringNode oNode;

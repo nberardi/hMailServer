@@ -15,8 +15,8 @@ namespace HM
 
       void Load();
 
-      shared_ptr<Language> GetLanguage(const String &sLanguage);
-      shared_ptr<Language> GetLanguage(int index);
+      boost::shared_ptr<Language> GetLanguage(const String &sLanguage);
+      boost::shared_ptr<Language> GetLanguage(int index);
       int GetCount() {return m_mapLanguages.size(); }
 
      
@@ -24,7 +24,7 @@ namespace HM
 
       bool _IsValidLangauge(const String &sLanguage) const;
 
-      map<String, shared_ptr<Language> > m_mapLanguages;
+      map<String, boost::shared_ptr<Language> > m_mapLanguages;
 
 
       

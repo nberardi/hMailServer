@@ -80,9 +80,9 @@ namespace HM
       void SetPasswordEncryption(int iNewVal) {m_iPasswordEncryption = iNewVal; }
       long GetPasswordEncryption() const {return m_iPasswordEncryption; }
 
-      shared_ptr<Messages> GetMessages();
-      shared_ptr<Rules> GetRules(); 
-      shared_ptr<IMAPFolders> GetFolders(); 
+      boost::shared_ptr<Messages> GetMessages();
+      boost::shared_ptr<Rules> GetRules(); 
+      boost::shared_ptr<IMAPFolders> GetFolders(); 
 
       bool SpaceAvailable(__int64 iBytes) const;
       // Returns true if a message with iBytes bytes can fit inside the account
@@ -150,9 +150,9 @@ namespace HM
       bool m_bVacationMessageIsOn;
       bool m_bEnableSignature;
 
-      shared_ptr<Messages> m_oMessages;
-      shared_ptr<Rules> m_pRules;
-      shared_ptr<IMAPFolders> m_pFolders;
+      boost::shared_ptr<Messages> m_oMessages;
+      boost::shared_ptr<Rules> m_pRules;
+      boost::shared_ptr<IMAPFolders> m_pFolders;
       
       AdminLevel m_iAdminLevel;
 

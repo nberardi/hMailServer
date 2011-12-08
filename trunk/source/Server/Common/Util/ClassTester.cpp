@@ -182,8 +182,8 @@ namespace HM
    void 
    ClassTester::_TestBackup()
    {
-      shared_ptr<BackupManager> pBackupManager = Application::Instance()->GetBackupManager();
-      shared_ptr<Backup> pBackup = pBackupManager->LoadBackup("C:\\Temp\\Backup\\HMBackup 2006-12-10 091555.zip");
+      boost::shared_ptr<BackupManager> pBackupManager = Application::Instance()->GetBackupManager();
+      boost::shared_ptr<Backup> pBackup = pBackupManager->LoadBackup("C:\\Temp\\Backup\\HMBackup 2006-12-10 091555.zip");
       pBackup->SetRestoreOptions(1 | 2 | 4 | 8 | 16 | 32);
       pBackupManager->StartRestore(pBackup);
 

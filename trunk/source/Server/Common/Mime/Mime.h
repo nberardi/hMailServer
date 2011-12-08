@@ -434,19 +434,19 @@ namespace HM
 	   // operations for 'multipart' media
 	   bool IsMultiPart() const;
 	   void DeleteAll();
-	   shared_ptr<MimeBody> CreatePart(const char* pszMediaType, shared_ptr<MimeBody> pWhere);
-      void AddPart(shared_ptr<MimeBody> );
+	   boost::shared_ptr<MimeBody> CreatePart(const char* pszMediaType, boost::shared_ptr<MimeBody> pWhere);
+      void AddPart(boost::shared_ptr<MimeBody> );
       int GetPartCount();
 
-	   void ErasePart(shared_ptr<MimeBody> pBP);
-	   shared_ptr<MimeBody> FindFirstPart();
-	   shared_ptr<MimeBody> FindNextPart();
+	   void ErasePart(boost::shared_ptr<MimeBody> pBP);
+	   boost::shared_ptr<MimeBody> FindFirstPart();
+	   boost::shared_ptr<MimeBody> FindNextPart();
       size_t GetNumberOfParts();
 
-	   typedef list<shared_ptr<MimeBody> > BodyList;
-	   int GetAttachmentList(shared_ptr<MimeBody> pThis, BodyList& rList) const;
+	   typedef list<boost::shared_ptr<MimeBody> > BodyList;
+	   int GetAttachmentList(boost::shared_ptr<MimeBody> pThis, BodyList& rList) const;
       void ClearAttachments();
-      void RemoveAttachment(shared_ptr<MimeBody> pAttachment);
+      void RemoveAttachment(boost::shared_ptr<MimeBody> pAttachment);
       int LoadFromFile(const AnsiString &pszFilename);
       bool SaveAllToFile(const AnsiString &pszFilename);
 
@@ -455,7 +455,7 @@ namespace HM
       // not other things that exists in the Content-Type header.
 
       bool IsEncapsulatedRFC822Message() const;
-      shared_ptr<MimeBody> LoadEncapsulatedMessage() const;
+      boost::shared_ptr<MimeBody> LoadEncapsulatedMessage() const;
 
    public:
 	   // overrides
@@ -500,18 +500,18 @@ namespace HM
       return m_listBodies.size();
    }
 
-   inline shared_ptr<MimeBody> MimeBody::FindFirstPart()
+   inline boost::shared_ptr<MimeBody> MimeBody::FindFirstPart()
    {
 	   m_itFind = m_listBodies.begin();
 	   return FindNextPart();
    }
 
-   inline shared_ptr<MimeBody> MimeBody::FindNextPart()
+   inline boost::shared_ptr<MimeBody> MimeBody::FindNextPart()
    {
 	   if (m_itFind != m_listBodies.end())
 		   return *m_itFind++;
 	   
-      shared_ptr<MimeBody> pEmpty;
+      boost::shared_ptr<MimeBody> pEmpty;
       return pEmpty;
    }
 

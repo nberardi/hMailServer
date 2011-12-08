@@ -19,14 +19,14 @@ namespace HM
 
       void Refresh(__int64 iFAID);
 
-      bool PreSaveObject(shared_ptr<FetchAccountUID> pUID, XNode *node);
+      bool PreSaveObject(boost::shared_ptr<FetchAccountUID> pUID, XNode *node);
 
    protected:
       virtual String GetCollectionName() const {return "FetchAccountUIDs"; }
 
    private:
 
-      std::map<String, shared_ptr<FetchAccountUID> > _fetchedUIDs;
+      std::map<String, boost::shared_ptr<FetchAccountUID> > _fetchedUIDs;
 
       __int64 m_iFAID;
    };

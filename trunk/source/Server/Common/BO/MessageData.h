@@ -17,8 +17,8 @@ namespace HM
       MessageData();
 	   virtual ~MessageData();
 
-      bool LoadFromMessage(const String &fileName, shared_ptr<Message> pMessage);
-      bool LoadFromMessage(shared_ptr<const Account> account, shared_ptr<Message> pMessage);
+      bool LoadFromMessage(const String &fileName, boost::shared_ptr<Message> pMessage);
+      bool LoadFromMessage(boost::shared_ptr<const Account> account, boost::shared_ptr<Message> pMessage);
 
       bool RefreshFromMessage();
 
@@ -70,30 +70,30 @@ namespace HM
 
       int GetSize() const;
 
-      shared_ptr<Attachments> GetAttachments();
+      boost::shared_ptr<Attachments> GetAttachments();
 
-      shared_ptr<Message> GetMessage() {return m_pMessage; }
+      boost::shared_ptr<Message> GetMessage() {return m_pMessage; }
    
       bool GetEncodeFields() {return m_bEncodeFields; }
       void SetEncodeFields(bool bNewVal) {m_bEncodeFields = bNewVal; }
 
       void GenerateMessageID();
 
-      shared_ptr<MimeBody> CreatePart(const String &sContentType);
+      boost::shared_ptr<MimeBody> CreatePart(const String &sContentType);
 
-      shared_ptr<MimeBody> GetMimeMessage();
+      boost::shared_ptr<MimeBody> GetMimeMessage();
 
    private:
 
       bool IsTextType(const String &sContentType);
       bool IsHTMLType(const String &sContentType);
 
-      shared_ptr<MimeBody> FindPart(const String &sType) const;
-      shared_ptr<MimeBody> FindPartNoRecurse(shared_ptr<MimeBody> parent, const AnsiString &sType) const;
+      boost::shared_ptr<MimeBody> FindPart(const String &sType) const;
+      boost::shared_ptr<MimeBody> FindPartNoRecurse(boost::shared_ptr<MimeBody> parent, const AnsiString &sType) const;
 
-      shared_ptr<Message> m_pMessage;
-      shared_ptr<MimeBody> m_pMimeMail;
-      shared_ptr<Attachments> m_pAttachments;
+      boost::shared_ptr<Message> m_pMessage;
+      boost::shared_ptr<MimeBody> m_pMimeMail;
+      boost::shared_ptr<Attachments> m_pAttachments;
 
       String _messageFileName;
 

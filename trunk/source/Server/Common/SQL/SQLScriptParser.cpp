@@ -13,7 +13,7 @@
 
 namespace HM
 {
-   SQLScriptParser::SQLScriptParser(shared_ptr<DatabaseSettings> pSettings, const String &sFile) :
+   SQLScriptParser::SQLScriptParser(boost::shared_ptr<DatabaseSettings> pSettings, const String &sFile) :
       m_pSettings(pSettings),
       m_sFile(sFile)
    {

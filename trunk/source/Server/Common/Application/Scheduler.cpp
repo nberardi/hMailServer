@@ -53,11 +53,11 @@ namespace HM
    {
       CriticalSectionScope scope(m_oVecCritSec); 
 
-      vector<shared_ptr<ScheduledTask >>::iterator iterTask;
+      vector<boost::shared_ptr<ScheduledTask >>::iterator iterTask;
 
       for (iterTask = m_vecScheduledTasks.begin(); iterTask != m_vecScheduledTasks.end(); iterTask++)
       {
-         shared_ptr<ScheduledTask > pTask = (*iterTask);
+         boost::shared_ptr<ScheduledTask > pTask = (*iterTask);
 
          // Check if we should run this task now.
          DateTime dtRunTime = pTask->GetNextRunTime();
@@ -81,7 +81,7 @@ namespace HM
    }
 
    void
-   Scheduler::ScheduleTask(shared_ptr<ScheduledTask> pTask)
+   Scheduler::ScheduleTask(boost::shared_ptr<ScheduledTask> pTask)
    {
       CriticalSectionScope scope(m_oVecCritSec);
 

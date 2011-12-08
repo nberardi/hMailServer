@@ -104,9 +104,9 @@ public:
    STDMETHODIMP _SaveNewMessageToIMAPFolder();
    
    
-   shared_ptr<HM::MessageData> _GetMessageData();
+   boost::shared_ptr<HM::MessageData> _GetMessageData();
 
-   shared_ptr<HM::MessageData> m_pMsgData;
+   boost::shared_ptr<HM::MessageData> m_pMsgData;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Message), InterfaceMessage)

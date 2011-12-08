@@ -22,7 +22,7 @@ namespace HM
       
    protected:
       virtual String GetCollectionName() const {return "RouteAddresses"; }
-      bool PreSaveObject(shared_ptr<RouteAddress> routeAddress, XNode *node);
+      bool PreSaveObject(boost::shared_ptr<RouteAddress> routeAddress, XNode *node);
 
    private:
       __int64 m_iRouteID;

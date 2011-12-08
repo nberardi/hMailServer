@@ -14,7 +14,7 @@ namespace HM
       SURBL(void);
       ~SURBL(void);
 
-      bool Run(shared_ptr<SURBLServer> pSURBLServer, shared_ptr<MessageData> pMessageData);
+      bool Run(boost::shared_ptr<SURBLServer> pSURBLServer, boost::shared_ptr<MessageData> pMessageData);
 
    private:
 

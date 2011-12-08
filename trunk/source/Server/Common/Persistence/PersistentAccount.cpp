@@ -45,7 +45,7 @@ namespace HM
    }
 
    bool
-   PersistentAccount::DeleteObject(shared_ptr<Account> pAccount)
+   PersistentAccount::DeleteObject(boost::shared_ptr<Account> pAccount)
    {
       __int64 iID = pAccount->GetID();
       assert(iID);
@@ -57,7 +57,7 @@ namespace HM
       DeleteMessages(pAccount);
 
       // Force delete the inbox as well. DeleteMessages above does not delete it.
-      shared_ptr<IMAPFolder> inbox = pAccount->GetFolders()->GetFolderByName("Inbox");
+      boost::shared_ptr<IMAPFolder> inbox = pAccount->GetFolders()->GetFolderByName("Inbox");
       if (inbox)
          PersistentIMAPFolder::DeleteObject(inbox, true);
 
@@ -87,7 +87,7 @@ namespace HM
    }
 
    bool
-   PersistentAccount::ReadObject(shared_ptr<Account> pAccount, __int64 ObjectID)
+   PersistentAccount::ReadObject(boost::shared_ptr<Account> pAccount, __int64 ObjectID)
    {
       String sSQL = "select * from hm_accounts where accountid = @ACCOUNTID";
  
@@ -98,7 +98,7 @@ namespace HM
    }
 
    bool
-   PersistentAccount::ReadObject(shared_ptr<Account> pAccount, const String & sAddress)
+   PersistentAccount::ReadObject(boost::shared_ptr<Account> pAccount, const String & sAddress)
    {
       SQLStatement statement;
       statement.SetStatementType(SQLStatement::STSelect);
@@ -112,9 +112,9 @@ namespace HM
    }
 
    bool
-   PersistentAccount::ReadObject(shared_ptr<Account> pAccount, const SQLCommand &command)
+   PersistentAccount::ReadObject(boost::shared_ptr<Account> pAccount, const SQLCommand &command)
    {
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return false;
 
@@ -130,7 +130,7 @@ namespace HM
 
 
    bool
-   PersistentAccount::ReadObject(shared_ptr<Account> pAccount, shared_ptr<DALRecordset> pRS)
+   PersistentAccount::ReadObject(boost::shared_ptr<Account> pAccount, boost::shared_ptr<DALRecordset> pRS)
    {
       pAccount->SetID(pRS->GetLongValue("accountid"));
       pAccount->SetActive(pRS->GetLongValue("accountactive") ? true : false);
@@ -180,7 +180,7 @@ namespace HM
    }
 
    bool
-   PersistentAccount::DeleteMessages(shared_ptr<Account> pAccount)
+   PersistentAccount::DeleteMessages(boost::shared_ptr<Account> pAccount)
    {
       if (!pAccount || pAccount->GetID() == 0)
          return false;
@@ -195,21 +195,21 @@ namespace HM
    }
    
    bool
-   PersistentAccount::SaveObject(shared_ptr<Account> pAccount)
+   PersistentAccount::SaveObject(boost::shared_ptr<Account> pAccount)
    {
       String sErrorMessage;
       return SaveObject(pAccount, sErrorMessage, false);
    }
 
    bool
-   PersistentAccount::SaveObject(shared_ptr<Account> pAccount, String &sErrorMessage)
+   PersistentAccount::SaveObject(boost::shared_ptr<Account> pAccount, String &sErrorMessage)
    {
       return SaveObject(pAccount, sErrorMessage, false);
    }
 
 
    bool
-   PersistentAccount::SaveObject(shared_ptr<Account> pAccount, String &sErrorMessage, bool createInbox)
+   PersistentAccount::SaveObject(boost::shared_ptr<Account> pAccount, String &sErrorMessage, bool createInbox)
    {
       if (!PreSaveLimitationsCheck::CheckLimitations(pAccount, sErrorMessage))
          return false;
@@ -218,7 +218,7 @@ namespace HM
       if (iID > 0)
       {
          // First read the domain to see if we've changed its name.
-         shared_ptr<Account> tempAccount = shared_ptr<Account>(new Account());
+         boost::shared_ptr<Account> tempAccount = boost::shared_ptr<Account>(new Account());
          if (!PersistentAccount::ReadObject(tempAccount, iID))
             return false;
 
@@ -326,7 +326,7 @@ namespace HM
       SQLCommand selectCommand("select sum(messagesize) as mailboxsize from hm_messages where messageaccountid = @ACCOUNTID");
       selectCommand.AddParameter("@ACCOUNTID", iAccountID);
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(selectCommand);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(selectCommand);
       if (!pRS)
          return false;
 
@@ -356,7 +356,7 @@ namespace HM
    bool
    PersistentAccount::CreateInbox(const Account &account)
    {
-      shared_ptr<IMAPFolder> inbox = shared_ptr<IMAPFolder>(new IMAPFolder(account.GetID(), -1));
+      boost::shared_ptr<IMAPFolder> inbox = boost::shared_ptr<IMAPFolder>(new IMAPFolder(account.GetID(), -1));
       inbox->SetFolderName("INBOX");
       inbox->SetIsSubscribed(true);
 
@@ -364,7 +364,7 @@ namespace HM
    }
 
    bool 
-   PersistentAccount::UpdateLastLogonTime(shared_ptr<const Account> pAccount)
+   PersistentAccount::UpdateLastLogonTime(boost::shared_ptr<const Account> pAccount)
    {
       if (!pAccount)
          return false; 
@@ -380,7 +380,7 @@ namespace HM
    }
 
    bool
-   PersistentAccount::GetIsVacationMessageOn(shared_ptr<const Account> pAccount)
+   PersistentAccount::GetIsVacationMessageOn(boost::shared_ptr<const Account> pAccount)
    {
       if (!pAccount->GetVacationMessageIsOn())
          return false;
@@ -411,7 +411,7 @@ namespace HM
    }
 
    bool 
-   PersistentAccount::DisableVacationMessage(shared_ptr<const Account> pAccount)
+   PersistentAccount::DisableVacationMessage(boost::shared_ptr<const Account> pAccount)
    {
       if (!pAccount)
          return false; 

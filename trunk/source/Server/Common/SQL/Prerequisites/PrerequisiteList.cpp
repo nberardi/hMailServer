@@ -27,15 +27,15 @@ namespace HM
    void 
    PrerequisiteList::_Initialize()
    {
-      shared_ptr<PreReqNoDuplicateFolders> duplicateFolderCheck = shared_ptr<PreReqNoDuplicateFolders>(new PreReqNoDuplicateFolders);
+      boost::shared_ptr<PreReqNoDuplicateFolders> duplicateFolderCheck = boost::shared_ptr<PreReqNoDuplicateFolders>(new PreReqNoDuplicateFolders);
       _prerequisites.push_back(std::make_pair(duplicateFolderCheck->GetDatabaseVersion(), duplicateFolderCheck));
    }
 
    bool
-   PrerequisiteList::Ensure(shared_ptr<DALConnection> connection, int scriptDatabaseVersion, String &sErrorMessage)
+   PrerequisiteList::Ensure(boost::shared_ptr<DALConnection> connection, int scriptDatabaseVersion, String &sErrorMessage)
    {
-      vector<pair<int, shared_ptr<IPrerequisite > > >::iterator iter = _prerequisites.begin();
-      vector<pair<int, shared_ptr<IPrerequisite > > >::iterator iterEnd = _prerequisites.end();
+      vector<pair<int, boost::shared_ptr<IPrerequisite > > >::iterator iter = _prerequisites.begin();
+      vector<pair<int, boost::shared_ptr<IPrerequisite > > >::iterator iterEnd = _prerequisites.end();
 
       for (; iter != iterEnd; iter++)
       {
@@ -43,7 +43,7 @@ namespace HM
 
          if (databaseVersion == scriptDatabaseVersion)
          {
-            shared_ptr<IPrerequisite > prereq = (*iter).second;
+            boost::shared_ptr<IPrerequisite > prereq = (*iter).second;
 
             if (!prereq->Ensure(connection, sErrorMessage))
                return false;

@@ -266,7 +266,7 @@ namespace HM
    }
 
    void 
-   TCPConnection::Start(shared_ptr<ProtocolParser> protocolParser)
+   TCPConnection::Start(boost::shared_ptr<ProtocolParser> protocolParser)
    {
       try
       {
@@ -344,7 +344,7 @@ namespace HM
          AnsiString sTemp = sData;
          char *pBuf = sTemp.GetBuffer();
          
-         shared_ptr<ByteBuffer> pBuffer = shared_ptr<ByteBuffer>(new ByteBuffer());
+         boost::shared_ptr<ByteBuffer> pBuffer = boost::shared_ptr<ByteBuffer>(new ByteBuffer());
          pBuffer->Add((BYTE*) pBuf, sData.GetLength());
          
    #ifdef _DEBUG
@@ -364,11 +364,11 @@ namespace HM
    }
 
    void 
-   TCPConnection::PostWrite(shared_ptr<ByteBuffer> pBuffer)
+   TCPConnection::PostWrite(boost::shared_ptr<ByteBuffer> pBuffer)
    {
       try
       {
-         shared_ptr<IOOperation> operation = shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTSend, pBuffer));
+         boost::shared_ptr<IOOperation> operation = boost::shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTSend, pBuffer));
          _operationQueue.Push(operation);
 
          _ProcessOperationQueue();
@@ -389,7 +389,7 @@ namespace HM
       {
          stage = 1;
          // Pick out the next item to process...
-         shared_ptr<IOOperation> operation = _operationQueue.Front();
+         boost::shared_ptr<IOOperation> operation = _operationQueue.Front();
 
          stage = 2;
          if (!operation)
@@ -405,7 +405,7 @@ namespace HM
          case IOOperation::BCTSend:
             {
                stage = 4;
-               shared_ptr<ByteBuffer> pBuf = operation->GetBuffer();
+               boost::shared_ptr<ByteBuffer> pBuf = operation->GetBuffer();
                Write(pBuf);
                stage = 5;
                break;
@@ -482,13 +482,13 @@ namespace HM
    }
 
    void 
-   TCPConnection::Write(shared_ptr<ByteBuffer> buffer)
+   TCPConnection::Write(boost::shared_ptr<ByteBuffer> buffer)
    {
       try
       {
          int timeout = _protocolParser->GetTimeout();
 
-         function<void (const boost::system::error_code&, size_t)> handleWriteFunction =
+         boost::function<void (const boost::system::error_code&, size_t)> handleWriteFunction =
             boost::bind(&TCPConnection::HandleWrite, shared_from_this(),
             boost::asio::placeholders::error,
             boost::asio::placeholders::bytes_transferred);
@@ -566,7 +566,7 @@ namespace HM
    {
       try
       {
-         shared_ptr<IOOperation> operation = shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTReceive, delimitor));
+         boost::shared_ptr<IOOperation> operation = boost::shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTReceive, delimitor));
          _operationQueue.Push(operation);
 
          _ProcessOperationQueue();
@@ -583,7 +583,7 @@ namespace HM
    {
       try
       {
-         function<void (const boost::system::error_code&, size_t)> handleReadFunction =
+         boost::function<void (const boost::system::error_code&, size_t)> handleReadFunction =
             boost::bind(&TCPConnection::HandleRead, shared_from_this(),
             boost::asio::placeholders::error,
             boost::asio::placeholders::bytes_transferred);
@@ -642,7 +642,7 @@ namespace HM
          // Put a timeout...
          int timeout = _protocolParser->GetTimeout();
          _timer.expires_from_now(boost::posix_time::seconds(timeout));
-         _timer.async_wait(bind(&TCPConnection::OnTimeout, 
+         _timer.async_wait(boost::bind(&TCPConnection::OnTimeout, 
             boost::weak_ptr<TCPConnection>(shared_from_this()), _1));
       }
       catch (...)
@@ -676,8 +676,8 @@ namespace HM
    {
       try
       {
-         shared_ptr<ByteBuffer> pBuf;
-         shared_ptr<IOOperation> operation = shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTDisconnect, pBuf));
+         boost::shared_ptr<ByteBuffer> pBuf;
+         boost::shared_ptr<IOOperation> operation = boost::shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTDisconnect, pBuf));
          _operationQueue.Push(operation);
 
          _ProcessOperationQueue();
@@ -792,8 +792,8 @@ namespace HM
          {
          case TCPConnection::ShutdownSend:
             {
-               shared_ptr<ByteBuffer> pBuf;
-               shared_ptr<IOOperation> operation = shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTShutdownSend, pBuf));
+               boost::shared_ptr<ByteBuffer> pBuf;
+               boost::shared_ptr<IOOperation> operation = boost::shared_ptr<IOOperation>(new IOOperation(IOOperation::BCTShutdownSend, pBuf));
                _operationQueue.Push(operation);
 
                _ProcessOperationQueue();
@@ -876,7 +876,7 @@ namespace HM
          {
             try
             {
-               shared_ptr<ByteBuffer> pBuffer = shared_ptr<ByteBuffer>(new ByteBuffer());
+               boost::shared_ptr<ByteBuffer> pBuffer = boost::shared_ptr<ByteBuffer>(new ByteBuffer());
                pBuffer->Allocate(_receiveBuffer.size());
 
                std::istream is(&_receiveBuffer);
@@ -1116,12 +1116,12 @@ namespace HM
    }
 
    void  
-   TCPConnection::SetSecurityRange(shared_ptr<SecurityRange> securityRange)
+   TCPConnection::SetSecurityRange(boost::shared_ptr<SecurityRange> securityRange)
    {
       _securityRange = securityRange;
    }
 
-   shared_ptr<SecurityRange>
+   boost::shared_ptr<SecurityRange>
    TCPConnection::GetSecurityRange()
    {
       if (!_securityRange)
@@ -1134,7 +1134,7 @@ namespace HM
       return _securityRange;
    }
 
-   shared_ptr<TCPConnection> 
+   boost::shared_ptr<TCPConnection> 
    TCPConnection::GetSharedFromThis()
    {
       return shared_from_this();

@@ -19,7 +19,7 @@ namespace HM
       void SetWelcomeMessage(const String &sMessage);
 
    private:
-      shared_ptr<PropertySet> _GetSettings() const;
+      boost::shared_ptr<PropertySet> _GetSettings() const;
 
    };
 

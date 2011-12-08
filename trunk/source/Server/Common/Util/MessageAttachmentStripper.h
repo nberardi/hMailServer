@@ -16,11 +16,11 @@ namespace HM
 	   MessageAttachmentStripper();
 	   virtual ~MessageAttachmentStripper();
 
-      static void Strip(shared_ptr<Message> pMessage);
+      static void Strip(boost::shared_ptr<Message> pMessage);
    private:
       
-      static void _WriteToDisk(shared_ptr<Message> pMessage, MimeBody &oMainMessage, shared_ptr<MimeBody> pBody);
-      static bool _IsGoodTextPart(shared_ptr<MimeBody> pBody);
+      static void _WriteToDisk(boost::shared_ptr<Message> pMessage, MimeBody &oMainMessage, boost::shared_ptr<MimeBody> pBody);
+      static bool _IsGoodTextPart(boost::shared_ptr<MimeBody> pBody);
    };
 
 }

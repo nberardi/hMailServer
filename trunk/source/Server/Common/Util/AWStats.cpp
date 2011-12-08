@@ -40,7 +40,7 @@ namespace HM
 
 
    void
-   AWStats::LogDeliverySuccess(const String &senderIP, const String &recipientIP, shared_ptr<Message> pMessage, const String &sRecipient)
+   AWStats::LogDeliverySuccess(const String &senderIP, const String &recipientIP, boost::shared_ptr<Message> pMessage, const String &sRecipient)
    {
       if (!m_bEnabled)
          return;

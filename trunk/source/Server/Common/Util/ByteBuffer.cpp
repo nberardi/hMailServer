@@ -100,7 +100,7 @@ namespace HM
    }
 
    void 
-   ByteBuffer::Add(shared_ptr<ByteBuffer> pBuf)
+   ByteBuffer::Add(boost::shared_ptr<ByteBuffer> pBuf)
    {
       Add(pBuf->GetBuffer(), pBuf->GetSize());
    }

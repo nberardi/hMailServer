@@ -24,9 +24,9 @@ namespace HM
    }
 
    bool
-   PersistentDomainAlias::ReadObject(shared_ptr<DomainAlias> oDA, const SQLCommand & command)
+   PersistentDomainAlias::ReadObject(boost::shared_ptr<DomainAlias> oDA, const SQLCommand & command)
    {
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return false;
 
@@ -40,7 +40,7 @@ namespace HM
    }
 
    bool
-   PersistentDomainAlias::ReadObject(shared_ptr<DomainAlias> oDA, shared_ptr<DALRecordset> pRS)
+   PersistentDomainAlias::ReadObject(boost::shared_ptr<DomainAlias> oDA, boost::shared_ptr<DALRecordset> pRS)
    {
 
       if (pRS->IsEOF())
@@ -54,7 +54,7 @@ namespace HM
    }
 
    bool
-   PersistentDomainAlias::DeleteObject(shared_ptr<DomainAlias> pDA)
+   PersistentDomainAlias::DeleteObject(boost::shared_ptr<DomainAlias> pDA)
    {
       SQLCommand command("delete from hm_domain_aliases where daid = @DAID");
       command.AddParameter("@DAID", pDA->GetID());
@@ -71,7 +71,7 @@ namespace HM
 
 
    bool 
-   PersistentDomainAlias::SaveObject(shared_ptr<DomainAlias> oDA)
+   PersistentDomainAlias::SaveObject(boost::shared_ptr<DomainAlias> oDA)
    {
       String sErrorMessage;
       return SaveObject(oDA, sErrorMessage);
@@ -79,7 +79,7 @@ namespace HM
 
 
    bool 
-   PersistentDomainAlias::SaveObject(shared_ptr<DomainAlias> oDA, String &sErrorMessage)
+   PersistentDomainAlias::SaveObject(boost::shared_ptr<DomainAlias> oDA, String &sErrorMessage)
    {
       if (!PreSaveLimitationsCheck::CheckLimitations(oDA, sErrorMessage))
          return false;

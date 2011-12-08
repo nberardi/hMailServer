@@ -22,7 +22,7 @@ namespace HM
       __int64 GetAccountID () {return m_iAccountID; }
 
    protected:
-      virtual bool PreSaveObject(shared_ptr<FetchAccount> pFA, XNode *node);
+      virtual bool PreSaveObject(boost::shared_ptr<FetchAccount> pFA, XNode *node);
       virtual String GetCollectionName() const {return "FetchAccounts"; }
    private:
 

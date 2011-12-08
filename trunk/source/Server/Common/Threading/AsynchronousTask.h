@@ -11,7 +11,7 @@ namespace HM
    class AsynchronousTask : public Task
    {
    public:
-      AsynchronousTask(boost::function<void()> functionToRun, shared_ptr<T> parentHolder) :
+      AsynchronousTask(boost::function<void()> functionToRun, boost::shared_ptr<T> parentHolder) :
          _asynchronousFunction(functionToRun),
          _parentHolder(parentHolder)
       {
@@ -29,7 +29,7 @@ namespace HM
             // to be sure we release our pointer to the parent TCP connection below.
          }
 
-         // Reset the shared_ptr to the parent object.
+         // Reset the boost::shared_ptr to the parent object.
          _parentHolder.reset();
       }
 
@@ -42,6 +42,6 @@ namespace HM
 
       boost::function<void()> _asynchronousFunction;
 
-      shared_ptr<T> _parentHolder;
+      boost::shared_ptr<T> _parentHolder;
    };
 }

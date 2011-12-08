@@ -16,7 +16,7 @@
 
 namespace HM
 {
-   MySQLConnection::MySQLConnection(shared_ptr<DatabaseSettings> pSettings) :
+   MySQLConnection::MySQLConnection(boost::shared_ptr<DatabaseSettings> pSettings) :
       DALConnection(pSettings)
    {
       m_bIsConnected = false;
@@ -440,10 +440,10 @@ namespace HM
       }
    }
 
-   shared_ptr<DALRecordset> 
+   boost::shared_ptr<DALRecordset> 
    MySQLConnection::CreateRecordset()
    {
-      shared_ptr<MySQLRecordset> recordset = shared_ptr<MySQLRecordset>(new MySQLRecordset());
+      boost::shared_ptr<MySQLRecordset> recordset = boost::shared_ptr<MySQLRecordset>(new MySQLRecordset());
       return recordset;
    }
 
@@ -454,10 +454,10 @@ namespace HM
       sInput.Replace(_T("\\"), _T("\\\\"));
    }
 
-   shared_ptr<IMacroExpander> 
+   boost::shared_ptr<IMacroExpander> 
    MySQLConnection::CreateMacroExpander()
    {
-      shared_ptr<MySQLMacroExpander> expander = shared_ptr<MySQLMacroExpander>(new MySQLMacroExpander());
+      boost::shared_ptr<MySQLMacroExpander> expander = boost::shared_ptr<MySQLMacroExpander>(new MySQLMacroExpander());
       return expander;
    }
 }

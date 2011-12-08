@@ -34,7 +34,7 @@ namespace HM
    }
 
    bool
-   DistributionListRecipients::PreSaveObject(shared_ptr<DistributionListRecipient> pListRecipient, XNode *node)
+   DistributionListRecipients::PreSaveObject(boost::shared_ptr<DistributionListRecipient> pListRecipient, XNode *node)
    {
       pListRecipient->SetListID(m_iListID);
 

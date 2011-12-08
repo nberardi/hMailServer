@@ -19,21 +19,21 @@ namespace HM
 
       void Load();
 
-      set<shared_ptr<SpamTestResult> > RunPreTransmissionTests(const String &sFromAddress, const IPAddress & iOriginatingIP, const IPAddress &iConnectingIP, const String &sHeloHost);
-      set<shared_ptr<SpamTestResult> > RunPostTransmissionTests(const String &sFromAddress, const IPAddress & iOriginatingIP, const IPAddress &iConnectingIP, shared_ptr<Message> pMessage);
+      set<boost::shared_ptr<SpamTestResult> > RunPreTransmissionTests(const String &sFromAddress, const IPAddress & iOriginatingIP, const IPAddress &iConnectingIP, const String &sHeloHost);
+      set<boost::shared_ptr<SpamTestResult> > RunPostTransmissionTests(const String &sFromAddress, const IPAddress & iOriginatingIP, const IPAddress &iConnectingIP, boost::shared_ptr<Message> pMessage);
 
-      static shared_ptr<MessageData> TagMessageAsSpam(shared_ptr<Message> pMessage, set<shared_ptr<SpamTestResult> > setResult);
+      static boost::shared_ptr<MessageData> TagMessageAsSpam(boost::shared_ptr<Message> pMessage, set<boost::shared_ptr<SpamTestResult> > setResult);
       static bool GreyListingAllowSend(const String &sSenderAddress, const String &sRecipientAddress, const IPAddress & iRemoteIP);
 
-      static int CalculateTotalSpamScore(set<shared_ptr<SpamTestResult> > result);
+      static int CalculateTotalSpamScore(set<boost::shared_ptr<SpamTestResult> > result);
 
       static bool IsWhiteListed(const String &sFromAddress, const IPAddress & iIPAddress);
 
-      bool PerformGreyListing(shared_ptr<Message> message, const set<shared_ptr<SpamTestResult> > &spamTestResults, const String &toAddress, const IPAddress &ipaddress);
+      bool PerformGreyListing(boost::shared_ptr<Message> message, const set<boost::shared_ptr<SpamTestResult> > &spamTestResults, const String &toAddress, const IPAddress &ipaddress);
    private:
       
       
-      shared_ptr<SpamTestRunner> m_pSpamTestRunner;
+      boost::shared_ptr<SpamTestRunner> m_pSpamTestRunner;
       
    };
 

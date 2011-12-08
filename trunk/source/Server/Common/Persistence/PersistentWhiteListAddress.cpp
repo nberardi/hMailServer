@@ -24,7 +24,7 @@ namespace HM
    }
 
    bool
-   PersistentWhiteListAddress::DeleteObject(shared_ptr<WhiteListAddress> pObject)
+   PersistentWhiteListAddress::DeleteObject(boost::shared_ptr<WhiteListAddress> pObject)
    {
       SQLCommand command("delete from hm_whitelist where whiteid = @WHITEID");
       command.AddParameter("@WHITEID", pObject->GetID());
@@ -33,7 +33,7 @@ namespace HM
    }
 
    bool 
-   PersistentWhiteListAddress::ReadObject(shared_ptr<WhiteListAddress> pObject, shared_ptr<DALRecordset> pRS)
+   PersistentWhiteListAddress::ReadObject(boost::shared_ptr<WhiteListAddress> pObject, boost::shared_ptr<DALRecordset> pRS)
    {
       IPAddressSQLHelper helper;
 
@@ -47,13 +47,13 @@ namespace HM
    }
 
    bool 
-   PersistentWhiteListAddress::SaveObject(shared_ptr<WhiteListAddress> pObject, String &errorMessage)
+   PersistentWhiteListAddress::SaveObject(boost::shared_ptr<WhiteListAddress> pObject, String &errorMessage)
    {
       return SaveObject(pObject);
    }
 
    bool 
-   PersistentWhiteListAddress::SaveObject(shared_ptr<WhiteListAddress> pObject)
+   PersistentWhiteListAddress::SaveObject(boost::shared_ptr<WhiteListAddress> pObject)
    {
       SQLStatement oStatement;
       oStatement.SetTable("hm_whitelist");
@@ -135,7 +135,7 @@ namespace HM
 
       command.SetQueryString(queryString);
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return false;
 

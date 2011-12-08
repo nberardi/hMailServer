@@ -93,12 +93,12 @@ namespace HM
       long lDBPort = pIniFileSettings->GetDatabasePort();
       HM::DatabaseSettings::SQLDBType dbType = IniFileSettings::Instance()->GetDatabaseType();
 
-      shared_ptr<DatabaseSettings> pSettings = shared_ptr<DatabaseSettings> 
+      boost::shared_ptr<DatabaseSettings> pSettings = boost::shared_ptr<DatabaseSettings> 
          (new DatabaseSettings(sServer, sDatabase, sUsername, sPassword, sDatabaseDirectory, sDatabaseServerFailoverPartner, dbType, lDBPort));
 
       for (int i = 0; i < iNoOfConnections; i++)
       {
-         shared_ptr<DALConnection> pConnection = DALConnectionFactory::CreateConnection(pSettings);
+         boost::shared_ptr<DALConnection> pConnection = DALConnectionFactory::CreateConnection(pSettings);
          DALConnection::ConnectionResult result = pConnection->Connect(sErrorMessage);
 
          if (result != DALConnection::Connected)
@@ -108,7 +108,7 @@ namespace HM
       }
 
       // Fetch first connection
-      std::set<shared_ptr<DALConnection> >::iterator iter = m_setAvailableConnections.begin();
+      std::set<boost::shared_ptr<DALConnection> >::iterator iter = m_setAvailableConnections.begin();
       if (!(*iter)->CheckServerVersion(sErrorMessage))
          return DALConnection::FatalError;
 
@@ -121,14 +121,14 @@ namespace HM
    DatabaseConnectionManager::Disconnect()
    {
       CriticalSectionScope scope(m_oCritSec);
-      //std::set<shared_ptr<DALConnection> >::iterator iterConnection = m_setAvailableConnections.begin();
-      boost_foreach(shared_ptr<DALConnection> pConnection, m_setAvailableConnections)
+      //std::set<boost::shared_ptr<DALConnection> >::iterator iterConnection = m_setAvailableConnections.begin();
+      boost_foreach(boost::shared_ptr<DALConnection> pConnection, m_setAvailableConnections)
       {
          pConnection->Disconnect();
       }
       m_setAvailableConnections.clear();
 
-      boost_foreach(shared_ptr<DALConnection> pConnection, m_setBusyConnections)
+      boost_foreach(boost::shared_ptr<DALConnection> pConnection, m_setBusyConnections)
       {
          pConnection->Disconnect();
       }
@@ -145,7 +145,7 @@ namespace HM
    bool 
    DatabaseConnectionManager::Execute(const SQLCommand &command, __int64 *iInsertID, int iIgnoreErrors, String &sErrorMessage)
    {
-      shared_ptr<DALConnection> pDALConn = _GetConnection();
+      boost::shared_ptr<DALConnection> pDALConn = _GetConnection();
 
       if (!pDALConn)
       {
@@ -161,18 +161,18 @@ namespace HM
       return bResult;
    }
 
-   shared_ptr<DALRecordset> 
+   boost::shared_ptr<DALRecordset> 
    DatabaseConnectionManager::OpenRecordset(const SQLStatement &statement)
    {
       return OpenRecordset(statement.GetCommand());
    }
 
-   shared_ptr<DALRecordset> 
+   boost::shared_ptr<DALRecordset> 
    DatabaseConnectionManager::OpenRecordset(const SQLCommand &command)
    {
-      shared_ptr<DALRecordset> pRecordset;
+      boost::shared_ptr<DALRecordset> pRecordset;
 
-      shared_ptr<DALConnection> pDALConn = _GetConnection();
+      boost::shared_ptr<DALConnection> pDALConn = _GetConnection();
 
       if (!pDALConn)
       {
@@ -193,11 +193,11 @@ namespace HM
    }
 
    void
-   DatabaseConnectionManager::_ReleaseConnection(shared_ptr<DALConnection> pConnection)
+   DatabaseConnectionManager::_ReleaseConnection(boost::shared_ptr<DALConnection> pConnection)
    {
       CriticalSectionScope scope(m_oCritSec);
 
-      std::set<shared_ptr<DALConnection> >::iterator iterConnection = m_setBusyConnections.find(pConnection);
+      std::set<boost::shared_ptr<DALConnection> >::iterator iterConnection = m_setBusyConnections.find(pConnection);
       if (iterConnection == m_setBusyConnections.end())
       {
          assert(0);
@@ -214,7 +214,7 @@ namespace HM
    DatabaseConnectionManager::GetCurrentDatabaseVersion()
    {
       SQLCommand command("select * from hm_dbversion");
-      shared_ptr<DALRecordset> pRS = OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = OpenRecordset(command);
       if (!pRS)
          return 0;
 
@@ -223,7 +223,7 @@ namespace HM
       return iRetVal;
    }
 
-   shared_ptr<DALConnection>
+   boost::shared_ptr<DALConnection>
    DatabaseConnectionManager::_GetConnection()
    {
       // Loop until we find a free connection
@@ -234,12 +234,12 @@ namespace HM
             CriticalSectionScope scope(m_oCritSec);
 
             // Locate an available connection
-            std::set<shared_ptr<DALConnection> >::iterator iterConnection = m_setAvailableConnections.begin();
+            std::set<boost::shared_ptr<DALConnection> >::iterator iterConnection = m_setAvailableConnections.begin();
 
             if (iterConnection != m_setAvailableConnections.end())
             {
                // Remove the connection from free and add to busy
-               shared_ptr<DALConnection> pConn = (*iterConnection);
+               boost::shared_ptr<DALConnection> pConn = (*iterConnection);
 
                // Remove it from the list of available connections
                m_setAvailableConnections.erase(iterConnection);
@@ -253,7 +253,7 @@ namespace HM
                   m_setAvailableConnections.size() == 0)
                {
                   // There's no available connections at all. Nothing to wait for.
-                  shared_ptr<DALConnection> pEmpty;
+                  boost::shared_ptr<DALConnection> pEmpty;
                   return pEmpty;
                }
             }
@@ -263,14 +263,14 @@ namespace HM
       }
    }
 
-   shared_ptr<DALConnection> 
+   boost::shared_ptr<DALConnection> 
    DatabaseConnectionManager::BeginTransaction(String &sErrorMessage)
    {
-      shared_ptr<DALConnection> pDALConnection = _GetConnection();
+      boost::shared_ptr<DALConnection> pDALConnection = _GetConnection();
       if (!pDALConnection->BeginTransaction(sErrorMessage))
       {
          // Could not start database transaction.
-         shared_ptr<DALConnection> pEmpty;
+         boost::shared_ptr<DALConnection> pEmpty;
          return pEmpty;
       }
 
@@ -278,7 +278,7 @@ namespace HM
    }
 
    bool
-   DatabaseConnectionManager::CommitTransaction(shared_ptr<DALConnection> pConnection, String &sErrorMessage)
+   DatabaseConnectionManager::CommitTransaction(boost::shared_ptr<DALConnection> pConnection, String &sErrorMessage)
    {
       bool bResult = pConnection->CommitTransaction(sErrorMessage);
       _ReleaseConnection(pConnection);
@@ -287,7 +287,7 @@ namespace HM
    }
 
    bool
-   DatabaseConnectionManager::RollbackTransaction(shared_ptr<DALConnection> pConnection, String &sErrorMessage)
+   DatabaseConnectionManager::RollbackTransaction(boost::shared_ptr<DALConnection> pConnection, String &sErrorMessage)
    {
       bool bResult = pConnection->RollbackTransaction(sErrorMessage);
       _ReleaseConnection(pConnection);
@@ -310,7 +310,7 @@ namespace HM
    bool
    DatabaseConnectionManager::ExecuteScript(const String &sFile, String &sErrorMessage)
    {
-      shared_ptr<DALConnection> pConnection = _GetConnection();
+      boost::shared_ptr<DALConnection> pConnection = _GetConnection();
 
       SQLScriptRunner scriptRunner;
       bool result = scriptRunner.ExecuteScript(pConnection, sFile, sErrorMessage);
@@ -325,7 +325,7 @@ namespace HM
    {
       PrerequisiteList prerequisites;
 
-      shared_ptr<DALConnection> pConnection = _GetConnection();
+      boost::shared_ptr<DALConnection> pConnection = _GetConnection();
 
       bool result = prerequisites.Ensure(pConnection, DBVersion, sErrorMessage);
 

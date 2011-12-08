@@ -16,7 +16,7 @@
 namespace HM
 {
    bool
-   PGSQLMacroExpander::ProcessMacro(shared_ptr<DALConnection> connection, const Macro &macro, String &sErrorMessage)
+   PGSQLMacroExpander::ProcessMacro(boost::shared_ptr<DALConnection> connection, const Macro &macro, String &sErrorMessage)
    {
       switch (macro.GetType())
       {

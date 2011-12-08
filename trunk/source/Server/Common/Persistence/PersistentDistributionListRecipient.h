@@ -14,14 +14,14 @@ namespace HM
       ~PersistentDistributionListRecipient(void);
 
       static bool DeleteByListID(__int64 iListID);
-      static bool DeleteObject(shared_ptr<DistributionListRecipient> pRecipient);
+      static bool DeleteObject(boost::shared_ptr<DistributionListRecipient> pRecipient);
       
-      static bool SaveObject(shared_ptr<DistributionListRecipient> pRecipient);
-      static bool SaveObject(shared_ptr<DistributionListRecipient> pRecipient, String &sErrorMessage);
+      static bool SaveObject(boost::shared_ptr<DistributionListRecipient> pRecipient);
+      static bool SaveObject(boost::shared_ptr<DistributionListRecipient> pRecipient, String &sErrorMessage);
 
-      static bool ReadObject(shared_ptr<DistributionListRecipient> pRecipient, long ObjectID);
-      static bool ReadObject(shared_ptr<DistributionListRecipient> pRecipient, const SQLCommand &command);
-      static bool ReadObject(shared_ptr<DistributionListRecipient> pRecipient, shared_ptr<DALRecordset> pRS);
+      static bool ReadObject(boost::shared_ptr<DistributionListRecipient> pRecipient, long ObjectID);
+      static bool ReadObject(boost::shared_ptr<DistributionListRecipient> pRecipient, const SQLCommand &command);
+      static bool ReadObject(boost::shared_ptr<DistributionListRecipient> pRecipient, boost::shared_ptr<DALRecordset> pRS);
 
    };
 }

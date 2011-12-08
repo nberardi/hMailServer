@@ -51,7 +51,7 @@ namespace HM
       virtual AnsiString GetCommandSeparator() const;
 
       virtual void ParseData(const AnsiString &sRequest);
-      virtual void ParseData(shared_ptr<ByteBuffer> pBuf);
+      virtual void ParseData(boost::shared_ptr<ByteBuffer> pBuf);
 
       virtual void _SendData(const String &sData);
 
@@ -102,7 +102,7 @@ namespace HM
       // Make changes to the message before it's accepted for delivery. This is
       // for example where message signature and spam-headers are added.
 
-      void _SetMessageSignature(shared_ptr<MessageData> &pMessageData);
+      void _SetMessageSignature(boost::shared_ptr<MessageData> &pMessageData);
       // Sets the signature of the message, based on the signature in the account
       // settings and domain settings.
 
@@ -138,7 +138,7 @@ namespace HM
 
       bool _SendEHLOKeywords();
 
-      int _GetMaxMessageSize(shared_ptr<const Domain> pDomain);
+      int _GetMaxMessageSize(boost::shared_ptr<const Domain> pDomain);
 
       bool _ReadDomainAddressFromHelo(const String &sRequest);
 
@@ -148,7 +148,7 @@ namespace HM
 
       bool _GetIsLocalSender();
 
-      String _GetSpamTestResultMessage(set<shared_ptr<SpamTestResult> > testResult) const;
+      String _GetSpamTestResultMessage(set<boost::shared_ptr<SpamTestResult> > testResult) const;
 
       enum ConnectionState
       {
@@ -171,14 +171,14 @@ namespace HM
 
       ConnectionState m_CurrentState;
 
-      shared_ptr<Message> m_pCurrentMessage;
+      boost::shared_ptr<Message> m_pCurrentMessage;
 
       bool m_bTraceHeadersWritten;
 
       String m_sUsername;
       String m_sPassword;
 
-      shared_ptr<SMTPConfiguration> m_SMTPConf;
+      boost::shared_ptr<SMTPConfiguration> m_SMTPConf;
    
       AuthenticationType _requestedAuthenticationType;
       
@@ -189,17 +189,17 @@ namespace HM
 
       String m_sHeloHost;
 
-      shared_ptr<TransparentTransmissionBuffer> m_pTransmissionBuffer;
+      boost::shared_ptr<TransparentTransmissionBuffer> m_pTransmissionBuffer;
 
       // Spam detection 
       bool m_bRejectedByDelayedGreyListing;
       int m_iCurNoOfRCPTTO;
       int m_iCurNoOfInvalidCommands;
       
-      shared_ptr<const Domain> m_pSenderDomain;
-      shared_ptr<const Account> m_pSenderAccount;
+      boost::shared_ptr<const Domain> m_pSenderDomain;
+      boost::shared_ptr<const Account> m_pSenderAccount;
 
-      set<shared_ptr<SpamTestResult> > m_setSpamTestResults;
+      set<boost::shared_ptr<SpamTestResult> > m_setSpamTestResults;
 
       bool m_bReAuthenticateUser;
       bool m_bPendingDisconnect;

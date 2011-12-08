@@ -28,7 +28,7 @@ namespace HM
 
 
    void
-   MessageRecipients::Add(shared_ptr<MessageRecipient> pRecipient)
+   MessageRecipients::Add(boost::shared_ptr<MessageRecipient> pRecipient)
    {
       _recipients.push_back(pRecipient);
    }
@@ -38,7 +38,7 @@ namespace HM
    {
       String sRecipientList;
 
-      boost_foreach(shared_ptr<MessageRecipient> recipient, _recipients)
+      boost_foreach(boost::shared_ptr<MessageRecipient> recipient, _recipients)
       {
          if (!sRecipientList.IsEmpty())
             sRecipientList += ", ";
@@ -58,10 +58,10 @@ namespace HM
    //---------------------------------------------------------------------------()
    {
       // Remove recipients that are local, but does not exist.
-      std::vector<shared_ptr<MessageRecipient> >::iterator iterRecipient = _recipients.begin();
+      std::vector<boost::shared_ptr<MessageRecipient> >::iterator iterRecipient = _recipients.begin();
       while (iterRecipient != _recipients.end())
       {
-         shared_ptr<MessageRecipient> pRecipient = (*iterRecipient);
+         boost::shared_ptr<MessageRecipient> pRecipient = (*iterRecipient);
 
          if (pRecipient->GetLocalAccountID() == 0)
          {     
@@ -82,10 +82,10 @@ namespace HM
    //---------------------------------------------------------------------------()
    {
       // Remove recipients that are local, but does not exist.
-      std::vector<shared_ptr<MessageRecipient> >::iterator iterRecipient = _recipients.begin();
+      std::vector<boost::shared_ptr<MessageRecipient> >::iterator iterRecipient = _recipients.begin();
       while (iterRecipient != _recipients.end())
       {
-         shared_ptr<MessageRecipient> pRecipient = (*iterRecipient);
+         boost::shared_ptr<MessageRecipient> pRecipient = (*iterRecipient);
 
          if (!pRecipient->GetIsLocalName())
          {     

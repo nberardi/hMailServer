@@ -15,25 +15,25 @@ namespace HM
       ~ObjectCache(void);
 
       void SetDomainAliasesNeedsReload();
-      shared_ptr<DomainAliases> GetDomainAliases();
+      boost::shared_ptr<DomainAliases> GetDomainAliases();
 
       void SetGlobalRulesNeedsReload();
-      shared_ptr<Rules> GetGlobalRules();
+      boost::shared_ptr<Rules> GetGlobalRules();
 
       void SetAccountRulesNeedsReload(__int64 iAccountID);
-      shared_ptr<Rules> GetAccountRules(__int64 iAccountID);
+      boost::shared_ptr<Rules> GetAccountRules(__int64 iAccountID);
 
       void ClearRuleCaches();
 
    private:
 
-      shared_ptr<DomainAliases> m_pDomainAliases;
+      boost::shared_ptr<DomainAliases> m_pDomainAliases;
       bool m_bDomainAliasesNeedsReload;
 
-      shared_ptr<Rules> m_pGlobalRules;
+      boost::shared_ptr<Rules> m_pGlobalRules;
       bool m_bGlobalRulesNeedsReload;
 
-      map<__int64, shared_ptr<Rules> > m_mapAccountRules;
+      map<__int64, boost::shared_ptr<Rules> > m_mapAccountRules;
       set<__int64> m_setAccountRulesToRefresh;
 
       CriticalSection m_oDACritSec;

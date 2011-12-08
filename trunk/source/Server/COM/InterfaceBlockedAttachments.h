@@ -56,11 +56,11 @@ public:
    STDMETHOD(DeleteByDBID)(/*[in]*/ long DBID);
    STDMETHOD(Add)(/*[out, retval]*/ IInterfaceBlockedAttachment **pVal);
 
-   void Attach(shared_ptr<HM::BlockedAttachments> pBlockedAttachments);
+   void Attach(boost::shared_ptr<HM::BlockedAttachments> pBlockedAttachments);
 
 public:
 
-   shared_ptr<HM::BlockedAttachments> m_pBlockedAttachments;
+   boost::shared_ptr<HM::BlockedAttachments> m_pBlockedAttachments;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(BlockedAttachments), InterfaceBlockedAttachments)

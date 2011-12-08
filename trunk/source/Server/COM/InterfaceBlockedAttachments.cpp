@@ -9,7 +9,7 @@
 #include "InterfaceBlockedAttachment.h"
 
 void 
-InterfaceBlockedAttachments::Attach(shared_ptr<HM::BlockedAttachments> pBA) 
+InterfaceBlockedAttachments::Attach(boost::shared_ptr<HM::BlockedAttachments> pBA) 
 { 
    m_pBlockedAttachments = pBA; 
 }
@@ -54,7 +54,7 @@ InterfaceBlockedAttachments::get_Item(long Index, IInterfaceBlockedAttachment **
       CComObject<InterfaceBlockedAttachment>* pInterfaceBlockedAttachment = new CComObject<InterfaceBlockedAttachment>();
       pInterfaceBlockedAttachment->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::BlockedAttachment> pBA = m_pBlockedAttachments->GetItem(Index);
+      boost::shared_ptr<HM::BlockedAttachment> pBA = m_pBlockedAttachments->GetItem(Index);
    
       if (!pBA)
          return DISP_E_BADINDEX;
@@ -100,7 +100,7 @@ InterfaceBlockedAttachments::get_ItemByDBID(long lDBID, IInterfaceBlockedAttachm
       CComObject<InterfaceBlockedAttachment>* pInterfaceBlockedAttachment = new CComObject<InterfaceBlockedAttachment>();
       pInterfaceBlockedAttachment->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::BlockedAttachment> pBA = m_pBlockedAttachments->GetItemByDBID(lDBID);
+      boost::shared_ptr<HM::BlockedAttachment> pBA = m_pBlockedAttachments->GetItemByDBID(lDBID);
    
       if (!pBA)
          return DISP_E_BADINDEX;
@@ -133,7 +133,7 @@ InterfaceBlockedAttachments::Add(IInterfaceBlockedAttachment **pVal)
       CComObject<InterfaceBlockedAttachment>* pInterfaceBlockedAttachment = new CComObject<InterfaceBlockedAttachment>();
       pInterfaceBlockedAttachment->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::BlockedAttachment> pBA = shared_ptr<HM::BlockedAttachment>(new HM::BlockedAttachment);
+      boost::shared_ptr<HM::BlockedAttachment> pBA = boost::shared_ptr<HM::BlockedAttachment>(new HM::BlockedAttachment);
    
       pInterfaceBlockedAttachment->AttachItem(pBA);
       pInterfaceBlockedAttachment->AttachParent(m_pBlockedAttachments, false);

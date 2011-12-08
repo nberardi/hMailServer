@@ -8,12 +8,12 @@ class COMCollectionItem
 {
 public:
 
-   void AttachItem(shared_ptr<T> pObject)
+   void AttachItem(boost::shared_ptr<T> pObject)
    {
       m_pObject = pObject;
    }
 
-   void AttachParent(shared_ptr<P> pParentColl, bool bObjectIsInParent)
+   void AttachParent(boost::shared_ptr<P> pParentColl, bool bObjectIsInParent)
    {
       m_pParentCollection = pParentColl;
       m_bObjectIsInCollection = bObjectIsInParent;
@@ -28,8 +28,8 @@ public:
       m_bObjectIsInCollection = true;
    }
 
-   shared_ptr<P> m_pParentCollection;
-   shared_ptr<T> m_pObject;
+   boost::shared_ptr<P> m_pParentCollection;
+   boost::shared_ptr<T> m_pObject;
 
 
 private:

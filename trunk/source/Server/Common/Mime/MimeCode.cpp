@@ -186,7 +186,7 @@ namespace HM
 	   }
    }
 
-   shared_ptr<MimeBody> MimeEnvironment::CreateBodyPart(const char* pszMediaType)
+   boost::shared_ptr<MimeBody> MimeEnvironment::CreateBodyPart(const char* pszMediaType)
    {
 	   if (!pszMediaType || !::strlen(pszMediaType))
 		   pszMediaType = "text";
@@ -203,7 +203,7 @@ namespace HM
 		   }
 	   }
       
-      shared_ptr<MimeBody> pBody = shared_ptr<MimeBody>(new MimeBody);
+      boost::shared_ptr<MimeBody> pBody = boost::shared_ptr<MimeBody>(new MimeBody);
       return pBody;
       //return new MimeBody;			// default body part for unregistered media type
    }

@@ -30,19 +30,19 @@ namespace HM
    {
    }
 
-   shared_ptr<const Account>
+   boost::shared_ptr<const Account>
    PasswordValidator::ValidatePassword(const String &sUsername, const String &sPassword)
    {
-      shared_ptr<Account> pEmpty;
+      boost::shared_ptr<Account> pEmpty;
 
       // Apply domain name aliases to this domain name.
-      shared_ptr<DomainAliases> pDA = ObjectCache::Instance()->GetDomainAliases();
+      boost::shared_ptr<DomainAliases> pDA = ObjectCache::Instance()->GetDomainAliases();
       String sAccountAddress = pDA->ApplyAliasesOnAddress(sUsername);
 
       // Apply default domain
       sAccountAddress = DefaultDomain::ApplyDefaultDomain(sAccountAddress);
 
-      shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(sAccountAddress);
+      boost::shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(sAccountAddress);
       
       if (!pAccount)
          return pEmpty;
@@ -53,7 +53,7 @@ namespace HM
       // Check that the domain is active as well.
       
       String sDomain = StringParser::ExtractDomain(sAccountAddress);
-      shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(sDomain);
+      boost::shared_ptr<const Domain> pDomain = CacheContainer::Instance()->GetDomain(sDomain);
 
       if (!pDomain)
          return pEmpty;
@@ -70,7 +70,7 @@ namespace HM
    }
 
    bool 
-   PasswordValidator::ValidatePassword(shared_ptr<const Account> pAccount, const String &sPassword)
+   PasswordValidator::ValidatePassword(boost::shared_ptr<const Account> pAccount, const String &sPassword)
    {
       if (sPassword.GetLength() == 0)
       {

@@ -46,7 +46,7 @@ END_COM_MAP()
 	}
 
 public:
-   void AttachItem(shared_ptr<HM::ClientInfo> pClientInfo);
+   void AttachItem(boost::shared_ptr<HM::ClientInfo> pClientInfo);
 
    STDMETHOD(get_Port)(LONG* pVal);
    STDMETHOD(get_IPAddress)(BSTR* pVal);
@@ -55,7 +55,7 @@ public:
 
 private:
 
-   shared_ptr<HM::ClientInfo> m_pClientInfo;
+   boost::shared_ptr<HM::ClientInfo> m_pClientInfo;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Client), InterfaceClient)

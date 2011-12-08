@@ -27,7 +27,7 @@ namespace HM
 
    }
 
-   shared_ptr<const Account>
+   boost::shared_ptr<const Account>
    COMAuthentication::Authenticate(const String &sUsername, const String &sPassword)
    {
       // Try to fetch this account
@@ -56,7 +56,7 @@ namespace HM
             // Create a dummy account since the administrator
             // does not have a real email account.
 
-            m_pAccount = shared_ptr<Account> 
+            m_pAccount = boost::shared_ptr<Account> 
                (
                   new Account("Administrator", Account::ServerAdmin)
                );
@@ -81,7 +81,7 @@ namespace HM
          // Create a dummy account since the administrator
          // does not have a real email account.
 
-         m_pAccount = shared_ptr<Account> (new Account("Administrator", Account::ServerAdmin));
+         m_pAccount = boost::shared_ptr<Account> (new Account("Administrator", Account::ServerAdmin));
       }
    }
 

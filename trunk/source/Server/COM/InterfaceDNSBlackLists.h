@@ -51,11 +51,11 @@ END_COM_MAP()
    STDMETHOD(Add)(/*[out, retval]*/ IInterfaceDNSBlackList **pVal);
    STDMETHOD(get_ItemByDNSHost)(BSTR ItemName, IInterfaceDNSBlackList **pVal);
 
-   void Attach(shared_ptr<HM::DNSBlackLists> pBlackLists);
+   void Attach(boost::shared_ptr<HM::DNSBlackLists> pBlackLists);
 
 public:
 
-   shared_ptr<HM::DNSBlackLists> m_pBlackLists;
+   boost::shared_ptr<HM::DNSBlackLists> m_pBlackLists;
 
 };
 

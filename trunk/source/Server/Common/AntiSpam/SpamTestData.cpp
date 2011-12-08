@@ -70,12 +70,12 @@ namespace HM
    }
 
    void 
-   SpamTestData::SetMessageData(shared_ptr<MessageData> pMessageData)
+   SpamTestData::SetMessageData(boost::shared_ptr<MessageData> pMessageData)
    {
       m_pMessageData = pMessageData;
    }
 
-   shared_ptr<MessageData>
+   boost::shared_ptr<MessageData>
    SpamTestData::GetMessageData()  const
    {
       return m_pMessageData;

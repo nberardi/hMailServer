@@ -21,7 +21,7 @@ namespace HM
       virtual String GetName() const;
       virtual bool GetIsEnabled();
 
-      virtual set<shared_ptr<SpamTestResult> > RunTest(shared_ptr<SpamTestData> pTestData);
+      virtual set<boost::shared_ptr<SpamTestResult> > RunTest(boost::shared_ptr<SpamTestData> pTestData);
 
    private:
 

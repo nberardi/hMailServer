@@ -18,8 +18,8 @@ namespace HM
       IMAPNotificationClient();
       virtual ~IMAPNotificationClient();
 
-      void SetConnection(weak_ptr<IMAPConnection> connection);
-      virtual void OnNotification(shared_ptr<ChangeNotification> notification);
+      void SetConnection(boost::weak_ptr<IMAPConnection> connection);
+      virtual void OnNotification(boost::shared_ptr<ChangeNotification> notification);
 
       void SendCachedNotifications();
 
@@ -32,8 +32,8 @@ namespace HM
 
    private:
 
-      void _CacheChangeNotification(shared_ptr<ChangeNotification> pChangeNotification);
-      void _SendChangeNotification(shared_ptr<ChangeNotification> pChangeNotification);
+      void _CacheChangeNotification(boost::shared_ptr<ChangeNotification> pChangeNotification);
+      void _SendChangeNotification(boost::shared_ptr<ChangeNotification> pChangeNotification);
 
       void _SendEXISTS(int iExists);
       void _SendRECENT(int recent);
@@ -42,9 +42,9 @@ namespace HM
       void _SendMessage(int iExists);
 
       CriticalSection _critSec;
-      vector<shared_ptr<ChangeNotification> > _cachedChanges;
+      vector<boost::shared_ptr<ChangeNotification> > _cachedChanges;
       
-      weak_ptr<IMAPConnection> _parentConnection;
+      boost::weak_ptr<IMAPConnection> _parentConnection;
 
       __int64 _accountID;
       __int64 _folderID;

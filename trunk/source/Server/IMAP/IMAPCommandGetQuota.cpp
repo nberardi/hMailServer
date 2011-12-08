@@ -30,7 +30,7 @@ namespace HM
    }
    
    IMAPResult 
-   IMAPCommandGetQuota::ExecuteCommand(shared_ptr<IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument)
+   IMAPCommandGetQuota::ExecuteCommand(boost::shared_ptr<IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument)
    {
 
       if (!pConnection->IsAuthenticated())
@@ -39,12 +39,12 @@ namespace HM
       if (!Configuration::Instance()->GetIMAPConfiguration()->GetUseIMAPQuota())
          return IMAPResult(IMAPResult::ResultNo, "IMAP QUOTA is not enabled.");
 
-      shared_ptr<IMAPSimpleCommandParser> pParser = shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
+      boost::shared_ptr<IMAPSimpleCommandParser> pParser = boost::shared_ptr<IMAPSimpleCommandParser>(new IMAPSimpleCommandParser());
       pParser->Parse(pArgument);
       if (pParser->WordCount() < 2)
          return IMAPResult(IMAPResult::ResultBad, "GETQUOTA Command requires at least 1 parameter.");
 
-      shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(pConnection->GetAccount()->GetID());
+      boost::shared_ptr<const Account> pAccount = CacheContainer::Instance()->GetAccount(pConnection->GetAccount()->GetID());
 
       // According to the RFC, these values should be counted in kilobytes.
       __int64 iCurrentSize = AccountSizeCache::Instance()->GetSize(pAccount->GetID()) / 1024;

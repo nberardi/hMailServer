@@ -14,7 +14,7 @@ namespace HM
 	   virtual ~DALConnectionFactory();
 
 
-      static shared_ptr<DALConnection> CreateConnection(shared_ptr<DatabaseSettings> pSettings);
+      static boost::shared_ptr<DALConnection> CreateConnection(boost::shared_ptr<DatabaseSettings> pSettings);
 
    };
 }

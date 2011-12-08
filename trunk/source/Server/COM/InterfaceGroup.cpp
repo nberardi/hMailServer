@@ -119,7 +119,7 @@ STDMETHODIMP InterfaceGroup::get_Members(IInterfaceGroupMembers **pVal)
       CComObject<InterfaceGroupMembers>* pItem = new CComObject<InterfaceGroupMembers>();
       pItem->SetAuthentication(m_pAuthentication);
    
-      shared_ptr<HM::GroupMembers> pGM = m_pObject->GetMembers();
+      boost::shared_ptr<HM::GroupMembers> pGM = m_pObject->GetMembers();
    
       if (pGM)
       {

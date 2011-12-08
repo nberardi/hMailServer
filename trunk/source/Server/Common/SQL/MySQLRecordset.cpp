@@ -28,13 +28,13 @@ namespace HM
    }
 
    DALConnection::ExecutionResult
-   MySQLRecordset::TryOpen(shared_ptr<DALConnection> pDALConn, const SQLCommand &command, String &sErrorMessage)
+   MySQLRecordset::TryOpen(boost::shared_ptr<DALConnection> pDALConn, const SQLCommand &command, String &sErrorMessage)
    //---------------------------------------------------------------------------()
    // DESCRIPTION:
    // Opens a recordset specified by the given SQL string sSQL.
    //---------------------------------------------------------------------------()
    {  
-      shared_ptr<MySQLConnection> pConn = static_pointer_cast<MySQLConnection>(pDALConn);
+      boost::shared_ptr<MySQLConnection> pConn = static_pointer_cast<MySQLConnection>(pDALConn);
 
       String sSQL = command.GetQueryString();
 

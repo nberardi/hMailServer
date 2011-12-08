@@ -11,10 +11,10 @@ namespace HM
 
    class IMAPCommandCREATE : public IMAPCommand
    {
-      virtual IMAPResult ExecuteCommand(shared_ptr<HM::IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument);
+      virtual IMAPResult ExecuteCommand(boost::shared_ptr<HM::IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument);
 
    private:
 
-      IMAPResult ConfirmPossibleToCreate(shared_ptr<HM::IMAPConnection> pConnection, const std::vector<String> &vecNewPath, bool bIsPublicFolder);
+      IMAPResult ConfirmPossibleToCreate(boost::shared_ptr<HM::IMAPConnection> pConnection, const std::vector<String> &vecNewPath, bool bIsPublicFolder);
    };
 }

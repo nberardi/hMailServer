@@ -35,11 +35,11 @@ namespace HM
       m_bEncodeFields = true;
       _unfoldWithSpace = true;
 
-      m_pMimeMail = shared_ptr<MimeBody>(new MimeBody);
+      m_pMimeMail = boost::shared_ptr<MimeBody>(new MimeBody);
    }
 
    bool
-   MessageData::LoadFromMessage(shared_ptr<const Account> account, shared_ptr<Message> pMessage)
+   MessageData::LoadFromMessage(boost::shared_ptr<const Account> account, boost::shared_ptr<Message> pMessage)
    {
       String fileName = PersistentMessage::GetFileName(account, pMessage);
 
@@ -48,12 +48,12 @@ namespace HM
    
 
    bool
-   MessageData::LoadFromMessage(const String &fileName, shared_ptr<Message> pMessage)
+   MessageData::LoadFromMessage(const String &fileName, boost::shared_ptr<Message> pMessage)
    {
       m_pMessage = pMessage;
       _messageFileName = fileName;
 
-      m_pMimeMail = shared_ptr<MimeBody>(new MimeBody);
+      m_pMimeMail = boost::shared_ptr<MimeBody>(new MimeBody);
 
       const int MaxSize = 1024*1024 * 80; // we'll ignore messages larger than 80MB.
       if (FileUtilities::FileSize(_messageFileName) > MaxSize)
@@ -271,12 +271,12 @@ namespace HM
       return m_pMessage->GetSize();
    }
 
-   shared_ptr<Attachments>
+   boost::shared_ptr<Attachments>
    MessageData::GetAttachments()
    {
       if (!m_pAttachments)
       {
-         m_pAttachments = shared_ptr<Attachments>(new Attachments(m_pMimeMail, this));
+         m_pAttachments = boost::shared_ptr<Attachments>(new Attachments(m_pMimeMail, this));
          
          // Load attachments.
          m_pAttachments->Load();
@@ -288,7 +288,7 @@ namespace HM
    String 
    MessageData::GetBody() const
    {
-      shared_ptr<MimeBody> pPart = FindPart("text/plain");
+      boost::shared_ptr<MimeBody> pPart = FindPart("text/plain");
 
       if (pPart)
       {
@@ -305,7 +305,7 @@ namespace HM
    void
    MessageData::SetBody(const String &sBody)
    {
-      shared_ptr<MimeBody> pPart = FindPart("text/plain");
+      boost::shared_ptr<MimeBody> pPart = FindPart("text/plain");
 
       if (!pPart)
          pPart = CreatePart("text/plain");
@@ -327,7 +327,7 @@ namespace HM
    String 
    MessageData::GetHTMLBody() const
    {
-      shared_ptr<MimeBody> pPart = FindPart("text/html");
+      boost::shared_ptr<MimeBody> pPart = FindPart("text/html");
 
       if (pPart)
       {
@@ -343,7 +343,7 @@ namespace HM
    void
    MessageData::SetHTMLBody(const String &sNewVal)
    {
-      shared_ptr<MimeBody> pHTMLPart = FindPart("text/html");
+      boost::shared_ptr<MimeBody> pHTMLPart = FindPart("text/html");
 
       if (!pHTMLPart)
       {
@@ -365,10 +365,10 @@ namespace HM
          pHTMLPart->SetRawText(sModifiedBody);
    }
 
-   shared_ptr<MimeBody> 
-   MessageData::FindPartNoRecurse(shared_ptr<MimeBody> parent, const AnsiString &sType) const
+   boost::shared_ptr<MimeBody> 
+   MessageData::FindPartNoRecurse(boost::shared_ptr<MimeBody> parent, const AnsiString &sType) const
    {
-      shared_ptr<MimeBody> pPart = parent->FindFirstPart();
+      boost::shared_ptr<MimeBody> pPart = parent->FindFirstPart();
 
       while (pPart)
       {
@@ -386,11 +386,11 @@ namespace HM
          pPart = parent->FindNextPart();
       }
       
-      shared_ptr<MimeBody> empty;
+      boost::shared_ptr<MimeBody> empty;
       return empty;
    }
 
-   shared_ptr<MimeBody> 
+   boost::shared_ptr<MimeBody> 
    MessageData::CreatePart(const String &sContentType)
    {
       // Step 1: Extract all parts.
@@ -403,12 +403,12 @@ namespace HM
       AnsiString sMainBodyCharset = m_pMimeMail->GetCharset();
       sMainBodyType.MakeLower();
       
-      shared_ptr<MimeBody> textPart = FindPartNoRecurse(m_pMimeMail, "text/plain");
-      shared_ptr<MimeBody> htmlPart = FindPartNoRecurse(m_pMimeMail, "text/html");
+      boost::shared_ptr<MimeBody> textPart = FindPartNoRecurse(m_pMimeMail, "text/plain");
+      boost::shared_ptr<MimeBody> htmlPart = FindPartNoRecurse(m_pMimeMail, "text/html");
 
-      shared_ptr<MimeBody> retValue;
+      boost::shared_ptr<MimeBody> retValue;
 
-      shared_ptr<MimeBody> alternativeNode = FindPartNoRecurse(m_pMimeMail, "multipart/alternative");
+      boost::shared_ptr<MimeBody> alternativeNode = FindPartNoRecurse(m_pMimeMail, "multipart/alternative");
       if (alternativeNode)
       {
          if (!textPart) 
@@ -437,7 +437,7 @@ namespace HM
          {
             if (m_pMimeMail->GetRawText().size() > 0)
             {
-               textPart = shared_ptr<MimeBody>(new MimeBody);
+               textPart = boost::shared_ptr<MimeBody>(new MimeBody);
                textPart->SetRawText(m_pMimeMail->GetRawText());
                textPart->SetContentType("text/plain", "");
                
@@ -453,7 +453,7 @@ namespace HM
          {
             if (m_pMimeMail->GetRawText().size() > 0)
             {
-               htmlPart = shared_ptr<MimeBody>(new MimeBody);
+               htmlPart = boost::shared_ptr<MimeBody>(new MimeBody);
                htmlPart->SetRawText(m_pMimeMail->GetRawText());
                htmlPart->SetContentType("text/html", "");
                
@@ -472,8 +472,8 @@ namespace HM
       // When we get here, any alternative, text or html parts
       // should have been removed from the message already.
       //
-      shared_ptr<MimeBody> part = m_pMimeMail->FindFirstPart();
-      set<shared_ptr<MimeBody> > setAttachments;
+      boost::shared_ptr<MimeBody> part = m_pMimeMail->FindFirstPart();
+      set<boost::shared_ptr<MimeBody> > setAttachments;
       while (part)
       {
          AnsiString subContentType = part->GetCleanContentType();
@@ -499,7 +499,7 @@ namespace HM
          }
          else
          {
-            textPart = shared_ptr<MimeBody>(new MimeBody);
+            textPart = boost::shared_ptr<MimeBody>(new MimeBody);
             textPart->SetContentType("text/plain", "");
 
             AnsiString transferEncoding = m_pMimeMail->GetTransferEncoding();
@@ -526,7 +526,7 @@ namespace HM
          }
          else
          {
-            htmlPart = shared_ptr<MimeBody>(new MimeBody);
+            htmlPart = boost::shared_ptr<MimeBody>(new MimeBody);
             htmlPart->SetContentType("text/html", "");
 
             AnsiString transferEncoding = m_pMimeMail->GetTransferEncoding();
@@ -543,7 +543,7 @@ namespace HM
       else
       {
          // create a new item. treat as an attachment.
-         retValue = shared_ptr<MimeBody>(new MimeBody);
+         retValue = boost::shared_ptr<MimeBody>(new MimeBody);
          setAttachments.insert(retValue);
       }
 
@@ -561,7 +561,7 @@ namespace HM
       {
          if (mainBodyType == "multipart/mixed")
          {
-            shared_ptr<MimeBody> alternativePart = shared_ptr<MimeBody>(new MimeBody);
+            boost::shared_ptr<MimeBody> alternativePart = boost::shared_ptr<MimeBody>(new MimeBody);
             alternativePart->SetContentType("multipart/alternative", "");
             alternativePart->SetRawText("This is a multi-part message.\r\n\r\n");
 
@@ -598,7 +598,7 @@ namespace HM
          }
       }
 
-      boost_foreach(shared_ptr<MimeBody> pAttachment, setAttachments)
+      boost_foreach(boost::shared_ptr<MimeBody> pAttachment, setAttachments)
       {
          m_pMimeMail->AddPart(pAttachment);
       }
@@ -617,7 +617,7 @@ namespace HM
       return retValue;
    }
 
-   shared_ptr<MimeBody>
+   boost::shared_ptr<MimeBody>
    MessageData::FindPart(const String &sType) const
    {
       String sPartType = m_pMimeMail->GetCleanContentType();
@@ -625,11 +625,11 @@ namespace HM
       if (sPartType.CompareNoCase(sType) == 0)
          return m_pMimeMail;
 
-      shared_ptr<MimeBody> pPart = m_pMimeMail->FindFirstPart();
+      boost::shared_ptr<MimeBody> pPart = m_pMimeMail->FindFirstPart();
 
       if (!pPart)
       {
-         shared_ptr<MimeBody> pEmpty;
+         boost::shared_ptr<MimeBody> pEmpty;
          return pEmpty;
       }
 
@@ -642,7 +642,7 @@ namespace HM
          
          if (pPart->IsMultiPart())
          {
-            shared_ptr<MimeBody> pSubPart = pPart->FindFirstPart();
+            boost::shared_ptr<MimeBody> pSubPart = pPart->FindFirstPart();
 
             while (pSubPart)
             {
@@ -660,7 +660,7 @@ namespace HM
          pPart = m_pMimeMail->FindNextPart();
       }
 
-      shared_ptr<MimeBody> pEmpty;
+      boost::shared_ptr<MimeBody> pEmpty;
       return pEmpty;     
 
    }
@@ -685,7 +685,7 @@ namespace HM
    bool 
    MessageData::GetHasBodyType(const String &sBodyType)
    {
-      shared_ptr<MimeBody> pPart = FindPart(sBodyType);      
+      boost::shared_ptr<MimeBody> pPart = FindPart(sBodyType);      
 
       return pPart ? true : false;
    }
@@ -740,7 +740,7 @@ namespace HM
       return sContentType.CompareNoCase(_T("text/html")) == 0;
    }
 
-   shared_ptr<MimeBody> 
+   boost::shared_ptr<MimeBody> 
    MessageData::GetMimeMessage()
    {
       return m_pMimeMail;
@@ -757,17 +757,17 @@ namespace HM
          return;
       #endif
 
-      shared_ptr<Message> pMessage = shared_ptr<Message>(new Message);
+      boost::shared_ptr<Message> pMessage = boost::shared_ptr<Message>(new Message);
 
       // Add recipient
       bool recipientOK = false;
       RecipientParser recipientParser;
       recipientParser.CreateMessageRecipientList("test@test.com", pMessage->GetRecipients(), recipientOK);
 
-      shared_ptr<Account> account;
+      boost::shared_ptr<Account> account;
 
       // Create message data structure
-      shared_ptr<MessageData> pMsgData = shared_ptr<MessageData>(new MessageData());
+      boost::shared_ptr<MessageData> pMsgData = boost::shared_ptr<MessageData>(new MessageData());
       pMsgData->LoadFromMessage(account, pMessage);
       pMsgData->SetTo("test@test.com");
       pMsgData->SetFrom("test@test.com");

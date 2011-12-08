@@ -44,7 +44,7 @@ namespace HM
    }
 
    bool
-   PersistentIMAPFolder::DeleteObject(shared_ptr<IMAPFolder> pFolder)
+   PersistentIMAPFolder::DeleteObject(boost::shared_ptr<IMAPFolder> pFolder)
    {
       return DeleteObject  (pFolder, false);
    }
@@ -56,7 +56,7 @@ namespace HM
 
    */
    bool
-   PersistentIMAPFolder::DeleteObject(shared_ptr<IMAPFolder> pFolder, bool forceDelete)
+   PersistentIMAPFolder::DeleteObject(boost::shared_ptr<IMAPFolder> pFolder, bool forceDelete)
    {
       if (pFolder->GetID() <= 0)
          return false;
@@ -89,14 +89,14 @@ namespace HM
    }
 
    bool
-   PersistentIMAPFolder::SaveObject(shared_ptr<IMAPFolder> pFolder, String &errorMessage)
+   PersistentIMAPFolder::SaveObject(boost::shared_ptr<IMAPFolder> pFolder, String &errorMessage)
    {
       // errorMessage not supported yet.
       return SaveObject(pFolder);
    }
 
    bool
-   PersistentIMAPFolder::SaveObject(shared_ptr<IMAPFolder> pFolder)
+   PersistentIMAPFolder::SaveObject(boost::shared_ptr<IMAPFolder> pFolder)
    {
       bool bNewObject = true;
       if (pFolder->GetID())
@@ -151,7 +151,7 @@ namespace HM
       SQLCommand command("SELECT folderid FROM hm_imapfolders WHERE folderaccountid = @FOLDERACCOUNTID and folderparentid = -1 and foldername = 'INBOX'");
       command.AddParameter("@FOLDERACCOUNTID", accountID);
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
       {
          String message;
@@ -173,7 +173,7 @@ namespace HM
 
       SQLCommand command(_T("select count(*) as c from hm_imapfolders where foldername like '%" + theChar + "%'"));
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
          return false;
 
@@ -191,7 +191,7 @@ namespace HM
       SQLCommand command("SELECT foldercurrentuid FROM hm_imapfolders WHERE folderid = @FOLDERID");
       command.AddParameter("@FOLDERID", folderID);
 
-      shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
+      boost::shared_ptr<DALRecordset> pRS = Application::Instance()->GetDBManager()->OpenRecordset(command);
       if (!pRS)
       {
          String message;

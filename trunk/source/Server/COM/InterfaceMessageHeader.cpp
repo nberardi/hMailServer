@@ -8,7 +8,7 @@
 #include "../Common/Mime/Mime.h"
 
 void 
-InterfaceMessageHeader::AttachItem (shared_ptr<HM::MimeHeader> pHeader, HM::MimeField *pField)
+InterfaceMessageHeader::AttachItem (boost::shared_ptr<HM::MimeHeader> pHeader, HM::MimeField *pField)
 {
    m_pHeader = pHeader;
    m_pObject = pField;

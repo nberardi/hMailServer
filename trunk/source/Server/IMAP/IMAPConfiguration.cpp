@@ -34,17 +34,17 @@ namespace HM
    IMAPConfiguration::Load()
    {
       // Shared public have their AccountID set to zero.
-      m_pPublicFolders = shared_ptr<IMAPFolders>(new IMAPFolders(0, -1));
+      m_pPublicFolders = boost::shared_ptr<IMAPFolders>(new IMAPFolders(0, -1));
       m_pPublicFolders->Refresh();
 
       // Shared public have their AccountID set to zero.
-      m_pGroups = shared_ptr<Groups>(new Groups());
+      m_pGroups = boost::shared_ptr<Groups>(new Groups());
       m_pGroups->Refresh();
 
       return true;
    }
 
-   shared_ptr<PropertySet>
+   boost::shared_ptr<PropertySet>
    IMAPConfiguration::_GetSettings() const
    {
       return Configuration::Instance()->GetSettings();
@@ -171,14 +171,14 @@ namespace HM
       return "#Public";
    }
 
-   shared_ptr<IMAPFolders> 
+   boost::shared_ptr<IMAPFolders> 
    IMAPConfiguration::GetPublicFolders()
    {
       return m_pPublicFolders;
    }
 
 
-   shared_ptr<Groups> 
+   boost::shared_ptr<Groups> 
    IMAPConfiguration::GetGroups()
    {
       return m_pGroups;
@@ -188,7 +188,7 @@ namespace HM
    IMAPConfiguration::XMLStore(XNode *pBackupNode, int iOptions)
    {
       // Public folders
-      shared_ptr<IMAPFolders> pIMAPFolders = GetPublicFolders();
+      boost::shared_ptr<IMAPFolders> pIMAPFolders = GetPublicFolders();
       pIMAPFolders->XMLStore(pBackupNode, iOptions);
 
       if (!GetGroups()->XMLStore(pBackupNode, iOptions))

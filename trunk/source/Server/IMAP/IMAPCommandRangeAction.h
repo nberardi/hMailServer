@@ -15,13 +15,13 @@ namespace HM
 
       void SetIsUID(bool bIsUID);
       
-      IMAPResult ExecuteCommand(shared_ptr<IMAPConnection> pConnection, shared_ptr<IMAPCommandArgument> pArgument) {return IMAPResult();}
-      IMAPResult DoForMails(shared_ptr<IMAPConnection> pConnection, const String &sMailNos, const shared_ptr<IMAPCommandArgument> pArgument);
+      IMAPResult ExecuteCommand(boost::shared_ptr<IMAPConnection> pConnection, boost::shared_ptr<IMAPCommandArgument> pArgument) {return IMAPResult();}
+      IMAPResult DoForMails(boost::shared_ptr<IMAPConnection> pConnection, const String &sMailNos, const boost::shared_ptr<IMAPCommandArgument> pArgument);
 
    protected:
 
       bool GetIsUID();
-      virtual IMAPResult DoAction(shared_ptr<IMAPConnection> pConnection, int messageIndex, shared_ptr<Message> pMessage, const shared_ptr<IMAPCommandArgument> pArgument) = 0;
+      virtual IMAPResult DoAction(boost::shared_ptr<IMAPConnection> pConnection, int messageIndex, boost::shared_ptr<Message> pMessage, const boost::shared_ptr<IMAPCommandArgument> pArgument) = 0;
 
    private:
 

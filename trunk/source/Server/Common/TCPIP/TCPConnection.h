@@ -40,11 +40,11 @@ namespace HM
 
       int GetBufferSize() {return BufferSize; }
       bool Connect(const AnsiString &remoteServer, long remotePort, const IPAddress &localAddress);
-      void Start(shared_ptr<ProtocolParser> protocolParser);
+      void Start(boost::shared_ptr<ProtocolParser> protocolParser);
       void SetReceiveBinary(bool binary);
 
       void PostWrite(const AnsiString &sData);
-      void PostWrite(shared_ptr<ByteBuffer> pByteBuffer);
+      void PostWrite(boost::shared_ptr<ByteBuffer> pByteBuffer);
       void PostRead(const AnsiString &delimitor);
 
       void PostShutdown(ShutdownOption what);
@@ -60,10 +60,10 @@ namespace HM
 
       static bool PrepareSSLContext(boost::asio::ssl::context &ctx);
 
-      void SetSecurityRange(shared_ptr<SecurityRange> securityRange);
-      shared_ptr<SecurityRange> GetSecurityRange();
+      void SetSecurityRange(boost::shared_ptr<SecurityRange> securityRange);
+      boost::shared_ptr<SecurityRange> GetSecurityRange();
 
-      shared_ptr<TCPConnection> GetSharedFromThis();
+      boost::shared_ptr<TCPConnection> GetSharedFromThis();
 
       Event GetConnectionTerminationEvent() {return _connectionTermination;}
 
@@ -84,7 +84,7 @@ namespace HM
 
       void Disconnect();
       void Shutdown(boost::asio::socket_base::shutdown_type, bool removeFromQueue);
-      void Write(shared_ptr<ByteBuffer> buffer);
+      void Write(boost::shared_ptr<ByteBuffer> buffer);
       void Read(const AnsiString &delimitor);
 
       void HandleResolve(const boost::system::error_code& err, tcp::resolver::iterator endpoint_iterator);
@@ -104,7 +104,7 @@ namespace HM
       boost::asio::ip::tcp::resolver _resolver;
       boost::asio::deadline_timer _timer;
       boost::asio::streambuf _receiveBuffer;
-      shared_ptr<ProtocolParser> _protocolParser;
+      boost::shared_ptr<ProtocolParser> _protocolParser;
       
       IOOperationQueue _operationQueue;
 
@@ -115,7 +115,7 @@ namespace HM
       String _remoteServer;
       Event _connectionTermination;
 
-      shared_ptr<SecurityRange> _securityRange;
+      boost::shared_ptr<SecurityRange> _securityRange;
 
    };
 

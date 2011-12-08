@@ -402,7 +402,7 @@ namespace HM
    }
 
    String 
-   SQLStatement::GetCreateDatabase(shared_ptr<DatabaseSettings> pSettings, const String &sDatabaseName)
+   SQLStatement::GetCreateDatabase(boost::shared_ptr<DatabaseSettings> pSettings, const String &sDatabaseName)
    {
       HM::DatabaseSettings::SQLDBType DBType = pSettings->GetType();
       String sSQL;

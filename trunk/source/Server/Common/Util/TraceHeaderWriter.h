@@ -14,6 +14,6 @@ namespace HM
       TraceHeaderWriter();
       ~TraceHeaderWriter();
 
-      bool Write(const String &messageFileName, shared_ptr<Message> message, const vector<pair<AnsiString, AnsiString> > &headerFields);
+      bool Write(const String &messageFileName, boost::shared_ptr<Message> message, const vector<pair<AnsiString, AnsiString> > &headerFields);
    };
 }

@@ -116,7 +116,7 @@ namespace HM
    }
 
    bool
-   VirusScanner::Scan(shared_ptr<Message> pMessage, String &virusName)
+   VirusScanner::Scan(boost::shared_ptr<Message> pMessage, String &virusName)
    {
       AntiVirusConfiguration &antiVirusConfig = Configuration::Instance()->GetAntiVirusConfiguration();
 
@@ -145,17 +145,17 @@ namespace HM
 
 
       // Read message, extract attachments, 
-      shared_ptr<MimeBody> pMimeBody = shared_ptr<MimeBody>(new MimeBody);
+      boost::shared_ptr<MimeBody> pMimeBody = boost::shared_ptr<MimeBody>(new MimeBody);
       pMimeBody->LoadFromFile(sLongFilename);
 
-      list<shared_ptr<MimeBody> > oList;
+      list<boost::shared_ptr<MimeBody> > oList;
       pMimeBody->GetAttachmentList(pMimeBody, oList);
 
-      list<shared_ptr<MimeBody> >::iterator iter = oList.begin();
+      list<boost::shared_ptr<MimeBody> >::iterator iter = oList.begin();
 
       while (iter != oList.end())
       {
-         shared_ptr<MimeBody> pBody = (*iter);
+         boost::shared_ptr<MimeBody> pBody = (*iter);
          
          // Create a temporary filename.
          sLongFilename.Format(_T("%s\\%s.tmp"), IniFileSettings::Instance()->GetTempDirectory(), GUIDCreator::GetGUID() );
@@ -177,11 +177,11 @@ namespace HM
    }
 
    void
-   VirusScanner::ReportVirusFound(shared_ptr<Message> pMessage)
+   VirusScanner::ReportVirusFound(boost::shared_ptr<Message> pMessage)
    {
       const String fileName = PersistentMessage::GetFileName(pMessage);
 
-      shared_ptr<MessageData> pMsgData = shared_ptr<MessageData> (new MessageData());
+      boost::shared_ptr<MessageData> pMsgData = boost::shared_ptr<MessageData> (new MessageData());
       pMsgData->LoadFromMessage(fileName, pMessage);
 
       String sMessage;
@@ -191,25 +191,25 @@ namespace HM
    }
 
    void
-   VirusScanner::BlockAttachments(shared_ptr<Message> pMessage)
+   VirusScanner::BlockAttachments(boost::shared_ptr<Message> pMessage)
    {
-      shared_ptr<BlockedAttachments> pBlockedAttachments = HM::Configuration::Instance()->GetBlockedAttachments();
+      boost::shared_ptr<BlockedAttachments> pBlockedAttachments = HM::Configuration::Instance()->GetBlockedAttachments();
 
-      vector<shared_ptr<BlockedAttachment> > vecBlockedAttachments = pBlockedAttachments->GetVector();
-      vector<shared_ptr<BlockedAttachment> >::iterator iterBA;
+      vector<boost::shared_ptr<BlockedAttachment> > vecBlockedAttachments = pBlockedAttachments->GetVector();
+      vector<boost::shared_ptr<BlockedAttachment> >::iterator iterBA;
 
       const String fileName = PersistentMessage::GetFileName(pMessage);
 
-      shared_ptr<MessageData> pMsgData = shared_ptr<MessageData>(new MessageData());
+      boost::shared_ptr<MessageData> pMsgData = boost::shared_ptr<MessageData>(new MessageData());
       pMsgData->LoadFromMessage(fileName, pMessage);
 
-      shared_ptr<Attachments> pAttachments = pMsgData->GetAttachments();
+      boost::shared_ptr<Attachments> pAttachments = pMsgData->GetAttachments();
 
       bool bChangesMade = false;
 
       for (unsigned int i = 0; i < pAttachments->GetCount(); i++)
       {
-         shared_ptr<Attachment> pAttachment = pAttachments->GetItem(i);
+         boost::shared_ptr<Attachment> pAttachment = pAttachments->GetItem(i);
 
          // Check if attachment matches blocked file.
          for (iterBA = vecBlockedAttachments.begin(); iterBA < vecBlockedAttachments.end(); iterBA++)
@@ -228,7 +228,7 @@ namespace HM
                sBody.Replace(_T("%MACRO_FILE%"), pAttachment->GetFileName());
 
                // Add the new
-               shared_ptr<MimeBody> pBody = pMsgData->CreatePart(_T("application/octet-stream"));
+               boost::shared_ptr<MimeBody> pBody = pMsgData->CreatePart(_T("application/octet-stream"));
                pBody->SetRawText(sBody);
 
                // Create an content-disposition header.

@@ -88,7 +88,7 @@ namespace HM
    }
 
    void 
-   WorkQueue::AddTask(shared_ptr<Task> pTask)
+   WorkQueue::AddTask(boost::shared_ptr<Task> pTask)
    {
       CriticalSectionScope scope(m_csPendingTasks);
       m_qPendingTasks.push(pTask);
@@ -106,7 +106,7 @@ namespace HM
          CriticalSectionScope scope(m_csThreads);
          for (unsigned int i = 0; i < m_iBaseLineThreadCount; i++)
          {
-            shared_ptr<Thread> pThread = shared_ptr<Thread>(new Thread(this));
+            boost::shared_ptr<Thread> pThread = boost::shared_ptr<Thread>(new Thread(this));
             pThread->Start();
             m_mapThreads[pThread->GetHandle()] = pThread;
          }
@@ -131,13 +131,13 @@ namespace HM
          // being removed from the map, it's important that we work on a copy
          // of it.
          
-         map<HANDLE, shared_ptr<Thread> > mapThreads = m_mapThreads;
-         map<HANDLE, shared_ptr<Thread> >::iterator iterThread = mapThreads.begin();
+         map<HANDLE, boost::shared_ptr<Thread> > mapThreads = m_mapThreads;
+         map<HANDLE, boost::shared_ptr<Thread> >::iterator iterThread = mapThreads.begin();
 
          while (iterThread != mapThreads.end())
          {
             // Tell thread to stop.
-            shared_ptr<Thread> pThread = (*iterThread).second;
+            boost::shared_ptr<Thread> pThread = (*iterThread).second;
             pThread->Stop(bPreKillWarning);
 
             iterThread++;
@@ -250,7 +250,7 @@ namespace HM
       HANDLE hThread = pThread->GetHandle();
       pThread->CloseThread();
 
-      map<HANDLE, shared_ptr<Thread> >::iterator iterThread = m_mapThreads.find(hThread);
+      map<HANDLE, boost::shared_ptr<Thread> >::iterator iterThread = m_mapThreads.find(hThread);
       if (iterThread != m_mapThreads.end())
          m_mapThreads.erase(iterThread);
    }
@@ -305,8 +305,8 @@ namespace HM
 
             while (!m_qPendingTasks.empty())
             {
-               map<HANDLE, shared_ptr<Thread> >::iterator iterThread = m_mapThreads.begin();
-               shared_ptr<Thread> pThread;
+               map<HANDLE, boost::shared_ptr<Thread> >::iterator iterThread = m_mapThreads.begin();
+               boost::shared_ptr<Thread> pThread;
                while (iterThread != m_mapThreads.end())
                {
                   if ((*iterThread).second->GetState() == Thread::Ready)
@@ -325,7 +325,7 @@ namespace HM
                      break;
 
                   // Create a new thread.
-                  pThread = shared_ptr<Thread>(new Thread(this));
+                  pThread = boost::shared_ptr<Thread>(new Thread(this));
                   pThread->Start();
 
                   m_mapThreads[pThread->GetHandle()] = pThread;
@@ -333,7 +333,7 @@ namespace HM
 
                CriticalSectionScope scope (m_csPendingTasks);
                // Pick the next task from the queue
-               shared_ptr<Task> pTask = m_qPendingTasks.front();
+               boost::shared_ptr<Task> pTask = m_qPendingTasks.front();
 
                // Remove task from pending queue
                m_qPendingTasks.pop();
@@ -431,7 +431,7 @@ namespace HM
       CriticalSectionScope scopeThreads(m_csThreads);
 
       bool isQueued = false;
-      shared_ptr<Task> task = GetTaskByName(name, isQueued);
+      boost::shared_ptr<Task> task = GetTaskByName(name, isQueued);
 
       if (!task)
          return;
@@ -442,10 +442,10 @@ namespace HM
          int maxIterations = 10000;
 
          // Copy all tasks except for the given one to a new list.
-         queue<shared_ptr<Task> > tempQueue;
+         queue<boost::shared_ptr<Task> > tempQueue;
          while (m_qPendingTasks.size() > 0 && maxIterations > 0)
          {
-            shared_ptr<Task> pTask = m_qPendingTasks.front();
+            boost::shared_ptr<Task> pTask = m_qPendingTasks.front();
             m_qPendingTasks.pop();
 
             if (pTask->GetName() != name)
@@ -458,7 +458,7 @@ namespace HM
          maxIterations = 10000;
          while (tempQueue.size() > 0 && maxIterations > 0) 
          {
-            shared_ptr<Task> pTask = tempQueue.front();
+            boost::shared_ptr<Task> pTask = tempQueue.front();
             tempQueue.pop();
 
             m_qPendingTasks.push(pTask);
@@ -472,7 +472,7 @@ namespace HM
 
    }
 
-   shared_ptr<Task> 
+   boost::shared_ptr<Task> 
    WorkQueue::GetTaskByName(const String &name, bool &isQueued)
    //---------------------------------------------------------------------------
    // DESCRIPTION:
@@ -489,15 +489,15 @@ namespace HM
          entire queue to another list temporarily just to be
          able to find the correct item. Yack.
       */
-      shared_ptr<Task> foundTask;
+      boost::shared_ptr<Task> foundTask;
 
       // Defense. If something screws up, we'll quit looping..
       int maxIterations = 10000;
 
-      queue<shared_ptr<Task> > tempQueue;
+      queue<boost::shared_ptr<Task> > tempQueue;
       while (m_qPendingTasks.size() > 0 && maxIterations > 0)
       {
-         shared_ptr<Task> pTask = m_qPendingTasks.front();
+         boost::shared_ptr<Task> pTask = m_qPendingTasks.front();
          m_qPendingTasks.pop();
 
          if (pTask->GetName() == name)
@@ -512,7 +512,7 @@ namespace HM
       maxIterations = 10000;
       while (tempQueue.size() > 0 && maxIterations > 0) 
       {
-         shared_ptr<Task> pTask = tempQueue.front();
+         boost::shared_ptr<Task> pTask = tempQueue.front();
          tempQueue.pop();
 
          m_qPendingTasks.push(pTask);
@@ -528,18 +528,18 @@ namespace HM
       // The task was not found in the queue. Check if it's running...
 
 
-      map<HANDLE, shared_ptr<Thread> >::iterator iter = m_mapThreads.begin();
-      map<HANDLE, shared_ptr<Thread> >::iterator iterEnd = m_mapThreads.end();
+      map<HANDLE, boost::shared_ptr<Thread> >::iterator iter = m_mapThreads.begin();
+      map<HANDLE, boost::shared_ptr<Thread> >::iterator iterEnd = m_mapThreads.end();
 
       for (; iter != iterEnd; iter++)
       {
-         shared_ptr<Task> currentTask = ((*iter).second)->GetCurrentTask();
+         boost::shared_ptr<Task> currentTask = ((*iter).second)->GetCurrentTask();
          if (currentTask && currentTask->GetName() == name)
             return currentTask;
       }
 
 
-      shared_ptr<Task> nothing;
+      boost::shared_ptr<Task> nothing;
       return nothing;
    }
 }

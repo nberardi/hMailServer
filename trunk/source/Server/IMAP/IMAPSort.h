@@ -29,11 +29,11 @@ namespace HM
 
       };
 
-      void Sort(shared_ptr<IMAPConnection> pConnection, vector<pair<int, shared_ptr<Message> > > &vecMessages, shared_ptr<IMAPSortParser> pParser);
+      void Sort(boost::shared_ptr<IMAPConnection> pConnection, vector<pair<int, boost::shared_ptr<Message> > > &vecMessages, boost::shared_ptr<IMAPSortParser> pParser);
 
    private:
 
-      void _CacheHeaderFields(shared_ptr<IMAPConnection> pConnection, const vector<pair<int, shared_ptr<Message> > > &vecMessages, const map<__int64, String > &databaseMetaData, SortField &sortField, std::map<__int64, String> &mapHeaderFields);
+      void _CacheHeaderFields(boost::shared_ptr<IMAPConnection> pConnection, const vector<pair<int, boost::shared_ptr<Message> > > &vecMessages, const map<__int64, String > &databaseMetaData, SortField &sortField, std::map<__int64, String> &mapHeaderFields);
 
       SortField _GetSortField(AnsiString sHeaderField);
    };

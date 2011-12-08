@@ -16,7 +16,7 @@ namespace HM
       ~SpamAssassinClient(void);
 
       virtual void ParseData(const AnsiString &Request);
-      virtual void ParseData(shared_ptr<ByteBuffer> pBuf);
+      virtual void ParseData(boost::shared_ptr<ByteBuffer> pBuf);
 
       bool FinishTesting();
 
@@ -32,13 +32,13 @@ namespace HM
 
    private:
 
-      void _ParseFirstBuffer(shared_ptr<ByteBuffer> pBuffer) const;
+      void _ParseFirstBuffer(boost::shared_ptr<ByteBuffer> pBuffer) const;
       bool _SendFileContents(const String &sFilename);
 
       String m_sCommandBuffer;
 
       String m_sMessageFile;
 
-      shared_ptr<File> m_pResult;
+      boost::shared_ptr<File> m_pResult;
   };
 }

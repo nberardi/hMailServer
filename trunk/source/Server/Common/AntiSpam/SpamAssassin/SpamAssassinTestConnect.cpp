@@ -28,9 +28,9 @@ namespace HM
       String tempFile = FileUtilities::GetTempFileName();
       FileUtilities::WriteToFile(tempFile, bodyText, false);
 
-      shared_ptr<SpamAssassinClient> pSAClient = shared_ptr<SpamAssassinClient>(new SpamAssassinClient(tempFile));
+      boost::shared_ptr<SpamAssassinClient> pSAClient = boost::shared_ptr<SpamAssassinClient>(new SpamAssassinClient(tempFile));
 
-      shared_ptr<TCPConnection> pClientConnection = Application::Instance()->GetIOCPServer()->CreateConnection();
+      boost::shared_ptr<TCPConnection> pClientConnection = Application::Instance()->GetIOCPServer()->CreateConnection();
       pClientConnection->Start(pSAClient);
 
       // Copy the event so that we know when we've disconnected.

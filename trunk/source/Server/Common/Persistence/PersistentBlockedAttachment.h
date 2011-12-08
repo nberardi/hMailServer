@@ -13,10 +13,10 @@ namespace HM
       PersistentBlockedAttachment(void);
       ~PersistentBlockedAttachment(void);
       
-      static bool DeleteObject(shared_ptr<BlockedAttachment> pObject);
-      static bool SaveObject(shared_ptr<BlockedAttachment> pObject);
-      static bool SaveObject(shared_ptr<BlockedAttachment> pObject, String &errorMessage);
-      static bool ReadObject(shared_ptr<BlockedAttachment> pObject, shared_ptr<DALRecordset> pRS);
+      static bool DeleteObject(boost::shared_ptr<BlockedAttachment> pObject);
+      static bool SaveObject(boost::shared_ptr<BlockedAttachment> pObject);
+      static bool SaveObject(boost::shared_ptr<BlockedAttachment> pObject, String &errorMessage);
+      static bool ReadObject(boost::shared_ptr<BlockedAttachment> pObject, boost::shared_ptr<DALRecordset> pRS);
 
    };
 }

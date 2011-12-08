@@ -47,7 +47,7 @@ namespace HM
          if (!_IsValidLangauge(sFormattedLanguage))
             continue;
 
-         shared_ptr<Language> pLanguage = shared_ptr<Language>(new Language(sFormattedLanguage, true));
+         boost::shared_ptr<Language> pLanguage = boost::shared_ptr<Language>(new Language(sFormattedLanguage, true));
          m_mapLanguages[sFormattedLanguage] = pLanguage;
       }
       
@@ -59,7 +59,7 @@ namespace HM
 
          if (m_mapLanguages.find(language) == m_mapLanguages.end())
          {
-            shared_ptr<Language> pLanguage = shared_ptr<Language>(new Language(language, false));
+            boost::shared_ptr<Language> pLanguage = boost::shared_ptr<Language>(new Language(language, false));
             m_mapLanguages[language] = pLanguage;
          }
       }
@@ -86,25 +86,25 @@ namespace HM
 
    }
 
-   shared_ptr<Language> 
+   boost::shared_ptr<Language> 
    Languages::GetLanguage(const String &sLanguage)
    {
       String sFormattedLanguage = sLanguage;
       sFormattedLanguage.ToLower();
 
-      map<String, shared_ptr<Language> >::iterator iterLanguage = m_mapLanguages.find(sFormattedLanguage);
+      map<String, boost::shared_ptr<Language> >::iterator iterLanguage = m_mapLanguages.find(sFormattedLanguage);
       if (iterLanguage != m_mapLanguages.end())
          return (*iterLanguage).second;
      
-      shared_ptr<Language> pEmpty;
+      boost::shared_ptr<Language> pEmpty;
       return pEmpty;
    }
 
-   shared_ptr<Language> 
+   boost::shared_ptr<Language> 
    Languages::GetLanguage(int index)
    {
-      map<String, shared_ptr<Language> >::iterator iter = m_mapLanguages.begin();
-      map<String, shared_ptr<Language> >::iterator iterEnd = m_mapLanguages.end();
+      map<String, boost::shared_ptr<Language> >::iterator iter = m_mapLanguages.begin();
+      map<String, boost::shared_ptr<Language> >::iterator iterEnd = m_mapLanguages.end();
       
       int current = 0;
       for (; iter != iterEnd; iter++)
@@ -117,7 +117,7 @@ namespace HM
          current++;
       }
 
-      shared_ptr<Language> empty;
+      boost::shared_ptr<Language> empty;
       return empty;
    }
 }

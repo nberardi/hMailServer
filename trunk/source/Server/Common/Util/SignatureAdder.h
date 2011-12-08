@@ -16,18 +16,18 @@ namespace HM
 	   SignatureAdder();
       virtual ~SignatureAdder();
 
-      bool SetSignature(shared_ptr<Message> pMessage, 
-                        shared_ptr<const Domain> pSenderDomain, 
-                        shared_ptr<const Account> pSenderAccount,
-                        shared_ptr<MessageData> &pMessageData);
+      bool SetSignature(boost::shared_ptr<Message> pMessage, 
+                        boost::shared_ptr<const Domain> pSenderDomain, 
+                        boost::shared_ptr<const Account> pSenderAccount,
+                        boost::shared_ptr<MessageData> &pMessageData);
       // Sets the signature of the message, based on the signature in the account
       // settings and domain settings.
 
       
    private:
 
-      bool _GetMessageIsReply(shared_ptr<MessageData> &pMessageData);
-      bool _GetMessageIsLocal(shared_ptr<Message> pMessage);
+      bool _GetMessageIsReply(boost::shared_ptr<MessageData> &pMessageData);
+      bool _GetMessageIsLocal(boost::shared_ptr<Message> pMessage);
    
 
    };
