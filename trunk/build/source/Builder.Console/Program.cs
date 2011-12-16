@@ -12,62 +12,61 @@ namespace Builder.Console
 {
    class Program
    {
-      static void Main(string[] args)
-      {
-         if (args.Length != 3)
-         {
-            System.Console.WriteLine("Wrong number of parameters passed to Builder.Console");
-            Environment.ExitCode = -1;
-            return;
-         }
+	  static void Main(string[] args)
+	  {
+		 if (args.Length != 3)
+		 {
+			System.Console.WriteLine("Wrong number of parameters passed to Builder.Console");
+			Environment.ExitCode = -1;
+			return;
+		 }
 
-         Settings settings = new Settings();
-         settings.LoadSettings();
+		 Settings settings = new Settings();
+		 settings.LoadSettings();
 
-         BuildLoader loader = new BuildLoader();
-         Builder.Common.Builder builder = loader.Load(settings.BuildInstructions);
-         
+		 BuildLoader loader = new BuildLoader();
+		 Builder.Common.Builder builder = loader.Load(settings.BuildInstructions);
 
-         // Run all steps.
-         builder.StepStart = -1;
-         builder.StepEnd = -1;
+		 // Run all steps.
+		 builder.StepStart = -1;
+		 builder.StepEnd = -1;
 
-         builder.LoadMacros(args[0], args[1], args[2]);
+		 builder.LoadMacros(args[0], args[1], args[2]);
 
-         string result;
-         if (!settings.ValidateSettings(builder, out result))
-         {
-            System.Console.WriteLine(result);
-            Environment.ExitCode = -1;
-            return;
-         }
+		 string result;
+		 if (!settings.ValidateSettings(builder, out result))
+		 {
+			System.Console.WriteLine(result);
+			Environment.ExitCode = -1;
+			return;
+		 }
 
-         builder.LoadSettings(settings);
+		 builder.LoadSettings(settings);
 
 
-         ManualResetEvent eventStopThread= new ManualResetEvent(false);
-         ManualResetEvent eventThreadStopped= new ManualResetEvent(false);
+		 ManualResetEvent eventStopThread= new ManualResetEvent(false);
+		 ManualResetEvent eventThreadStopped= new ManualResetEvent(false);
 
-         BuildRunner runner = new BuildRunner(eventStopThread, eventThreadStopped, builder);
-         runner.StepError+= new BuildRunner.StepErrorDelegate(runner_StepError);
-         builder.MessageLog += new Builder.Common.Builder.MessageLogDelegate(builder_MessageLog);
-         runner.Run();
+		 BuildRunner runner = new BuildRunner(eventStopThread, eventThreadStopped, builder);
+		 runner.StepError+= new BuildRunner.StepErrorDelegate(runner_StepError);
+		 builder.MessageLog += new Builder.Common.Builder.MessageLogDelegate(builder_MessageLog);
+		 runner.Run();
 
-         return;
-      }
+		 return;
+	  }
 
-      static void builder_MessageLog(bool timestamp, string message)
-      {
-         if (timestamp)
-            System.Console.Write(DateTime.Now + " - ");
-         
-         System.Console.WriteLine(message);
-      }
+	  static void builder_MessageLog(bool timestamp, string message)
+	  {
+		 if (timestamp)
+			System.Console.Write(DateTime.Now + " - ");
+		 
+		 System.Console.WriteLine(message);
+	  }
 
-      static void runner_StepError(int stepindex, string errorMessage)
-      {
-         System.Console.WriteLine(errorMessage);
-         Environment.ExitCode = -1;
-      }
+	  static void runner_StepError(int stepindex, string errorMessage)
+	  {
+		 System.Console.WriteLine(errorMessage);
+		 Environment.ExitCode = -1;
+	  }
    }
 }

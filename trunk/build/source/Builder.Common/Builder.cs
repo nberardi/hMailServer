@@ -13,14 +13,6 @@ namespace Builder.Common
       System.Collections.ArrayList m_oBuildSteps;
       System.Collections.ArrayList m_oMacros;
 
-      private string m_sParamSourcePath;
-      private string m_sParamVS8Path;
-      private string m_sParamInnoSetupPath;
-      private string m_sParamSubversionPath;
-
-      private int m_iStepStart;
-      private int m_iStepEnd;
-
       public delegate void MessageLogDelegate(bool timestamp, string message);
       public event MessageLogDelegate MessageLog;
 
@@ -29,63 +21,68 @@ namespace Builder.Common
          m_oBuildSteps = new System.Collections.ArrayList();
          m_oMacros = new System.Collections.ArrayList();
 
-         m_iStepStart = -1;
-         m_iStepEnd = -1;
+         StepStart = -1;
+         StepEnd = -1;
       }
 
       public bool RunAllSteps
       {
          get
          {
-            return m_iStepStart == -1;
+            return StepStart == -1;
          }
       }
 
       public int StepStart
       {
-         get { return m_iStepStart; }
-         set { m_iStepStart = value; }
+		  get;
+		  set;
       }
 
       public int StepEnd
       {
-         get { return m_iStepEnd; }
-         set { m_iStepEnd = value; }
+		  get;
+		  set;
       }
 
 
       public string ParameterSourcePath
       {
-         get { return m_sParamSourcePath; }
-         set { m_sParamSourcePath = value; }
+		  get;
+		  set;
       }
 
-      public string ParameterVS8Path
+      public string ParameterVSPath
       {
-         get { return m_sParamVS8Path; }
-         set { m_sParamVS8Path = value; }
+		  get;
+		  set;
       }
 
       public string ParameterInnoSetupPath
       {
-         get { return m_sParamInnoSetupPath; }
-         set { m_sParamInnoSetupPath = value; }
+		  get;
+		  set;
       }
 
       public string ParameterSubversionPath
       {
-         get { return m_sParamSubversionPath; }
-         set { m_sParamSubversionPath = value; }
+		  get;
+		  set;
       }
 
-
+	  public string ParameterMSBuildPath
+	  {
+		  get;
+		  set;
+	  }
 
       public void LoadSettings(Settings settings)
       {
          ParameterSourcePath = settings.SourcePath;
-         ParameterVS8Path = settings.VSPath;
+         ParameterVSPath = settings.VSPath;
          ParameterInnoSetupPath = settings.InnoSetupPath;
          ParameterSubversionPath = settings.SubversionPath;
+		 ParameterMSBuildPath = settings.MSBuildPath;
       }
 
       public void Log(string sMessage, bool timestamp)

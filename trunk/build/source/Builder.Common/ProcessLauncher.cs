@@ -9,55 +9,52 @@ using System.IO;
 
 namespace Builder.Common
 {
-   class ProcessLauncher
-   {
-      public delegate void OutputDelegate(string output);
-      public event OutputDelegate Output;
+	class ProcessLauncher
+	{
+		public delegate void OutputDelegate(string output);
+		public event OutputDelegate Output;
 
-      public string _receivedData;
+		public string _receivedData;
 
-      public int LaunchProcess(string path, string arguments, out string writtenData)
-      {
-         _receivedData = "";
+		public int LaunchProcess(string path, string arguments, out string writtenData)
+		{
+			_receivedData = "";
 
-         var proc = new Process();
-         proc.StartInfo.FileName = path;
-         proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
-         proc.StartInfo.Arguments = arguments;
-         proc.StartInfo.UseShellExecute = false;
+			var proc = new Process();
+			proc.StartInfo.FileName = path;
+			proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
+			proc.StartInfo.Arguments = arguments;
+			proc.StartInfo.CreateNoWindow = true;
 
-         // set up output redirection
-         proc.StartInfo.RedirectStandardOutput = true;
-         proc.StartInfo.RedirectStandardError = true;
-         proc.EnableRaisingEvents = true;
-         proc.StartInfo.CreateNoWindow = true;
-         // see below for output handler
-         proc.ErrorDataReceived += new DataReceivedEventHandler(proc_DataReceived);
-         proc.OutputDataReceived += new DataReceivedEventHandler(proc_DataReceived);
+			// setup output redirection
+			proc.StartInfo.UseShellExecute = false;
+			proc.StartInfo.RedirectStandardOutput = true;
+			proc.StartInfo.RedirectStandardError = true;
 
-         proc.Start();
+			proc.OutputDataReceived += new DataReceivedEventHandler((o, e) => DataReceived(e.Data));
+			proc.ErrorDataReceived += new DataReceivedEventHandler((o, e) => DataReceived(e.Data));
 
-         proc.BeginErrorReadLine();
-         proc.BeginOutputReadLine();
+			proc.Start();
 
-         proc.WaitForExit();
+			proc.BeginOutputReadLine();
+			proc.BeginErrorReadLine();
 
-         writtenData = _receivedData;
+			proc.WaitForExit();
 
-         return proc.ExitCode;
-      }
+			writtenData = _receivedData;
 
-      void proc_DataReceived(object sender, DataReceivedEventArgs e)
-      {
-         if (e.Data == null)
-            return;
+			return proc.ExitCode;
+		}
 
-         if (Output != null)
-            Output(e.Data);
+		private void DataReceived(string data)
+		{
+			if (data == null)
+				return;
 
-         _receivedData += e.Data;
-      }
+			if (Output != null)
+				Output(data);
 
-
-   }
+			_receivedData += data;
+		}
+	}
 }

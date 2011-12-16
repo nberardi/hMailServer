@@ -10,152 +10,76 @@ using System.Configuration;
 
 namespace Builder.Common
 {
-   public class Settings
-   {
-      private string _VSPath;
-      private string _innoSetupPath;
-      private string _sourcePath;
-      private string _subversionPath;
-      private string _buildInstructions;
-      private int _buildNumber;
-      private string _version;
+	public class Settings
+	{
+		public string MSBuildPath { get; set; }
 
-      public string VSPath
-      {
-         get
-         {
-            return _VSPath;
-         }
-         set
-         {
-            _VSPath = value;
-         }
-      }
+		public string VSPath { get; set; }
 
-      public string InnoSetupPath
-      {
-         get
-         {
-            return _innoSetupPath;
-         }
-         set
-         {
-            _innoSetupPath = value;
-         }
-      }
+		public string InnoSetupPath { get; set; }
 
-      public string SourcePath
-      {
-         get
-         {
-            return _sourcePath;
-         }
-         set
-         {
-            _sourcePath = value;
-         }
-      }
+		public string SourcePath { get; set; }
 
-      public string SubversionPath
-      {
-         get
-         {
-            return _subversionPath;
-         }
-         set
-         {
-            _subversionPath = value;
-         }
-      }
+		public string SubversionPath { get; set; }
 
-      public string BuildInstructions
-      {
-         get
-         {
-            return _buildInstructions;
-         }
-         set
-         {
-            _buildInstructions = value;
-         }
-      }
+		public string BuildInstructions { get; set; }
 
-      public int BuildNumber
-      {
-         get
-         {
-            return _buildNumber;
-         }
-         set
-         {
-            _buildNumber = value;
-         }
+		public int BuildNumber { get; set; }
 
-      }
+		public string Version { get; set; }
 
-      public string Version
-      {
-         get
-         {
-            return _version;
-         }
-         set
-         {
-            _version = value;
-         }
+		public void LoadSettings()
+		{
+			Configuration c = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-      }
+			SourcePath = c.AppSettings.Settings["SourcePath"].Value;
+			VSPath = c.AppSettings.Settings["VSPath"].Value;
+			BuildNumber = Convert.ToInt32(c.AppSettings.Settings["BuildNumber"].Value);
+			InnoSetupPath = c.AppSettings.Settings["InnoSetupPath"].Value;
+			Version = c.AppSettings.Settings["Version"].Value;
+			SubversionPath = c.AppSettings.Settings["SubversionPath"].Value;
+			MSBuildPath = c.AppSettings.Settings["MSBuildPath"].Value;
 
-      public void LoadSettings()
-      {
-         Configuration c = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+			BuildInstructions = c.GetSection("build").SectionInformation.GetRawXml();
+		}
 
-         SourcePath = c.AppSettings.Settings["SourcePath"].Value;
-         VSPath = c.AppSettings.Settings["VS8Path"].Value;
-         BuildNumber = Convert.ToInt32(c.AppSettings.Settings["BuildNumber"].Value);
-         InnoSetupPath = c.AppSettings.Settings["InnoSetupPath"].Value;
-         Version = c.AppSettings.Settings["Version"].Value;
-         SubversionPath = c.AppSettings.Settings["SubversionPath"].Value;
-         
-         _buildInstructions = c.GetSection("build").SectionInformation.GetRawXml();
-      }
+		public void SaveSettings()
+		{
+			Configuration c = ConfigurationManager.OpenExeConfiguration("hMailServer builder.exe");
 
-      public void SaveSettings()
-      {
-         Configuration c = ConfigurationManager.OpenExeConfiguration("hMailServer builder.exe");
+			c.AppSettings.Settings["SourcePath"].Value = SourcePath;
+			c.AppSettings.Settings["BuildNumber"].Value = BuildNumber.ToString();
+			c.AppSettings.Settings["Version"].Value = Version;
+			c.AppSettings.Settings["VSPath"].Value = VSPath;
+			c.AppSettings.Settings["InnoSetupPath"].Value = InnoSetupPath;
+			c.AppSettings.Settings["SubversionPath"].Value = SubversionPath;
+			c.AppSettings.Settings["MSBuildPath"].Value = MSBuildPath;
 
-         c.AppSettings.Settings["SourcePath"].Value = SourcePath;
-         c.AppSettings.Settings["BuildNumber"].Value = BuildNumber.ToString();
-         c.AppSettings.Settings["Version"].Value = Version;
-         c.AppSettings.Settings["VS8Path"].Value = VSPath;
-         c.AppSettings.Settings["InnoSetupPath"].Value = InnoSetupPath;
-         c.AppSettings.Settings["SubversionPath"].Value = SubversionPath;
+			c.Save(ConfigurationSaveMode.Modified);
+		}
 
-         c.Save(ConfigurationSaveMode.Modified);
-      }
+		public bool ValidateSettings(Builder builder, out string result)
+		{
+			if (!File.Exists(builder.ExpandMacros(VSPath)))
+			{
+				result = "The Visual Studio executable does not exist in the specified path\r\n";
+				return false;
+			}
 
-      public bool ValidateSettings(Builder builder, out string result)
-      {
-         if (!File.Exists(builder.ExpandMacros(VSPath)))
-         {
-            result = "The Visual Studio executable does not exist in the specified path\r\n";
-            return false;
-         }
+			if (!File.Exists(builder.ExpandMacros(InnoSetupPath)))
+			{
+				result = "The InnoSetup executable does not exist in the specified path\r\n";
+				return false;
+			}
 
-         if (!File.Exists(builder.ExpandMacros(InnoSetupPath)))
-         {
-            result = "The InnoSetup executable does not exist in the specified path\r\n";
-            return false;
-         }
+			if (!Directory.Exists(builder.ExpandMacros(SourcePath)))
+			{
+				result = "The hMailserver source code does not exist in the specified path\r\n";
+				return false;
+			}
 
-         if (!Directory.Exists(builder.ExpandMacros(SourcePath)))
-         {
-            result = "The hMailserver source code does not exist in the specified path\r\n";
-            return false;
-         }
-
-         result = "";
-         return true;
-      }
-   }
+			result = "";
+			return true;
+		}
+	}
 }

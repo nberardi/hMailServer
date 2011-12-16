@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hMailServer builder", "hMailServer builder.csproj", "{AC06FE96-6DDF-4149-802F-0C9E15075B06}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Builder.Common", "Builder.Common\Builder.Common.csproj", "{E6029F0E-6D0A-4556-9556-284DAAE88E19}"
