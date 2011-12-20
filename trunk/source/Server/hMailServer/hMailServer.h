@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Fri Dec 16 11:55:03 2011
+/* at Tue Dec 20 10:43:40 2011
  */
 /* Compiler settings for hMailServer.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
