@@ -1,3 +1,6 @@
+# ignore installation output directory
+[Oo]utput/
+
 # ignore all files in libraries
 libraries/
 
