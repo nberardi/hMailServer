@@ -1,6 +1,6 @@
 # About this repository
 
-This is a mirror of the hMailServer SVN [svn://hmailserver.com:13600]
+This is a mirror of the hMailServer SVN [http://hmailserver.com:60951/svn/hms]
 
 # Gettings Started
 
